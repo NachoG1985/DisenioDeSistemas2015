@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DropMode;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -117,6 +118,7 @@ public class VentanaCargarPerfil {
 		comboBoxDieta.setMaximumRowCount(4);
 
 		txtDieta = new JTextField();
+		txtDieta.setDropMode(DropMode.INSERT);
 		txtDieta.setText("dieta:");
 		txtDieta.setHorizontalAlignment(SwingConstants.LEFT);
 		txtDieta.setEditable(false);
