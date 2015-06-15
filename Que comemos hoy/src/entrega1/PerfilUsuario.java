@@ -17,8 +17,20 @@ public class PerfilUsuario {
 	private String[] condicionPreexistente;
 
 	// Constructor de la clase
-	public PerfilUsuario() {
-		// TODO Auto-generated constructor stub
+	public PerfilUsuario(String nombreYapellido, String nuevoSexo,
+			int nuevaEdad, float nuevaAltura, String nuevaComplexion,
+			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina,
+			String[] nuevasCondiciones) {
+
+		nombre = nombreYapellido;
+		sexo = nuevoSexo;
+		edad = nuevaEdad;
+		altura = nuevaAltura;
+		complexion = nuevaComplexion;
+		dieta = nuevaDieta;
+		preferencias = nuevasPreferencias;
+		rutina = nuevaRutina;
+		condicionPreexistente = nuevasCondiciones;
 	}
 
 	// Metodos de la clase

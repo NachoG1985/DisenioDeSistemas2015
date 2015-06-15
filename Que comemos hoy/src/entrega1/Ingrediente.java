@@ -17,4 +17,11 @@ public class Ingrediente {
 		nivelPiramideAlimenticia = nivelPiramide;
 	}
 
+	public float calcularCaloriasPorCantidad(int cantidad) {
+		float calorias;
+		calorias = (cantidad * caloriasPorPorcion) / porcion;
+
+		return calorias;
+	}
+
 }

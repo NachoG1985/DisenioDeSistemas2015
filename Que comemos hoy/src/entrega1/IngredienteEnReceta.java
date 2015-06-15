@@ -7,13 +7,16 @@ public class IngredienteEnReceta {
 	private int cantidad;
 
 	// Constructor de la clase
-	public IngredienteEnReceta() {
-		// TODO Auto-generated constructor stub
+	public IngredienteEnReceta(Ingrediente nuevoIngrediente, int nuevaCantidad) {
+		ingrediente = nuevoIngrediente;
+		cantidad = nuevaCantidad;
 	}
 
 	// Metodos de la clase
 	public float calcularCalorias() {
-		float calorias = 0;
+		float calorias;
+
+		calorias = ingrediente.calcularCaloriasPorCantidad(cantidad);
 
 		return calorias;
 	}

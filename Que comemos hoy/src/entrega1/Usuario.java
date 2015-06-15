@@ -1,5 +1,6 @@
 package entrega1;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Usuario {
@@ -10,24 +11,31 @@ public class Usuario {
 	private PerfilUsuario perfil;
 	private HistorialRecetas historicoRecetas;
 	private Set<Usuario> amigos;
-	private String fechaNacimiento;
+	private Fecha fechaNacimiento;
 
 	// Constructor de la clase
-	public Usuario() {
-		// TODO Auto-generated constructor stub
+	public Usuario(String nuevoNombre, String nuevoEmail, int diaNacimiento,
+			int mesNacimiento, int añoNacimiento) {
+		nombreUsuario = nuevoNombre;
+		email = nuevoEmail;
+		historicoRecetas = new HistorialRecetas();
+		amigos = new HashSet<Usuario>();
+		fechaNacimiento = new Fecha(diaNacimiento, mesNacimiento, añoNacimiento);
+
 	}
 
 	// Metodos de la clase
-	public void cargarPerfil() {
-
+	private void cargarPerfil() {
+		// Implementar interaccion con la pantalla de cargar perfil para obtener
+		// los valores de la variable
 	}
 
 	public void CargarReceta() {
-
+		// Implementar interaccion con la pantalla de cargar receta
 	}
 
 	public void seleccionarReceta() {
-
+		// Implementar interaccion con la pantalla de seleccion de receta
 	}
 
 }
