@@ -1,0 +1,50 @@
+<!-- Etiquetas de HTML
+
+<!DOCTYPE html> marca la version de html en la que esta el archivo
+<html>: marca el comienzo del archivo html.
+<head>: encabezado, contiene toda la informacion correspondiente a la pagina.
+<body>: cuerpo, contiene el contenido de la página.
+<title>: titulo de la página web.
+<link rel="stylesheet" type="text/css" href="estilo.css">: linkeo con la hoja de formato css.
+<h1>,<h2>,...,<h6>: titulos y subtitulos.
+<p>: parrafos.
+<strong>: "texto en negrita", partes de texto mas importantes.
+<em>: "texto en italica", partes de texto con enfasis.
+<a href= unaDireccion>: link a otras paginas mediante direcciones relativas o absolutas.
+<ul>: lista sin orden.
+<ol>: lista ordenada.
+<li>: elemento de lista.
+<div>: agrupamiento de etiquetas relacionadas.
+<img src="ruta a la imagen" alt="contenido alternativo x si la imagen no se puede ver" width="" height="" (width y height son opcionales). -->
+
+<!-- Atributos globales de HTML
+
+title: cartelito cuando se posa el cursor sobre un elemento.
+id: permite identificar a un elemento de manera unica: <h1 id="principal">.
+class: permite darle un nombre a una clase como el id pero puedo aplicar la misma clase a distintos elementos.
+lang: especifica el idioma en la que esta escrito un elemento. -->
+
+<!-- Etiquetas de HTML5
+
+<header></header> : marcado semantico del encabezado
+<nav></nav> : marcado semantico de la navegacion (botonera) de un sitio
+<section></section> : marca cierto contenido de la pagina que guarda cierta relacion entre sí
+<aside></aside> : marca contenido secundario de la pagina
+<article></article> : marca contenido autonomo de una pagina. Puede contener etiquetas header y footer
+<footer></footer> : marca el pie de pagina
+<time></time>  "El evento será el día <time datetime="2014-09-23">23 de septiembre</time>" : permite marcar una fecha tanto para un ser humano, como para la maquina de
+forma estandarizada bajo el atributo datetime="".
+<progress></progress> "La construcción va por el <progress value="70" max="100">70%</progress>. : marca progreso o proceso que esta sucediendo, al igual que <time> permite
+usar los atributos value y max para que entienda la maquina.
+
+ETIQUETAS DE MEDIA
+
+<canvas id="" width="" height=""></canvas> : con la ayuda de javascript permite programar graficos, animaciones, movimientos y otras interacciones con el usuario
+
+<audio></audio> : permite agregar sonido a la pagina web. Puede tener el atributo controls que define si el usuario tiene acceso a los controles de sonido o no. Ademas permite
+tener acceso a la misma pista de audio en diferentes formatos a traves de la etiqueta <source src="link" type="audio/tipo">
+
+<video></video> : permite mostrar video en una pagina web. Al igual que con el audio permite mostrar distintos formatos de archivos con la etiqueta source. Se pueden incluir
+los atributos controls y poster (permite decidir que imagen se mostrara antes de q se inicie la reproduccion). Ademas utiliza los atributos width y height para el tamaño
+
+ -->

@@ -1,0 +1,104 @@
+/* CSS intermedio */
+
+/*Manejo tipográfico en CSS 
+
+color: nombre o codigo hexadecimal;
+font-family: tipos de fuente( Arial, Times, sans-sans-serif);
+font-size: tamaño (20px);
+font-style: letra italica (italic);
+font-weight: negrita(bold);
+letter-spacing: un valor (2px);
+word-spacing: un valor (3px);
+line-height: un valor (20px);
+text-decoration: subrayado (underline);
+text-indent: sangria (5px);
+text-align: alineacion (right, left, center);
+text-transform: mayusculas y minusculas (uppercase, lowercase, capitalize);*/
+
+/*Padding: espacio entre el contenido y el limite de la caja 
+padding: un valor (20px); 
+padding-bottom: un valor (20px); 
+padding-left: un valor (20px); 
+padding-right: un valor (20px); 
+padding-top: un valor (20px); 
+padding: arriba derecha abajo izquierda;*/
+
+/*Border: limite de la caja
+ igual manejo que el padding
+border: grosor(5px) tipo(solid) color;*/
+
+/*Margin: margen entre las cajas
+igual manejo que el padding
+margin: unValor otroValor (unValor para arriba y abajo, otroValor para laterales);*/
+
+/*Dimensiones de la caja, alto y ancho
+width: ancho de la caja
+height: alto de la caja*/
+
+/* box-sizing: define el tamaño de la caja en su totalidad, puede tener dos valores content-box o border-box. En el caso de border-box se define el tamaño de la caja total
+al usar width y height, y en el caso de content-box se define el tamaño del contenido sin contar padding o border.
+
+max-width: define un ancho maximo para una caja pero manteniendo el valor variable
+
+min-width: define un ancho minimo para una caja pero manteniendo el valor variable
+
+max-height: define una altura maxima para una caja pero manteniendo el valor variable
+
+min-height: define una altura minima para una caja pero manteniendo el valor variable
+
+ para centrar una caja dentro de otra caja se puede utilizar el valor auto para los margenes derecho e izquiero (margin-left: auto , margin-right: auto)*/
+
+/*display (block, inline, inline-block, none) : define como se va a mostrar cierta etiqueta
+
+display: block; se comporta como caja, con contenido, padding, borde y margen.
+display: inline; se comporta como texto (ej links) 
+display: inline-block; hibrido, se comporta como cajas q pueden ir una al lado de la otra con texto
+display: none; la caja no se muestra ni ocupa espacio para otras cajas.*/
+
+/*background
+background-color: nombre o codigo hexadecimal;
+background-image: url ("mi_imagen.jpg"); permite poner una imagen de fondo. Formatos permitidos: jpg, gif, png, en modo rgb.
+background-repeat: (no-repeat, repeat-x, repeat-y);
+background-position: top/bottom/center left/right/center; tambien se pueden usar 2 numero, coordenadas en x y coordenadas en y.
+background-attachment: scroll/fixed, define si la imagen se mueve o se queda quieta en relacion a la pagina cuando el usuario sube o baja en el navegador*/
+
+/*Unidades de medida
+pixel: 500px;
+porcentaje: 80%;
+em, depende del cuerpo tipografico: 2em;
+rem, es relativo al cuerpo tipografico de la raiz (etiqueta html): 1.2rem;*/
+
+/*Selectores
+#id{}
+.clase{}
+ul li{} selectores descendientes
+*{} universal, todos los elementos
+ul>li {} child, los elementos q estan exactamente un nivel mas abajo
+,(coma) agrupa selectores
++(signo mas) adyacencia, agrupa elementos que se encuentren uno a continuacion del otro */
+
+/*Pseudo-clases :(dos puntos)
+:first-child, pseudo-clase que hace referencia al primer hijo de un objeto
+:last-child , pseudo-clase que hace referencia al ultimo hijo de un objeto
+:lang(valor), pseudo-clase que permite diseñar cierto elemento con un lenguaje especificado
+:focus, pseudo-clase que hace referencia al elemento sobre el q el usuario esta haciendo foco, ej campo de un formulario
+:enabled, pseudo-clase que hace referencia a un elmento que se encuentra habilitado para la interaccion con el usuario
+:disabled, pseudo-clase que hace referencia a un elmento que se encuentra deshabilitado para la interaccion con el usuario */
+
+/*Pseudo-clases para links
+etiqueta:pseudoclase{};
+a:hover {} pseudoclase para cuando el usuario pasa el cursor sobre el link
+a:link cuando el link esta en su estado normal sin haber sido visitado
+a:visited cuando el link ya fue visitado
+a:active cuando el usuario lo esta presionando*/
+
+/*Float propiedad que permite diseñar un elemento al lado de otro
+float: valor;
+clear: left/right/both, indica que no tiene elementos en alguno de los lados
+overflow: auto, */
+
+/*Position atributo para manejar la posicion de un objeto
+position: relative; usando los atributos top, left, right y bottom movemos el objeto segun los valores que indiquemos.
+position: absolute; toma la posicion con respecto a los topes del ancestro mas cercano cuya posicion no es static.
+position: fixed; toma la posicion con respecto a los topes del navegador.
+z-index: permite manejar que objeto esta por ensima del otro.*/
