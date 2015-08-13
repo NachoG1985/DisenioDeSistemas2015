@@ -15,12 +15,12 @@ public class Usuario {
 
 	// Constructor de la clase
 	public Usuario(String nuevoNombre, String nuevoEmail, int diaNacimiento,
-			int mesNacimiento, int añoNacimiento) {
+			int mesNacimiento, int aÃ±oNacimiento) {
 		nombreUsuario = nuevoNombre;
 		email = nuevoEmail;
 		historicoRecetas = new HistorialRecetas();
 		amigos = new HashSet<Usuario>();
-		fechaNacimiento = new Fecha(diaNacimiento, mesNacimiento, añoNacimiento);
+		fechaNacimiento = new Fecha(diaNacimiento, mesNacimiento, aÃ±oNacimiento);
 
 	}
 
@@ -37,5 +37,20 @@ public class Usuario {
 	public void seleccionarReceta() {
 		// Implementar interaccion con la pantalla de seleccion de receta
 	}
+	
+	public void consultarReceta() {
+		// Implementar interaccion con la pantalla de consultar receta
+	}
+	
+	public void confirmarReceta() {
+		// Implementar interaccion con la pantalla de confirmar receta
+	}
 
+        public void calificarReceta() {
+		// Implementar interaccion con la pantalla de calificar receta
+	}
+	
+	public void clasificarReceta() {
+		// Implementar interaccion con la pantalla de clasificar receta
+	}
 }
