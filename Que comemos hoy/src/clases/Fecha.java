@@ -1,4 +1,4 @@
-package entrega1;
+package clases;
 
 public class Fecha {
 	private int dia;

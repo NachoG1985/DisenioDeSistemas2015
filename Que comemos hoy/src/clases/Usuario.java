@@ -1,4 +1,4 @@
-package entrega1;
+package clases;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,12 +15,12 @@ public class Usuario {
 
 	// Constructor de la clase
 	public Usuario(String nuevoNombre, String nuevoEmail, int diaNacimiento,
-			int mesNacimiento, int añoNacimiento) {
+			int mesNacimiento, int anioNacimiento) {
 		nombreUsuario = nuevoNombre;
 		email = nuevoEmail;
 		historicoRecetas = new HistorialRecetas();
 		amigos = new HashSet<Usuario>();
-		fechaNacimiento = new Fecha(diaNacimiento, mesNacimiento, añoNacimiento);
+		fechaNacimiento = new Fecha(diaNacimiento, mesNacimiento, anioNacimiento);
 
 	}
 

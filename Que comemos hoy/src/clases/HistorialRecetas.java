@@ -1,4 +1,4 @@
-package entrega1;
+package clases;
 
 import java.util.ArrayList;
 import java.util.List;

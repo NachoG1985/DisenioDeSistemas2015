@@ -1,4 +1,4 @@
-package entrega1;
+package clases;
 
 public class GestorDeEstadisticasYReportes
 {
@@ -11,9 +11,9 @@ public class GestorDeEstadisticasYReportes
 				tipo = tipoNuevo;
 			}
 		
-		public generarReporteoEstadistica()
+/*		public generarReporteoEstadistica()
 		{
 			
-		}
+		}*/
 }
 

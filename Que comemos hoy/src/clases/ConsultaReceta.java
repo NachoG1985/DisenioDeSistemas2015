@@ -1,4 +1,4 @@
-package entrega1;
+package clases;
 
 public class ConsultaReceta {
 
@@ -11,3 +11,4 @@ public class ConsultaReceta {
 		{
 			fecha = fechaNueva;
 		}
+}

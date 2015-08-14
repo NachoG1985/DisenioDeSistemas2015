@@ -1,4 +1,4 @@
-package entrega1;
+package clases;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +12,7 @@ public class Grupo {
 	private Set<Usuario> usuariosGrupo;
 
 	// Constructor de la clase
-	public Grupo(String creador, String grupo, string descripcion)
+	public Grupo(String creador, String grupo, String descripcion)
 		{
 			nombreCreador = creador;
 			nombreGrupo = grupo;

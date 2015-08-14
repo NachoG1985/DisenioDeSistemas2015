@@ -1,4 +1,4 @@
-package entrega1;
+package clases;
 
 import java.sql.*;
 
@@ -6,21 +6,26 @@ import java.sql.*;
 public class ConsultorBaseDeDatos {
 
 	// Atributos de la clase
-	private  static PerfilUsuario instance= null;
-	private String rutaBaseDeDatos;
+	private  static ConsultorBaseDeDatos instance= null;
+	private static String rutaBaseDeDatos;
 	private Connection miConexion;
 	
 	
 	// Metodos de la clase
 	
 	// Constructor de la clase
+	private ConsultorBaseDeDatos(String ruta )
+	{
+		rutaBaseDeDatos = ruta;					
+	}
+
 	
 	//Patron Singleton
 	public static ConsultorBaseDeDatos getInstance()
 	{
 		if(instance == null)  
 		{
-			instance = new ConsultorBaseDeDatos ;
+			instance = new ConsultorBaseDeDatos(rutaBaseDeDatos) ;
 		}
 		return instance;
 	}
@@ -85,12 +90,8 @@ public class ConsultorBaseDeDatos {
         } catch (Exception e) {
         }
     }
-	/*
-	private ConsultorBaseDeDatos(String ruta )
-		{
-			rutaBaseDeDatos = ruta;					
-		}
-	*/
+	
+
 	
 
 }
