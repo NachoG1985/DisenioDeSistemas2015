@@ -6,18 +6,15 @@ import java.sql.*;
 public class ConsultorBaseDeDatos {
 
 	// Atributos de la clase
-	private  static ConsultorBaseDeDatos instance= null;
-	private static String rutaBaseDeDatos;
+	
+	/*private static String rutaBaseDeDatos;*/
 	private Connection miConexion;
 	
 	
 	// Metodos de la clase
 	
 	// Constructor de la clase
-	private ConsultorBaseDeDatos(String ruta )
-	{
-		rutaBaseDeDatos = ruta;					
-	}
+
 
 	
 	//Patron Singleton
@@ -29,6 +26,30 @@ public class ConsultorBaseDeDatos {
 		}
 		return instance;
 	}
+	
+	public void setConexion(Connection conexion) {
+        this.miConexion = conexion;
+	}    
+	
+	public ConsultorBaseDeDatos conectar() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String BaseDeDatos = "jdbc:mysql://localhost/test?user=usuario&password=123";
+            setConexion(DriverManager.getConnection(BaseDeDatos));
+            if(getConexion("disenio", "root", "") != null){
+                System.out.println("Conexion Exitosa!");
+            }else{
+                System.out.println("Conexion Fallida!");                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
+	
+	
+	
+	
 	
 	//Retorna la conexion de la DB
 	private Connection getConexion(String BD, String usuario, String contraseña)
