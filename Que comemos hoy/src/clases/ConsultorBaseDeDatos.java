@@ -86,8 +86,7 @@ public class ConsultorBaseDeDatos {
     {
         try {
             miConexion.close();
-            resultado = null;
-        } catch (Exception e) {
+            } catch (Exception e) {
         }
     }
 	
