@@ -1,10 +1,18 @@
 package clases;
 
-public class Reporte 
+public class Reporte implements Tipo 
 {
 
-	public generar()
+	SubtipoDeReporte subtipo;
+	//constructor
+	public Reporte()
 	{
+		
 	}
-
+	
+	public void generar()
+	{
+		Reporte reporteNuevo = new Reporte();
+	}
+    
 }

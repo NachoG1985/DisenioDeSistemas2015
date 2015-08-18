@@ -1,10 +1,16 @@
 package clases;
 
-public class Estadisticas {
+public class Estadisticas implements Tipo {
 
-	public generar()
-	{
+	public Estadisticas(){
+		
 	}
+	 
+	public void generar()
+	{
+		Estadisticas estadisticaNueva = new Estadisticas();
+	}
+	
 	
 
 }

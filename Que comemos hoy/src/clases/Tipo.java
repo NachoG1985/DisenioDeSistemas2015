@@ -1,13 +1,7 @@
 package clases;
 
-public class Tipo {
-
-	// Atributos de la clase
-	
-
-	public generar()
-	{
-		
-	}
-
+// insterface del primer state
+public interface Tipo 
+{
+	public void generar();
 }

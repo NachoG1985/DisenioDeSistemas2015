@@ -6,15 +6,17 @@ import java.sql.*;
 public class ConsultorBaseDeDatos {
 
 	// Atributos de la clase
-	
-	/*private static String rutaBaseDeDatos;*/
+	private static String rutaBaseDeDatos;
+	private  static ConsultorBaseDeDatos instance;
 	private Connection miConexion;
 	
 	
-	// Metodos de la clase
 	
 	// Constructor de la clase
-
+	private ConsultorBaseDeDatos()
+	{
+		
+	}
 
 	
 	//Patron Singleton
@@ -22,9 +24,20 @@ public class ConsultorBaseDeDatos {
 	{
 		if(instance == null)  
 		{
-			instance = new ConsultorBaseDeDatos(rutaBaseDeDatos) ;
+			instance = new ConsultorBaseDeDatos();
 		}
 		return instance;
+	}
+	
+	// Metodos de la clase
+	
+	public void setRutaDb(String ruta)
+	{
+		rutaBaseDeDatos = ruta;
+	}
+	public String getRutaDb()
+	{
+		return rutaBaseDeDatos;
 	}
 	
 	public void setConexion(Connection conexion) {

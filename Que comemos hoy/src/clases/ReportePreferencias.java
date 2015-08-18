@@ -2,9 +2,13 @@ package clases;
 
 public class ReportePreferencias 
 {
-
-	public generarReporte()
+	public ReportePreferencias(){
+		
+	}
+	
+	public void generarReporte()
 	{
+		ReportePreferencias nuevoReportePreferencias = new ReportePreferencias();
 	}
 
 }

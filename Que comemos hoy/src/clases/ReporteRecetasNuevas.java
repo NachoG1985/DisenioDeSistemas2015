@@ -1,10 +1,13 @@
 package clases;
 
-public class ReporteRecetasNuevas 
+public class ReporteRecetasNuevas implements SubtipoDeReporte 
 {
-
-	public generarReporte()
+    public ReporteRecetasNuevas(){
+    	
+    }
+	public void generarReporte()
 	{
+		ReporteRecetasNuevas ReporteNuevas = new ReporteRecetasNuevas();
 	}
 
 }

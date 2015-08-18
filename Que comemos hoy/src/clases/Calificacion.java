@@ -8,8 +8,8 @@ public class Calificacion {
 
 	// Constructor de la clase
 	public Calificacion(String nombre, int nota) {
-		usuario = nombre;
-		calificacion = nota;
+		this.usuario = nombre;
+		this.calificacion = nota;
 	}
 
 }

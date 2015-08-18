@@ -1,10 +1,7 @@
 package clases;
 
-public class SubtipoDeReporte 
+public interface SubtipoDeReporte 
 {
-
-	public generarReporte()
-	{
-	}
+	public void generarReporte();
 
 }
