@@ -11,10 +11,10 @@ public class Ingrediente {
 	// Constructor de la clase
 	public Ingrediente(String nombre, int tamanioPorcion, int calorias,
 			int nivelPiramide) {
-		nombreIngrediente = nombre;
-		porcion = tamanioPorcion;
-		caloriasPorPorcion = calorias;
-		nivelPiramideAlimenticia = nivelPiramide;
+		setNombreIngrediente(nombre);
+		setPorcion(tamanioPorcion);
+		setCaloriasPorPorcion(calorias);
+		setNivelPiramideAlimenticia(nivelPiramide);
 	}
 
 	public float calcularCaloriasPorCantidad(int cantidad) {

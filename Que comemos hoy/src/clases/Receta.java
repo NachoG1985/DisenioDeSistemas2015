@@ -18,16 +18,31 @@ public class Receta {
 	private float caloriasTotales;
 	private Set<Calificacion> calificaciones;
 	private Set<Categoria> categorias;
+	private Usuario nombreCreador;
+	private Fecha fechaDeCreacion;
 
 	// Cosntructor de la clase
-	public Receta() {
-		ingredientes = new HashSet<IngredienteEnReceta>();
-		condimentos = new HashSet<Condimento>();
-		procedimiento = new ArrayList<PasoDeReceta>();
-		calificaciones = new HashSet<Calificacion>();
-		categorias = new HashSet<Categoria>();
+	public Receta(String nombreNuevo, IngredienteEnReceta nuevoIngredientePrincipal, int valorDificultad, String temporadaNueva,
+			float calorias, Usuario creador, Fecha fechaNueva) {
+		setNombre(nombreNuevo);
+		setIngredientePrincipal(nuevoIngredientePrincipal);
+		setDificultad(valorDificultad);
+		setTemporada(temporadaNueva);
+		setCaloriasTotales(calorias);
+		setNombreCreador(creador);
+		setFechaDeCreacion(fechaNueva);
+		Set<IngredienteEnReceta> ingredientesReceta =  new HashSet<IngredienteEnReceta>();
+		setIngredientes(ingredientesReceta);
+		Set<Condimento> condimentosReceta = new HashSet<Condimento>();
+		setCondimentos(condimentosReceta);
+		ArrayList<PasoDeReceta> procedimientoReceta = new ArrayList<PasoDeReceta>();
+		setProcedimiento(procedimientoReceta);
+		Set<Calificacion> calificacionesReceta = new HashSet<Calificacion>();
+		setCalificaciones(calificacionesReceta);
+		Set<Categoria> categoriasReceta = new HashSet<Categoria>();
+		setCategorias(categoriasReceta);
+		
 	}
-
 	// Metodos de la clase
 	// Calcula las calorias totales de las recetas en base a sus ingredientes
 	private float calcularCalorias() {
@@ -46,6 +61,8 @@ public class Receta {
 
 		return calorias;
 	}
+
+	
 
 	// Carga los datos de la receta
 	public void cargarReceta() {
@@ -133,6 +150,18 @@ public class Receta {
 
 	public void setCategorias(Set<Categoria> categorias) {
 		this.categorias = categorias;
+	}
+	public Usuario getNombreCreador() {
+		return nombreCreador;
+	}
+	public void setNombreCreador(Usuario nombreCreador) {
+		this.nombreCreador = nombreCreador;
+	}
+	public Fecha getFechaDeCreacion() {
+		return fechaDeCreacion;
+	}
+	public void setFechaDeCreacion(Fecha fechaDeCreacion) {
+		this.fechaDeCreacion = fechaDeCreacion;
 	}
 	
 	

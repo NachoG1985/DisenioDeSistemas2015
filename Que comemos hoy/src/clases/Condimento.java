@@ -8,8 +8,8 @@ public class Condimento {
 
 	// Constructor de la clase
 	public Condimento(String nombre, String tipo) {
-		nombreCondimento = nombre;
-		tipoCondimento = tipo;
+		setNombreCondimento(nombre);
+		setTipoCondimento(tipo);
 	}
 
 	public String getNombreCondimento() {

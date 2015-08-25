@@ -24,7 +24,7 @@ public class ConsultorBaseDeDatos {
 		
 	}
 
-	
+
 	public static String getRutaBaseDeDatos() {
 		return rutaBaseDeDatos;
 	}

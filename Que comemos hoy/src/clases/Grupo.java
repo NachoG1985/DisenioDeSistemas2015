@@ -14,10 +14,10 @@ public class Grupo {
 	// Constructor de la clase
 	public Grupo(String creador, String grupo, String descripcion)
 		{
-			nombreCreador = creador;
-			nombreGrupo = grupo;
-			descripcionGrupo = descripcion;
-			usuariosGrupo = new HashSet<Usuario>();;
+			setNombreCreador(creador);
+			setNombreGrupo(grupo);
+			setDescripcionGrupo(descripcion);
+			usuariosGrupo = new HashSet<Usuario>();
 
 		}
 

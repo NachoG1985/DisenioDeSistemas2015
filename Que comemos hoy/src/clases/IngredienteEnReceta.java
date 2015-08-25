@@ -8,8 +8,8 @@ public class IngredienteEnReceta {
 
 	// Constructor de la clase
 	public IngredienteEnReceta(Ingrediente nuevoIngrediente, int nuevaCantidad) {
-		ingrediente = nuevoIngrediente;
-		cantidad = nuevaCantidad;
+		setIngrediente(nuevoIngrediente);
+		setCantidad(nuevaCantidad);
 	}
 
 	// Metodos de la clase

@@ -9,7 +9,7 @@ public class ConsultaReceta {
 	// Constructor de la clase
 	public ConsultaReceta(String fechaNueva) 
 		{
-			fecha = fechaNueva;
+			setFecha(fechaNueva);
 		}
 
 

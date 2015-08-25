@@ -8,7 +8,7 @@ public class GestorDeEstadisticasYReportes
 		//Metodos
 		public GestorDeEstadisticasYReportes(Tipo tipoNuevo)
 			{
-				tipo = tipoNuevo;
+				setTipo(tipoNuevo);
 			}
 
 		public Tipo getTipo() {

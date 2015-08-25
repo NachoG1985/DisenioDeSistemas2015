@@ -6,9 +6,9 @@ public class Fecha {
 	private int año;
 
 	public Fecha(int nuevoDia, int nuevoMes, int nuevoAño) {
-		dia = nuevoDia;
-		mes = nuevoMes;
-		año = nuevoAño;
+		setDia(nuevoDia);
+		setMes(nuevoMes);
+		setAño(nuevoAño);
 	}
 
 	public int getDia() {

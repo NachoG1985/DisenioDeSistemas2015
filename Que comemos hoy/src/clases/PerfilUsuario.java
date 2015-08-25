@@ -22,15 +22,15 @@ public class PerfilUsuario {
 			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina,
 			String[] nuevasCondiciones) {
 
-		nombre = nombreYapellido;
-		sexo = nuevoSexo;
-		edad = nuevaEdad;
-		altura = nuevaAltura;
-		complexion = nuevaComplexion;
-		dieta = nuevaDieta;
-		preferencias = nuevasPreferencias;
-		rutina = nuevaRutina;
-		condicionPreexistente = nuevasCondiciones;
+		setNombre(nombreYapellido);
+		setSexo(nuevoSexo);
+		setEdad(nuevaEdad);
+		setAltura(nuevaAltura);
+		setComplexion(nuevaComplexion);
+		setDieta(nuevaDieta);
+		setPreferencias(nuevasPreferencias);
+		setRutina(nuevaRutina);
+		setCondicionPreexistente(nuevasCondiciones);
 	}
 
 	// Metodos de la clase

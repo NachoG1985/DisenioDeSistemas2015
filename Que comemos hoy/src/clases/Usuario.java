@@ -16,11 +16,12 @@ public class Usuario {
 	// Constructor de la clase
 	public Usuario(String nuevoNombre, String nuevoEmail, int diaNacimiento,
 			int mesNacimiento, int anioNacimiento) {
-		nombreUsuario = nuevoNombre;
-		email = nuevoEmail;
+		setNombreUsuario(nuevoNombre);
+		setEmail(nuevoEmail);
 		historicoRecetas = new HistorialRecetas();
 		amigos = new HashSet<Usuario>();
-		fechaNacimiento = new Fecha(diaNacimiento, mesNacimiento, anioNacimiento);
+		Fecha fechaNueva =  new Fecha(diaNacimiento, mesNacimiento, anioNacimiento);
+		setFechaNacimiento(fechaNueva);
 
 	}
 

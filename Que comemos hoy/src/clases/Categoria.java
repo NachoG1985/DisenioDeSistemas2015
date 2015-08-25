@@ -9,9 +9,9 @@ public class Categoria {
 
 	// Constructor de la clase
 	public Categoria(String nombre, int max, int min) {
-		nombreCategoria = nombre;
-		horaMax = max;
-		horaMin = min;
+		setNombreCategoria(nombre);
+		setHoraMax(max);
+		setHoraMin(min);
 	}
 
 	public String getNombreCategoria() {
