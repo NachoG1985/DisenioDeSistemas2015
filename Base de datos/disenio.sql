@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-06-2015 a las 20:10:31
+-- Tiempo de generación: 24-08-2015 a las 21:13:08
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -21,6 +21,26 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `disenio` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci;
 USE `disenio`;
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nombre` VARCHAR(40), IN `dificultad` ENUM('1','2','3','4','5'), IN `temporada` ENUM('Verano','Invierno','Otonio','Primavera'), IN `caloriasTotales` INT)
+    NO SQL
+insert into recetas(nombre,dificultad,temporada,caloriasTotales) VALUES(nombre,dificultad,temporada,caloriasTotales)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(IN `nombre` VARCHAR(50), IN `mail` VARCHAR(100), IN `fecha` CHAR(8), IN `pass` VARCHAR(100))
+    NO SQL
+insert into usuarios(nombreUsuario,email,fechaNac,contrasenia) VALUES(nombre,mail,fecha,pass)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `test`(IN `nombre` VARCHAR(50))
+    NO SQL
+select * 
+from usuarios
+where nombreUsuario = nombre$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -224,14 +244,18 @@ CREATE TABLE IF NOT EXISTS `recetas` (
   `temporada` enum('Verano','Invierno','Otonio','Primavera') COLLATE utf8_spanish2_ci NOT NULL,
   `caloriasTotales` int(11) NOT NULL,
   PRIMARY KEY (`recetas_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `recetas`
 --
 
 INSERT INTO `recetas` (`recetas_id`, `nombre`, `dificultad`, `temporada`, `caloriasTotales`) VALUES
-(1, 'Matambre a la pizza', '7', 'Primavera', 500);
+(1, 'Matambre a la pizza', '7', 'Primavera', 500),
+(2, 'milanesa', '6', 'Verano', 45),
+(3, 'milanesa napolitana', '7', 'Invierno', 542),
+(6, 'milanesa maryland', '9', 'Invierno', 1000),
+(7, 'merluza a la vasca', '8', 'Otonio', 350);
 
 -- --------------------------------------------------------
 
@@ -283,7 +307,21 @@ CREATE TABLE IF NOT EXISTS `recetas de un usuario` (
   `usuario_id` int(11) NOT NULL,
   `recetas_id` int(11) NOT NULL,
   PRIMARY KEY (`recet_usuario_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=11 ;
+
+--
+-- Volcado de datos para la tabla `recetas de un usuario`
+--
+
+INSERT INTO `recetas de un usuario` (`recet_usuario_id`, `usuario_id`, `recetas_id`) VALUES
+(1, 45, 1),
+(2, 45, 7),
+(5, 46, 2),
+(6, 46, 6),
+(7, 46, 3),
+(8, 47, 7),
+(9, 48, 3),
+(10, 49, 1);
 
 -- --------------------------------------------------------
 
@@ -298,16 +336,22 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `fechaNac` char(8) COLLATE utf8_spanish2_ci NOT NULL,
   `contrasenia` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=53 ;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`usuario_id`, `nombreUsuario`, `email`, `fechaNac`, `contrasenia`) VALUES
-(3, 'Santi120@gmail.com', 'santiago120@gmail.com', '02251994', 'romaniolli'),
 (4, 'juanchoPebete', 'juan_ellince@gmail.com', '15101195', 'cherry'),
-(7, 'franquitoMaquinola', 'franco42@gmail.com', '01211993', 'abreu');
+(7, 'franquitoMaquinola', 'franco42@gmail.com', '01211993', 'abreu'),
+(45, 'roman', 'roman@gmail.com', '19940406', 'riquelme'),
+(46, 'nacho', 'nacho45@yahoo.com', '19901103', 'calafate'),
+(48, 'rodrigo', 'lince@telecentro.com', '15641103', 'vagoneta'),
+(49, 'santi', 'santi123@hotmail.com', '15641103', 'aguanteFS'),
+(50, 'oscarcito', 'oscar_seguime@twitter.com', '15641103', 'jefeCatedra'),
+(51, 'tito', 'oscar_seguime@twitter.com', '15641103', 'jefeCatedra'),
+(52, 'pepe', 'casas@gmail.com', '19963201', 'llamamepepe');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

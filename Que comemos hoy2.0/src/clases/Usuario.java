@@ -1,49 +1,56 @@
 package clases;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Usuario {
-	private String name;
-	private String mail;
-	private String password1;
-	private String password2;
 
-	public Usuario(String nombre, String email, String contraseña1, String contraseña2)
-	{
-		setName(nombre);
-		setMail(email);
-		setPassword(contraseña1);
-		setPassword2(contraseña2);
+	// Atributos de la clase Usuario
+	private String nombreUsuario;
+	private String email;
+	private PerfilUsuario perfil;
+	private HistorialRecetas historicoRecetas;
+	private Set<Usuario> amigos;
+	private Fecha fechaNacimiento;
+
+	// Constructor de la clase
+	public Usuario(String nuevoNombre, String nuevoEmail, int diaNacimiento,
+			int mesNacimiento, int anioNacimiento) {
+		nombreUsuario = nuevoNombre;
+		email = nuevoEmail;
+		historicoRecetas = new HistorialRecetas();
+		amigos = new HashSet<Usuario>();
+		fechaNacimiento = new Fecha(diaNacimiento, mesNacimiento, anioNacimiento);
+
 	}
 
-	public String getName() {
-		return name;
+	// Metodos de la clase
+	private void cargarPerfil() {
+		// Implementar interaccion con la pantalla de cargar perfil para obtener
+		// los valores de la variable
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void CargarReceta() {
+		// Implementar interaccion con la pantalla de cargar receta
 	}
 
-	public String getMail() {
-		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
-	public String getPassword1() {
-		return password1;
-	}
-
-	public void setPassword(String password) {
-		this.password1 = password;
-	}
-
-	public String getPassword2() {
-		return password2;
-	}
-
-	public void setPassword2(String password2) {
-		this.password2 = password2;
+	public void seleccionarReceta() {
+		// Implementar interaccion con la pantalla de seleccion de receta
 	}
 	
+	public void consultarReceta() {
+		// Implementar interaccion con la pantalla de consultar receta
+	}
+	
+	public void confirmarReceta() {
+		// Implementar interaccion con la pantalla de confirmar receta
+	}
+
+        public void calificarReceta() {
+		// Implementar interaccion con la pantalla de calificar receta
+	}
+	
+	public void clasificarReceta() {
+		// Implementar interaccion con la pantalla de clasificar receta
+	}
 }
