@@ -12,4 +12,21 @@ public class Condimento {
 		tipoCondimento = tipo;
 	}
 
+	public String getNombreCondimento() {
+		return nombreCondimento;
+	}
+
+	public void setNombreCondimento(String nombreCondimento) {
+		this.nombreCondimento = nombreCondimento;
+	}
+
+	public String getTipoCondimento() {
+		return tipoCondimento;
+	}
+
+	public void setTipoCondimento(String tipoCondimento) {
+		this.tipoCondimento = tipoCondimento;
+	}
+
+
 }

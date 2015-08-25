@@ -11,5 +11,18 @@ public class Calificacion {
 		this.usuario = nombre;
 		this.calificacion = nota;
 	}
+	
+	public int getCalificacion() {
+		return calificacion;
+	}
+	public String getUsuario() {
+		return usuario;
+	}
+	public void setCalificacion(int calificacion) {
+		this.calificacion = calificacion;
+	}
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
 }

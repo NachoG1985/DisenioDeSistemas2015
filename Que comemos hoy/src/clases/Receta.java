@@ -55,4 +55,86 @@ public class Receta {
 		caloriasTotales = this.calcularCalorias();
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public IngredienteEnReceta getIngredientePrincipal() {
+		return ingredientePrincipal;
+	}
+
+	public void setIngredientePrincipal(IngredienteEnReceta ingredientePrincipal) {
+		this.ingredientePrincipal = ingredientePrincipal;
+	}
+
+	public Set<IngredienteEnReceta> getIngredientes() {
+		return ingredientes;
+	}
+
+	public void setIngredientes(Set<IngredienteEnReceta> ingredientes) {
+		this.ingredientes = ingredientes;
+	}
+
+	public Set<Condimento> getCondimentos() {
+		return condimentos;
+	}
+
+	public void setCondimentos(Set<Condimento> condimentos) {
+		this.condimentos = condimentos;
+	}
+
+	public ArrayList<PasoDeReceta> getProcedimiento() {
+		return procedimiento;
+	}
+
+	public void setProcedimiento(ArrayList<PasoDeReceta> procedimiento) {
+		this.procedimiento = procedimiento;
+	}
+
+	public int getDificultad() {
+		return dificultad;
+	}
+
+	public void setDificultad(int dificultad) {
+		this.dificultad = dificultad;
+	}
+
+	public String getTemporada() {
+		return temporada;
+	}
+
+	public void setTemporada(String temporada) {
+		this.temporada = temporada;
+	}
+
+	public float getCaloriasTotales() {
+		return caloriasTotales;
+	}
+
+	public void setCaloriasTotales(float caloriasTotales) {
+		this.caloriasTotales = caloriasTotales;
+	}
+
+	public Set<Calificacion> getCalificaciones() {
+		return calificaciones;
+	}
+
+	public void setCalificaciones(Set<Calificacion> calificaciones) {
+		this.calificaciones = calificaciones;
+	}
+
+	public Set<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(Set<Categoria> categorias) {
+		this.categorias = categorias;
+	}
+	
+	
+
 }

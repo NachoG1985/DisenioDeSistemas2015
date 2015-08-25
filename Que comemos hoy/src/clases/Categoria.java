@@ -14,4 +14,28 @@ public class Categoria {
 		horaMin = min;
 	}
 
+	public String getNombreCategoria() {
+		return nombreCategoria;
+	}
+
+	public void setNombreCategoria(String nombreCategoria) {
+		this.nombreCategoria = nombreCategoria;
+	}
+
+	public int getHoraMax() {
+		return horaMax;
+	}
+
+	public void setHoraMax(int horaMax) {
+		this.horaMax = horaMax;
+	}
+
+	public int getHoraMin() {
+		return horaMin;
+	}
+
+	public void setHoraMin(int horaMin) {
+		this.horaMin = horaMin;
+	}
+
 }

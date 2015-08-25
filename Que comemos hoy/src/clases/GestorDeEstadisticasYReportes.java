@@ -10,10 +10,18 @@ public class GestorDeEstadisticasYReportes
 			{
 				tipo = tipoNuevo;
 			}
+
+		public Tipo getTipo() {
+			return tipo;
+		}
+
+		public void setTipo(Tipo tipo) {
+			this.tipo = tipo;
+		}
 		
-/*		public generarReporteoEstadistica()
+		public void generarReporteoEstadistica()
 		{
-			
-		}*/
+			tipo.generar();
+		}
 }
 

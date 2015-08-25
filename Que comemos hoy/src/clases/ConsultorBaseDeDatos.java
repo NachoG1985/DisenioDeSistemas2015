@@ -25,6 +25,31 @@ public class ConsultorBaseDeDatos {
 	}
 
 	
+	public static String getRutaBaseDeDatos() {
+		return rutaBaseDeDatos;
+	}
+
+
+	public static void setRutaBaseDeDatos(String rutaBaseDeDatos) {
+		ConsultorBaseDeDatos.rutaBaseDeDatos = rutaBaseDeDatos;
+	}
+
+
+	public Connection getMiConexion() {
+		return miConexion;
+	}
+
+
+	public void setMiConexion(Connection miConexion) {
+		this.miConexion = miConexion;
+	}
+
+
+	public static void setInstance(ConsultorBaseDeDatos instance) {
+		ConsultorBaseDeDatos.instance = instance;
+	}
+
+
 	//Patron Singleton
 	public static ConsultorBaseDeDatos getInstance()
 	{
