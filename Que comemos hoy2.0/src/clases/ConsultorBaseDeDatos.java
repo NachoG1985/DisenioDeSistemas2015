@@ -165,7 +165,6 @@ public class ConsultorBaseDeDatos {
              cst.setString(1,nombre);
              data = cst.executeQuery();
             
-            
         }catch (Exception e) {
         	System.out.println("Error");
         } return data;

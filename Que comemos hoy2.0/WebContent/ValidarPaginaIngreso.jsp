@@ -1,4 +1,6 @@
 <%@ page import="clases.ConsultorBaseDeDatos" %>
+<%@ page import="clases.Usuario" %>
+<%@ page import="clases.Fecha" %>
 <%@ page import="java.sql.*" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -13,7 +15,11 @@
 		<%
 			//Obtener el consultor de la base de datos
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
-		
+			String nombreUsuario;
+			String contraseñaIngresada;
+			ResultSet resultado;
+			String contraseñaUsuario;
+			Usuario nuevoUsuario;
 			//Analizar de cual de los dos botones viene el pedido
 			String origen = request.getParameter("boton").toString();
 			
@@ -21,19 +27,18 @@
 				if(origen.contentEquals("Ingresar"))
 				{
 					//Se obtienen los valores ingresador
-					String nombreUsuario = request.getParameter("nombreUsuarioIngreso").toString();
-					String contraseñaIngresada = request.getParameter("contraseñaIngreso").toString();
+					nombreUsuario = request.getParameter("nombreUsuarioIngreso").toString();
+					contraseñaIngresada = request.getParameter("contraseñaIngreso").toString();
 					//Buscar en la base de datos el usuario con el nombre ingresado
-					ResultSet resultado = consultor.consultarUsuario(nombreUsuario);
+					resultado = consultor.consultarUsuario(nombreUsuario);
 					//Si el usuario no existe o la contraseña ingresada no coincide mostrar cartel de error
-					if(resultado == null)
+					if(!resultado.first())
 					{
 						response.sendRedirect("InicioSesion.jsp");
 					}
 					else
 					{
-						resultado.next();
-						String contraseñaUsuario = resultado.getString("contrasenia");
+						contraseñaUsuario = resultado.getString("contrasenia");
 						if(!contraseñaUsuario.equals(contraseñaIngresada))
 						{
 							response.sendRedirect("InicioSesion.jsp");
@@ -47,13 +52,38 @@
 				}
 				//Si viene del boton de registro
 				else{
-					if(origen.contentEquals("registrarse"))
+					if(origen.contentEquals("Registrarse"))
 					{
+						nombreUsuario = request.getParameter("nombreUsuarioRegistro");
 					//Buscar el nombre ingresado en la base de datos
-			
-					//Si el nombre de usuario ya existe msotrar cartel de nombre de usuario en uso
-			
+						resultado = consultor.consultarUsuario(nombreUsuario);
 					//Si no existe proceder con el registro
+						if(!resultado.first())
+						{
+							String contraseña = request.getParameter("contraseñaRegistro");
+							String confirmacionContraseña= request.getParameter("confirmacionContraseñaRegistro");
+							String email = request.getParameter("emailRegistro");
+							int diaNacimiento = Integer.parseInt(request.getParameter("diaNacimiento"));
+							int mesNacimiento = Integer.parseInt(request.getParameter("mesNacimiento"));
+							int añoNacimiento = Integer.parseInt(request.getParameter("añoNacimiento"));
+							Fecha fechaNacimiento = new Fecha(diaNacimiento, mesNacimiento, añoNacimiento);
+							
+							if(contraseña.equals(confirmacionContraseña))
+							{
+								nuevoUsuario = new Usuario(nombreUsuario, email, fechaNacimiento, contraseña);
+								request.setAttribute("usuario", nuevoUsuario);
+								response.sendRedirect("RegistroUsuario.jsp");
+							}
+							else
+							{
+								response.sendRedirect("InicioSesion.jsp");
+							}
+						}
+					//Si el nombre de usuario ya existe msotrar cartel de nombre de usuario en uso
+						else
+						{
+							response.sendRedirect("InicioSesion.jsp");
+						}
 					}
 				}
 		%>

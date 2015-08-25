@@ -28,14 +28,14 @@ font-family: helvetic;
 font-size: 18px;
 color: white;
 float: left;
-margin-left: 12%;
+margin-left: 5%;
 }
 
 
 h2{
 text-align: center;
 margin-left: 3%;
-margin-top: 10%;
+margin-top: 5%;
 width : 40%;
 font-size: 40px;
 foat: left;
@@ -51,14 +51,18 @@ float: left;
 
 #registro{
 font-family: helvetic;
-text-align: center;
+text-align: left;
 font-size: 30px;
 color: black;
 margin-left: 3%;
-margin-top: 5%;
+margin-top: 2%;
 width : 40%;
 float: left;
 clear: left;
+}
+
+#boton{
+margin-left: 30%;
 }
 
 img{

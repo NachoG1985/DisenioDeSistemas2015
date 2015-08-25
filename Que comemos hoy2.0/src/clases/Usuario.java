@@ -8,26 +8,25 @@ public class Usuario {
 	// Atributos de la clase Usuario
 	private String nombreUsuario;
 	private String email;
+	private String contraseña;
 	private PerfilUsuario perfil;
 	private HistorialRecetas historicoRecetas;
 	private Set<Usuario> amigos;
 	private Fecha fechaNacimiento;
 
 	// Constructor de la clase
-	public Usuario(String nuevoNombre, String nuevoEmail, int diaNacimiento,
-			int mesNacimiento, int anioNacimiento) {
+	public Usuario(String nuevoNombre, String nuevoEmail, Fecha nuevaFecha, String nuevaContraseña) 
+	{
 		nombreUsuario = nuevoNombre;
 		email = nuevoEmail;
-		historicoRecetas = new HistorialRecetas();
+		fechaNacimiento = nuevaFecha;
 		amigos = new HashSet<Usuario>();
-		fechaNacimiento = new Fecha(diaNacimiento, mesNacimiento, anioNacimiento);
-
+		contraseña = nuevaContraseña;
 	}
 
 	// Metodos de la clase
-	private void cargarPerfil() {
-		// Implementar interaccion con la pantalla de cargar perfil para obtener
-		// los valores de la variable
+	public void cargarPerfil(PerfilUsuario nuevoPerfil) {
+		perfil = nuevoPerfil;
 	}
 
 	public void CargarReceta() {

@@ -9,7 +9,7 @@ public class PerfilUsuario {
 	private String nombre;
 	private String sexo;
 	private int edad;
-	private float altura;
+	private int altura;
 	private String complexion;
 	private String dieta;
 	private String[] preferencias;
@@ -18,7 +18,7 @@ public class PerfilUsuario {
 
 	// Constructor de la clase
 	public PerfilUsuario(String nombreYapellido, String nuevoSexo,
-			int nuevaEdad, float nuevaAltura, String nuevaComplexion,
+			int nuevaEdad, int nuevaAltura, String nuevaComplexion,
 			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina,
 			String[] nuevasCondiciones) {
 
