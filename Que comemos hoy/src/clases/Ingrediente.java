@@ -24,4 +24,38 @@ public class Ingrediente {
 		return calorias;
 	}
 
+	public String getNombreIngrediente() {
+		return nombreIngrediente;
+	}
+
+	public void setNombreIngrediente(String nombreIngrediente) {
+		this.nombreIngrediente = nombreIngrediente;
+	}
+
+	public int getPorcion() {
+		return porcion;
+	}
+
+	public void setPorcion(int porcion) {
+		this.porcion = porcion;
+	}
+
+	public int getCaloriasPorPorcion() {
+		return caloriasPorPorcion;
+	}
+
+	public void setCaloriasPorPorcion(int caloriasPorPorcion) {
+		this.caloriasPorPorcion = caloriasPorPorcion;
+	}
+
+	public int getNivelPiramideAlimenticia() {
+		return nivelPiramideAlimenticia;
+	}
+
+	public void setNivelPiramideAlimenticia(int nivelPiramideAlimenticia) {
+		this.nivelPiramideAlimenticia = nivelPiramideAlimenticia;
+	}
+	
+	
+
 }

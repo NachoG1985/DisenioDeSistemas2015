@@ -53,4 +53,54 @@ public class Usuario {
 	public void clasificarReceta() {
 		// Implementar interaccion con la pantalla de clasificar receta
 	}
+
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public PerfilUsuario getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(PerfilUsuario perfil) {
+		this.perfil = perfil;
+	}
+
+	public HistorialRecetas getHistoricoRecetas() {
+		return historicoRecetas;
+	}
+
+	public void setHistoricoRecetas(HistorialRecetas historicoRecetas) {
+		this.historicoRecetas = historicoRecetas;
+	}
+
+	public Set<Usuario> getAmigos() {
+		return amigos;
+	}
+
+	public void setAmigos(Set<Usuario> amigos) {
+		this.amigos = amigos;
+	}
+
+	public Fecha getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Fecha fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	
+	
 }

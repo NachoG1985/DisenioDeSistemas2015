@@ -23,4 +23,18 @@ public class Fecha {
 		return año;
 	}
 
+	public void setDia(int dia) {
+		this.dia = dia;
+	}
+
+	public void setMes(int mes) {
+		this.mes = mes;
+	}
+
+	public void setAño(int año) {
+		this.año = año;
+	}
+	
+	
+
 }

@@ -41,4 +41,38 @@ public class Grupo {
 		{
 		
 		}
+
+	public String getNombreCreador() {
+		return nombreCreador;
+	}
+
+	public void setNombreCreador(String nombreCreador) {
+		this.nombreCreador = nombreCreador;
+	}
+
+	public String getNombreGrupo() {
+		return nombreGrupo;
+	}
+
+	public void setNombreGrupo(String nombreGrupo) {
+		this.nombreGrupo = nombreGrupo;
+	}
+
+	public String getDescripcionGrupo() {
+		return descripcionGrupo;
+	}
+
+	public void setDescripcionGrupo(String descripcionGrupo) {
+		this.descripcionGrupo = descripcionGrupo;
+	}
+
+	public Set<Usuario> getUsuariosGrupo() {
+		return usuariosGrupo;
+	}
+
+	public void setUsuariosGrupo(Set<Usuario> usuariosGrupo) {
+		this.usuariosGrupo = usuariosGrupo;
+	}
+	
+	
 }
