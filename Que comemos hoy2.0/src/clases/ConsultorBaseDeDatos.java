@@ -4,9 +4,6 @@ import java.sql.*;
 
 
 
-enum temporada { 
-    Invierno,Verano,Otonio,Primavera
-}
 
 
 public class ConsultorBaseDeDatos {
@@ -170,10 +167,10 @@ public class ConsultorBaseDeDatos {
             
             
         }catch (Exception e) {
-        	 System.out.println("Error");
+        	System.out.println("Error");
         } return data;
  }  
-	 public void insertarReceta(String nombre,int dificultad,temporada temporada,int calorias) {
+	 public void insertarReceta(String nombre,byte dificultad,String temporada,int calorias) {
 		 	ResultSet data;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
@@ -182,8 +179,8 @@ public class ConsultorBaseDeDatos {
 	           	           
 	             cst = cn.prepareCall("{call insertarReceta(?,?,?,?)}");
 	             cst.setString(1,nombre);
-	             cst.setInt(2,dificultad);
-	             cst.setString(3,temporada.name());
+	             cst.setByte(2,dificultad);
+	             cst.setString(3,temporada);
 	             cst.setInt(4,calorias);
 	             cst.executeUpdate();
 	             cst = cn.prepareCall("{call test(?)}");
@@ -195,10 +192,10 @@ public class ConsultorBaseDeDatos {
 	                 System.out.println("--------------------------------");
 	                 while (data.next())
 	                	{
-	                    System.out.println(""+data.getInt("recetas_id")+"    "+data.getString("nombre")+"    "+data.getInt("dificultad")+"    "+data.getString("temporada")+"    "+data.getInt("calorias"));
+	                    System.out.println(""+data.getInt("recetas_id")+"    "+data.getString("nombre")+"    "+data.getByte("dificultad")+"    "+data.getString("temporada")+"    "+data.getInt("caloriasTotales"));
 	                	}                 
 	                
-	             }else{System.out.println("No existe usuario con ese nombre");}
+	             }else{System.out.println("No existe receta con ese nombre");}
 	            
 	        }catch (Exception e) {
 	        	
