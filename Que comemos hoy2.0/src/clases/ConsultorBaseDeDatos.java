@@ -46,8 +46,17 @@ public class ConsultorBaseDeDatos {
 	
 	public void setConexion(Connection conexion) {
         this.miConexion = conexion;
-	}    
+	} 
 	
+	public Connection getConexion(Connection conexion) {
+        return conexion;
+	} 
+
+	public ConsultorBaseDeDatos setInstance(){
+		return instance;
+	}
+	
+
 	public ConsultorBaseDeDatos conectar() {
         try {
             Class.forName("com.mysql.jdbc.Driver");

@@ -13,18 +13,17 @@ public class Grupo {
 
 	// Constructor de la clase
 	public Grupo(String creador, String grupo, String descripcion)
-		{
-			nombreCreador = creador;
-			nombreGrupo = grupo;
-			descripcionGrupo = descripcion;
-			usuariosGrupo = new HashSet<Usuario>();;
-
-		}
+	{
+		setNombreCreador(creador);
+		setNombreGrupo(grupo);
+		modificarDescripcion(descripcion);
+		usuariosGrupo = new HashSet<Usuario>();
+	}
 
 	// Metodos de la clase
 	private void agregarMiembro(String nombreUsuario)
 		{
-		
+			
 		}
 	
 	private void eliminarMiembro(String nombreUsuario) 
@@ -39,6 +38,40 @@ public class Grupo {
 	
 	private void modificarDescripcion(String descripcion) 
 		{
-		
+			setDescripcionGrupo(descripcion);
 		}
+
+	public String getNombreCreador() {
+		return nombreCreador;
+	}
+
+	public void setNombreCreador(String nombreCreador) {
+		this.nombreCreador = nombreCreador;
+	}
+
+	public String getNombreGrupo() {
+		return nombreGrupo;
+	}
+
+	public void setNombreGrupo(String nombreGrupo) {
+		this.nombreGrupo = nombreGrupo;
+	}
+
+	public String getDescripcionGrupo() {
+		return descripcionGrupo;
+	}
+
+	public void setDescripcionGrupo(String descripcionGrupo) {
+		this.descripcionGrupo = descripcionGrupo;
+	}
+
+	public Set<Usuario> getUsuariosGrupo() {
+		return usuariosGrupo;
+	}
+
+	public void setUsuariosGrupo(Set<Usuario> usuariosGrupo) {
+		this.usuariosGrupo = usuariosGrupo;
+	}
+	
+	
 }
