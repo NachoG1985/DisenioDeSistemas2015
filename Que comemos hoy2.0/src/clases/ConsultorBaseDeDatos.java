@@ -121,38 +121,39 @@ public class ConsultorBaseDeDatos {
     }
 	
 	//Inserta un Usuario y lo muestra
-	public void insertarUsuario(String nombre,String mail,String fecha,String pass) {
-	 	ResultSet data;
-	 	Connection cn = null;
-	 	CallableStatement cst = null;
-        try {
-        	 cn = getConexion("disenio", "root", "");
-           	           
-             cst = cn.prepareCall("{call insertarUsuario(?,?,?,?)}");
-             cst.setString(1,nombre);
-             cst.setString(2,mail);
-             cst.setString(3,fecha);
-             cst.setString(4,pass);
-             cst.executeUpdate();
-             cst = cn.prepareCall("{call test(?)}");
-             cst.setString(1,nombre);
-             data = cst.executeQuery();
-             if (data != null) 
-             {
-            	 System.out.println(" usuario_id      nombreUsuario      email      fechaNac      contrasenia");
-                 System.out.println("--------------------------------");
-                 while (data.next())
-                	{
-                    System.out.println(""+data.getInt("usuario_id")+"    "+data.getString("nombreUsuario")+"    "+data.getString("email")+"    "+data.getString("fechaNac")+"    "+data.getString("contrasenia"));
-                	}                 
-                
-             }else{System.out.println("No existe usuario con ese nombre");}
-            
-        }catch (Exception e) {
-        	
-        }
- }  
- 
+	 public void insertarUsuario(String nombre,String mail,String pass, int dia,int mes,int anio) {
+		 	ResultSet data;
+		 	Connection cn = null;
+		 	CallableStatement cst = null;
+	        try {
+	        	 cn = getConexion("disenio", "root", "");
+	           	           
+	             cst = cn.prepareCall("{call insertarUsuario(?,?,?,?,?,?)}");
+	             cst.setString(1,nombre);
+	             cst.setString(2,mail);
+	             cst.setString(3,pass);
+	             cst.setInt(4,dia);
+	             cst.setInt(5,mes);
+	             cst.setInt(6,anio);
+	             cst.executeUpdate();
+	             cst = cn.prepareCall("{call test(?)}");
+	             cst.setString(1,nombre);
+	             data = cst.executeQuery();
+	             if (data != null) 
+	             {
+	            	 System.out.println(" usuario_id      nombreUsuario      email      contrasenia      dia      mes      anio");
+	                 System.out.println("----------------------------------------------------------------");
+	                 while (data.next())
+	                	{
+	                    System.out.println(""+data.getInt("usuario_id")+"    "+data.getString("nombreUsuario")+"    "+data.getString("email")+"    "+data.getString("contrasenia")+"    "+data.getInt("dia")+"    "+data.getInt("mes")+"    "+data.getInt("anio"));
+	                	}                 
+	                
+	             }else{System.out.println("No existe usuario con ese nombre");}
+	            
+	        }catch (Exception e) {
+	        	
+	        }
+	 }  
 	
 	public ResultSet consultarUsuario(String nombre) {
 	 	ResultSet data=null;
@@ -165,42 +166,85 @@ public class ConsultorBaseDeDatos {
              cst.setString(1,nombre);
              data = cst.executeQuery();
             
+            
         }catch (Exception e) {
         	System.out.println("Error");
         } return data;
  }  
-	 public void insertarReceta(String nombre,byte dificultad,String temporada,int calorias) {
-		 	ResultSet data;
-		 	Connection cn = null;
-		 	CallableStatement cst = null;
-	        try {
-	        	 cn = getConexion("disenio", "root", "");
-	           	           
-	             cst = cn.prepareCall("{call insertarReceta(?,?,?,?)}");
-	             cst.setString(1,nombre);
-	             cst.setByte(2,dificultad);
-	             cst.setString(3,temporada);
-	             cst.setInt(4,calorias);
-	             cst.executeUpdate();
-	             cst = cn.prepareCall("{call test(?)}");
-	             cst.setString(1,nombre);
-	             data = cst.executeQuery();
-	             if (data != null) 
-	             {
-	            	 System.out.println(" recetas_id      nombre      dificultad      temporada      calorias");
-	                 System.out.println("--------------------------------");
-	                 while (data.next())
-	                	{
-	                    System.out.println(""+data.getInt("recetas_id")+"    "+data.getString("nombre")+"    "+data.getByte("dificultad")+"    "+data.getString("temporada")+"    "+data.getInt("caloriasTotales"));
-	                	}                 
-	                
-	             }else{System.out.println("No existe receta con ese nombre");}
-	            
-	        }catch (Exception e) {
-	        	
-	        }
-	 }  
-	 
+	
+	public ResultSet consultarReceta(String nombre) {
+	 	ResultSet data=null;
+	 	Connection cn = null;
+	 	CallableStatement cst = null;
+        try {
+        	 cn = getConexion("disenio", "root", "");
+           	           
+             cst = cn.prepareCall("{call testReceta(?)}");
+             cst.setString(1,nombre);
+             data = cst.executeQuery();
+            
+        }catch (Exception e) {
+        	System.out.println("Error");
+        } return data;
+ }  
+	
+	public ResultSet mostrarRecetasDB( ) {
+	 	ResultSet data=null;
+	 	Connection cn = null;
+	 	CallableStatement cst = null;
+        try {
+        	 cn = getConexion("disenio", "root", "");
+           	           
+             cst = cn.prepareCall("{call mostrarRecetasDB()}");
+             data = cst.executeQuery();
+            
+            
+        }catch (Exception e) {
+        	System.out.println("Error");
+        } return data;
+ }  
+	
+	public void insertarReceta(String nombre,String ingrediente,int dificultad,String temporada,String cat1,String cat2,String cat3,String cat4,int calorias, String creador,int dia,int mes,int anio) {
+	 	ResultSet data;
+	 	Connection cn = null;
+	 	CallableStatement cst = null;
+        try {
+        	 cn = getConexion("disenio", "root", "");
+           	           
+             cst = cn.prepareCall("{call insertarReceta(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+             cst.setString(1,nombre);
+             cst.setString(2,ingrediente);
+             cst.setInt(3,dificultad);
+             cst.setString(4,temporada);
+             cst.setString(5,cat1);
+             cst.setString(6,cat2);
+             cst.setString(7,cat3);
+             cst.setString(8,cat4);
+             cst.setInt(9,calorias);
+             cst.setString(10,creador);
+             cst.setInt(11,dia);
+             cst.setInt(12,mes);
+             cst.setInt(13,anio);
+             cst.executeUpdate();
+             cst = cn.prepareCall("{call testReceta(?)}");
+             cst.setString(1,nombre);
+             data = cst.executeQuery();
+             if (data != null) 
+             {
+            	 System.out.println(" recetas_id      nombre      ingrediente      dificultad      temporada      categoria1      categoria2      categoria3      categoria4      calorias      creador      dia      mes      anio");
+                 System.out.println("-----------------------------------------------------------");
+                 while (data.next())
+                	{
+                    System.out.println(""+data.getInt("recetas_id")+"    "+data.getString("nombre")+"    "+data.getString("ingrediente_ppal")+"    "+data.getInt("dificultad")+"    "+data.getString("temporada")+"    "+data.getString("categoria1")+"    "+data.getString("categoria2")+"    "+data.getString("categoria3")+"    "+data.getString("categoria4")+"    "+data.getInt("caloriasTotales")+"    "+data.getString("creador")+"    "+data.getInt("dia")+"    "+data.getInt("mes")+"    "+data.getInt("anio"));
+                	}                 
+                
+             }else{System.out.println("No existe receta con ese nombre");}
+            
+        }catch (Exception e) {
+        	
+        }
+ }  
+ 
 	
     public void desconectar()
     {
