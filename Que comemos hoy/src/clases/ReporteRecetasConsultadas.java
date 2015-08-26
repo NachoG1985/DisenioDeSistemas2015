@@ -9,5 +9,7 @@ public class ReporteRecetasConsultadas implements SubtipoDeReporte
 	{
 		ReporteRecetasConsultadas reporteRecetas = new ReporteRecetasConsultadas();
 	}
+	
+	
 
 }

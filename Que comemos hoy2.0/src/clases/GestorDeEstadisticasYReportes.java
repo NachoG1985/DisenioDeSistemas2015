@@ -8,20 +8,12 @@ public class GestorDeEstadisticasYReportes
 		//Metodos
 		public GestorDeEstadisticasYReportes(Tipo tipoNuevo)
 			{
-				setTipo(tipoNuevo);
+				tipo = tipoNuevo;
 			}
-
-		public Tipo getTipo() {
-			return tipo;
-		}
-
-		public void setTipo(Tipo tipo) {
-			this.tipo = tipo;
-		}
 		
-		public void generarReporteoEstadistica()
+/*		public generarReporteoEstadistica()
 		{
-			tipo.generar();
-		}
+			
+		}*/
 }
 

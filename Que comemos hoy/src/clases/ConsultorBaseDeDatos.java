@@ -4,6 +4,9 @@ import java.sql.*;
 
 
 
+enum temporada { 
+    Invierno,Verano,Otonio,Primavera
+}
 
 
 public class ConsultorBaseDeDatos {
@@ -21,14 +24,38 @@ public class ConsultorBaseDeDatos {
 		
 	}
 
-	
+
+	public static String getRutaBaseDeDatos() {
+		return rutaBaseDeDatos;
+	}
+
+
+	public static void setRutaBaseDeDatos(String rutaBaseDeDatos) {
+		ConsultorBaseDeDatos.rutaBaseDeDatos = rutaBaseDeDatos;
+	}
+
+
+	public Connection getMiConexion() {
+		return miConexion;
+	}
+
+
+	public void setMiConexion(Connection miConexion) {
+		this.miConexion = miConexion;
+	}
+
+
+	public static void setInstance(ConsultorBaseDeDatos instance) {
+		ConsultorBaseDeDatos.instance = instance;
+	}
+
+
 	//Patron Singleton
 	public static ConsultorBaseDeDatos getInstance()
 	{
 		if(instance == null)  
 		{
 			instance = new ConsultorBaseDeDatos();
-			instance.conectar();
 		}
 		return instance;
 	}
@@ -74,7 +101,6 @@ public class ConsultorBaseDeDatos {
         try {
             //llamar a la clase o driver de jdbc
             Class.forName("com.mysql.jdbc.Driver");
-            //String servidor = "jdbc:mysql://localhost:3306/" + BD;
             String servidor = "jdbc:mysql://localhost/" + BD ;
             
             miConexion = DriverManager.getConnection(servidor,usuario,contraseña);
@@ -153,23 +179,7 @@ public class ConsultorBaseDeDatos {
         }
  }  
  
-	
-	public ResultSet consultarUsuario(String nombre) {
-	 	ResultSet data=null;
-	 	Connection cn = null;
-	 	CallableStatement cst = null;
-        try {
-        	 cn = getConexion("disenio", "root", "");
-           	           
-             cst = cn.prepareCall("{call test(?)}");
-             cst.setString(1,nombre);
-             data = cst.executeQuery();
-            
-        }catch (Exception e) {
-        	System.out.println("Error");
-        } return data;
- }  
-	 public void insertarReceta(String nombre,byte dificultad,String temporada,int calorias) {
+	 public void insertarReceta(String nombre,int dificultad,temporada temporada,int calorias) {
 		 	ResultSet data;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
@@ -178,8 +188,8 @@ public class ConsultorBaseDeDatos {
 	           	           
 	             cst = cn.prepareCall("{call insertarReceta(?,?,?,?)}");
 	             cst.setString(1,nombre);
-	             cst.setByte(2,dificultad);
-	             cst.setString(3,temporada);
+	             cst.setInt(2,dificultad);
+	             cst.setString(3,temporada.name());
 	             cst.setInt(4,calorias);
 	             cst.executeUpdate();
 	             cst = cn.prepareCall("{call test(?)}");
@@ -191,10 +201,10 @@ public class ConsultorBaseDeDatos {
 	                 System.out.println("--------------------------------");
 	                 while (data.next())
 	                	{
-	                    System.out.println(""+data.getInt("recetas_id")+"    "+data.getString("nombre")+"    "+data.getByte("dificultad")+"    "+data.getString("temporada")+"    "+data.getInt("caloriasTotales"));
+	                    System.out.println(""+data.getInt("recetas_id")+"    "+data.getString("nombre")+"    "+data.getInt("dificultad")+"    "+data.getString("temporada")+"    "+data.getInt("calorias"));
 	                	}                 
 	                
-	             }else{System.out.println("No existe receta con ese nombre");}
+	             }else{System.out.println("No existe usuario con ese nombre");}
 	            
 	        }catch (Exception e) {
 	        	

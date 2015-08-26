@@ -9,6 +9,17 @@ public class ConsultaReceta {
 	// Constructor de la clase
 	public ConsultaReceta(String fechaNueva) 
 		{
-			fecha = fechaNueva;
+			setFecha(fechaNueva);
 		}
+
+
+	public String getFecha() {
+		return fecha;
+	}
+
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+	
 }

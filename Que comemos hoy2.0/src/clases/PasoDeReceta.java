@@ -7,27 +7,8 @@ public class PasoDeReceta {
 	private Object imagen;
 
 	// Constructor de la clase
-	public PasoDeReceta(String descripcionNueva,Object imagenNueva) {
-		setDescripcion(descripcionNueva);
-		setImagen(imagenNueva);
+	public PasoDeReceta() {
+		// TODO Auto-generated constructor stub
 	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public Object getImagen() {
-		return imagen;
-	}
-
-	public void setImagen(Object imagen) {
-		this.imagen = imagen;
-	}
-	
-	
 
 }

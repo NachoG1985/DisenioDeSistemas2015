@@ -47,7 +47,7 @@
 			Condicion preexistente:
 			<input type="checkbox" name="condicionPreexistente" value="diabetes"> Diabetes
 			<input type="checkbox" name="condicionPreexistente" value="hipertension"> Celiasis
-			<input type="checkbox" name="condicionPreexistente" value="celiasis"> Hipertension
+			<input type="checkbox" name="condicionPreexistente" value="celiasis"> Celiasis
 			<br>
 			
 			Rutina de ejercicios:<br>

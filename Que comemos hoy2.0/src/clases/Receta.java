@@ -18,31 +18,16 @@ public class Receta {
 	private float caloriasTotales;
 	private Set<Calificacion> calificaciones;
 	private Set<Categoria> categorias;
-	private Usuario nombreCreador;
-	private Fecha fechaDeCreacion;
 
 	// Cosntructor de la clase
-	public Receta(String nombreNuevo, IngredienteEnReceta nuevoIngredientePrincipal, int valorDificultad, String temporadaNueva,
-			float calorias, Usuario creador, Fecha fechaNueva) {
-		setNombre(nombreNuevo);
-		setIngredientePrincipal(nuevoIngredientePrincipal);
-		setDificultad(valorDificultad);
-		setTemporada(temporadaNueva);
-		setCaloriasTotales(calorias);
-		setNombreCreador(creador);
-		setFechaDeCreacion(fechaNueva);
-		Set<IngredienteEnReceta> ingredientesReceta =  new HashSet<IngredienteEnReceta>();
-		setIngredientes(ingredientesReceta);
-		Set<Condimento> condimentosReceta = new HashSet<Condimento>();
-		setCondimentos(condimentosReceta);
-		ArrayList<PasoDeReceta> procedimientoReceta = new ArrayList<PasoDeReceta>();
-		setProcedimiento(procedimientoReceta);
-		Set<Calificacion> calificacionesReceta = new HashSet<Calificacion>();
-		setCalificaciones(calificacionesReceta);
-		Set<Categoria> categoriasReceta = new HashSet<Categoria>();
-		setCategorias(categoriasReceta);
-		
+	public Receta() {
+		ingredientes = new HashSet<IngredienteEnReceta>();
+		condimentos = new HashSet<Condimento>();
+		procedimiento = new ArrayList<PasoDeReceta>();
+		calificaciones = new HashSet<Calificacion>();
+		categorias = new HashSet<Categoria>();
 	}
+
 	// Metodos de la clase
 	// Calcula las calorias totales de las recetas en base a sus ingredientes
 	private float calcularCalorias() {
@@ -62,8 +47,6 @@ public class Receta {
 		return calorias;
 	}
 
-	
-
 	// Carga los datos de la receta
 	public void cargarReceta() {
 		// Implementar la interaccion con la pantalla de cargar receta para
@@ -71,99 +54,5 @@ public class Receta {
 
 		caloriasTotales = this.calcularCalorias();
 	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public IngredienteEnReceta getIngredientePrincipal() {
-		return ingredientePrincipal;
-	}
-
-	public void setIngredientePrincipal(IngredienteEnReceta ingredientePrincipal) {
-		this.ingredientePrincipal = ingredientePrincipal;
-	}
-
-	public Set<IngredienteEnReceta> getIngredientes() {
-		return ingredientes;
-	}
-
-	public void setIngredientes(Set<IngredienteEnReceta> ingredientes) {
-		this.ingredientes = ingredientes;
-	}
-
-	public Set<Condimento> getCondimentos() {
-		return condimentos;
-	}
-
-	public void setCondimentos(Set<Condimento> condimentos) {
-		this.condimentos = condimentos;
-	}
-
-	public ArrayList<PasoDeReceta> getProcedimiento() {
-		return procedimiento;
-	}
-
-	public void setProcedimiento(ArrayList<PasoDeReceta> procedimiento) {
-		this.procedimiento = procedimiento;
-	}
-
-	public int getDificultad() {
-		return dificultad;
-	}
-
-	public void setDificultad(int dificultad) {
-		this.dificultad = dificultad;
-	}
-
-	public String getTemporada() {
-		return temporada;
-	}
-
-	public void setTemporada(String temporada) {
-		this.temporada = temporada;
-	}
-
-	public float getCaloriasTotales() {
-		return caloriasTotales;
-	}
-
-	public void setCaloriasTotales(float caloriasTotales) {
-		this.caloriasTotales = caloriasTotales;
-	}
-
-	public Set<Calificacion> getCalificaciones() {
-		return calificaciones;
-	}
-
-	public void setCalificaciones(Set<Calificacion> calificaciones) {
-		this.calificaciones = calificaciones;
-	}
-
-	public Set<Categoria> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(Set<Categoria> categorias) {
-		this.categorias = categorias;
-	}
-	public Usuario getNombreCreador() {
-		return nombreCreador;
-	}
-	public void setNombreCreador(Usuario nombreCreador) {
-		this.nombreCreador = nombreCreador;
-	}
-	public Fecha getFechaDeCreacion() {
-		return fechaDeCreacion;
-	}
-	public void setFechaDeCreacion(Fecha fechaDeCreacion) {
-		this.fechaDeCreacion = fechaDeCreacion;
-	}
-	
-	
 
 }
