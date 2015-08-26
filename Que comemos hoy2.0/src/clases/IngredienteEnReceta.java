@@ -8,8 +8,8 @@ public class IngredienteEnReceta {
 
 	// Constructor de la clase
 	public IngredienteEnReceta(Ingrediente nuevoIngrediente, int nuevaCantidad) {
-		ingrediente = nuevoIngrediente;
-		cantidad = nuevaCantidad;
+		setIngrediente(nuevoIngrediente);
+		setCantidad(nuevaCantidad);
 	}
 
 	// Metodos de la clase
@@ -20,4 +20,22 @@ public class IngredienteEnReceta {
 
 		return calorias;
 	}
+
+	public Ingrediente getIngrediente() {
+		return ingrediente;
+	}
+
+	public void setIngrediente(Ingrediente ingrediente) {
+		this.ingrediente = ingrediente;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+	
+	
 }

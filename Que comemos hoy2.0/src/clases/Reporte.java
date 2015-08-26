@@ -14,5 +14,15 @@ public class Reporte implements Tipo
 	{
 		Reporte reporteNuevo = new Reporte();
 	}
+
+	public SubtipoDeReporte getSubtipo() {
+		return subtipo;
+	}
+
+	public void setSubtipo(SubtipoDeReporte subtipo) {
+		this.subtipo = subtipo;
+	}
+	
+	
     
 }

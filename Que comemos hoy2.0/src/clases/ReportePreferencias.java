@@ -10,5 +10,7 @@ public class ReportePreferencias
 	{
 		ReportePreferencias nuevoReportePreferencias = new ReportePreferencias();
 	}
+	
+	
 
 }

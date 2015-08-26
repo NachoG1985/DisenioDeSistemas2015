@@ -35,4 +35,30 @@ public class HistorialRecetas {
 			recetasCalificadas.add(nuevaReceta);
 		return;
 	}
+
+	public List<Receta> getRecetasConsultadas() {
+		return recetasConsultadas;
+	}
+
+	public void setRecetasConsultadas(List<Receta> recetasConsultadas) {
+		this.recetasConsultadas = recetasConsultadas;
+	}
+
+	public List<Receta> getRecetasConfirmadas() {
+		return recetasConfirmadas;
+	}
+
+	public void setRecetasConfirmadas(List<Receta> recetasConfirmadas) {
+		this.recetasConfirmadas = recetasConfirmadas;
+	}
+
+	public List<Receta> getRecetasCalificadas() {
+		return recetasCalificadas;
+	}
+
+	public void setRecetasCalificadas(List<Receta> recetasCalificadas) {
+		this.recetasCalificadas = recetasCalificadas;
+	}
+	
+	
 }

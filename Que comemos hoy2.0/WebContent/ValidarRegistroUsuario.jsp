@@ -39,8 +39,7 @@
 			
 			//Obtengo el consultor de DB y cargo el nuevo usuario y el nuevo perfil
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
-			
-			
+						
 		%>
 		
 	</body>
