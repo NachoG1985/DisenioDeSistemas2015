@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-08-2015 a las 21:13:08
+-- Tiempo de generación: 26-08-2015 a las 00:08:33
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -26,19 +26,30 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nombre` VARCHAR(40), IN `dificultad` ENUM('1','2','3','4','5'), IN `temporada` ENUM('Verano','Invierno','Otonio','Primavera'), IN `caloriasTotales` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nombre` VARCHAR(40), IN `ing` VARCHAR(50), IN `difi` TINYINT, IN `tempo` VARCHAR(15), IN `cat1` VARCHAR(20), IN `cat2` VARCHAR(20), IN `cat3` VARCHAR(20), IN `cat4` VARCHAR(20), IN `cal` INT, IN `crea` VARCHAR(50), IN `dia` INT, IN `mes` INT, IN `anio` INT)
     NO SQL
-insert into recetas(nombre,dificultad,temporada,caloriasTotales) VALUES(nombre,dificultad,temporada,caloriasTotales)$$
+insert into recetas(nombre,ingrediente_ppal,dificultad,temporada,categoria1,categoria2,categoria3,categoria4,caloriasTotales,creador,dia,mes,anio) VALUES(nombre,ing,difi,tempo,cat1,cat2,cat3,cat4,cal,crea,dia,mes,anio)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(IN `nombre` VARCHAR(50), IN `mail` VARCHAR(100), IN `fecha` CHAR(8), IN `pass` VARCHAR(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(IN `nombre` VARCHAR(50), IN `mail` VARCHAR(100), IN `pass` VARCHAR(100), IN `dia` INT, IN `mes` INT, IN `anio` INT)
     NO SQL
-insert into usuarios(nombreUsuario,email,fechaNac,contrasenia) VALUES(nombre,mail,fecha,pass)$$
+insert into usuarios(nombreUsuario,email,contrasenia,dia,mes,anio) VALUES(nombre,mail,pass,dia,mes,anio)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`()
+    NO SQL
+select * 
+from recetas$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `test`(IN `nombre` VARCHAR(50))
     NO SQL
 select * 
 from usuarios
 where nombreUsuario = nombre$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `testReceta`(IN `nombreReceta` VARCHAR(40))
+    NO SQL
+select * 
+from recetas
+where nombre = nombreReceta$$
 
 DELIMITER ;
 
@@ -240,22 +251,35 @@ CREATE TABLE IF NOT EXISTS `procedimientos` (
 CREATE TABLE IF NOT EXISTS `recetas` (
   `recetas_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
-  `dificultad` enum('1','2','3','4','5','6','7','8','9','10') COLLATE utf8_spanish2_ci NOT NULL,
-  `temporada` enum('Verano','Invierno','Otonio','Primavera') COLLATE utf8_spanish2_ci NOT NULL,
+  `ingrediente_ppal` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `dificultad` int(4) NOT NULL,
+  `temporada` varchar(15) COLLATE utf8_spanish2_ci NOT NULL,
+  `categoria1` varchar(20) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  `categoria2` varchar(20) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  `categoria3` varchar(20) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  `categoria4` varchar(20) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `caloriasTotales` int(11) NOT NULL,
+  `creador` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `dia` int(11) NOT NULL,
+  `mes` int(11) NOT NULL,
+  `anio` int(11) NOT NULL,
   PRIMARY KEY (`recetas_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=27 ;
 
 --
 -- Volcado de datos para la tabla `recetas`
 --
 
-INSERT INTO `recetas` (`recetas_id`, `nombre`, `dificultad`, `temporada`, `caloriasTotales`) VALUES
-(1, 'Matambre a la pizza', '7', 'Primavera', 500),
-(2, 'milanesa', '6', 'Verano', 45),
-(3, 'milanesa napolitana', '7', 'Invierno', 542),
-(6, 'milanesa maryland', '9', 'Invierno', 1000),
-(7, 'merluza a la vasca', '8', 'Otonio', 350);
+INSERT INTO `recetas` (`recetas_id`, `nombre`, `ingrediente_ppal`, `dificultad`, `temporada`, `categoria1`, `categoria2`, `categoria3`, `categoria4`, `caloriasTotales`, `creador`, `dia`, `mes`, `anio`) VALUES
+(8, 'milanesa a la maryland', 'milanesa', 3, 'Invierno', 'cena', 'almuerzo', NULL, NULL, 541, '', 0, 0, 0),
+(9, 'pizza', 'harina', 1, 'Verano', 'cena', NULL, NULL, NULL, 125, '', 0, 0, 0),
+(10, 'pati a la parrilla', 'carne', 5, 'Verano', 'cena', 'almuerzo', NULL, NULL, 500, '', 0, 0, 0),
+(11, 'tallarines', 'harina', 2, 'Invierno', NULL, NULL, NULL, NULL, 350, '', 0, 0, 0),
+(12, 'buñuelos de acelga', 'acelga', 2, 'Invierno', 'almuerzo', NULL, NULL, NULL, 110, '', 0, 0, 0),
+(13, 'pastel de papa', 'papa', 3, 'Invierno', 'cena', NULL, NULL, NULL, 110, '', 0, 0, 0),
+(14, 'bizcocho de vainilla', 'harina', 2, 'Otonio', 'merienda', NULL, NULL, NULL, 420, '', 0, 0, 0),
+(20, 'cafe', 'cafe instantaneo', 1, 'Invierno', 'desayuno', NULL, NULL, NULL, 514, '', 0, 0, 0),
+(24, 'gelatina', 'gelatina instantanea', 2, 'Invierno', 'desayuno', NULL, NULL, NULL, 514, 'roman', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -333,25 +357,28 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombreUsuario` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `email` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
-  `fechaNac` char(8) COLLATE utf8_spanish2_ci NOT NULL,
   `contrasenia` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
+  `dia` int(11) NOT NULL,
+  `mes` int(11) NOT NULL,
+  `anio` int(11) NOT NULL,
   PRIMARY KEY (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=53 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=55 ;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`usuario_id`, `nombreUsuario`, `email`, `fechaNac`, `contrasenia`) VALUES
-(4, 'juanchoPebete', 'juan_ellince@gmail.com', '15101195', 'cherry'),
-(7, 'franquitoMaquinola', 'franco42@gmail.com', '01211993', 'abreu'),
-(45, 'roman', 'roman@gmail.com', '19940406', 'riquelme'),
-(46, 'nacho', 'nacho45@yahoo.com', '19901103', 'calafate'),
-(48, 'rodrigo', 'lince@telecentro.com', '15641103', 'vagoneta'),
-(49, 'santi', 'santi123@hotmail.com', '15641103', 'aguanteFS'),
-(50, 'oscarcito', 'oscar_seguime@twitter.com', '15641103', 'jefeCatedra'),
-(51, 'tito', 'oscar_seguime@twitter.com', '15641103', 'jefeCatedra'),
-(52, 'pepe', 'casas@gmail.com', '19963201', 'llamamepepe');
+INSERT INTO `usuarios` (`usuario_id`, `nombreUsuario`, `email`, `contrasenia`, `dia`, `mes`, `anio`) VALUES
+(4, 'juanchoPebete', 'juan_ellince@gmail.com', 'cherry', 0, 0, 0),
+(7, 'franquitoMaquinola', 'franco42@gmail.com', 'abreu', 0, 0, 0),
+(45, 'roman', 'roman@gmail.com', 'riquelme', 0, 0, 0),
+(46, 'nacho', 'nacho45@yahoo.com', 'calafate', 0, 0, 0),
+(48, 'rodrigo', 'lince@telecentro.com', 'vagoneta', 0, 0, 0),
+(49, 'santi', 'santi123@hotmail.com', 'aguanteFS', 0, 0, 0),
+(50, 'oscarcito', 'oscar_seguime@twitter.com', 'jefeCatedra', 0, 0, 0),
+(51, 'tito', 'oscar_seguime@twitter.com', 'jefeCatedra', 0, 0, 0),
+(52, 'pepe', 'casas@gmail.com', 'llamamepepe', 0, 0, 0),
+(53, 'matiGrippo', 'estaEnMedrano@yahoo.com', 'error404', 24, 4, 1994);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
