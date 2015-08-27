@@ -44,13 +44,19 @@ text-decoration: none;
 }
 
 #recetaAMostrar{
-border: 5px solid black;
+border:  solid black;
 font-family: helvetic;
 color: black;
+line-height: 18px;
 text-align: center;
 width: 18%;
 margin: 0.5%;
 float: left;
+height: 230px;
+}
+
+#recetaAMostrar div{
+height: 80px;
 }
 
 #recetaAMostrar h1{
@@ -65,11 +71,28 @@ margin-right:3%;
 margin-left: 3%;
 }
 
-#recetaAMostrar h3{
-font-size: 18px;
-clear: left;
+#dificultadReceta{
+font-size: 16px;
+float: left;
+width: 40%;
+margin: 2.5%;
+}
+
+#caloriasReceta{
+font-size: 16px;
+float: left;
+width: 45%;
+margin: 2.5%;
 }
 
 #recetaAMostrar h4{
 font-size: 16px;
+float: left;
+width: 40%;
+margin: 5%;
+}
 
+#recetaAMostrar h5{
+font-size: 16px;
+margin: 2%;
+}

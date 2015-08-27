@@ -20,7 +20,7 @@
 		<h2>Registro de nuevo usuario</h2>
 		
 		
-		<form  method="POST">
+		<form action="ValidarRegistroUsuario.jsp"  method="POST">
 			
 			Nombre y apellido: <input type="text" name="nombreYApellido" size="40" required/>
 			<br>
@@ -44,9 +44,9 @@
 			</select>
 			<br>
 			
-			Condicion preexistente:
+			Condicion preexistente:<br>
 			<input type="checkbox" name="condicionPreexistente" value="diabetes"> Diabetes
-			<input type="checkbox" name="condicionPreexistente" value="hipertension"> Celiasis
+			<input type="checkbox" name="condicionPreexistente" value="hipertension"> Hipertension
 			<input type="checkbox" name="condicionPreexistente" value="celiasis"> Celiasis
 			<br>
 			
@@ -68,14 +68,6 @@
 			
 		</form>
 		
-		<%
-			//Ingresar los datos a la base de datos
-			
-			//Corroborar que los datos se hayan ingresado de forma correcta
-			
-			//Redirigir al home del usuario
-		
-		%>
 </body>
 
 </html>

@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+   <%@ page import="clases.ConsultorBaseDeDatos" %>
+<%@ page import="clases.Usuario" %>
+<%@ page import="clases.Receta" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Set" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -62,7 +70,7 @@
 				
 				Ingrediente principal:<br>
 					
-					<input type="text" name="ingredientePrincipal">
+					<input type="text" name="ingredientePrincipal" value="indiferente">
 					<br>
 					
 				Categoria:
@@ -86,26 +94,62 @@
 			
 			//Si se entra como resultado del boton de aplicar filtros luego de obtener las recetas se filtran segun los distintos criterios y se muestran en la pantalla
 			
-					int i = 0;
-		
-		for(i = 0; i<20; i++)
-		{
+			String catalogoAConsultar = request.getParameter("Catalogo");
+			String dificultadBuscada = request.getParameter("dificultad");
+			String calificacionBuscada = request.getParameter("calificacion");
+			String ingredienteBuscado = request.getParameter("ingredientePrincipal");
+			String categoriaBuscada = request.getParameter("categoria");
 			
-			out.println("<article id=\"recetaAMostrar\">");
-				out.println("<h1>Nombre receta</h1>");
-				out.println("<h3 id=\"dificultadReceta\">Dificultad: 3</h3>");
-				out.println("<h3 id=\"caloriasReceta\">Calorias: 40000</h3>");
-				out.println("<h5>Ingrediente principal</h5>");
-				out.println("<div>");
-				out.println("<h4>Categoria1</h4>");
-				out.println("<h4>Categoria2</h4>");
-				out.println("<h4>Categoria3</h4>");
-				out.println("<h4>Categoria4</h4>");
-				out.println("</div>");
-				out.println("<h5>Temporada</h5>");
-			out.println("</article>");
+			
+			ResultSet recetas = ConsultorBaseDeDatos.getInstance().mostrarRecetasDB();
 		
-		}
+			recetas.first();
+			Set<Receta> recetasAMostrar = new HashSet<Receta>();
+			Receta receta;
+			do{
+				receta = new Receta();
+				receta.setCaloriasTotales(recetas.getInt("caloriasTotales"));
+				receta.setNombre(recetas.getString("nombre"));
+				receta.setDificultad(recetas.getInt("dificultad"));
+				receta.setTemporada(recetas.getString("temporada"));
+				receta.setNombreIngredientePrincipal(recetas.getString("ingrediente_ppal"));
+				receta.getCategorias().add(recetas.getString("categoria1"));
+				receta.getCategorias().add(recetas.getString("categoria2"));
+				receta.getCategorias().add(recetas.getString("categoria3"));
+				receta.getCategorias().add(recetas.getString("categoria4"));
+				
+				recetasAMostrar.add(receta);
+				
+			
+			}while(recetas.next());
+			
+			
+			Iterator<Receta> it = recetasAMostrar.iterator();
+			Iterator<String> itCategorias;
+			String categoria;
+			while (it.hasNext()) {
+				receta = it.next();
+				
+				out.println("<article id=\"recetaAMostrar\">");
+				out.println("<h1>"+receta.getNombre()+"</h1>");
+				out.println("<h3 id=\"dificultadReceta\">Dificultad:"+ Integer.toString(receta.getDificultad()) +"</h3>");
+				out.println("<h3 id=\"caloriasReceta\">Calorias:"+Float.toString(receta.getCaloriasTotales())+" </h3>");
+				out.println("<h5>Ingrediente ppal:"+receta.getNombreIngredientePrincipal()+"</h5>");
+				out.println("<div>");
+				
+				itCategorias = receta.getCategorias().iterator();
+				while(itCategorias.hasNext())
+				{
+					categoria = itCategorias.next();
+					if(categoria != null){
+					out.println("<h4>"+categoria+"</h4>");
+					}
+				}
+				
+				out.println("</div>");
+				out.println("<h5>"+receta.getTemporada()+"</h5>");
+			out.println("</article>");
+			}
 		%>
 
 	</body>

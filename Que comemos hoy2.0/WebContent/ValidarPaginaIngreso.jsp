@@ -71,8 +71,13 @@
 							if(contraseña.equals(confirmacionContraseña))
 							{
 								nuevoUsuario = new Usuario(nombreUsuario, email, fechaNacimiento, contraseña);
-								request.setAttribute("usuario", nuevoUsuario);
+								session.setAttribute("usuario", (Object)nuevoUsuario);
 								response.sendRedirect("RegistroUsuario.jsp");
+								
+														
+								/*consultor.insertarUsuario(nombreUsuario, email, contraseña, diaNacimiento, mesNacimiento, añoNacimiento);
+								
+								response.sendRedirect("Home.jsp");*/
 							}
 							else
 							{

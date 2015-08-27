@@ -19,7 +19,7 @@
 
 		<%
 			//Obtengo los datos del usuario ingresados inicialmente
-			Usuario nuevoUsuario = (Usuario)request.getAttribute("nuevoUsuario");
+			Usuario nuevoUsuario = (Usuario)session.getAttribute("usuario");
 		
 			//Obtengo los datos del perfil de usuario cargados en el formulario
 			String nombreYApellido = request.getParameter("nombreYApellido");
@@ -27,7 +27,16 @@
 			int edad = Integer.parseInt(request.getParameter("edad"));
 			String sexo = request.getParameter("sexo");
 			String dieta = request.getParameter("dieta");
-			String condicionesPreexistentes[] = request.getParameter("condicionPreexistente").split(",");
+			
+			String condiciones = request.getParameter("condicionPreexistente");
+			String condicionesPreexistentes[];
+			if(condiciones != null){
+				condicionesPreexistentes = condiciones.split(",");
+			}
+			else{
+				condicionesPreexistentes = null;
+			}
+			
 			String rutina = request.getParameter("rutina");
 			String complexion = request.getParameter("complexion");
 			
@@ -38,7 +47,18 @@
 			nuevoUsuario.cargarPerfil(nuevoPerfil);
 			
 			//Obtengo el consultor de DB y cargo el nuevo usuario y el nuevo perfil
+			try{
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
+			
+			consultor.insertarUsuario(nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(), nuevoUsuario.getContraseña(), nuevoUsuario.getFechaNacimiento().getDia()
+					, nuevoUsuario.getFechaNacimiento().getMes(), nuevoUsuario.getFechaNacimiento().getAño());
+			
+			response.sendRedirect("Home.jsp");
+			}
+			catch(Exception e){
+				System.out.println("Error al cargar a la db");
+				response.sendRedirect("home.jsp");
+			}
 			
 			
 		%>
