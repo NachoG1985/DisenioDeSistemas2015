@@ -24,17 +24,19 @@ public class Receta {
 	
 	
 	// Cosntructor de la clase
-	public Receta() {
-		Set<IngredienteEnReceta> ingredientesReceta =  new HashSet<IngredienteEnReceta>();
-		setIngredientes(ingredientesReceta);
-		Set<Condimento> condimentosReceta = new HashSet<Condimento>();
-		setCondimentos(condimentosReceta);
-		ArrayList<PasoDeReceta> procedimientoReceta = new ArrayList<PasoDeReceta>();
-		setProcedimiento(procedimientoReceta);
-		Set<Calificacion> calificacionesReceta = new HashSet<Calificacion>();
-		setCategorias();
-		
-	}
+	public Receta(String nuevoNombre, String ingredientePrincipal, int valorDificultad, String temporadaReceta, float calorias, String creador, Fecha fecha) {
+		ingredientes =  new HashSet<IngredienteEnReceta>();
+		condimentos = new HashSet<Condimento>();
+		procedimiento= new ArrayList<PasoDeReceta>();
+		calificaciones = new HashSet<Calificacion>();
+		setNombre(nuevoNombre);
+		setNombreIngredientePrincipal(ingredientePrincipal);
+		setDificultad(valorDificultad);
+		setTemporada(temporadaReceta);
+		setCaloriasTotales(calorias);
+		setNombreCreador(creador);
+		setFechaDeCreacion(fecha);
+		}
 	
 	
 	

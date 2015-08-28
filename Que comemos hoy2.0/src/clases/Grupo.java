@@ -21,19 +21,19 @@ public class Grupo {
 	}
 
 	// Metodos de la clase
-	private void agregarMiembro(String nombreUsuario)
+	private void agregarMiembro(Usuario miembroNuevo)
 		{
-			
+			usuariosGrupo.add(miembroNuevo);
 		}
 	
-	private void eliminarMiembro(String nombreUsuario) 
+	private void eliminarMiembro(Usuario miembro) 
 		{
-		
+			usuariosGrupo.remove(miembro);
 		}
 
 	private void eliminarGrupo(String nombre)
 		{
-		
+	
 		}
 	
 	private void modificarDescripcion(String descripcion) 

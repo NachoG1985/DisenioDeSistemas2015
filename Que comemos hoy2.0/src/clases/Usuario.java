@@ -73,11 +73,11 @@ public class Usuario {
 	// Constructor de la clase
 	public Usuario(String nuevoNombre, String nuevoEmail, Fecha nuevaFecha, String nuevaContraseña) 
 	{
-		nombreUsuario = nuevoNombre;
-		email = nuevoEmail;
-		fechaNacimiento = nuevaFecha;
+		setNombreUsuario(nuevoNombre);
+		setEmail(nuevoEmail);
+		setFechaNacimiento(nuevaFecha);
 		amigos = new HashSet<Usuario>();
-		contraseña = nuevaContraseña;
+		setContraseña(nuevaContraseña);
 	}
 
 	// Metodos de la clase
