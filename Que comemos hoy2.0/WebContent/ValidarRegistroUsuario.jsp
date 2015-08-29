@@ -44,7 +44,7 @@
 			PerfilUsuario nuevoPerfil = new PerfilUsuario(nombreYApellido, sexo, edad, altura, complexion, dieta, null, rutina, condicionesPreexistentes);
 			
 			//Le agrego al usuario el perfil cargado
-			nuevoUsuario.cargarPerfil(nuevoPerfil);
+			nuevoUsuario.setPerfil(nuevoPerfil);
 			
 			//Obtengo el consultor de DB y cargo el nuevo usuario y el nuevo perfil
 			try{

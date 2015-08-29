@@ -81,9 +81,7 @@ public class Usuario {
 	}
 
 	// Metodos de la clase
-	public void cargarPerfil(PerfilUsuario nuevoPerfil) {
-		perfil = nuevoPerfil;
-	}
+	
 
 	public void CargarReceta() {
 		// Implementar interaccion con la pantalla de cargar receta
@@ -101,11 +99,17 @@ public class Usuario {
 		// Implementar interaccion con la pantalla de confirmar receta
 	}
 
-        public void calificarReceta() {
-		// Implementar interaccion con la pantalla de calificar receta
+        public void calificarReceta(Receta recetaACalificar, int cantEstrellas) {
+        	Calificacion calificacionNueva = new Calificacion(nombreUsuario,cantEstrellas);
+        	recetaACalificar.agregarCalificacion(calificacionNueva);
 	}
 	
-	public void clasificarReceta() {
-		// Implementar interaccion con la pantalla de clasificar receta
+	public void clasificarReceta(Receta recetaAClasificar, String categoriaCorrespondiente) {
+		recetaAClasificar.agregarCategoria(categoriaCorrespondiente);
+	}
+	
+	private Receta crearReceta(String nombre,String ingredientePrincipal,int dificultad,String temporada,float calorias,String creador,Fecha fecha){
+		Receta receta = new Receta(nombre,ingredientePrincipal,dificultad,temporada,calorias,creador,fecha);
+		return receta;
 	}
 }

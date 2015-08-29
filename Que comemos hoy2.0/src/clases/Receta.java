@@ -39,7 +39,13 @@ public class Receta {
 		}
 	
 	
+	public void agregarCategoria(String nombreCategoria){
+		categorias.add(nombreCategoria);
+	}
 	
+	public void agregarCalificacion(Calificacion calificacionCorrespondiente){
+		calificaciones.add(calificacionCorrespondiente);
+	}
 	
 	public String getNombreCreador() {
 		return nombreCreador;

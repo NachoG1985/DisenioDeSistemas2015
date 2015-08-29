@@ -3,6 +3,7 @@
    <%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Usuario" %>
 <%@ page import="clases.Receta" %>
+<%@ page import="clases.Fecha" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashSet" %>
@@ -107,6 +108,7 @@
 			Set<Receta> recetasAMostrar = new HashSet<Receta>();
 			Receta receta;
 			do{
+				/* version vieja de los cuquitos (borrenla si esta todo ok)
 				receta = new Receta();
 				receta.setCaloriasTotales(recetas.getInt("caloriasTotales"));
 				receta.setNombre(recetas.getString("nombre"));
@@ -117,7 +119,20 @@
 				receta.getCategorias().add(recetas.getString("categoria2"));
 				receta.getCategorias().add(recetas.getString("categoria3"));
 				receta.getCategorias().add(recetas.getString("categoria4"));
-				
+				a esta version le faltaba el creador y su fecha de creacion
+				*/
+				Fecha fechaCreacion = new Fecha(recetas.getInt("dia"),recetas.getInt("mes"),recetas.getInt("anio"));
+				String nombreReceta = recetas.getString("nombre");
+				String ingPrincipal = recetas.getString("ingrediente_ppal");
+				int dificultadReceta = recetas.getInt("dificultad");
+				String temporadaReceta = recetas.getString("temporada");
+				int caloriasReceta = recetas.getInt("caloriasTotales");
+				String creadorReceta = recetas.getString("creador");
+				receta = new Receta(nombreReceta,ingPrincipal,dificultadReceta,temporadaReceta,caloriasReceta,creadorReceta,fechaCreacion);
+				receta.agregarCategoria(recetas.getString("categoria1"));
+				receta.agregarCategoria(recetas.getString("categoria2"));
+				receta.agregarCategoria(recetas.getString("categoria3"));
+				receta.agregarCategoria(recetas.getString("categoria4"));
 				recetasAMostrar.add(receta);
 				
 			
