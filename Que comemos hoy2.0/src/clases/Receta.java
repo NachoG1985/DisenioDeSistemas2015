@@ -23,7 +23,7 @@ public class Receta {
 	
 	
 	
-	// Cosntructor de la clase
+	// Constructor de la clase
 	public Receta(String nuevoNombre, String ingredientePrincipal, int valorDificultad, String temporadaReceta, float calorias, String creador, Fecha fecha) {
 		ingredientes =  new HashSet<IngredienteEnReceta>();
 		condimentos = new HashSet<Condimento>();

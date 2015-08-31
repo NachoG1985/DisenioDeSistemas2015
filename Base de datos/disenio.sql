@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-08-2015 a las 00:08:33
+-- Tiempo de generación: 31-08-2015 a las 03:45:43
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -19,25 +19,35 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `disenio`
 --
-CREATE DATABASE IF NOT EXISTS `disenio` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci;
-USE `disenio`;
 
 DELIMITER $$
 --
 -- Procedimientos
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nombre` VARCHAR(40), IN `ing` VARCHAR(50), IN `difi` TINYINT, IN `tempo` VARCHAR(15), IN `cat1` VARCHAR(20), IN `cat2` VARCHAR(20), IN `cat3` VARCHAR(20), IN `cat4` VARCHAR(20), IN `cal` INT, IN `crea` VARCHAR(50), IN `dia` INT, IN `mes` INT, IN `anio` INT)
-    NO SQL
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
 insert into recetas(nombre,ingrediente_ppal,dificultad,temporada,categoria1,categoria2,categoria3,categoria4,caloriasTotales,creador,dia,mes,anio) VALUES(nombre,ing,difi,tempo,cat1,cat2,cat3,cat4,cal,crea,dia,mes,anio)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(IN `nombre` VARCHAR(50), IN `mail` VARCHAR(100), IN `pass` VARCHAR(100), IN `dia` INT, IN `mes` INT, IN `anio` INT)
-    NO SQL
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
 insert into usuarios(nombreUsuario,email,contrasenia,dia,mes,anio) VALUES(nombre,mail,pass,dia,mes,anio)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`()
-    NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`(IN `nom` VARCHAR(40) CHARSET utf8, IN `ingredient` VARCHAR(50) CHARSET utf8, IN `dif` INT(4), IN `season` VARCHAR(15) CHARSET utf8, IN `cat1` VARCHAR(20) CHARSET utf8, IN `cat2` VARCHAR(20) CHARSET utf8, IN `cat3` VARCHAR(20) CHARSET utf8, IN `cat4 ` VARCHAR(20) CHARSET utf8, IN `calorias` INT(11))
+    READS SQL DATA
+    SQL SECURITY INVOKER
 select * 
-from recetas$$
+from recetas
+where nombre like '%nom%'
+and ingrediente_ppal like '%ingredient%'
+and dificultad = dif
+and temporada = season
+and categoria1 = cat1
+and categoria2 = cat2
+and categoria3 = cat3
+and categoria4 = cat4
+and caloriasTotales = calorias$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `test`(IN `nombre` VARCHAR(50))
     NO SQL
@@ -264,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `recetas` (
   `mes` int(11) NOT NULL,
   `anio` int(11) NOT NULL,
   PRIMARY KEY (`recetas_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=25 ;
 
 --
 -- Volcado de datos para la tabla `recetas`
@@ -362,7 +372,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `mes` int(11) NOT NULL,
   `anio` int(11) NOT NULL,
   PRIMARY KEY (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=55 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=54 ;
 
 --
 -- Volcado de datos para la tabla `usuarios`
