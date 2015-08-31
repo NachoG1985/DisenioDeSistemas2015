@@ -32,10 +32,10 @@ Vinculación con eclipse
 2. Si no muestra la opcion Data Source Explorer seleccionar **other>Data Management > Data Source Explorer** y darle ok
 3. Ir a la pestaña **Data Source Explorer** (abajo de todo) y dar click derecho en **Database Conections** y seleccionar new
 4. Seleccionar mysql y en la ventana siguiente hacer esto:
-  1.Donde dice **database** poner el nombre de nuestra db
-  2.Donde dice **URL** reemplazar el final donde dice database por nuestra db
-  3.Donde dice **Drivers** hacer click en el boton new driver definition
-  4.En la pestaña **Name/Type** seleccionar el de version 5.1
-  5.En la pestaña **Jar List** hacer click en el driver q aparece y despues en edit JAR / zip y buscar el driver de sql en la   carpeta del repo que descargo la app de git
-  6. Aceptar todo
-5. click derecho en la db y conectar
+  + Donde dice **database** poner el nombre de nuestra db 
+  + Donde dice **URL** reemplazar el final donde dice database por nuestra db 
+  + Donde dice **Drivers** hacer click en el boton    new driver definition
+  + En la pestaña **Name/Type** seleccionar el de version 5.1
+  + En la pestaña **Jar List** hacer click en el driver q aparece y despues en edit JAR / zip y buscar el driver de sql en la   carpeta del repo que descargo la app de git
+5. Aceptar todo
+6. click derecho en la db y conectar
