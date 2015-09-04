@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-08-2015 a las 03:45:43
+-- Tiempo de generación: 04-09-2015 a las 18:12:45
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -19,35 +19,49 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `disenio`
 --
+CREATE DATABASE IF NOT EXISTS `disenio` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci;
+USE `disenio`;
 
 DELIMITER $$
 --
 -- Procedimientos
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nombre` VARCHAR(40), IN `ing` VARCHAR(50), IN `difi` TINYINT, IN `tempo` VARCHAR(15), IN `cat1` VARCHAR(20), IN `cat2` VARCHAR(20), IN `cat3` VARCHAR(20), IN `cat4` VARCHAR(20), IN `cal` INT, IN `crea` VARCHAR(50), IN `dia` INT, IN `mes` INT, IN `anio` INT)
-    MODIFIES SQL DATA
-    SQL SECURITY INVOKER
+    NO SQL
 insert into recetas(nombre,ingrediente_ppal,dificultad,temporada,categoria1,categoria2,categoria3,categoria4,caloriasTotales,creador,dia,mes,anio) VALUES(nombre,ing,difi,tempo,cat1,cat2,cat3,cat4,cal,crea,dia,mes,anio)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(IN `nombre` VARCHAR(50), IN `mail` VARCHAR(100), IN `pass` VARCHAR(100), IN `dia` INT, IN `mes` INT, IN `anio` INT)
-    MODIFIES SQL DATA
-    SQL SECURITY INVOKER
+    NO SQL
 insert into usuarios(nombreUsuario,email,contrasenia,dia,mes,anio) VALUES(nombre,mail,pass,dia,mes,anio)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`(IN `nom` VARCHAR(40) CHARSET utf8, IN `ingredient` VARCHAR(50) CHARSET utf8, IN `dif` INT(4), IN `season` VARCHAR(15) CHARSET utf8, IN `cat1` VARCHAR(20) CHARSET utf8, IN `cat2` VARCHAR(20) CHARSET utf8, IN `cat3` VARCHAR(20) CHARSET utf8, IN `cat4 ` VARCHAR(20) CHARSET utf8, IN `calorias` INT(11))
-    READS SQL DATA
-    SQL SECURITY INVOKER
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`()
+    NO SQL
 select * 
+from recetas$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDIng`(IN `id` INT)
+    NO SQL
+SELECT ingredientes_id FROM `ingredientes de una receta` WHERE recetas_id = id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDPerfil`(IN `id` INT)
+    NO SQL
+SELECT perfil_id FROM `perfil de un usuario` WHERE usuario_id = id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDReceta`(IN `nom` VARCHAR(40))
+    NO SQL
+select recetas_id
 from recetas
-where nombre like '%nom%'
-and ingrediente_ppal like '%ingredient%'
-and dificultad = dif
-and temporada = season
-and categoria1 = cat1
-and categoria2 = cat2
-and categoria3 = cat3
-and categoria4 = cat4
-and caloriasTotales = calorias$$
+where nombre = nom$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDUsuario`(IN `nombre` VARCHAR(50))
+    NO SQL
+select usuario_id
+from usuarios
+where nombreUsuario = nombre$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIng`(IN `id` INT)
+    NO SQL
+SELECT nombre,porcion FROM ingredientes WHERE ingredientes_id = id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `test`(IN `nombre` VARCHAR(50))
     NO SQL
@@ -139,7 +153,19 @@ CREATE TABLE IF NOT EXISTS `condimentos` (
   `condimentos_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`condimentos_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=7 ;
+
+--
+-- Volcado de datos para la tabla `condimentos`
+--
+
+INSERT INTO `condimentos` (`condimentos_id`, `nombre`) VALUES
+(1, 'Cilantro'),
+(2, 'Canela'),
+(3, 'Comino'),
+(4, 'Curry'),
+(5, 'Jengibre'),
+(6, 'Laurel');
 
 -- --------------------------------------------------------
 
@@ -152,6 +178,30 @@ CREATE TABLE IF NOT EXISTS `condimentos de una receta` (
   `recetas_id` int(11) NOT NULL,
   `codimentos_id` int(11) NOT NULL,
   PRIMARY KEY (`condim_recet_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `condimentos de una receta`
+--
+
+INSERT INTO `condimentos de una receta` (`condim_recet_id`, `recetas_id`, `codimentos_id`) VALUES
+(1, 8, 1),
+(2, 8, 5),
+(3, 12, 6),
+(4, 24, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `consultareceta`
+--
+
+CREATE TABLE IF NOT EXISTS `consultareceta` (
+  `consulta_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `fecha` timestamp NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `recetas_id` int(11) NOT NULL,
+  PRIMARY KEY (`consulta_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -165,9 +215,19 @@ CREATE TABLE IF NOT EXISTS `ingredientes` (
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
   `porcion` int(11) NOT NULL,
   `calorias` int(11) NOT NULL,
-  `nivelAlimenticio` enum('1','2','3','4') COLLATE utf8_spanish2_ci NOT NULL,
+  `nivelAlimenticio` int(11) NOT NULL,
   PRIMARY KEY (`ingredientes_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `ingredientes`
+--
+
+INSERT INTO `ingredientes` (`ingredientes_id`, `nombre`, `porcion`, `calorias`, `nivelAlimenticio`) VALUES
+(1, 'harina', 100, 250, 1),
+(2, 'gelatina instantanea', 50, 70, 2),
+(3, 'carne', 250, 500, 4),
+(4, 'queso', 150, 300, 1);
 
 -- --------------------------------------------------------
 
@@ -179,8 +239,40 @@ CREATE TABLE IF NOT EXISTS `ingredientes de una receta` (
   `ingred_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
   `ingredientes_id` int(11) NOT NULL,
+  `cantidad` float NOT NULL,
   PRIMARY KEY (`ingred_recet_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `ingredientes de una receta`
+--
+
+INSERT INTO `ingredientes de una receta` (`ingred_recet_id`, `recetas_id`, `ingredientes_id`, `cantidad`) VALUES
+(1, 9, 1, 0),
+(2, 10, 3, 0),
+(3, 14, 1, 0),
+(4, 11, 1, 0),
+(5, 9, 4, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `perfil de un usuario`
+--
+
+CREATE TABLE IF NOT EXISTS `perfil de un usuario` (
+  `perfilUsuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) NOT NULL,
+  `perfil_id` int(11) NOT NULL,
+  PRIMARY KEY (`perfilUsuario_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `perfil de un usuario`
+--
+
+INSERT INTO `perfil de un usuario` (`perfilUsuario_id`, `usuario_id`, `perfil_id`) VALUES
+(1, 45, 6);
 
 -- --------------------------------------------------------
 
@@ -189,26 +281,27 @@ CREATE TABLE IF NOT EXISTS `ingredientes de una receta` (
 --
 
 CREATE TABLE IF NOT EXISTS `perfil usuario` (
-  `usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `perfil_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
   `apellido` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
-  `sexo` enum('Masculino','Femenino','','') COLLATE utf8_spanish2_ci NOT NULL,
+  `sexo` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `edad` int(3) NOT NULL,
   `altura` double NOT NULL,
-  `complexion` double NOT NULL,
-  `dieta` enum('Normal','Ovolactovegetariano','Vegetariano','Vegano') COLLATE utf8_spanish2_ci NOT NULL,
-  `rutina` enum('Leve','Nada','Mediano','Intensivo','Activo') COLLATE utf8_spanish2_ci NOT NULL,
-  PRIMARY KEY (`usuario_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=4 ;
+  `complexion` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
+  `dieta` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `rutina` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
+  PRIMARY KEY (`perfil_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=7 ;
 
 --
 -- Volcado de datos para la tabla `perfil usuario`
 --
 
-INSERT INTO `perfil usuario` (`usuario_id`, `nombre`, `apellido`, `sexo`, `edad`, `altura`, `complexion`, `dieta`, `rutina`) VALUES
-(1, 'Juan', 'Reines', 'Masculino', 20, 1.7, 22.04, 'Normal', 'Nada'),
-(2, 'Franco', 'Abregu', 'Masculino', 20, 1.68, 20.01, 'Vegano', 'Activo'),
-(3, 'Nacho', 'ghillini', 'Masculino', 28, 1.72, 30, 'Ovolactovegetariano', 'Mediano');
+INSERT INTO `perfil usuario` (`perfil_id`, `nombre`, `apellido`, `sexo`, `edad`, `altura`, `complexion`, `dieta`, `rutina`) VALUES
+(1, 'Juan', 'Reines', 'Masculino', 20, 1.7, '22.04', 'Normal', 'Nada'),
+(2, 'Franco', 'Abregu', 'Masculino', 20, 1.68, '20.01', 'Vegano', 'Activo'),
+(3, 'Nacho', 'ghillini', 'Masculino', 28, 1.72, '30', 'Ovolactovegetariano', 'Mediano'),
+(6, 'Roman', 'Riquelme', 'Masculino', 25, 1.78, 'Mediana', 'Normal', 'Intenso');
 
 -- --------------------------------------------------------
 
@@ -244,10 +337,15 @@ CREATE TABLE IF NOT EXISTS `procedimiento de una receta` (
 
 CREATE TABLE IF NOT EXISTS `procedimientos` (
   `procedimientos_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `imagen1` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   `paso1` text COLLATE utf8_spanish2_ci NOT NULL,
+  `imagen2` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   `paso2` text COLLATE utf8_spanish2_ci NOT NULL,
+  `imagen3` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   `paso3` text COLLATE utf8_spanish2_ci NOT NULL,
+  `imagen4` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   `paso4` text COLLATE utf8_spanish2_ci NOT NULL,
+  `imagen5` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   `paso5` text COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`procedimientos_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;

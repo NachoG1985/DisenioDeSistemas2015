@@ -1,6 +1,7 @@
 package clases;
 
 import java.sql.*;
+import java.util.Calendar;
 
 
 
@@ -254,6 +255,13 @@ public class ConsultorBaseDeDatos {
         }
  }  
  
+	//devuelve una fecha en d/m/a y h/m/s
+		 public  java.sql.Timestamp fechaActual(){
+			Calendar calendar = Calendar.getInstance();
+		  	java.util.Date now = calendar.getTime();
+		   java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+		return currentTimestamp;
+		}
 	
     public void desconectar()
     {
