@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-09-2015 a las 18:12:45
+-- Tiempo de generación: 13-09-2015 a las 02:14:58
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -26,6 +26,10 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarConsulta`(IN `fecha` TIMESTAMP, IN `id_usu` INT, IN `id_rec` INT)
+    NO SQL
+insert into consultareceta (fecha,usuario_id,recetas_id) values (fecha,id_usu,id_rec)$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nombre` VARCHAR(40), IN `ing` VARCHAR(50), IN `difi` TINYINT, IN `tempo` VARCHAR(15), IN `cat1` VARCHAR(20), IN `cat2` VARCHAR(20), IN `cat3` VARCHAR(20), IN `cat4` VARCHAR(20), IN `cal` INT, IN `crea` VARCHAR(50), IN `dia` INT, IN `mes` INT, IN `anio` INT)
     NO SQL
 insert into recetas(nombre,ingrediente_ppal,dificultad,temporada,categoria1,categoria2,categoria3,categoria4,caloriasTotales,creador,dia,mes,anio) VALUES(nombre,ing,difi,tempo,cat1,cat2,cat3,cat4,cal,crea,dia,mes,anio)$$
@@ -39,9 +43,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`()
 select * 
 from recetas$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondimentos`(IN `id` INT)
+    NO SQL
+select nombre
+from condimentos
+where condimentos_id = id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDCondimentos`(IN `id` INT)
+    NO SQL
+select condimentos_id
+from `condimentos de una receta`
+where recetas_id=id$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDIng`(IN `id` INT)
     NO SQL
-SELECT ingredientes_id FROM `ingredientes de una receta` WHERE recetas_id = id$$
+SELECT ingredientes_id,cantidad FROM `ingredientes de una receta` WHERE recetas_id = id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDPerfil`(IN `id` INT)
     NO SQL
@@ -176,7 +192,7 @@ INSERT INTO `condimentos` (`condimentos_id`, `nombre`) VALUES
 CREATE TABLE IF NOT EXISTS `condimentos de una receta` (
   `condim_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
-  `codimentos_id` int(11) NOT NULL,
+  `condimentos_id` int(11) NOT NULL,
   PRIMARY KEY (`condim_recet_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
 
@@ -184,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `condimentos de una receta` (
 -- Volcado de datos para la tabla `condimentos de una receta`
 --
 
-INSERT INTO `condimentos de una receta` (`condim_recet_id`, `recetas_id`, `codimentos_id`) VALUES
+INSERT INTO `condimentos de una receta` (`condim_recet_id`, `recetas_id`, `condimentos_id`) VALUES
 (1, 8, 1),
 (2, 8, 5),
 (3, 12, 6),
@@ -202,7 +218,16 @@ CREATE TABLE IF NOT EXISTS `consultareceta` (
   `usuario_id` int(11) NOT NULL,
   `recetas_id` int(11) NOT NULL,
   PRIMARY KEY (`consulta_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `consultareceta`
+--
+
+INSERT INTO `consultareceta` (`consulta_id`, `fecha`, `usuario_id`, `recetas_id`) VALUES
+(1, '2015-09-15 05:15:16', 48, 10),
+(2, '2015-09-12 22:33:21', 53, 12),
+(3, '2015-09-12 22:35:04', 45, 9);
 
 -- --------------------------------------------------------
 
@@ -248,11 +273,11 @@ CREATE TABLE IF NOT EXISTS `ingredientes de una receta` (
 --
 
 INSERT INTO `ingredientes de una receta` (`ingred_recet_id`, `recetas_id`, `ingredientes_id`, `cantidad`) VALUES
-(1, 9, 1, 0),
+(1, 9, 1, 250),
 (2, 10, 3, 0),
 (3, 14, 1, 0),
-(4, 11, 1, 0),
-(5, 9, 4, 0);
+(4, 11, 1, 100),
+(5, 9, 4, 300);
 
 -- --------------------------------------------------------
 

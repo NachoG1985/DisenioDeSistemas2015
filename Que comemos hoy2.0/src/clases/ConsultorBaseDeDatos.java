@@ -1,7 +1,8 @@
 package clases;
 
 import java.sql.*;
-import java.util.Calendar;
+
+import java.util.*;
 
 
 
@@ -255,15 +256,153 @@ public class ConsultorBaseDeDatos {
         }
  }  
  
-	//devuelve una fecha en d/m/a y h/m/s
+	//devuelve los ingredientes y cant de una receta en un Set
+		 public Set obtenerIngyCant(String nombre) {
+			 	ResultSet data2=null;
+			 	ResultSet data3=null;
+			 	Connection cn = null;
+			 	CallableStatement cst = null;
+			 	CallableStatement cst2 = null;
+			 	Set<String> lista = new HashSet<>();
+			 	int nombre_id,ing_id;
+			 	try {
+		        	 cn = getConexion("disenio", "root", "");
+		           	           
+		             cst = cn.prepareCall("{call obtenerIDReceta(?)}");
+		             cst.setString(1,nombre);
+		             data2 = cst.executeQuery();
+		             cst = null;
+		             if (data2 != null) 
+		             {
+		            	data2.next();
+		            	nombre_id = data2.getInt("recetas_id");
+		            	data2.close();
+		            	//System.out.println(" "+nombre_id);
+		                cst = cn.prepareCall("{call obtenerIDIng(?)}");
+		                cst.setInt(1,nombre_id);
+		                data2 = cst.executeQuery();
+		                
+		                cst = null;
+		                data2.next();
+		                while (data2 != null)
+	                	{
+		                	ing_id = data2.getInt("ingredientes_id");
+		                	//System.out.println(" "+ing_id);
+		                	cst2 = cn.prepareCall("{call obtenerIng(?)}");
+		                	cst2.setInt(1,ing_id);
+			                data3 = cst2.executeQuery();
+			                data3.next();
+			                lista.add(data3.getString("nombre"));
+			                lista.add(""+data2.getInt("cantidad"));
+			                //System.out.println(" "+data3.getString("nombre")+"    " +data2.getInt("cantidad"));
+			                data2.next();
+	                	}               
+		                
+		             }else{System.out.println("No existe receta con ese nombre");}
+		                
+		            
+		        }catch (Exception e) {
+		        	//System.out.println("Error");
+		        } return lista;
+		 }  
+		 
+
+		//Inserta la consulta de un usuario el parametro fecha debe usarse con la funcion fechaActual
+		 public void insertarConsultaUsuario(String usuario,String receta,java.sql.Timestamp fecha) {
+			 	ResultSet data;
+			 	
+			 	Connection cn = null;
+			 	CallableStatement cst = null;
+		        try {
+		        	 cn = getConexion("disenio", "root", "");
+		           	           
+		             cst = cn.prepareCall("{call obtenerIDUsuario(?)}");
+		             cst.setString(1,usuario);
+		             data=cst.executeQuery();
+		             data.next();
+		             int id_usuario = data.getInt("usuario_id");
+		             data.close();
+		             cst = cn.prepareCall("{call obtenerIDReceta(?)}");
+		             cst.setString(1,receta);
+		             data = cst.executeQuery();
+		             data.next();
+		             int id_receta = data.getInt("recetas_id");
+		             
+		             cst = cn.prepareCall("{call insertarConsulta(?,?,?)}");
+		             cst.setTimestamp(1,fecha);
+		             cst.setInt(2,id_usuario);
+		             cst.setInt(3,id_receta);
+		             cst.executeUpdate();
+		                    
+		             System.out.println(" usuario_id      recetas_id");
+		             System.out.println("--------------------------------");
+		                       	
+		             System.out.println(""+id_usuario+"    "+id_receta);
+		                	               
+		        }catch (Exception e) {  
+		        	
+		        }
+		 }  	          
+		    
+		  
+
+		//devuelve la fecha de consulta de un usuario
 		 public  java.sql.Timestamp fechaActual(){
 			Calendar calendar = Calendar.getInstance();
 		  	java.util.Date now = calendar.getTime();
 		   java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
 		return currentTimestamp;
 		}
+		 
+		 //devuelve los condimentos de una receta en un Set
+		 public Set obtenerCondimentos(String nombre) {
+			 	ResultSet data2=null;
+			 	ResultSet data3=null;
+			 	Connection cn = null;
+			 	CallableStatement cst = null;
+			 	CallableStatement cst2 = null;
+			 	Set<String> list = new HashSet<>();
+			 	int receta_id,condimento_id;
+			 	try {
+		        	 cn = getConexion("disenio", "root", "");
+		           	           
+		             cst = cn.prepareCall("{call obtenerIDReceta(?)}");
+		             cst.setString(1,nombre);
+		             data2 = cst.executeQuery();
+		             cst = null;
+		             if (data2 != null) 
+		             {
+		            	data2.next();
+		            	receta_id = data2.getInt("recetas_id");
+		            	data2.close();
+		            	cst = cn.prepareCall("{call obtenerIDCondimentos(?)}");
+		                cst.setInt(1,receta_id);
+		                data2 = cst.executeQuery();
+		                
+		                cst = null;
+		                data2.next();
+		                while (data2 != null)
+	                	{
+		                	condimento_id = data2.getInt("condimentos_id");
+		                	cst2 = cn.prepareCall("{call obtenerCondimentos(?)}");
+		                	cst2.setInt(1,condimento_id);
+			                data3 = cst2.executeQuery();
+			                data3.next();
+			                list.add(data3.getString("nombre"));
+			                data2.next();
+	                	}               
+		                
+		             }else{System.out.println("No existe receta con ese nombre");}
+		                
+		            
+		        }catch (Exception e) {
+		        	//System.out.println("Error");
+		        } return list;
+		 }  
+    
 	
-    public void desconectar()
+		 
+	public void desconectar()
     {
         try {
             miConexion.close();
