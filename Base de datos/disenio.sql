@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-09-2015 a las 02:14:58
+-- Tiempo de generación: 15-09-2015 a las 05:07:56
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -19,15 +19,14 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `disenio`
 --
-CREATE DATABASE IF NOT EXISTS `disenio` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci;
-USE `disenio`;
 
 DELIMITER $$
 --
 -- Procedimientos
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarConsulta`(IN `fecha` TIMESTAMP, IN `id_usu` INT, IN `id_rec` INT)
-    NO SQL
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
 insert into consultareceta (fecha,usuario_id,recetas_id) values (fecha,id_usu,id_rec)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nombre` VARCHAR(40), IN `ing` VARCHAR(50), IN `difi` TINYINT, IN `tempo` VARCHAR(15), IN `cat1` VARCHAR(20), IN `cat2` VARCHAR(20), IN `cat3` VARCHAR(20), IN `cat4` VARCHAR(20), IN `cal` INT, IN `crea` VARCHAR(50), IN `dia` INT, IN `mes` INT, IN `anio` INT)
@@ -35,28 +34,48 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nombre` VARCHAR
 insert into recetas(nombre,ingrediente_ppal,dificultad,temporada,categoria1,categoria2,categoria3,categoria4,caloriasTotales,creador,dia,mes,anio) VALUES(nombre,ing,difi,tempo,cat1,cat2,cat3,cat4,cal,crea,dia,mes,anio)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(IN `nombre` VARCHAR(50), IN `mail` VARCHAR(100), IN `pass` VARCHAR(100), IN `dia` INT, IN `mes` INT, IN `anio` INT)
-    NO SQL
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
 insert into usuarios(nombreUsuario,email,contrasenia,dia,mes,anio) VALUES(nombre,mail,pass,dia,mes,anio)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`()
-    NO SQL
+    READS SQL DATA
+    SQL SECURITY INVOKER
 select * 
 from recetas$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDBConFiltros`(IN `nom` VARCHAR(40) CHARSET utf8, IN `ingredient` VARCHAR(50) CHARSET utf8, IN `dif` INT(4), IN `season` VARCHAR(15) CHARSET utf8, IN `cat1` VARCHAR(20) CHARSET utf8, IN `cat2` VARCHAR(20) CHARSET utf8, IN `cat3` VARCHAR(20) CHARSET utf8, IN `cat4` VARCHAR(20) CHARSET utf8, IN `calorias` INT(11))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select * 
+from recetas
+where nombre like '%nom%'
+and ingrediente_ppal like '%ingredient%'
+and dificultad = dif
+and temporada = season
+and categoria1 = cat1
+and categoria2 = cat2
+and categoria3 = cat3
+and categoria4 = cat4
+and caloriasTotales = calorias$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondimentos`(IN `id` INT)
-    NO SQL
+    READS SQL DATA
+    SQL SECURITY INVOKER
 select nombre
 from condimentos
 where condimentos_id = id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDCondimentos`(IN `id` INT)
-    NO SQL
+    READS SQL DATA
+    SQL SECURITY INVOKER
 select condimentos_id
 from `condimentos de una receta`
 where recetas_id=id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDIng`(IN `id` INT)
-    NO SQL
+    READS SQL DATA
+    SQL SECURITY INVOKER
 SELECT ingredientes_id,cantidad FROM `ingredientes de una receta` WHERE recetas_id = id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDPerfil`(IN `id` INT)
@@ -70,13 +89,15 @@ from recetas
 where nombre = nom$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDUsuario`(IN `nombre` VARCHAR(50))
-    NO SQL
+    READS SQL DATA
+    SQL SECURITY INVOKER
 select usuario_id
 from usuarios
 where nombreUsuario = nombre$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIng`(IN `id` INT)
-    NO SQL
+    READS SQL DATA
+    SQL SECURITY INVOKER
 SELECT nombre,porcion FROM ingredientes WHERE ingredientes_id = id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `test`(IN `nombre` VARCHAR(50))
@@ -512,6 +533,9 @@ INSERT INTO `usuarios` (`usuario_id`, `nombreUsuario`, `email`, `contrasenia`, `
 (51, 'tito', 'oscar_seguime@twitter.com', 'jefeCatedra', 0, 0, 0),
 (52, 'pepe', 'casas@gmail.com', 'llamamepepe', 0, 0, 0),
 (53, 'matiGrippo', 'estaEnMedrano@yahoo.com', 'error404', 24, 4, 1994);
+--
+-- Base de datos: `test`
+--
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
