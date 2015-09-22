@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-09-2015 a las 05:07:56
+-- Tiempo de generación: 22-09-2015 a las 05:25:28
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -28,6 +28,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarConsulta`(IN `fecha` TIMEST
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into consultareceta (fecha,usuario_id,recetas_id) values (fecha,id_usu,id_rec)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarEventoEnHistorial`(IN `usuario` INT(10), IN `receta` INT(10), IN `operacion` VARCHAR(10) CHARSET utf8)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+insert into historial (usuario_id, receta_id, operacion) VALUES(usuario, receta, operacion)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nombre` VARCHAR(40), IN `ing` VARCHAR(50), IN `difi` TINYINT, IN `tempo` VARCHAR(15), IN `cat1` VARCHAR(20), IN `cat2` VARCHAR(20), IN `cat3` VARCHAR(20), IN `cat4` VARCHAR(20), IN `cal` INT, IN `crea` VARCHAR(50), IN `dia` INT, IN `mes` INT, IN `anio` INT)
     NO SQL
@@ -99,6 +104,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIng`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
 SELECT nombre,porcion FROM ingredientes WHERE ingredientes_id = id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reporteRangoCalorias`(IN `caloria1` INT(11), IN `caloria2` INT(11))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select *
+from recetas re
+where re.caloriasTotales between caloria1 and caloria2$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reporteRecetas`(IN `usuario` INT(10), IN `operacion` VARCHAR(10) CHARSET utf8, IN `fecha1` DATE, IN `fecha2` DATE)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select *
+from historial
+where usuario_id = usuario
+and operacion = '%operacion%'
+and tiempo between fecha1 and fecha2$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `test`(IN `nombre` VARCHAR(50))
     NO SQL
@@ -249,6 +270,21 @@ INSERT INTO `consultareceta` (`consulta_id`, `fecha`, `usuario_id`, `recetas_id`
 (1, '2015-09-15 05:15:16', 48, 10),
 (2, '2015-09-12 22:33:21', 53, 12),
 (3, '2015-09-12 22:35:04', 45, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial`
+--
+
+CREATE TABLE IF NOT EXISTS `historial` (
+  `movimiento_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(10) NOT NULL,
+  `receta_id` int(10) NOT NULL,
+  `operacion` varchar(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `tiempo` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`movimiento_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -533,9 +569,6 @@ INSERT INTO `usuarios` (`usuario_id`, `nombreUsuario`, `email`, `contrasenia`, `
 (51, 'tito', 'oscar_seguime@twitter.com', 'jefeCatedra', 0, 0, 0),
 (52, 'pepe', 'casas@gmail.com', 'llamamepepe', 0, 0, 0),
 (53, 'matiGrippo', 'estaEnMedrano@yahoo.com', 'error404', 24, 4, 1994);
---
--- Base de datos: `test`
---
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
