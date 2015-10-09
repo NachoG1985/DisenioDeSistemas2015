@@ -1,6 +1,3 @@
-/**
- * 
- */
 package clases;
 
 public class PerfilUsuario {
