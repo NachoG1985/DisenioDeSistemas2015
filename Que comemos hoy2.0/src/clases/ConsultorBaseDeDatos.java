@@ -257,7 +257,7 @@ public class ConsultorBaseDeDatos {
  }  
  
 	//devuelve los ingredientes y cant de una receta en un Set
-		 public Set obtenerIngyCant(String nombre) {
+		 public Set<String> obtenerIngyCant(String nombre) {
 			 	ResultSet data2=null;
 			 	ResultSet data3=null;
 			 	Connection cn = null;
@@ -355,7 +355,7 @@ public class ConsultorBaseDeDatos {
 		}
 		 
 		 //devuelve los condimentos de una receta en un Set
-		 public Set obtenerCondimentos(String nombre) {
+		 public Set<String> obtenerCondimentos(String nombre) {
 			 	ResultSet data2=null;
 			 	ResultSet data3=null;
 			 	Connection cn = null;

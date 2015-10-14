@@ -41,7 +41,7 @@
 			String complexion = request.getParameter("complexion");
 			
 			//Se crea el objeto del tipo perfil de usuario
-			PerfilUsuario nuevoPerfil = new PerfilUsuario(nombreYApellido, sexo, edad, altura, complexion, dieta, null, rutina, condicionesPreexistentes);
+			PerfilUsuario nuevoPerfil = new PerfilUsuario(nombreYApellido, sexo, edad, altura, complexion, dieta, null, rutina);
 			
 			//Le agrego al usuario el perfil cargado
 			nuevoUsuario.setPerfil(nuevoPerfil);

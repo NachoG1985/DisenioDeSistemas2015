@@ -2,29 +2,36 @@ package clases;
 
 public class RecomendadorDeRecetas implements Visitante{
 	
+	private final String sinCondicion="Ninguna";
+	private final String diabetico="Diabetico";
+	private final String celiaco="Celiaco";
+	private final String hipertenso="Hipertenso";
+	
 	public String visitar(PerfilDiabetico perfil){
-		return perfil.getCondicionPreexistente();
+		return diabetico;
 	};
 	public String visitar(PerfilCeliaco perfil){
-		return perfil.getCondicionPreexistente();
+		return celiaco;
 	};
 	public String visitar(PerfilHipertenso perfil){
-		return perfil.getCondicionPreexistente();
+		return hipertenso;
 	};
 	public String visitar(PerfilDiabeticoCeliaco perfil){
-		return perfil.getCondicionPreexistente();
+		return diabetico + celiaco;
 	};
 	public String visitar(PerfilDiabeticoHipertenso perfil){
-		return perfil.getCondicionPreexistente();
+		return diabetico + hipertenso;
 	};
 	public String visitar(PerfilHipertensoCeliaco perfil){
-		return perfil.getCondicionPreexistente();
+		return hipertenso + celiaco;
 	};
 	public String visitar(PerfilHipertensoCeliacoDiabetico perfil){
-		return perfil.getCondicionPreexistente();
+		return hipertenso + celiaco + diabetico;
 	};
-	public String visitar(PerfilNormal perfil){
-		return perfil.getCondicionPreexistente();
+	public String visitar(PerfilUsuario perfil){
+		return sinCondicion;
 	};
+	
+	
 
 }

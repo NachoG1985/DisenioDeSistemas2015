@@ -1,17 +1,11 @@
 package clases;
 
-public class PerfilHipertensoCeliacoDiabetico {
-	private String condicionPreexistente;
+public class PerfilHipertensoCeliacoDiabetico extends PerfilUsuario{
 	
-	public PerfilHipertensoCeliacoDiabetico(String condicion) {
-		setCondicionPreexistente(condicion);
-	}
-
-	public String getCondicionPreexistente() {
-		return condicionPreexistente;
-	}
-
-	public void setCondicionPreexistente(String condicionPreexistente) {
-		this.condicionPreexistente = condicionPreexistente;
+	public PerfilHipertensoCeliacoDiabetico(String nombreYapellido, String nuevoSexo,
+			int nuevaEdad, int nuevaAltura, String nuevaComplexion,
+			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina/*,
+			String[] nuevasCondiciones*/){
+			super(nombreYapellido,nuevoSexo,nuevaEdad,nuevaAltura,nuevaComplexion,nuevaDieta,nuevasPreferencias,nuevaRutina);
 	}
 }

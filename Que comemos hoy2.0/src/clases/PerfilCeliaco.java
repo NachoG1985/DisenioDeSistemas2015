@@ -1,19 +1,15 @@
 package clases;
 
-public class PerfilCeliaco {
-	private String condicionPreexistente;
+public class PerfilCeliaco extends PerfilUsuario{
+
+public PerfilCeliaco(String nombreYapellido, String nuevoSexo,
+		int nuevaEdad, int nuevaAltura, String nuevaComplexion,
+		String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina/*,
+		String[] nuevasCondiciones*/){
+		super(nombreYapellido,nuevoSexo,nuevaEdad,nuevaAltura,nuevaComplexion,nuevaDieta,nuevasPreferencias,nuevaRutina);
+}
+
 	
-	public PerfilCeliaco(String condicion) {
-		setCondicionPreexistente(condicion);
-	}
-
-	public String getCondicionPreexistente() {
-		return condicionPreexistente;
-	}
-
-	public void setCondicionPreexistente(String condicionPreexistente) {
-		this.condicionPreexistente = condicionPreexistente;
-	}
 }
 
 

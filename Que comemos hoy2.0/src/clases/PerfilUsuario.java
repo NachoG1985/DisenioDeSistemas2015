@@ -1,6 +1,6 @@
 package clases;
 
-public class PerfilUsuario {
+public class PerfilUsuario implements Visitable{
 
 	// Atributos de la clase
 	private String nombre;
@@ -11,13 +11,13 @@ public class PerfilUsuario {
 	private String dieta;
 	private String[] preferencias;
 	private String rutina;
-	private String[] condicionPreexistente;
+//	private String condicionPreexistente;
 
 	// Constructor de la clase
 	public PerfilUsuario(String nombreYapellido, String nuevoSexo,
 			int nuevaEdad, int nuevaAltura, String nuevaComplexion,
-			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina,
-			String[] nuevasCondiciones) {
+			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina/*,
+			String nuevasCondiciones*/) {
 
 		setNombre(nombreYapellido);
 		setSexo(nuevoSexo);
@@ -27,7 +27,7 @@ public class PerfilUsuario {
 		setDieta(nuevaDieta);
 		setPreferencias(nuevasPreferencias);
 		setRutina(nuevaRutina);
-		setCondicionPreexistente(nuevasCondiciones);
+	//	setCondicionPreexistente(nuevasCondiciones);
 	}
 
 	// Metodos de la clase
@@ -99,14 +99,15 @@ public class PerfilUsuario {
 		this.rutina = rutina;
 	}
 
-	public String[] getCondicionPreexistente() {
+/*	public String getCondicionPreexistente() {
 		return condicionPreexistente;
 	}
 
-	public void setCondicionPreexistente(String[] condicionPreexistente) {
+	public void setCondicionPreexistente(String condicionPreexistente) {
 		this.condicionPreexistente = condicionPreexistente;
+	}*/
+	
+	public String aceptar(Visitante visitor){
+		return visitor.visitar(this);
 	}
-	
-	
-
 }
