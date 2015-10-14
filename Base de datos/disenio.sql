@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-10-2015 a las 05:06:23
+-- Tiempo de generación: 14-10-2015 a las 22:57:40
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -26,45 +26,38 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-DROP PROCEDURE IF EXISTS `calorias_Rutina`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `calorias_Rutina`(IN `actividad` VARCHAR(20) CHARSET utf8, OUT `calorias` FLOAT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `caloriasRutina`(IN `actividad` VARCHAR(20) CHARSET utf8, OUT `calorias` FLOAT)
     READS SQL DATA
     SQL SECURITY INVOKER
-select calorias
+select calorias 
 from rutinas
 where tipo like '%actividad%'$$
 
-DROP PROCEDURE IF EXISTS `insertarConsulta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarConsulta`(IN `fecha` TIMESTAMP, IN `id_usu` INT, IN `id_rec` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into consultareceta (fecha,usuario_id,recetas_id) values (fecha,id_usu,id_rec)$$
 
-DROP PROCEDURE IF EXISTS `insertarEventoEnHistorial`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarEventoEnHistorial`(IN `usuario` INT(10), IN `receta` INT(10), IN `operacion` VARCHAR(10) CHARSET utf8)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into historial (usuario_id, receta_id, operacion) VALUES(usuario, receta, operacion)$$
 
-DROP PROCEDURE IF EXISTS `insertarReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nombre` VARCHAR(40), IN `ing` VARCHAR(50), IN `difi` TINYINT, IN `tempo` VARCHAR(15), IN `cat1` VARCHAR(20), IN `cat2` VARCHAR(20), IN `cat3` VARCHAR(20), IN `cat4` VARCHAR(20), IN `cal` INT)
     NO SQL
 insert into recetas(nombre,ingrediente_ppal,dificultad,temporada,categoria1,categoria2,categoria3,categoria4,caloriasTotales,creador,dia,mes,anio) VALUES(nombre,ing,difi,tempo,cat1,cat2,cat3,cat4,cal,crea,dia,mes,anio)$$
 
-DROP PROCEDURE IF EXISTS `insertarUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(IN `nombre` VARCHAR(50), IN `mail` VARCHAR(100), IN `pass` VARCHAR(100), IN `dia` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into usuarios(nombreUsuario,email,contrasenia,fecha_nacimiento) VALUES(nombre,mail,pass,fecha)$$
 
-DROP PROCEDURE IF EXISTS `mostrarRecetasDB`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`()
     READS SQL DATA
     SQL SECURITY INVOKER
 select * 
 from recetas$$
 
-DROP PROCEDURE IF EXISTS `mostrarRecetasDBConFiltros`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDBConFiltros`(IN `nom` VARCHAR(40) CHARSET utf8, IN `ingredient` VARCHAR(50) CHARSET utf8, IN `dif` INT(4), IN `season` VARCHAR(15) CHARSET utf8, IN `cat1` VARCHAR(20) CHARSET utf8, IN `cat2` VARCHAR(20) CHARSET utf8, IN `cat3` VARCHAR(20) CHARSET utf8, IN `cat4` VARCHAR(20) CHARSET utf8, IN `calorias` INT(11))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -80,7 +73,6 @@ and categoria3 = cat3
 and categoria4 = cat4
 and caloriasTotales = calorias$$
 
-DROP PROCEDURE IF EXISTS `obtenerCondimentos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondimentos`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -88,7 +80,6 @@ select nombre
 from condimentos
 where condimentos_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDCondimentos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDCondimentos`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -96,25 +87,21 @@ select condimentos_id
 from `condimentos de una receta`
 where recetas_id=id$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDIng`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDIng`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
 SELECT ingredientes_id,cantidad FROM `ingredientes de una receta` WHERE recetas_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDPerfil`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDPerfil`(IN `id` INT)
     NO SQL
 SELECT perfil_id FROM `perfil de un usuario` WHERE usuario_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDReceta`(IN `nom` VARCHAR(40))
     NO SQL
 select recetas_id
 from recetas
 where nombre = nom$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDUsuario`(IN `nombre` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -122,25 +109,20 @@ select usuario_id
 from usuarios
 where nombreUsuario = nombre$$
 
-DROP PROCEDURE IF EXISTS `obtenerIng`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIng`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
 SELECT nombre,porcion FROM ingredientes WHERE ingredientes_id = id$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunCondimento`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondimento`(IN `cond` VARCHAR(40))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondimento`(IN `cond` VARCHAR(40) CHARSET utf8)
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
-from recetas R, condimentos C
-inner join condimentos_recetas CR on R.recetas_id = CR.recetas_id
-where C.condimentos_id = CR.condimentos_id 
-and C.nombre like '%cond%'
+select * 
+from condimentos as C, recetas as R inner join condimentos_receta as CR on R.recetas_id = CR.recetas_id 
+where C.condimentos_id = CR.condimentos_id and C.nombre like `%cond%` 
 order by rand(R.recetas_id) 
 limit 5$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunDieta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunDieta`(IN `dieta` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -149,19 +131,17 @@ from recetas R
 inner join dietas D on R.dieta_id = D.dieta_id
 where D.tipo = dieta$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunNivelAlimenticio`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunNivelAlimenticio`(IN `nivel` VARCHAR(30))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunNivelAlimenticio`(IN `nivel` VARCHAR(30) CHARSET utf8)
     READS SQL DATA
     SQL SECURITY INVOKER
 select *
-from recetas R, nivel_alimenticio NA
-inner join ingredientes I on R.ingrediente_ppal = I.ingredientes_id
+from nivel_alimenticio as NA,recetas as R
+inner join ingredientes as I on R.ingrediente_ppal = I.ingredientes_id
 where I.nivel_id = NA.nivel_id
-and Na.tipo like '%nivel%'
+and NA.tipo like '%nivel%'
 order by rand(R.recetas_id) 
 limit 5$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunPreferencia`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunPreferencia`(IN `user_id` INT(11))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -172,18 +152,14 @@ where PA.usuario_id = user_id
 order by rand(R.recetas_id) 
 limit 3$$
 
-DROP PROCEDURE IF EXISTS `recetaTopTemporada`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaTopTemporada`(IN `temporada` VARCHAR(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaTopTemporada`(IN `temporada` VARCHAR(100) CHARSET utf8)
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
-from recetas R
-inner join temporadas T on R.temporada_id = T.tempora_id
-inner join promedio_calificacion P on R.recetas_id = P.recetas_id
-where P.calificacion_promedio = 5
-and T.tipo = temporada$$
+select * 
+from recetas as R inner join temporadas as T on R.temporada_id = T.temporada_id 
+inner join promedio_calificacion as P on R.recetas_id = P.recetas_id 
+where P.calificacion_promedio = 5 and T.tipo like '%temporada%'$$
 
-DROP PROCEDURE IF EXISTS `reporteRangoCalorias`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reporteRangoCalorias`(IN `caloria1` INT(11), IN `caloria2` INT(11))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -191,7 +167,6 @@ select *
 from recetas re
 where re.caloriasTotales between caloria1 and caloria2$$
 
-DROP PROCEDURE IF EXISTS `reporteRecetas`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reporteRecetas`(IN `usuario` INT(10), IN `operacion` VARCHAR(10) CHARSET utf8, IN `fecha1` DATE, IN `fecha2` DATE)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -201,14 +176,12 @@ where usuario_id = usuario
 and operacion = '%operacion%'
 and tiempo between fecha1 and fecha2$$
 
-DROP PROCEDURE IF EXISTS `test`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `test`(IN `nombre` VARCHAR(50))
     NO SQL
 select * 
 from usuarios
 where nombreUsuario = nombre$$
 
-DROP PROCEDURE IF EXISTS `testReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `testReceta`(IN `nombreReceta` VARCHAR(40))
     NO SQL
 select * 
@@ -223,13 +196,20 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `amigos_usuario`
 --
 
-DROP TABLE IF EXISTS `amigos_usuario`;
 CREATE TABLE IF NOT EXISTS `amigos_usuario` (
   `amigo_usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,
   `amigoUsuario_id` int(11) NOT NULL,
   PRIMARY KEY (`amigo_usuario_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `amigos_usuario`
+--
+
+INSERT INTO `amigos_usuario` (`amigo_usuario_id`, `usuario_id`, `amigoUsuario_id`) VALUES
+(1, 4, 7),
+(2, 7, 45);
 
 -- --------------------------------------------------------
 
@@ -237,29 +217,21 @@ CREATE TABLE IF NOT EXISTS `amigos_usuario` (
 -- Estructura de tabla para la tabla `calificacion_usuario_receta`
 --
 
-DROP TABLE IF EXISTS `calificacion_usuario_receta`;
 CREATE TABLE IF NOT EXISTS `calificacion_usuario_receta` (
   `calif_recet_usuario` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL,
-  `calificacion` int(11) NOT NULL,
+  `calificacion` tinyint(4) NOT NULL,
   PRIMARY KEY (`calif_recet_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=3 ;
 
 --
--- Estructura de tabla para la tabla `categorias`
+-- Volcado de datos para la tabla `calificacion_usuario_receta`
 --
 
-DROP TABLE IF EXISTS `categorias`;
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `categorias_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
-  `horaMax` double NOT NULL,
-  `horaMin` double NOT NULL,
-  PRIMARY KEY (`categorias_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+INSERT INTO `calificacion_usuario_receta` (`calif_recet_usuario`, `recetas_id`, `usuario_id`, `calificacion`) VALUES
+(1, 10, 7, 3),
+(2, 12, 46, 4);
 
 -- --------------------------------------------------------
 
@@ -267,7 +239,6 @@ CREATE TABLE IF NOT EXISTS `categorias` (
 -- Estructura de tabla para la tabla `categoria_receta`
 --
 
-DROP TABLE IF EXISTS `categoria_receta`;
 CREATE TABLE IF NOT EXISTS `categoria_receta` (
   `categ_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -278,15 +249,51 @@ CREATE TABLE IF NOT EXISTS `categoria_receta` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `categorias_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
+  `horaMax` time NOT NULL,
+  `horaMin` time NOT NULL,
+  PRIMARY KEY (`categorias_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`categorias_id`, `nombre`, `horaMax`, `horaMin`) VALUES
+(1, 'Desayuno', '11:00:00', '04:00:00'),
+(2, 'Almuerzo', '14:30:00', '11:00:00'),
+(3, 'Merienda', '20:00:00', '14:30:00'),
+(4, 'Cena', '04:00:00', '20:00:00');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `condicion_prexistente`
 --
 
-DROP TABLE IF EXISTS `condicion_prexistente`;
 CREATE TABLE IF NOT EXISTS `condicion_prexistente` (
   `condicion_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(60) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`condicion_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=8 ;
+
+--
+-- Volcado de datos para la tabla `condicion_prexistente`
+--
+
+INSERT INTO `condicion_prexistente` (`condicion_id`, `tipo`) VALUES
+(1, 'Diabetes'),
+(2, 'Hipertension'),
+(3, 'Celiasis'),
+(4, 'Diabetes_Hipertension'),
+(5, 'Diabetes_Celiasis'),
+(6, 'Hipertension_Celiasis'),
+(7, 'Diabetes_Hipertension_Celiasis');
 
 -- --------------------------------------------------------
 
@@ -294,7 +301,6 @@ CREATE TABLE IF NOT EXISTS `condicion_prexistente` (
 -- Estructura de tabla para la tabla `condimentos`
 --
 
-DROP TABLE IF EXISTS `condimentos`;
 CREATE TABLE IF NOT EXISTS `condimentos` (
   `condimentos_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
@@ -319,7 +325,6 @@ INSERT INTO `condimentos` (`condimentos_id`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `condimentos_receta`
 --
 
-DROP TABLE IF EXISTS `condimentos_receta`;
 CREATE TABLE IF NOT EXISTS `condimentos_receta` (
   `condim_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -343,12 +348,21 @@ INSERT INTO `condimentos_receta` (`condim_recet_id`, `recetas_id`, `condimentos_
 -- Estructura de tabla para la tabla `dietas`
 --
 
-DROP TABLE IF EXISTS `dietas`;
 CREATE TABLE IF NOT EXISTS `dietas` (
   `dieta_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`dieta_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `dietas`
+--
+
+INSERT INTO `dietas` (`dieta_id`, `tipo`) VALUES
+(1, 'Normal'),
+(2, 'Ovolactovegetariano'),
+(3, 'Vegetariano'),
+(4, 'Vegano');
 
 -- --------------------------------------------------------
 
@@ -356,7 +370,6 @@ CREATE TABLE IF NOT EXISTS `dietas` (
 -- Estructura de tabla para la tabla `historial`
 --
 
-DROP TABLE IF EXISTS `historial`;
 CREATE TABLE IF NOT EXISTS `historial` (
   `movimiento_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usuario_id` int(10) NOT NULL,
@@ -364,7 +377,17 @@ CREATE TABLE IF NOT EXISTS `historial` (
   `operacion` varchar(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `tiempo` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`movimiento_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `historial`
+--
+
+INSERT INTO `historial` (`movimiento_id`, `usuario_id`, `receta_id`, `operacion`, `tiempo`) VALUES
+(1, 4, 10, 'confirmar', '2015-10-14 18:36:03'),
+(2, 45, 24, 'consultar', '2015-10-14 18:53:28'),
+(3, 46, 12, 'calificar', '2015-10-14 18:53:28'),
+(5, 7, 10, 'calificar', '2015-10-14 18:53:48');
 
 -- --------------------------------------------------------
 
@@ -372,7 +395,6 @@ CREATE TABLE IF NOT EXISTS `historial` (
 -- Estructura de tabla para la tabla `ingredientes`
 --
 
-DROP TABLE IF EXISTS `ingredientes`;
 CREATE TABLE IF NOT EXISTS `ingredientes` (
   `ingredientes_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
@@ -387,10 +409,10 @@ CREATE TABLE IF NOT EXISTS `ingredientes` (
 --
 
 INSERT INTO `ingredientes` (`ingredientes_id`, `nombre`, `porcion`, `calorias`, `nivel_id`) VALUES
-(1, 'harina', 100, 250, 0),
-(2, 'gelatina instantanea', 50, 70, 0),
-(3, 'carne', 250, 500, 0),
-(4, 'queso', 150, 300, 0);
+(1, 'harina', 100, 250, 1),
+(2, 'gelatina instantanea', 50, 70, 5),
+(3, 'bola de lomo', 250, 500, 3),
+(4, 'mozzarella', 150, 300, 3);
 
 -- --------------------------------------------------------
 
@@ -398,7 +420,6 @@ INSERT INTO `ingredientes` (`ingredientes_id`, `nombre`, `porcion`, `calorias`, 
 -- Estructura de tabla para la tabla `ingredientes_receta`
 --
 
-DROP TABLE IF EXISTS `ingredientes_receta`;
 CREATE TABLE IF NOT EXISTS `ingredientes_receta` (
   `ingred_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -424,12 +445,22 @@ INSERT INTO `ingredientes_receta` (`ingred_recet_id`, `recetas_id`, `ingrediente
 -- Estructura de tabla para la tabla `nivel_alimenticio`
 --
 
-DROP TABLE IF EXISTS `nivel_alimenticio`;
 CREATE TABLE IF NOT EXISTS `nivel_alimenticio` (
   `nivel_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`nivel_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `nivel_alimenticio`
+--
+
+INSERT INTO `nivel_alimenticio` (`nivel_id`, `tipo`) VALUES
+(1, 'Grano'),
+(2, 'Fruta_Verdura'),
+(3, 'Lacteo_Carne_Legumbre'),
+(4, 'Grasa_Aceite'),
+(5, 'Azucar');
 
 -- --------------------------------------------------------
 
@@ -437,7 +468,6 @@ CREATE TABLE IF NOT EXISTS `nivel_alimenticio` (
 -- Estructura de tabla para la tabla `perfil_usuario`
 --
 
-DROP TABLE IF EXISTS `perfil_usuario`;
 CREATE TABLE IF NOT EXISTS `perfil_usuario` (
   `perfil_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,
@@ -457,10 +487,10 @@ CREATE TABLE IF NOT EXISTS `perfil_usuario` (
 --
 
 INSERT INTO `perfil_usuario` (`perfil_id`, `usuario_id`, `nombre`, `apellido`, `sexo`, `edad`, `altura`, `complexion`, `dieta_id`, `rutina_id`) VALUES
-(1, 0, 'Juan', 'Reines', 'Masculino', 20, 1.7, '22.04', 0, 0),
-(2, 0, 'Franco', 'Abregu', 'Masculino', 20, 1.68, '20.01', 0, 0),
-(3, 0, 'Nacho', 'ghillini', 'Masculino', 28, 1.72, '30', 0, 0),
-(6, 0, 'Roman', 'Riquelme', 'Masculino', 25, 1.78, 'Mediana', 0, 0);
+(1, 4, 'Juan', 'Reines', 'Masculino', 20, 1.7, '22.04', 2, 1),
+(2, 7, 'Franco', 'Abregu', 'Masculino', 20, 1.68, '20.01', 1, 2),
+(3, 46, 'Nacho', 'ghillini', 'Masculino', 28, 1.72, '30', 1, 3),
+(6, 45, 'Roman', 'Riquelme', 'Masculino', 25, 1.78, 'Mediana', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -468,13 +498,35 @@ INSERT INTO `perfil_usuario` (`perfil_id`, `usuario_id`, `nombre`, `apellido`, `
 -- Estructura de tabla para la tabla `preferencias_alimenticias_usuario`
 --
 
-DROP TABLE IF EXISTS `preferencias_alimenticias_usuario`;
 CREATE TABLE IF NOT EXISTS `preferencias_alimenticias_usuario` (
-  `prefe_usuario_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `prefe_usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `ingredientes_id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL,
   PRIMARY KEY (`prefe_usuario_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `preferencias_alimenticias_usuario`
+--
+
+INSERT INTO `preferencias_alimenticias_usuario` (`prefe_usuario_id`, `ingredientes_id`, `usuario_id`) VALUES
+(1, 1, 4),
+(2, 3, 7),
+(3, 1, 46),
+(4, 2, 45);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `procedimiento_receta`
+--
+
+CREATE TABLE IF NOT EXISTS `procedimiento_receta` (
+  `proced_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `recetas_id` int(11) NOT NULL,
+  `procedimientos_id` int(11) NOT NULL,
+  PRIMARY KEY (`proced_recet_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -482,7 +534,6 @@ CREATE TABLE IF NOT EXISTS `preferencias_alimenticias_usuario` (
 -- Estructura de tabla para la tabla `procedimientos`
 --
 
-DROP TABLE IF EXISTS `procedimientos`;
 CREATE TABLE IF NOT EXISTS `procedimientos` (
   `procedimientos_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `imagen1` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
@@ -501,24 +552,9 @@ CREATE TABLE IF NOT EXISTS `procedimientos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `procedimiento_receta`
---
-
-DROP TABLE IF EXISTS `procedimiento_receta`;
-CREATE TABLE IF NOT EXISTS `procedimiento_receta` (
-  `proced_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `recetas_id` int(11) NOT NULL,
-  `procedimientos_id` int(11) NOT NULL,
-  PRIMARY KEY (`proced_recet_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `promedio_calificacion`
 --
 
-DROP TABLE IF EXISTS `promedio_calificacion`;
 CREATE TABLE IF NOT EXISTS `promedio_calificacion` (
   `promedio_califacion_id` int(10) NOT NULL AUTO_INCREMENT,
   `recetas_id` int(10) NOT NULL,
@@ -533,7 +569,6 @@ CREATE TABLE IF NOT EXISTS `promedio_calificacion` (
 -- Estructura de tabla para la tabla `recetas`
 --
 
-DROP TABLE IF EXISTS `recetas`;
 CREATE TABLE IF NOT EXISTS `recetas` (
   `recetas_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
@@ -555,8 +590,8 @@ CREATE TABLE IF NOT EXISTS `recetas` (
 --
 
 INSERT INTO `recetas` (`recetas_id`, `nombre`, `ingrediente_ppal`, `dificultad`, `temporada_id`, `categoria1`, `categoria2`, `categoria3`, `categoria4`, `caloriasTotales`, `condicion_id`, `dieta_id`) VALUES
-(8, 'milanesa a la maryland', 0, 3, 0, 'cena', 'almuerzo', NULL, NULL, 541, 0, 0),
-(9, 'pizza', 0, 1, 0, 'cena', NULL, NULL, NULL, 125, 0, 0),
+(8, 'milanesa a la maryland', 3, 3, 1, 'cena', 'almuerzo', NULL, NULL, 541, 1, 1),
+(9, 'pizza', 1, 1, 13, 'cena', NULL, NULL, NULL, 125, 4, 1),
 (10, 'pati a la parrilla', 0, 5, 0, 'cena', 'almuerzo', NULL, NULL, 500, 0, 0),
 (11, 'tallarines', 0, 2, 0, NULL, NULL, NULL, NULL, 350, 0, 0),
 (12, 'buñuelos de acelga', 0, 2, 0, 'almuerzo', NULL, NULL, NULL, 110, 0, 0),
@@ -571,7 +606,6 @@ INSERT INTO `recetas` (`recetas_id`, `nombre`, `ingrediente_ppal`, `dificultad`,
 -- Estructura de tabla para la tabla `recetas_usuario`
 --
 
-DROP TABLE IF EXISTS `recetas_usuario`;
 CREATE TABLE IF NOT EXISTS `recetas_usuario` (
   `recet_usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,
@@ -599,13 +633,23 @@ INSERT INTO `recetas_usuario` (`recet_usuario_id`, `usuario_id`, `recetas_id`) V
 -- Estructura de tabla para la tabla `rutinas`
 --
 
-DROP TABLE IF EXISTS `rutinas`;
 CREATE TABLE IF NOT EXISTS `rutinas` (
   `rutina_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `calorias` float NOT NULL,
   PRIMARY KEY (`rutina_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `rutinas`
+--
+
+INSERT INTO `rutinas` (`rutina_id`, `tipo`, `calorias`) VALUES
+(1, 'Nada', 1250),
+(2, 'Leve', 1500),
+(3, 'Intermedio', 2000),
+(4, 'Mediano', 2500),
+(5, 'Intensivo', 3000);
 
 -- --------------------------------------------------------
 
@@ -613,12 +657,30 @@ CREATE TABLE IF NOT EXISTS `rutinas` (
 -- Estructura de tabla para la tabla `temporadas`
 --
 
-DROP TABLE IF EXISTS `temporadas`;
 CREATE TABLE IF NOT EXISTS `temporadas` (
   `temporada_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`temporada_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=14 ;
+
+--
+-- Volcado de datos para la tabla `temporadas`
+--
+
+INSERT INTO `temporadas` (`temporada_id`, `tipo`) VALUES
+(1, 'Verano'),
+(2, 'Otonio'),
+(3, 'Invierno'),
+(4, 'Primavera'),
+(5, 'Navidad'),
+(6, 'Pascua'),
+(7, 'Verano_Otonio'),
+(8, 'Verano_Primavera'),
+(9, 'Otonio_Primavera'),
+(10, 'Otonio_Invierno'),
+(11, 'Primavera_Invierno'),
+(12, 'Verano_Invierno'),
+(13, 'Anual');
 
 -- --------------------------------------------------------
 
@@ -626,7 +688,6 @@ CREATE TABLE IF NOT EXISTS `temporadas` (
 -- Estructura de tabla para la tabla `usuarios`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nombreUsuario` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
