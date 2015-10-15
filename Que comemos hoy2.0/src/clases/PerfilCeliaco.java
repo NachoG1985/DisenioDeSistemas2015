@@ -1,5 +1,7 @@
 package clases;
 
+
+
 public class PerfilCeliaco extends PerfilUsuario{
 
 public PerfilCeliaco(String nombreYapellido, String nuevoSexo,
@@ -9,7 +11,6 @@ public PerfilCeliaco(String nombreYapellido, String nuevoSexo,
 		super(nombreYapellido,nuevoSexo,nuevaEdad,nuevaAltura,nuevaComplexion,nuevaDieta,nuevasPreferencias,nuevaRutina);
 }
 
-	
 }
 
 

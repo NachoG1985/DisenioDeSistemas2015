@@ -1,4 +1,5 @@
 package clases;
+import java.util.*;
 
 public class GestorDeEstadisticasYReportes
 {
@@ -11,10 +12,10 @@ public class GestorDeEstadisticasYReportes
 				tipo = tipoNuevo;
 			}
 		
-		public void generarReporteoEstadistica()
+		public void generarReporteoEstadistica(Set<Receta> recetas)
 		{
 		
-			tipo.generar();
+			tipo.generar(recetas);
 		}
 
 		public Tipo getTipo() {

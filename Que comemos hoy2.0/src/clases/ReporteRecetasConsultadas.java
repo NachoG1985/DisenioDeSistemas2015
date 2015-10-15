@@ -1,13 +1,12 @@
 package clases;
 
-public class ReporteRecetasConsultadas implements SubtipoDeReporte
+import java.util.*;
+
+public class ReporteRecetasConsultadas implements Tipo
 {
-    public ReporteRecetasConsultadas(){
-    	
-    }
-	public void generarReporte()
+ 	public void generar(Set<Receta> recetas)
 	{
-		ReporteRecetasConsultadas reporteRecetas = new ReporteRecetasConsultadas();
+		
 	}
 
 }

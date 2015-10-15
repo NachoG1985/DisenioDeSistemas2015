@@ -193,5 +193,9 @@ public class Receta {
 
 		caloriasTotales = this.calcularCalorias();
 	}
+	
+	public void mostrarReceta(){
+		
+	}
 
 }

@@ -1,5 +1,7 @@
 package clases;
 
+import java.util.Set;
+
 public class PerfilUsuario implements Visitable{
 
 	// Atributos de la clase
@@ -11,7 +13,7 @@ public class PerfilUsuario implements Visitable{
 	private String dieta;
 	private String[] preferencias;
 	private String rutina;
-//	private String condicionPreexistente;
+	private static String condicionPreexistente;
 
 	// Constructor de la clase
 	public PerfilUsuario(String nombreYapellido, String nuevoSexo,
@@ -31,9 +33,7 @@ public class PerfilUsuario implements Visitable{
 	}
 
 	// Metodos de la clase
-	private void verificarDatos() {
 
-	}
 
 	public String getNombre() {
 		return nombre;
@@ -99,15 +99,17 @@ public class PerfilUsuario implements Visitable{
 		this.rutina = rutina;
 	}
 
-/*	public String getCondicionPreexistente() {
+	
+	public String getCondicionPreexistente() {
 		return condicionPreexistente;
 	}
 
-	public void setCondicionPreexistente(String condicionPreexistente) {
-		this.condicionPreexistente = condicionPreexistente;
-	}*/
-	
-	public String aceptar(Visitante visitor){
-		return visitor.visitar(this);
+	public static void setCondicionPreexistente(String condicion) {
+		PerfilUsuario.condicionPreexistente = condicion;
+	}
+
+	public void aceptar(Visitante visitor){
+		Set<Receta> recetas =  visitor.visitar(this);
+		// MOSTRAR CUANDO TENGAMOS EL FORMATO!!!
 	}
 }

@@ -1,5 +1,7 @@
 package clases;
 
+
+
 public class PerfilDiabeticoCeliaco extends PerfilUsuario{
 	
 	
@@ -9,4 +11,6 @@ public class PerfilDiabeticoCeliaco extends PerfilUsuario{
 			String[] nuevasCondiciones*/){
 			super(nombreYapellido,nuevoSexo,nuevaEdad,nuevaAltura,nuevaComplexion,nuevaDieta,nuevasPreferencias,nuevaRutina);
 	}
+	
+
 }

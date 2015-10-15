@@ -1,14 +1,12 @@
 package clases;
 
-public class ReportePreferencias 
+import java.util.*;
+
+public class ReportePreferencias implements Tipo
 {
-	public ReportePreferencias(){
-		
-	}
-	
-	public void generarReporte()
+	public void generar(Set<Receta> recetas)
 	{
-		ReportePreferencias nuevoReportePreferencias = new ReportePreferencias();
+		
 	}
 
 }
