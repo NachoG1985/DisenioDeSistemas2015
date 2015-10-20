@@ -259,10 +259,10 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 
-	 public int insertarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina) {
+	 public int insertarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina,String condicion) {
 		 	ResultSet data;
 		 	int resultado=0;
-		 	int usu,diet,routine;
+		 	int usu,diet,routine,cond;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
@@ -270,9 +270,10 @@ public class ConsultorBaseDeDatos {
 	        	 
 	        	 usu = obtenerIDUsuario(usuario, cn, cst);
 	        	 diet = obtenerIDDieta(dieta, cn, cst);
-	        	 routine = obtenerIDRutina(rutina, cn, cst);		 
+	        	 routine = obtenerIDRutina(rutina, cn, cst);
+	        	 cond = obtenerIDCondicion(condicion, cn, cst);
 	           	           
-	             cst = cn.prepareCall("{call insertarIngrediente(?,?,?,?)}");
+	             cst = cn.prepareCall("{call insertarPerfil(?,?,?,?,?,?,?,?,?)}");
 	             cst.setInt(1,usu);
 	             cst.setString(2,nombre);
 	             cst.setString(3,apellido);
@@ -282,9 +283,11 @@ public class ConsultorBaseDeDatos {
 	             cst.setString(7,complexion);
 	             cst.setInt(8,diet);
 	             cst.setInt(9,routine);
+	             cst.setInt(10,cond);
 	             cst.executeUpdate();
-	             cst = cn.prepareCall("{call obtenerIDPerfil(?)}");
+	             cst = cn.prepareCall("{call obtenerIDPerfil(?,?)}");
 	             cst.setString(1,nombre);
+	             cst.setString(2,apellido);
 	             data = cst.executeQuery();
 	             data.next();
 	             resultado = data.getInt("perfil_id");         
