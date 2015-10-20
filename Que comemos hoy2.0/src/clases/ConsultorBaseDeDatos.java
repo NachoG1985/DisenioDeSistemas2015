@@ -590,7 +590,7 @@ public class ConsultorBaseDeDatos {
 			 ResultSet data;
 			 int resultado = 0;
 			 try{
-			 cst = cn.prepareCall("{call obtenerIDSeason(?)}");
+			 cst = cn.prepareCall("{call obtenerIDCategoria(?)}");
 			 cst.setString(1,cat);
 			 data = cst.executeQuery();
 	         data.next();
