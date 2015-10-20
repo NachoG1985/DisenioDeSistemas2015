@@ -3,6 +3,10 @@ package clases;
 import java.util.Set;
 
 public class RecomendadorDeRecetas /*implements Visitante*/{
+	
+	public RecomendadorDeRecetas(){
+		
+	}
 	/*
 	public Set<Receta> visitar(PerfilDiabetico perfil){
 		String Condicion = perfil.getCondicionPreexistente();

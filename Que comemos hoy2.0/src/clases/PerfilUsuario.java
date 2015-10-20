@@ -18,8 +18,8 @@ public class PerfilUsuario implements Visitable{
 	// Constructor de la clase
 	public PerfilUsuario(String nombreYapellido, String nuevoSexo,
 			int nuevaEdad, int nuevaAltura, String nuevaComplexion,
-			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina/*,
-			String nuevasCondiciones*/) {
+			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina,
+			String nuevasCondiciones) {
 
 		setNombre(nombreYapellido);
 		setSexo(nuevoSexo);
@@ -29,7 +29,7 @@ public class PerfilUsuario implements Visitable{
 		setDieta(nuevaDieta);
 		setPreferencias(nuevasPreferencias);
 		setRutina(nuevaRutina);
-	//	setCondicionPreexistente(nuevasCondiciones);
+		setCondicionPreexistente(nuevasCondiciones);
 	}
 
 	// Metodos de la clase

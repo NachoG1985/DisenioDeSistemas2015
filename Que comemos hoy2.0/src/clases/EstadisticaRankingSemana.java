@@ -1,12 +1,11 @@
 package clases;
-
 import java.util.*;
+public class EstadisticaRankingSemana implements Tipo{
 
-public class ReporteRecetasNuevas implements Tipo
-{
-    public ReporteRecetasNuevas(){
-    	
-    }
+	public EstadisticaRankingSemana(){
+		
+	}
+	
 	public void generar()
 	{
 		Set<Receta> recetas = new HashSet<Receta>();// reemplazar por = ConsultorBaseDeDatos.getInstance().consultaCorrespondiente() cuando este la consulta
@@ -18,5 +17,4 @@ public class ReporteRecetasNuevas implements Tipo
 			receta.mostrarReceta();
 		}
 	}
-
 }
