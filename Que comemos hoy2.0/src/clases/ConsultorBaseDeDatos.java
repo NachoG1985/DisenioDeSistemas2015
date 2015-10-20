@@ -419,6 +419,7 @@ public class ConsultorBaseDeDatos {
 	 
 	 
 //****************Funciones de Consulta**************************
+//Devuelve todos los datos de un usuario	
 	 public ResultSet consultarUsuario(String nombre) {
 	 	ResultSet data=null;
 	 	Connection cn = null;
@@ -426,7 +427,7 @@ public class ConsultorBaseDeDatos {
         try {
         	 cn = getConexion("disenio", "root", "");
            	           
-             cst = cn.prepareCall("{call test(?)}");
+             cst = cn.prepareCall("{call consultaUsuario(?)}");
              cst.setString(1,nombre);
              data = cst.executeQuery();
             
@@ -436,14 +437,15 @@ public class ConsultorBaseDeDatos {
         } return data;
  }  
 	
-	public ResultSet consultarReceta(String nombre) {
+	
+	 public ResultSet consultarReceta(String nombre) {
 	 	ResultSet data=null;
 	 	Connection cn = null;
 	 	CallableStatement cst = null;
         try {
         	 cn = getConexion("disenio", "root", "");
            	           
-             cst = cn.prepareCall("{call testReceta(?)}");
+             cst = cn.prepareCall("{call consultaReceta(?)}");
              cst.setString(1,nombre);
              data = cst.executeQuery();
             
@@ -471,102 +473,63 @@ public class ConsultorBaseDeDatos {
 	
  
 	//devuelve los ingredientes y cant de una receta en un Set
-		 public Set<String> obtenerIngyCant(String nombre) {
-			 	ResultSet data2=null;
-			 	ResultSet data3=null;
-			 	Connection cn = null;
-			 	CallableStatement cst = null;
-			 	CallableStatement cst2 = null;
-			 	Set<String> lista = new HashSet<>();
-			 	int nombre_id,ing_id;
-			 	try {
-		        	 cn = getConexion("disenio", "root", "");
-		           	           
-		             cst = cn.prepareCall("{call obtenerIDReceta(?)}");
-		             cst.setString(1,nombre);
-		             data2 = cst.executeQuery();
-		             cst = null;
-		             if (data2 != null) 
-		             {
-		            	data2.next();
-		            	nombre_id = data2.getInt("recetas_id");
-		            	data2.close();
-		            	//System.out.println(" "+nombre_id);
-		                cst = cn.prepareCall("{call obtenerIDIng(?)}");
-		                cst.setInt(1,nombre_id);
-		                data2 = cst.executeQuery();
-		                
-		                cst = null;
-		                data2.next();
-		                while (data2 != null)
-	                	{
-		                	ing_id = data2.getInt("ingredientes_id");
-		                	//System.out.println(" "+ing_id);
-		                	cst2 = cn.prepareCall("{call obtenerIng(?)}");
-		                	cst2.setInt(1,ing_id);
-			                data3 = cst2.executeQuery();
-			                data3.next();
-			                lista.add(data3.getString("nombre"));
-			                lista.add(""+data2.getInt("cantidad"));
-			                //System.out.println(" "+data3.getString("nombre")+"    " +data2.getInt("cantidad"));
-			                data2.next();
-	                	}               
-		                
-		             }else{System.out.println("No existe receta con ese nombre");}
-		                
-		            
-		        }catch (Exception e) {
-		        	//System.out.println("Error");
-		        } return lista;
-		 }  
-		 
+	 public Set<String> obtenerIngyCant(String nombre) {
+		 	ResultSet data=null;
+		 	Connection cn = null;
+		 	CallableStatement cst = null;
+		 	Set<String> lista = new HashSet<>();
+		 	int rec;
+		 	try {
+	        	 cn = getConexion("disenio", "root", "");
+	           	 
+	        	 rec = obtenerIDReceta(nombre, cn, cst);
+	        	 
+	             cst = cn.prepareCall("{call ingYCantSegunReceta(?)}");
+	             cst.setInt(1,rec);
+	             data = cst.executeQuery();
+	             data.next();
+	             while (data != null)
+	             {
+	            	  	 		                	
+	            	 lista.add(data.getString("nombre"));
+	            	 lista.add(""+data.getInt("cantidad"));
+	            	 data.next();
+	             }               
+	                          
+	            
+	        }catch (Exception e) {
+	        	
+	        } return lista;
+	 }  
 		 
 		 //devuelve los condimentos de una receta en un Set
-		 public Set<String> obtenerCondimentos(String nombre) {
-			 	ResultSet data2=null;
-			 	ResultSet data3=null;
-			 	Connection cn = null;
-			 	CallableStatement cst = null;
-			 	CallableStatement cst2 = null;
-			 	Set<String> list = new HashSet<>();
-			 	int receta_id,condimento_id;
-			 	try {
-		        	 cn = getConexion("disenio", "root", "");
-		           	           
-		             cst = cn.prepareCall("{call obtenerIDReceta(?)}");
-		             cst.setString(1,nombre);
-		             data2 = cst.executeQuery();
-		             cst = null;
-		             if (data2 != null) 
-		             {
-		            	data2.next();
-		            	receta_id = data2.getInt("recetas_id");
-		            	data2.close();
-		            	cst = cn.prepareCall("{call obtenerIDCondimentos(?)}");
-		                cst.setInt(1,receta_id);
-		                data2 = cst.executeQuery();
-		                
-		                cst = null;
-		                data2.next();
-		                while (data2 != null)
-	                	{
-		                	condimento_id = data2.getInt("condimentos_id");
-		                	cst2 = cn.prepareCall("{call obtenerCondimentos(?)}");
-		                	cst2.setInt(1,condimento_id);
-			                data3 = cst2.executeQuery();
-			                data3.next();
-			                list.add(data3.getString("nombre"));
-			                data2.next();
-	                	}               
-		                
-		             }else{System.out.println("No existe receta con ese nombre");}
-		                
-		            
-		        }catch (Exception e) {
-		        	//System.out.println("Error");
-		        } return list;
-		 }  
-    
+	 public Set<String> obtenerCondimentos(String nombre) {
+		 	ResultSet data=null;
+		 	Connection cn = null;
+		 	CallableStatement cst = null;
+		 	Set<String> lista = new HashSet<>();
+		 	int rec;
+		 	try {
+	        	 cn = getConexion("disenio", "root", "");
+	           	 
+	        	 rec = obtenerIDReceta(nombre, cn, cst);
+	        	 
+	             cst = cn.prepareCall("{call condSegunReceta(?)}");
+	             cst.setInt(1,rec);
+	             data = cst.executeQuery();
+	             data.next();
+	             while (data != null)
+	             {
+	            	   	 		                	
+	            	 lista.add(data.getString("nombre"));
+	            	 data.next();
+	             }               
+	                          
+	            
+	        }catch (Exception e) {
+	        	
+	        } return lista;
+	 }  
 
 		
 		    
