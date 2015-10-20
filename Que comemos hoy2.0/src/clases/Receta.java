@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
+import java.sql.Date;
 public class Receta {
 
 	// Atributos de la clase
@@ -17,14 +17,16 @@ public class Receta {
 	private String temporada;
 	private float caloriasTotales;
 	private Set<Calificacion> calificaciones;
-	private Set<String> categorias;
 	private String nombreCreador;
-	private Fecha fechaDeCreacion;
+	private Date fechaDeCreacion;
+	private String dietasAptas;
+	private String aptaPara;
+	private String categorias;
 	
 	
 	
 	// Constructor de la clase
-	public Receta(String nuevoNombre, String ingredientePrincipal, int valorDificultad, String temporadaReceta, float calorias, String creador, Fecha fecha) {
+	public Receta(String nuevoNombre, String ingredientePrincipal, int valorDificultad,String dietasAptas, String recetaAptaPara, String categorias, String temporadaReceta, float calorias, String creador, Date fecha) {
 		ingredientes =  new HashSet<IngredienteEnReceta>();
 		condimentos = new HashSet<Condimento>();
 		procedimiento= new ArrayList<PasoDeReceta>();
@@ -36,23 +38,53 @@ public class Receta {
 		setCaloriasTotales(calorias);
 		setNombreCreador(creador);
 		setFechaDeCreacion(fecha);
+		setAptaPara(recetaAptaPara);
+		setDietasAptas(dietasAptas);
+		setCategorias(categorias);
 		}
 	
-	
-	public void agregarCategoria(String nombreCategoria){
-		categorias.add(nombreCategoria);
-	}
+
 	
 	public void agregarCalificacion(Calificacion calificacionCorrespondiente){
 		calificaciones.add(calificacionCorrespondiente);
+	}
+	
+	public void agregarPasoDeReceta(PasoDeReceta nuevoPaso){
+		procedimiento.add(nuevoPaso);
 	}
 	
 	public String getNombreCreador() {
 		return nombreCreador;
 	}
 
+	public void agregarCondimento(Condimento condimento)
+	{
+		condimentos.add(condimento);
+	}
+	
+	public void agregarIngrediente(IngredienteEnReceta nuevoIngrediente)
+	{
+		ingredientes.add(nuevoIngrediente);
+	}
+
+	public String getDietasAptas() {
+		return dietasAptas;
+	}
 
 
+	public void setDietasAptas(String dietasAptas) {
+		this.dietasAptas = dietasAptas;
+	}
+
+
+	public String getAptaPara() {
+		return aptaPara;
+	}
+
+
+	public void setAptaPara(String aptaPara) {
+		this.aptaPara = aptaPara;
+	}
 
 	public void setNombreCreador(String nombreCreador) {
 		this.nombreCreador = nombreCreador;
@@ -61,14 +93,14 @@ public class Receta {
 
 
 
-	public Fecha getFechaDeCreacion() {
+	public Date getFechaDeCreacion() {
 		return fechaDeCreacion;
 	}
 
 
 
 
-	public void setFechaDeCreacion(Fecha fechaDeCreacion) {
+	public void setFechaDeCreacion(Date fechaDeCreacion) {
 		this.fechaDeCreacion = fechaDeCreacion;
 	}
 
@@ -147,12 +179,12 @@ public class Receta {
 		this.calificaciones = calificaciones;
 	}
 
-	public Set<String> getCategorias() {
+	public String getCategorias() {
 		return categorias;
 	}
 
-	public void setCategorias() {
-		this.categorias = new HashSet<String>();
+	public void setCategorias(String categoriasReceta) {
+		this.categorias = categoriasReceta;
 	}
 
 	private IngredienteEnReceta ingredientePrincipal;
@@ -169,7 +201,7 @@ public class Receta {
 	
 	// Metodos de la clase
 	// Calcula las calorias totales de las recetas en base a sus ingredientes
-	private float calcularCalorias() {
+	public float calcularCalorias() {
 
 		float calorias = 0;
 		calorias = calorias + ingredientePrincipal.calcularCalorias();
@@ -186,13 +218,6 @@ public class Receta {
 		return calorias;
 	}
 
-	// Carga los datos de la receta
-	public void cargarReceta() {
-		// Implementar la interaccion con la pantalla de cargar receta para
-		// obtener los valores de las variables
-
-		caloriasTotales = this.calcularCalorias();
-	}
 	
 	public void mostrarReceta(){
 		

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ver Perfil</title>
+ 
+    <!-- CSS de Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+ 
+    <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body> 
+    <!-- Librería jQuery requerida por los plugins de JavaScript -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+ 
+    <!-- Todos los plugins JavaScript de Bootstrap (también puedes
+         incluir archivos JavaScript individuales de los únicos
+         plugins que utilices) -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	
+	<!-- BARRA DE NAVEGACION SUPERIOR -->
+	
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Desplegar navegación</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="home_bootstrap.html">¿Qué comemos hoy?</a>
+  </div>
+ 
+  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav navbar-right" style="margin-right:1%">
+	  
+	  <!-- DESPLEGABLE DE RECETAS-->
+	  <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Recetas <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="consultar_bootstrap.html">Consultar Recetas</a></li>
+          <li><a href="cargarDatosReceta_bootstrap.html">Subir Receta</a></li>
+		  <li><a href="#">Recibir Recomendaciones</a></li>
+        </ul>
+      </li>
+	  <!-- DESPLEGABLE DE AMIGOS Y GRUPOS-->
+	  <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Social <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Ver Mis Grupos</a></li>
+        </ul>
+      </li>
+	  <!-- DESPLEGABLE DEL USUARIO-->
+	  <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Usuario <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="perfil_bootstrap.html">Ver Perfil</a></li>
+          <li class="divider"></li>
+          <li><a href="Inicio_bootstrap.html">Salir</a></li>
+        </ul>
+      </li>
+	  
+    </ul>
+  </div>
+</nav>
+
+	<h1 class="text-primary text-left col-md-offset-1">Perfil de: <small>Nombre de usuario<small></h1>
+	
+	<hr>
+	
+	<div class="row">
+	
+			<div class="col-md-5  col-md-offset-1">
+				<h3 class="text-primary text-left">Email: <small>nombre@email.com</small></h3>
+			</div>
+		
+			<div class="col-md-3">
+				<h3 class="text-primary text-left">Fecha de Nacimiento: <small>dd/mm/aaaa</small></h3>
+			</div>
+			
+		
+		</div>
+		
+	<div class="row">
+		
+			<div class="col-md-5 col-md-offset-1">
+				<h3 class="text-primary text-left">Nombre y Apellido: <small>Nombre Apellido</small></h3>
+			</div>
+			
+			<div class="col-md-3">
+				<h3 class="text-primary text-left">Edad: <small>AA</small></h3>
+			</div>
+			
+			<div class="col-md-3">
+				<h3 class="text-primary text-left">Altura: <small>AAA (cm)</small></h3>
+			</div>
+		</div>
+		
+		<hr>
+		
+		
+		<div class="row">
+		
+		<div class="col-md-6 col-md-offset-1">
+		
+			<h3 class="text-primary text-left" >Perfil Físico </h3>
+			<br>
+			
+			<h4 class="text-info text-left">Sexo: <small>Sexo</small></h4>
+			<br>
+			<h4 class="text-info text-left">Complexión Física: <small>Complexión</small></h4>
+			<br>
+			<h4 class="text-info text-left">Rutina de ejercicios: <small>Rutina</small></h4>
+			<br>
+			<h4 class="text-info text-left">Tipo de Dieta: <small>Dieta</small></h4>
+			<br>
+			<h4 class="text-info text-left">Condiciones Preexistentes: <small>Condicion1 - Condicion 2 - Condicion 3</small></h4>
+			
+		
+		</div>
+		
+		<div class="col-md-4">
+		
+			<img src="Imagenes/Contenido estatico/chef-gorro.jpg"/>
+		
+		</div>
+
+
+  </body>
+</html>

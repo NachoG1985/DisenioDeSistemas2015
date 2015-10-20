@@ -4,11 +4,12 @@ public class PasoDeReceta {
 
 	// Atributos de la clase
 	private String descripcion;
-	private Object imagen;
+	private String imagen;
 
 	// Constructor de la clase
-	public PasoDeReceta() {
-		// TODO Auto-generated constructor stub
+	public PasoDeReceta(String paso, String ruta) {
+		setDescripcion(paso);
+		setImagen(ruta);
 	}
 
 	public String getDescripcion() {
@@ -19,11 +20,11 @@ public class PasoDeReceta {
 		this.descripcion = descripcion;
 	}
 
-	public Object getImagen() {
+	public String getImagen() {
 		return imagen;
 	}
 
-	public void setImagen(Object imagen) {
+	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
 	

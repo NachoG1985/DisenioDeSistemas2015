@@ -6,6 +6,9 @@ public class PerfilUsuario implements Visitable{
 
 	// Atributos de la clase
 	private String nombre;
+	private String apellido;
+
+
 	private String sexo;
 	private int edad;
 	private int altura;
@@ -16,12 +19,13 @@ public class PerfilUsuario implements Visitable{
 	private static String condicionPreexistente;
 
 	// Constructor de la clase
-	public PerfilUsuario(String nombreYapellido, String nuevoSexo,
+	public PerfilUsuario(String nombre,String apellido, String nuevoSexo,
 			int nuevaEdad, int nuevaAltura, String nuevaComplexion,
 			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina,
 			String nuevasCondiciones) {
 
-		setNombre(nombreYapellido);
+		setNombre(nombre);
+		setApellido(apellido);
 		setSexo(nuevoSexo);
 		setEdad(nuevaEdad);
 		setAltura(nuevaAltura);
@@ -33,7 +37,13 @@ public class PerfilUsuario implements Visitable{
 	}
 
 	// Metodos de la clase
+	public String getApellido() {
+		return apellido;
+	}
 
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
 
 	public String getNombre() {
 		return nombre;

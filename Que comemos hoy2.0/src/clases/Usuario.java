@@ -2,7 +2,7 @@ package clases;
 
 import java.util.HashSet;
 import java.util.Set;
-
+import java.sql.Date;
 public class Usuario {
 
 	// Atributos de la clase Usuario
@@ -12,7 +12,7 @@ public class Usuario {
 	private PerfilUsuario perfil;
 	private HistorialRecetas historicoRecetas;
 	private Set<Usuario> amigos;
-	private Fecha fechaNacimiento;
+	private Date fechaNacimiento;
 	
 	public String getNombreUsuario() {
 		return nombreUsuario;
@@ -62,16 +62,16 @@ public class Usuario {
 		this.amigos = amigos;
 	}
 
-	public Fecha getFechaNacimiento() {
+	public Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(Fecha fechaNacimiento) {
+	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
 	// Constructor de la clase
-	public Usuario(String nuevoNombre, String nuevoEmail, Fecha nuevaFecha, String nuevaContraseña) 
+	public Usuario(String nuevoNombre, String nuevoEmail, Date nuevaFecha, String nuevaContraseña) 
 	{
 		setNombreUsuario(nuevoNombre);
 		setEmail(nuevoEmail);
@@ -104,12 +104,6 @@ public class Usuario {
         	recetaACalificar.agregarCalificacion(calificacionNueva);
 	}
 	
-	public void clasificarReceta(Receta recetaAClasificar, String categoriaCorrespondiente) {
-		recetaAClasificar.agregarCategoria(categoriaCorrespondiente);
-	}
 	
-	private Receta crearReceta(String nombre,String ingredientePrincipal,int dificultad,String temporada,float calorias,String creador,Fecha fecha){
-		Receta receta = new Receta(nombre,ingredientePrincipal,dificultad,temporada,calorias,creador,fecha);
-		return receta;
-	}
+
 }

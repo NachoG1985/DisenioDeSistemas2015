@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Consultar Recetas</title>
+ 
+    <!-- CSS de Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+ 
+    <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body> 
+    <!-- Librería jQuery requerida por los plugins de JavaScript -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+ 
+    <!-- Todos los plugins JavaScript de Bootstrap (también puedes
+         incluir archivos JavaScript individuales de los únicos
+         plugins que utilices) -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	
+	<!-- BARRA DE NAVEGACION SUPERIOR -->
+	
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Desplegar navegación</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="home_bootstrap.html">¿Qué comemos hoy?</a>
+  </div>
+ 
+  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav navbar-right" style="margin-right:1%">
+	  
+	  <!-- DESPLEGABLE DE RECETAS-->
+	  <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Recetas <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="consultar_bootstrap.html">Consultar Recetas</a></li>
+          <li><a href="cargarDatosReceta_bootstrap.html">Subir Receta</a></li>
+		  <li><a href="#">Recibir Recomendaciones</a></li>
+        </ul>
+      </li>
+	  <!-- DESPLEGABLE DE AMIGOS Y GRUPOS-->
+	  <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Social <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Ver Mis Grupos</a></li>
+        </ul>
+      </li>
+	  <!-- DESPLEGABLE DEL USUARIO-->
+	  <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Usuario <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="perfil_bootstrap.html">Ver Perfil</a></li>
+          <li class="divider"></li>
+          <li><a href="Inicio_bootstrap.html">Salir</a></li>
+        </ul>
+      </li>
+	  
+    </ul>
+  </div>
+</nav>
+
+	<div class="row">
+	
+		<div class="col-md-3">
+		
+		<div class="col-md-offset-1">
+		
+			<div class="panel panel-primary" style="position:fixed">
+	
+				<div class="panel-heading">
+					<h3 class="panel-title">Filtros de Busqueda</h3>
+				</div>
+		
+				<div class="panel-body">
+				
+				<form id="registro" action="cargarIngredientesReceta_bootstrap.html" method="POST" class="form-horizontal ">
+				
+										
+									<div class="radio-inline ">
+										<label>
+											<input type="radio" name="catalogo" id="todas" value="todas" checked>
+											Todas
+										</label>
+									</div>
+					
+									<div class="radio-inline ">
+										<label>
+											<input type="radio" name="catalogo" id="propias" value="propias">
+											Propias
+											</label>
+									</div>
+					
+									<div class="radio-inline ">
+										<label>
+											<input type="radio" name="catalogo" id="noPropias" value="noPropias">
+											No propias
+											</label>
+									</div>
+							
+							<hr>
+							
+							<div class="form-group">
+								<input type="text" class="form-control center-block " id="IngredientePpal" placeholder="Ingrediente Principal">
+								<input type="text" class="form-control center-block " id="Calorias" placeholder="Calorías Máximas">
+								<input type="text" class="form-control center-block " id="calificacion" placeholder="Calificación">
+								<input type="text" class="form-control center-block " id="dificultad" placeholder="Dificultad">
+							</div>
+							
+							<hr>
+							
+						<div class="checkbox ">
+							<label>
+								<input type="checkbox" id="categoria" value="desayuno">
+									Desayuno
+							</label>
+						</div>
+						
+						<div class="checkbox ">
+							<label>
+								<input type="checkbox" id="categoria" value="almuerzo">
+									Almuerzo
+							</label>
+						</div>
+
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" id="categoria" value="merienda">
+									Merienda
+							</label>
+						</div>	
+
+						<div class="checkbox ">
+							<label>
+								<input type="checkbox" id="categoria" value="cena">
+									Cena
+							</label>
+						</div>						
+													
+							<br>
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary  btn-block">Aplicar filtros</button>
+							</div>
+				</form>
+			
+			
+				</div>
+
+			</div>
+		</div>
+		</div>
+
+		
+		<div class="col-md-8">
+
+
+		<div class="row">
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center" >	
+				<div class="container">
+					<h3 class="text-primary">Milanesa a la Maryland</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Pollo al horno con papas fritas</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>	
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Milanesa a la Maryland</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Pizza</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>		
+		</div>
+		
+	</div>		
+		
+		<div class="row">
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center" >	
+				<div class="container">
+					<h3 class="text-primary">Milanesa a la Maryland</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Pollo al horno con papas fritas</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>	
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Milanesa a la Maryland</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Pizza</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>		
+		</div>
+		
+	</div>		
+	
+	<div class="row">
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center" >	
+				<div class="container">
+					<h3 class="text-primary">Milanesa a la Maryland</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Pollo al horno con papas fritas</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>	
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Milanesa a la Maryland</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Pizza</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>		
+		</div>
+		
+	</div>		
+	
+	<div class="row">
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center" >	
+				<div class="container">
+					<h3 class="text-primary">Milanesa a la Maryland</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Pollo al horno con papas fritas</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>	
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Milanesa a la Maryland</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-3">
+			<div class="jumbotron text-center">	
+				<div class="container">
+					<h3 class="text-primary">Pizza</h3>
+					
+					<h5 >Dificultad: 4</h5>
+					<h5 >Calorías: 5000</h5>
+					
+					<h5>Ingrediente principal</h5>
+
+					<div class="row">
+						<div class="col-md-6">Categoria1</div>
+						<div class="col-md-6">Categoria2</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">categoria3</div>
+						<div class="col-md-6">categoria4</div>
+					</div>
+					
+					<a class="btn btn-primary btn-sm btn-block" href="verReceta_bootstrap.html" role="button">
+					Ver más <span class="glyphicon glyphicon-cutlery"></span></a>
+				</div>
+			</div>		
+		</div>
+		
+	</div>		
+	
+	
+	</div>
+
+
+  </body>
+</html>
