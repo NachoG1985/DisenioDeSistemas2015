@@ -331,7 +331,7 @@ public class ConsultorBaseDeDatos {
 	        return resultado;
 	 }  
 	 
-	 public int insertarIngReceta(String receta,String ingrediente) {
+	 public int insertarIngReceta(String receta,String ingrediente,int cantidad) {
 		 	ResultSet data;
 		 	int resultado=0;
 		 	int ing, rec;
@@ -343,9 +343,10 @@ public class ConsultorBaseDeDatos {
 	        	 ing = obtenerIDIng(ingrediente, cn, cst);
 	        	 rec = obtenerIDReceta(receta, cn, cst);
 	        	 
-	             cst = cn.prepareCall("{call insertarIngReceta(?,?)}");
+	             cst = cn.prepareCall("{call insertarIngReceta(?,?,?)}");
 	             cst.setInt(1,rec);
 	             cst.setInt(2,ing);
+	             cst.setInt(3,cantidad);
 	             cst.executeUpdate();
 	             cst = cn.prepareCall("{call obtenerIDIngReceta(?,?)}");
 	             cst.setInt(1,rec);
