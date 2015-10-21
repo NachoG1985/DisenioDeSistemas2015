@@ -98,7 +98,10 @@
 			int dificultad;
 			int calorias;
 			String aux;
-			int contador = 1;
+			int contador = 0;
+			String ingredientePpal;
+			String categorias;
+			String temporadas;
 			
 			ResultSet resultado = consultor.consultarReceta(nombreReceta);
 			
@@ -106,8 +109,11 @@
 			
 			dificultad = resultado.getInt("dificultad");
 			calorias = resultado.getInt("caloriasTotales");
+			ingredientePpal = consultor.obtenerNombreIng(resultado.getInt("ingrediente_ppal_id"));
+			categorias = consultor.obtenerNombreCategoria(resultado.getInt("categoria_id"));
+			temporadas = consultor.obtenerNombreTemporada(resultado.getInt("temporada_id"));
 			
-			receta = new Receta(nombreReceta, null, dificultad,null,null, null,null,calorias,"",null);
+			receta = new Receta(nombreReceta, ingredientePpal, dificultad,null,null, categorias,temporadas,calorias,"",null);
 			
 			Set<String> condimentosObtenidos = consultor.obtenerCondimentos(nombreReceta);
 			
@@ -149,10 +155,32 @@
 			<div class="col-md-5 col-md-offset-1">
 			
 				<h2 class="text-primary text-left">Categorías: </h2>
+				
 				<ul>
-					<li>Categoria1</li>
-					<li>Categoria2</li>
-					<li>Categoria3</li>
+				
+				<%
+				
+				if(receta.getCategorias() != null)
+				{
+					if(receta.getCategorias().contains("_"))
+					{
+						String[] categoriasReceta = receta.getCategorias().split("_");
+						
+						while(contador < categoriasReceta.length)
+						{
+							out.println("<li>"+ categoriasReceta[contador] + "</li>");
+							
+							contador++;
+						}
+					}
+					else
+					{
+						out.println("<li>"+ receta.getCategorias() + "</li>");
+					}
+				}
+
+				%>
+
 				</ul>
 			</div>
 			
@@ -160,8 +188,31 @@
 			
 				<h2 class="text-primary text-left">Temporadas: </h2>
 				<ul>
-					<li>Temporada1</li>
-					<li>Temporada2</li>
+				
+				<%
+				
+				if(receta.getTemporada() != null)
+				{
+				
+				if(receta.getTemporada().contains("_"))
+				{
+					String[] temporadasReceta = receta.getTemporada().split("_");
+					contador = 0;
+				
+					while(contador < temporadasReceta.length)
+					{
+					out.println("<li>"+ temporadasReceta[contador] + "</li>");
+					
+					contador++;
+					}
+				}
+				else 
+				{
+					out.println("<li>"+ receta.getTemporada() + "</li>");
+				}
+				
+				}
+				%>
 				</ul>
 			</div>
 		</div>
@@ -183,6 +234,7 @@
 				
 				<%
 					Iterator<String> it = ingredientesObtenidos.iterator();
+					contador = 1;
 				
 					while(it.hasNext())
 					{

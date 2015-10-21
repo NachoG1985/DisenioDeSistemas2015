@@ -108,17 +108,19 @@
 	int calorias;
 	String nombre;
 	String ingredientePpal;
+	String categorias;
 	
 	int contador = 0;
 	
 	while(resultado.next() && contador <10)
 	{
 		nombre = resultado.getString("nombre");
-		//ingredientePpal = resultado.getString("");
+		ingredientePpal = consultor.obtenerNombreIng(resultado.getInt("ingrediente_ppal_id"));
 		dificultad = resultado.getInt("dificultad");
 		calorias = resultado.getInt("caloriasTotales");
+		categorias = consultor.obtenerNombreCategoria(resultado.getInt("categoria_id"));
 		
-		receta = new Receta(nombre,null,dificultad,null,null,null,null,calorias,null,null);
+		receta = new Receta(nombre,ingredientePpal,dificultad,null,null,categorias,null,calorias,null,null);
 		
 		recetasAMostrar.add(receta);
 		
@@ -147,6 +149,8 @@
 								
 								out.println("<h5 >Dificultad: " + String.valueOf(receta.getDificultad()) +"</h5>");
 								out.println("<h5 >Calorías: " + String.valueOf(receta.getCaloriasTotales()) +"</h5>");
+								
+								out.println("<h5>" + receta.getNombreIngredientePrincipal() + "</h5>");
 								
 								out.println("<a class=\"btn btn-primary btn-sm btn-block\" href=\"verReceta_bootstrap.jsp?receta=" + receta.getNombre() + " \" role=\"button\">  Ver más <span class=\"glyphicon glyphicon-cutlery\"></span></a>");
 								
@@ -180,6 +184,8 @@
 								
 								out.println("<h5 >Dificultad: " + String.valueOf(receta.getDificultad()) +"</h5>");
 								out.println("<h5 >Calorías: " + String.valueOf(receta.getCaloriasTotales()) +"</h5>");
+								
+								out.println("<h5>" + receta.getNombreIngredientePrincipal() + "</h5>");
 								
 								out.println("<a class=\"btn btn-primary btn-sm btn-block\" href=\"verReceta_bootstrap.jsp?receta=" + receta.getNombre() + " \" role=\"button\">  Ver más <span class=\"glyphicon glyphicon-cutlery\"></span></a>");
 								
