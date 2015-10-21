@@ -1,7 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
+<%@ page import="clases.ConsultorBaseDeDatos" %>
+<%@ page import="clases.Receta" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.Iterator" %>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ver Receta</title>
@@ -9,39 +18,39 @@
     <!-- CSS de Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
  
-    <!-- librer√≠as opcionales que activan el soporte de HTML5 para IE8 -->
+    <!-- librerÌas opcionales que activan el soporte de HTML5 para IE8 -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+</head>
+<body>
 
-  </head>
-  <body> 
-    <!-- Librer√≠a jQuery requerida por los plugins de JavaScript -->
+<!-- LibrerÌa jQuery requerida por los plugins de JavaScript -->
     <script src="http://code.jquery.com/jquery.js"></script>
  
-    <!-- Todos los plugins JavaScript de Bootstrap (tambi√©n puedes
-         incluir archivos JavaScript individuales de los √∫nicos
+    <!-- Todos los plugins JavaScript de Bootstrap (tambiÈn puedes
+         incluir archivos JavaScript individuales de los ˙nicos
          plugins que utilices) -->
     <script src="js/bootstrap.min.js"></script>
 	
 <!-- BARRA DE NAVEGACION SUPERIOR -->
 	
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <!-- El logotipo y el icono que despliega el men√∫ se agrupan
-       para mostrarlos mejor en los dispositivos m√≥viles -->
+  <!-- El logotipo y el icono que despliega el men˙ se agrupan
+       para mostrarlos mejor en los dispositivos mÛviles -->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse"
             data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Desplegar navegaci√≥n</span>
+      <span class="sr-only">Desplegar navegaciÛn</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="home_bootstrap.jsp">¬øQu√© comemos hoy?</a>
+    <a class="navbar-brand" href="home_bootstrap.jsp">øQuÈ comemos hoy?</a>
   </div>
  
-  <!-- Agrupar los enlaces de navegaci√≥n, los formularios y cualquier
+  <!-- Agrupar los enlaces de navegaciÛn, los formularios y cualquier
        otro elemento que se pueda ocultar al minimizar la barra -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav navbar-right" style="margin-right:1%">
@@ -82,7 +91,30 @@
   </div>
 </nav>
 
-		<h1 class="text-primary text-left col-md-offset-1">NOMBRE DE LA RECETA</h1>
+		<%
+			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
+			Receta receta;
+			String nombreReceta = request.getParameter("receta");
+			int dificultad;
+			int calorias;
+			String aux;
+			int contador = 1;
+			
+			ResultSet resultado = consultor.consultarReceta(nombreReceta);
+			
+			resultado.first();
+			
+			dificultad = resultado.getInt("dificultad");
+			calorias = resultado.getInt("caloriasTotales");
+			
+			receta = new Receta(nombreReceta, null, dificultad,null,null, null,null,calorias,"",null);
+			
+			Set<String> condimentosObtenidos = consultor.obtenerCondimentos(nombreReceta);
+			
+			Set<String> ingredientesObtenidos = consultor.obtenerIngyCant(nombreReceta);
+			
+			out.println("<h1 class=\"text-primary text-left col-md-offset-1\">"+ receta.getNombre() +"</h1>");
+		%>
 		
 		<div class="row">
 		
@@ -91,7 +123,7 @@
 			</div>
 			
 			<div class="col-md-5">
-				<h3 class="text-primary text-left">Calificaci√≥n: <small>C</small></h3>
+				<h3 class="text-primary text-left">CalificaciÛn: <small>C</small></h3>
 			</div>
 		
 		</div>
@@ -99,11 +131,15 @@
 		<div class="row">
 		
 			<div class="col-md-5 col-md-offset-1">
-				<h3 class="text-primary text-left">Dificultad: <small>D</small></h3>
+			<%
+				out.println("<h3 class=\"text-primary text-left\">Dificultad: <small>" + String.valueOf(receta.getDificultad()) + "</small></h3>");
+			%>
 			</div>
 			
 			<div class="col-md-5">
-				<h3 class="text-primary text-left">Calorias totales: <small>CCCCC</small></h3>
+			<%
+				out.println("<h3 class=\"text-primary text-left\">Calorias totales: <small>" + String.valueOf(receta.getCaloriasTotales()) + "</small></h3>");
+			%>
 			</div>
 		
 		</div>		
@@ -112,7 +148,7 @@
 		
 			<div class="col-md-5 col-md-offset-1">
 			
-				<h2 class="text-primary text-left">Categor√≠as: </h2>
+				<h2 class="text-primary text-left">CategorÌas: </h2>
 				<ul>
 					<li>Categoria1</li>
 					<li>Categoria2</li>
@@ -138,30 +174,34 @@
 				<h2 class="text-primary text-left">Ingredientes: </h2>
 				
 				<table class="table table-striped">
+				
 				<tr>
 					<td><strong>#</strong></td>
 					<td><strong>Ingrediente</strong></td> 
 					<td><strong>Cantidad</strong></td>
 				</tr>
 				
-				<tr>
-					<td>1</td>
-					<td>Ingrediente1</td> 
-					<td>400</td>
-				</tr>
+				<%
+					Iterator<String> it = ingredientesObtenidos.iterator();
 				
-				<tr>
-					<td>2</td>
-					<td>Ingrediente2</td> 
-					<td>450</td>
-				</tr>
-				
-				<tr>
-					<td>3</td>
-					<td>Ingrediente3</td> 
-					<td>230</td>
-				</tr>
-			
+					while(it.hasNext())
+					{
+						aux = it.next();
+						
+						out.println("<tr>");
+						
+						out.println("<td>"+ String.valueOf(contador) + "</td>");
+						out.println("<td>" + aux + "</td>");
+						
+						aux = it.next();
+						
+						out.println("<td>" + aux + "</td>");
+						out.println("</tr>");
+						
+						contador++;
+					}
+				%>
+
 			</table>				
 		
 			</div>
@@ -176,20 +216,22 @@
 					<td><strong>Condimento</strong></td> 
 				</tr>
 				
-				<tr>
-					<td>1</td>
-					<td>Condimento1</td> 
-				</tr>
+					<%
+					 it = condimentosObtenidos.iterator();
+					contador = 1;
 				
-				<tr>
-					<td>2</td>
-					<td>Condimento2</td> 
-				</tr>
-				
-				<tr>
-					<td>3</td>
-					<td>Condimento3</td> 
-				</tr>
+					while(it.hasNext())
+					{
+						aux = it.next();
+						
+						out.println("<tr>");
+						out.println("<td>"+ String.valueOf(contador) + "</td>");
+						out.println("<td>" + aux + "</td>");
+						out.println("</tr>");
+						
+						contador++;
+					}
+				%>
 			
 			</table>
 				
@@ -205,9 +247,9 @@
 					<img src="Imagenes/Procedimientos recetas/pizza-stock.jpg" alt="...">
 					<div class="caption">
 						<h3 class="text-primary text-center">Paso 1</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la informaci√≥n para llevar adelante el paso ilustrado.
-						Deber√° no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedar√≠a el 
-						dise√±o de la imagen con su parrafo.</p>
+						<p>Paso de la receta que representa a la imagen de arriba. Contendra la informaciÛn para llevar adelante el paso ilustrado.
+						Deber· no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedarÌa el 
+						diseÒo de la imagen con su parrafo.</p>
 					</div>
 				
 				</div>
@@ -220,9 +262,9 @@
 					<img src="Imagenes/Procedimientos recetas/hamburguesa.jpg" alt="...">
 					<div class="caption">
 						<h3 class="text-primary text-center">Paso 2</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la informaci√≥n para llevar adelante el paso ilustrado.
-						Deber√° no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedar√≠a el 
-						dise√±o de la imagen con su parrafo.</p>
+						<p>Paso de la receta que representa a la imagen de arriba. Contendra la informaciÛn para llevar adelante el paso ilustrado.
+						Deber· no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedarÌa el 
+						diseÒo de la imagen con su parrafo.</p>
 					</div>
 				
 				</div>
@@ -235,9 +277,9 @@
 					<img src="Imagenes/Procedimientos recetas/raviolesconsalsadetomates.jpg" alt="...">
 					<div class="caption">
 						<h3 class="text-primary text-center">Paso 3</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la informaci√≥n para llevar adelante el paso ilustrado.
-						Deber√° no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedar√≠a el 
-						dise√±o de la imagen con su parrafo.</p>
+						<p>Paso de la receta que representa a la imagen de arriba. Contendra la informaciÛn para llevar adelante el paso ilustrado.
+						Deber· no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedarÌa el 
+						diseÒo de la imagen con su parrafo.</p>
 					</div>
 				
 				</div>			
@@ -250,9 +292,9 @@
 					<img src="..." alt="...">
 					<div class="caption">
 						<h3 class="text-primary text-center">Paso 4</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la informaci√≥n para llevar adelante el paso ilustrado.
-						Deber√° no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedar√≠a el 
-						dise√±o de la imagen con su parrafo.</p>
+						<p>Paso de la receta que representa a la imagen de arriba. Contendra la informaciÛn para llevar adelante el paso ilustrado.
+						Deber· no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedarÌa el 
+						diseÒo de la imagen con su parrafo.</p>
 					</div>
 				
 				</div>			
@@ -265,9 +307,9 @@
 					<img src="..." alt="...">
 					<div class="caption">
 						<h3 class="text-primary text-center">Paso 5</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la informaci√≥n para llevar adelante el paso ilustrado.
-						Deber√° no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedar√≠a el 
-						dise√±o de la imagen con su parrafo.</p>
+						<p>Paso de la receta que representa a la imagen de arriba. Contendra la informaciÛn para llevar adelante el paso ilustrado.
+						Deber· no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedarÌa el 
+						diseÒo de la imagen con su parrafo.</p>
 					</div>
 				
 				</div>			
@@ -276,5 +318,6 @@
 		
 		</div>
 
-  </body>
+
+</body>
 </html>

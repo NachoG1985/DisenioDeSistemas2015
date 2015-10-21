@@ -48,7 +48,7 @@
 					//Si el usuario existe y la contraseña ingresada es correcta entonces setear el nombre de usuario en la sesion y redirigir a la pagina home
 							
 							//session.setAttribute("usuario", (Object)nuevoUsuario);
-							response.sendRedirect("../Vistas/home_bootstrap.html");
+							response.sendRedirect("../Vistas/home_bootstrap.jsp");
 						}
 					}
 				}
