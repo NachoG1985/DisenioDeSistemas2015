@@ -532,6 +532,175 @@ public class ConsultorBaseDeDatos {
 	        } return lista;
 	 }  
 
+	//devuelve las recetas segun condimento dado 
+		 public ResultSet recetaSegunCond(String condim) {
+			 	ResultSet data=null;
+			 	Connection cn = null;
+			 	CallableStatement cst = null;
+			 		 
+			 	try {
+		        	 cn = getConexion("disenio", "root", "");
+		           	   	      	 
+		             cst = cn.prepareCall("{call recetaSegunCondimento(?)}");
+		             cst.setString(1,condim);
+		             data = cst.executeQuery();
+		                           
+		                
+			 	}catch (Exception e) {
+		        	
+		        } return data;
+		 }  
+		 
+		//devuelve las recetas segun dieta dada 
+			 public ResultSet recetaSegunDieta(String dieta) {
+				 	ResultSet data=null;
+				 	Connection cn = null;
+				 	CallableStatement cst = null;
+				 		 
+				 	try {
+			        	 cn = getConexion("disenio", "root", "");
+			           	   	      	 
+			             cst = cn.prepareCall("{call recetaSegunDieta(?)}");
+			             cst.setString(1,dieta);
+			             data = cst.executeQuery();
+			                           
+			                
+				 	}catch (Exception e) {
+			        	
+			        } return data;
+			 }  
+			 
+			//devuelve las recetas segun dieta dada 
+			 public ResultSet recetaSegunNivelAlimenticio(String nivel) {
+				 	ResultSet data=null;
+				 	Connection cn = null;
+				 	CallableStatement cst = null;
+				 		 
+				 	try {
+			        	 cn = getConexion("disenio", "root", "");
+			           	   	      	 
+			             cst = cn.prepareCall("{call recetaSegunNivelAlimenticio(?)}");
+			             cst.setString(1,nivel);
+			             data = cst.executeQuery();
+			                           
+			                
+				 	}catch (Exception e) {
+			        	
+			        } return data;
+			 }  
+			 
+			//devuelve las recetas segun los gustos del usuario dado 
+			 public ResultSet recetaSegunPreferencia(String nombreUsuario) {
+				 	ResultSet data=null;
+				 	Connection cn = null;
+				 	CallableStatement cst = null;
+				 	int usu;	 
+				 	try {
+			        	 cn = getConexion("disenio", "root", "");
+			           	 usu = obtenerIDUsuario(nombreUsuario, cn, cst);  	      	 
+			             cst = cn.prepareCall("{call recetaSegunNivelAlimenticio(?)}");
+			             cst.setInt(1,usu);
+			             data = cst.executeQuery();
+			                           
+			                
+				 	}catch (Exception e) {
+			        	
+			        } return data;
+			 } 
+			 
+			//devuelve las recetas segun ing ppal dado 
+			 public ResultSet recetaSegunIngPpal(String ingrediente) {
+				 	ResultSet data=null;
+				 	Connection cn = null;
+				 	CallableStatement cst = null;
+				 		 
+				 	try {
+			        	 cn = getConexion("disenio", "root", "");
+			           	  	      	 
+			             cst = cn.prepareCall("{call recetaSegunIngPpal(?)}");
+			             cst.setString(1,ingrediente);
+			             data = cst.executeQuery();
+			                           
+			                
+				 	}catch (Exception e) {
+			        	
+			        } return data;
+			 }  
+			 
+			 public ResultSet recetaSegunDificultad(int dificultad) {
+				 	ResultSet data=null;
+				 	Connection cn = null;
+				 	CallableStatement cst = null;
+				 		 
+				 	try {
+			        	 cn = getConexion("disenio", "root", "");
+			           	  	      	 
+			             cst = cn.prepareCall("{call recetaSegunDificultad(?)}");
+			             cst.setInt(1,dificultad);
+			             data = cst.executeQuery();
+			                           
+			                
+				 	}catch (Exception e) {
+			        	
+			        } return data;
+			 }  
+			 
+			//segun un rango de calorias devuelve las recetas con calorias dentro de ese rango
+			 public ResultSet recetaSegunCalorias(double cal1,double cal2) {
+				 	ResultSet data=null;
+				 	Connection cn = null;
+				 	CallableStatement cst = null;
+				 		 
+				 	try {
+			        	 cn = getConexion("disenio", "root", "");
+			           	  	      	 
+			             cst = cn.prepareCall("{call reporteRangoCalorias(?,?)}");
+			             cst.setDouble(1,cal1);
+			             cst.setDouble(2,cal2);
+			             data = cst.executeQuery();
+			                           
+			                
+				 	}catch (Exception e) {
+			        	
+			        } return data;
+			 }  
+			 
+			 
+			 public ResultSet recetaMasConsultada() {
+				 	ResultSet data=null;
+				 	Connection cn = null;
+				 	CallableStatement cst = null;
+				 		 
+				 	try {
+			        	 cn = getConexion("disenio", "root", "");
+			           	  	      	 
+			             cst = cn.prepareCall("{call recetaMasConsultada()}");
+			             data = cst.executeQuery();
+			                    
+			             
+				 	}catch (Exception e) {
+			        	
+			        } return data;
+			 }  
+		
+		// devuelve las recetas creadas por un usuario-- todavia en proceso de restauracion	 
+			 public ResultSet recetaCreadas(String usuario) {
+				 	ResultSet data=null;
+				 	Connection cn = null;
+				 	CallableStatement cst = null;
+				 		 
+				 	try {
+			        	 cn = getConexion("disenio", "root", "");
+			           	  	      	 
+			             cst = cn.prepareCall("{call mostrarRecetasCreadas(?)}");
+			             cst.setString(1,usuario);
+			             data = cst.executeQuery();
+			                    
+			             
+				 	}catch (Exception e) {
+			        	
+			        } return data;
+			 }
 		
 		    
 //********************* Funciones Auxiliares******************************		  
@@ -673,6 +842,91 @@ public class ConsultorBaseDeDatos {
 	         resultado = data.getInt("condimentos_id"); 
 			 }catch(Exception e) {       	
 		        }
+			 return resultado;
+		 }
+		 
+		 public String obtenerNombreIng(int ing){
+			 ResultSet data;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 String resultado = null;
+			 try{
+				 cn = getConexion("disenio", "root", "");
+				 cst = cn.prepareCall("{call obtenerNombreIng(?)}");
+				 cst.setInt(1,ing);
+				 data = cst.executeQuery();
+				 data.next();
+				 resultado = data.getString("nombre"); 
+			 	}catch(Exception e) {       	
+			 	}
+			 return resultado;
+		 }
+		 
+		 public String obtenerNombreTemporada(int tempo){
+			 ResultSet data;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 String resultado = null;
+			 try{
+				 cn = getConexion("disenio", "root", "");
+				 cst = cn.prepareCall("{call obtenerNombreTemporada(?)}");
+				 cst.setInt(1,tempo);
+				 data = cst.executeQuery();
+				 data.next();
+				 resultado = data.getString("tipo"); 
+			 	}catch(Exception e) {       	
+			 	}
+			 return resultado;
+		 }
+		 
+		 public String obtenerNombreCategoria(int cate){
+			 ResultSet data;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 String resultado = null;
+			 try{
+				 cn = getConexion("disenio", "root", "");
+				 cst = cn.prepareCall("{call obtenerNombreCategoria(?)}");
+				 cst.setInt(1,cate);
+				 data = cst.executeQuery();
+				 data.next();
+				 resultado = data.getString("tipo"); 
+			 	}catch(Exception e) {       	
+			 	}
+			 return resultado;
+		 }
+		 
+		 public String obtenerNombreCondicion(int cond){
+			 ResultSet data;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 String resultado = null;
+			 try{
+				 cn = getConexion("disenio", "root", "");
+				 cst = cn.prepareCall("{call obtenerNombreCondicion(?)}");
+				 cst.setInt(1,cond);
+				 data = cst.executeQuery();
+				 data.next();
+				 resultado = data.getString("tipo"); 
+			 	}catch(Exception e) {       	
+			 	}
+			 return resultado;
+		 }
+		 
+		 public String obtenerNombreDieta(int dieta){
+			 ResultSet data;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 String resultado = null;
+			 try{
+				 cn = getConexion("disenio", "root", "");
+				 cst = cn.prepareCall("{call obtenerNombreDieta(?)}");
+				 cst.setInt(1,dieta);
+				 data = cst.executeQuery();
+				 data.next();
+				 resultado = data.getString("tipo"); 
+			 	}catch(Exception e) {       	
+			 	}
 			 return resultado;
 		 }
 		
