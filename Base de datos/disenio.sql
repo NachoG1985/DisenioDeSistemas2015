@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2015 a las 04:41:19
+-- Tiempo de generación: 21-10-2015 a las 05:27:01
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -37,7 +37,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `condSegunReceta`(IN `rec` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
 select C.nombre
-from condimentos_receta as CR inner join condimentos as C on CR.condimentos_id = C.condimentos_id
+from condimentos_receta as CR 
+inner join condimentos as C on CR.condimentos_id = C.condimentos_id
 where CR.recetas_id = rec$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `consultaReceta`(IN `nom` VARCHAR(40))
@@ -120,7 +121,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadas`(IN `usu` VAR
     READS SQL DATA
     SQL SECURITY INVOKER
 select * 
-from usuarios as U inner join historial as H on U.usuario_id = H.usuario_id
+from usuarios as U 
+inner join historial as H on U.usuario_id = H.usuario_id
+inner join recetas R on (R.recetas_id = H.receta_id)
 where H.operacion = 'cargar' and U.nombreUsuario = usu$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`()
@@ -134,8 +137,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDBConFiltros`(IN `nom
     SQL SECURITY INVOKER
 select * 
 from recetas
-where nombre like '%nom%'
-and ingrediente_ppal_id like '%ing%'
+where nombre like concat("%",nom,"%")
+and ingrediente_ppal_id = ing
 and dificultad = dif
 and temporada_id = temp
 and categoria_id = cat
@@ -291,9 +294,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondimento`(IN `cond` VA
     READS SQL DATA
     SQL SECURITY INVOKER
 select *
-from condimentos as C, recetas as R inner join condimentos_receta as CR on R.recetas_id = CR.recetas_id 
-where C.condimentos_id = CR.condimentos_id and C.nombre like concat("%",cond,"%") 
-order by rand(R.recetas_id) 
+from condimentos C
+inner join condimentos_receta CR on CR.condimentos_id = C.condimentos_id
+inner join recetas R on (R.recetas_id = CR.recetas_id)
+where C.nombre like concat("%",cond,"%")
+order by rand(R.recetas_id)
 limit 5$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunDieta`(IN `dieta` VARCHAR(100))
@@ -322,10 +327,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunNivelAlimenticio`(IN `ni
     READS SQL DATA
     SQL SECURITY INVOKER
 select *
-from nivel_alimenticio as NA,recetas as R
+from recetas as R
 inner join ingredientes as I on R.ingrediente_ppal_id = I.ingredientes_id
-where I.nivel_id = NA.nivel_id
-and NA.tipo like concat("%",nivel,"%")
+inner join nivel_alimenticio as NA on (I.nivel_id = NA.nivel_id)
+where NA.tipo like concat("%",nivel,"%")
 order by rand(R.recetas_id) 
 limit 5$$
 
@@ -411,6 +416,30 @@ INSERT INTO `calificacion_usuario_receta` (`calif_recet_usuario`, `recetas_id`, 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `categoria_hora_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
+  `horaMax` time NOT NULL,
+  `horaMin` time NOT NULL,
+  PRIMARY KEY (`categoria_hora_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`categoria_hora_id`, `nombre`, `horaMax`, `horaMin`) VALUES
+(1, 'Desayuno', '11:00:00', '04:00:00'),
+(2, 'Almuerzo', '14:30:00', '11:00:00'),
+(3, 'Merienda', '20:00:00', '14:30:00'),
+(4, 'Cena', '04:00:00', '20:00:00');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `categoria_receta`
 --
 
@@ -440,30 +469,6 @@ INSERT INTO `categoria_receta` (`categorias_id`, `tipo`) VALUES
 (13, 'Desayuno_Merienda_Cena'),
 (14, 'Almuerzo_Merienda_Cena'),
 (15, 'Desayuno_Almuerzo_Merienda_Cena');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `categorias`
---
-
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `categoria_hora_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
-  `horaMax` time NOT NULL,
-  `horaMin` time NOT NULL,
-  PRIMARY KEY (`categoria_hora_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`categoria_hora_id`, `nombre`, `horaMax`, `horaMin`) VALUES
-(1, 'Desayuno', '11:00:00', '04:00:00'),
-(2, 'Almuerzo', '14:30:00', '11:00:00'),
-(3, 'Merienda', '20:00:00', '14:30:00'),
-(4, 'Cena', '04:00:00', '20:00:00');
 
 -- --------------------------------------------------------
 
@@ -733,19 +738,6 @@ INSERT INTO `preferencias_alimenticias_usuario` (`prefe_usuario_id`, `ingredient
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `procedimiento_receta`
---
-
-CREATE TABLE IF NOT EXISTS `procedimiento_receta` (
-  `proced_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `recetas_id` int(11) NOT NULL,
-  `procedimientos_id` int(11) NOT NULL,
-  PRIMARY KEY (`proced_recet_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `procedimientos`
 --
 
@@ -762,6 +754,19 @@ CREATE TABLE IF NOT EXISTS `procedimientos` (
   `imagen5` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   `paso5` text COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`procedimientos_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `procedimiento_receta`
+--
+
+CREATE TABLE IF NOT EXISTS `procedimiento_receta` (
+  `proced_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `recetas_id` int(11) NOT NULL,
+  `procedimientos_id` int(11) NOT NULL,
+  PRIMARY KEY (`proced_recet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
