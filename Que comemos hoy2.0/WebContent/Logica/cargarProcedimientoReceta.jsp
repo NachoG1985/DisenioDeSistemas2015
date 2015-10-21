@@ -1,4 +1,3 @@
-<%@page import="org.apache.commons.fileupload.servlet.ServletFileUpload"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="clases.Receta" %>
@@ -8,8 +7,7 @@
 <%@ page import="java.io.File" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Iterator" %>
-<%@ page import="org.apache.commons.fileupload.disk.DiskFileItemFactory" %>
-<%@page import="org.apache.commons.fileupload.FileItem"%>
+
 <%@ page import="clases.ConsultorBaseDeDatos" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -68,7 +66,7 @@
 	nuevaReceta.agregarPasoDeReceta(paso5);
 	
 	consultor.insertarReceta(nuevaReceta.getNombre(), nuevaReceta.getNombreIngredientePrincipal(), nuevaReceta.getDificultad(), 
-			nuevaReceta.getTemporada(), nuevaReceta.getCategorias(), nuevaReceta.calcularCalorias(), nuevaReceta.getAptaPara(), nuevaReceta.getDietasAptas());
+			nuevaReceta.getTemporada(), nuevaReceta.getCategorias(), 666, nuevaReceta.getAptaPara(), nuevaReceta.getDietasAptas());
 	
 	Iterator<IngredienteEnReceta> it = nuevaReceta.getIngredientes().iterator();
 	

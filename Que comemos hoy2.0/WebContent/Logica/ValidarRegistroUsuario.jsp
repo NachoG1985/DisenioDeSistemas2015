@@ -24,15 +24,17 @@
 			//Obtengo los datos del perfil de usuario cargados en el formulario
 			String nombre = request.getParameter("nombre");
 			String apellido = request.getParameter("apellido");
-			int altura = Integer.parseInt(request.getParameter("altura"));
+			double altura = Double.parseDouble(request.getParameter("altura"));
 			int edad = Integer.parseInt(request.getParameter("edad"));
 			String sexo = request.getParameter("sexo");
 			String dieta = request.getParameter("dieta");
 			
-			String condiciones = request.getParameter("condicionPreexistente").replaceAll(",", "-");
+			String condiciones = request.getParameter("condicionPreexistente");
 			
-			if(condiciones != null){
-				condiciones = condiciones.replaceAll(",", "-");
+			if(condiciones!= null)
+			{
+				if(condiciones.contains(","))
+					condiciones = condiciones.replaceAll(",", "-");
 			}
 			else{
 				condiciones = "Nada";

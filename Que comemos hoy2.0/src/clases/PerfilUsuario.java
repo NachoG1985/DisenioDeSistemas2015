@@ -11,7 +11,7 @@ public class PerfilUsuario implements Visitable{
 
 	private String sexo;
 	private int edad;
-	private int altura;
+	private double altura;
 	private String complexion;
 	private String dieta;
 	private String[] preferencias;
@@ -20,7 +20,7 @@ public class PerfilUsuario implements Visitable{
 
 	// Constructor de la clase
 	public PerfilUsuario(String nombre,String apellido, String nuevoSexo,
-			int nuevaEdad, int nuevaAltura, String nuevaComplexion,
+			int nuevaEdad, double nuevaAltura, String nuevaComplexion,
 			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina,
 			String nuevasCondiciones) {
 
@@ -69,11 +69,11 @@ public class PerfilUsuario implements Visitable{
 		this.edad = edad;
 	}
 
-	public int getAltura() {
+	public double getAltura() {
 		return altura;
 	}
 
-	public void setAltura(int altura) {
+	public void setAltura(double altura) {
 		this.altura = altura;
 	}
 

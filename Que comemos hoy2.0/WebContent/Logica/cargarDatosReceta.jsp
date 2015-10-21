@@ -26,12 +26,25 @@
 		String temporadas;
 		String dietasAptas;
 		
+		
 		nombreReceta = request.getParameter("nombreReceta");
 		dificultad = Integer.parseInt(request.getParameter("dificultad"));
-		aptaPara = request.getParameter("aptaPara").replaceAll(",", "-");
-		categorias = request.getParameter("categorias").replaceAll(",", "-");
-		temporadas = request.getParameter("temporadas").replaceAll(",", "-");
-		dietasAptas = request.getParameter("dietasAptas").replaceAll(",", "-");
+		
+		aptaPara = request.getParameter("aptaPara");
+		if(aptaPara.contains(","))
+			aptaPara = aptaPara.replaceAll(",", "-");
+		
+		categorias = request.getParameter("categorias");
+		if(categorias.contains(","))
+			categorias = categorias.replaceAll(",", "-");
+		
+		temporadas = request.getParameter("temporadas");
+		if(temporadas.contains(","))
+			temporadas = temporadas.replaceAll(",", "-");
+		
+		dietasAptas = request.getParameter("Dietas");
+		if(dietasAptas.contains(","))
+			dietasAptas = dietasAptas.replaceAll(",", "-");
 		
 		nuevaReceta = new Receta(nombreReceta, null, dificultad, dietasAptas, aptaPara, categorias, temporadas, 0, "",  Date.valueOf(LocalDate.now()));
 		

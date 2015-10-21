@@ -27,8 +27,8 @@
 				if(origen.contentEquals("Ingresar"))
 				{
 					//Se obtienen los valores ingresador
-					nombreUsuario = request.getParameter("nombreUsuarioIngreso").toString();
-					contraseñaIngresada = request.getParameter("contraseñaIngreso").toString();
+					nombreUsuario = request.getParameter("nombreUsuarioIngreso");
+					contraseñaIngresada = request.getParameter("contraseniaIngreso");
 					//Buscar en la base de datos el usuario con el nombre ingresado
 					resultado = consultor.consultarUsuario(nombreUsuario);
 					//Si el usuario no existe o la contraseña ingresada no coincide mostrar cartel de error
@@ -62,12 +62,12 @@
 					//Si no existe proceder con el registro
 						if(!resultado.first())
 						{
-							String contraseña = request.getParameter("contraseñaRegistro");
-							String confirmacionContraseña= request.getParameter("confirmacionContraseñaRegistro");
+							String contraseña = request.getParameter("contraseniaRegistro");
+							String confirmacionContraseña= request.getParameter("confirmacionContraseniaRegistro");
 							String email = request.getParameter("emailRegistro");
 							String diaNacimiento = request.getParameter("diaNacimiento");
 							String mesNacimiento = request.getParameter("mesNacimiento");
-							String añoNacimiento = request.getParameter("añoNacimiento");
+							String añoNacimiento = request.getParameter("anioNacimiento");
 							
 							String fecha = añoNacimiento + "-" + mesNacimiento + "-" + diaNacimiento;
 							
