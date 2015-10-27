@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2015 a las 05:27:01
+-- Tiempo de generación: 27-10-2015 a las 04:51:30
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -26,6 +26,12 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `calcularPromedio`()
+    READS SQL DATA
+    SQL SECURITY INVOKER
+SELECT C.recetas_id, AVG(C.calificacion)
+FROM calificacion_usuario_receta C GROUP BY C.recetas_id$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `caloriasRutina`(IN `actividad` VARCHAR(20))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -117,6 +123,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(IN `nombre` VARCHA
     SQL SECURITY INVOKER
 insert into usuarios(nombreUsuario,email,contrasenia,fecha_nacimiento) VALUES(nombre,mail,pass,fecha)$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `listarCondimentos`()
+    READS SQL DATA
+    SQL SECURITY INVOKER
+SELECT C.nombre, C.condimentos_id
+FROM condimentos C$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `listarIngredientes`()
+    READS SQL DATA
+    DETERMINISTIC
+    SQL SECURITY INVOKER
+SELECT I.nombre, I.ingredientes_id
+FROM ingredientes I$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadas`(IN `usu` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -146,12 +165,30 @@ and caloriasTotales = calo
 and condicion_id = cond
 and dieta_id = dieta$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCalificacionReceta`(IN `nombre` VARCHAR(40))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select P.calificacion_promedio 
+from promedio_calificacion P
+inner join recetas R on R.recetas_id = P.recetas_id
+where R.nombre like concat ("%",nombre,"%")$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondimentos`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
 select nombre
 from condimentos
 where condimentos_id = id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCreacionReceta`(IN `nombre` VARCHAR(40))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select H.tiempo, U.nombreUsuario
+from historial H
+inner join recetas R on R.recetas_id = H.receta_id
+inner join usuarios U on U.usuario_id = H.usuario_id
+where R.nombre like concat ("%",nombre,"%")
+and H.operacion = 'cargar'$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDAlimenticio`(IN `tipo` VARCHAR(30))
     READS SQL DATA
@@ -281,6 +318,13 @@ select tipo
 from temporadas
 where temporada_id = id$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerPerfil`(IN `user_id` INT(10))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+SELECT * 
+FROM perfil_usuario P
+WHERE user_id = P.usuario_id$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaMasConsultada`()
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -289,6 +333,15 @@ from historial as H inner join recetas as R on H.receta_id = R.recetas_id
 where operacion = 'consultar'
 group by receta_id
 order by count(*) desc$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondicion`(IN `user_id` INT)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select *
+from recetas R
+/*inner join condicion_prexistente C on C.condicion_id = R.condicion_id*/
+inner join perfil_usuario P on ( P.condicion_id = R.condicion_id)
+where P.usuario_id = user_id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondimento`(IN `cond` VARCHAR(40))
     READS SQL DATA
@@ -343,6 +396,16 @@ inner join preferencias_alimenticias_usuario PA on R.ingrediente_ppal_id = PA.in
 where PA.usuario_id = user_id
 order by rand(R.recetas_id) 
 limit 3$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunPrefPeriodo`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select *
+from historial as H inner join recetas as R on H.receta_id = R.recetas_id
+where H.operacion in ('confirmar','consultar')
+and H.tiempo between fecha1 and fecha2
+group by receta_id
+order by count(*) desc$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaTopTemporada`(IN `temporada` VARCHAR(100))
     READS SQL DATA
@@ -403,7 +466,7 @@ CREATE TABLE IF NOT EXISTS `calificacion_usuario_receta` (
   `usuario_id` int(11) NOT NULL,
   `calificacion` tinyint(4) NOT NULL,
   PRIMARY KEY (`calif_recet_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `calificacion_usuario_receta`
@@ -411,7 +474,8 @@ CREATE TABLE IF NOT EXISTS `calificacion_usuario_receta` (
 
 INSERT INTO `calificacion_usuario_receta` (`calif_recet_usuario`, `recetas_id`, `usuario_id`, `calificacion`) VALUES
 (1, 10, 7, 3),
-(2, 12, 46, 4);
+(2, 12, 46, 4),
+(3, 10, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -591,7 +655,7 @@ CREATE TABLE IF NOT EXISTS `historial` (
   `operacion` varchar(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `tiempo` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`movimiento_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=10 ;
 
 --
 -- Volcado de datos para la tabla `historial`
@@ -604,7 +668,8 @@ INSERT INTO `historial` (`movimiento_id`, `usuario_id`, `receta_id`, `operacion`
 (5, 7, 10, 'calificar', '2015-10-14 18:53:48'),
 (6, 45, 12, 'consultar', '2015-10-19 22:06:36'),
 (7, 54, 9, 'confirmar', '2015-10-20 01:35:32'),
-(8, 49, 12, 'consultar', '2015-10-21 00:32:52');
+(8, 49, 12, 'consultar', '2015-10-21 00:32:52'),
+(9, 4, 10, 'cargar', '2015-10-26 23:44:03');
 
 -- --------------------------------------------------------
 
