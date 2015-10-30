@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-10-2015 a las 04:51:30
+-- Tiempo de generación: 30-10-2015 a las 20:36:14
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -108,10 +108,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarProcedimiento`(IN `im1` VAR
     SQL SECURITY INVOKER
 insert into procedimientos(imagen1,paso1,imagen2,paso2,imagen3,paso3,imagen4,paso4,imagen5,paso5) VALUES(im1,pas1,im2,pas2,im3,pas3,im4,pas4,im5,pas5)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nom` VARCHAR(40), IN `ing` INT, IN `dif` INT(4), IN `tempo` INT, IN `cat` INT, IN `calo` DOUBLE, IN `cond` INT, IN `dieta` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nom` VARCHAR(40), IN `ing` INT, IN `dif` INT(4), IN `tempo` INT, IN `cat` INT, IN `calo` DOUBLE, IN `cond` INT, IN `dieta` INT, IN `proc` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
-insert into recetas(nombre,ingrediente_ppal_id,dificultad,temporada_id,categoria_id,caloriasTotales,condicion_id,dieta_id) VALUES(nom,ing,dif,tempo,cat,calo,cond,dieta)$$
+insert into recetas(nombre,ingrediente_ppal_id,dificultad,temporada_id,categoria_id,caloriasTotales,condicion_id,dieta_id,procedimiento_id) VALUES(nom,ing,dif,tempo,cat,calo,cond,dieta,proc)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarRecUsuario`(IN `usu` INT, IN `rec` INT)
     MODIFIES SQL DATA
@@ -151,7 +151,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`()
 select * 
 from recetas$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDBConFiltros`(IN `nom` VARCHAR(40), IN `ing` INT, IN `dif` INT(4), IN `temp` INT, IN `cat` INT, IN `calo` DOUBLE, IN `cond` INT, IN `dieta` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDBConFiltros`(IN `nom` VARCHAR(40), IN `ing` INT, IN `dif` INT(4), IN `temp` INT, IN `cat` INT, IN `calo` DOUBLE, IN `cond` INT, IN `dieta` INT, IN `proc` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
 select * 
@@ -163,7 +163,8 @@ and temporada_id = temp
 and categoria_id = cat
 and caloriasTotales = calo
 and condicion_id = cond
-and dieta_id = dieta$$
+and dieta_id = dieta
+and procedimiento_id = proc$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCalificacionReceta`(IN `nombre` VARCHAR(40))
     READS SQL DATA
@@ -171,7 +172,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCalificacionReceta`(IN `nomb
 select P.calificacion_promedio 
 from promedio_calificacion P
 inner join recetas R on R.recetas_id = P.recetas_id
-where R.nombre like concat ("%",nombre,"%")$$
+where R.nombre like concat("%",nombre,"%")$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondimentos`(IN `id` INT)
     READS SQL DATA
@@ -249,6 +250,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDPerfil`(IN `nom` VARCHAR(4
     SQL SECURITY INVOKER
 SELECT perfil_id FROM `perfil_usuario` WHERE nombre = nom and apellido=ape$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDProcedimiento`(IN `im1` VARCHAR(100))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select procedimientos_id
+from procedimientos
+where imagen1= im1$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDReceta`(IN `nom` VARCHAR(40))
     NO SQL
 select recetas_id
@@ -318,19 +326,19 @@ select tipo
 from temporadas
 where temporada_id = id$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerPerfil`(IN `user_id` INT(10))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerPerfil`(IN `usu` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
-SELECT * 
-FROM perfil_usuario P
-WHERE user_id = P.usuario_id$$
+SELECT PU.nombre,PU.apellido,PU.sexo,PU.edad,PU.altura,PU.complexion,PU.dieta_id,PU.rutina_id,PU.condicion_id
+FROM usuarios as U inner join perfil_usuario as PU on U.usuario_id = PU.usuario_id
+WHERE U.nombreUsuario = usu$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaMasConsultada`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaMasConsultada`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
 select *
 from historial as H inner join recetas as R on H.receta_id = R.recetas_id
-where operacion = 'consultar'
+where operacion = 'consultar' and H.tiempo between fecha1 and fecha2
 group by receta_id
 order by count(*) desc$$
 
@@ -480,30 +488,6 @@ INSERT INTO `calificacion_usuario_receta` (`calif_recet_usuario`, `recetas_id`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categorias`
---
-
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `categoria_hora_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
-  `horaMax` time NOT NULL,
-  `horaMin` time NOT NULL,
-  PRIMARY KEY (`categoria_hora_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`categoria_hora_id`, `nombre`, `horaMax`, `horaMin`) VALUES
-(1, 'Desayuno', '11:00:00', '04:00:00'),
-(2, 'Almuerzo', '14:30:00', '11:00:00'),
-(3, 'Merienda', '20:00:00', '14:30:00'),
-(4, 'Cena', '04:00:00', '20:00:00');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `categoria_receta`
 --
 
@@ -533,6 +517,30 @@ INSERT INTO `categoria_receta` (`categorias_id`, `tipo`) VALUES
 (13, 'Desayuno_Merienda_Cena'),
 (14, 'Almuerzo_Merienda_Cena'),
 (15, 'Desayuno_Almuerzo_Merienda_Cena');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `categoria_hora_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
+  `horaMax` time NOT NULL,
+  `horaMin` time NOT NULL,
+  PRIMARY KEY (`categoria_hora_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`categoria_hora_id`, `nombre`, `horaMax`, `horaMin`) VALUES
+(1, 'Desayuno', '11:00:00', '04:00:00'),
+(2, 'Almuerzo', '14:30:00', '11:00:00'),
+(3, 'Merienda', '20:00:00', '14:30:00'),
+(4, 'Cena', '04:00:00', '20:00:00');
 
 -- --------------------------------------------------------
 
@@ -824,19 +832,6 @@ CREATE TABLE IF NOT EXISTS `procedimientos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `procedimiento_receta`
---
-
-CREATE TABLE IF NOT EXISTS `procedimiento_receta` (
-  `proced_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `recetas_id` int(11) NOT NULL,
-  `procedimientos_id` int(11) NOT NULL,
-  PRIMARY KEY (`proced_recet_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `promedio_calificacion`
 --
 
@@ -864,6 +859,7 @@ CREATE TABLE IF NOT EXISTS `recetas` (
   `caloriasTotales` double NOT NULL,
   `condicion_id` int(11) NOT NULL,
   `dieta_id` int(11) NOT NULL,
+  `procedimiento_id` int(11) NOT NULL,
   PRIMARY KEY (`recetas_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=27 ;
 
@@ -871,18 +867,18 @@ CREATE TABLE IF NOT EXISTS `recetas` (
 -- Volcado de datos para la tabla `recetas`
 --
 
-INSERT INTO `recetas` (`recetas_id`, `nombre`, `ingrediente_ppal_id`, `dificultad`, `temporada_id`, `categoria_id`, `caloriasTotales`, `condicion_id`, `dieta_id`) VALUES
-(8, 'milanesa a la maryland', 3, 3, 1, 0, 541, 1, 1),
-(9, 'pizza', 1, 1, 13, 0, 125, 4, 1),
-(10, 'pati a la parrilla', 0, 5, 0, 0, 500, 0, 0),
-(11, 'tallarines', 0, 2, 0, 0, 350, 0, 0),
-(12, 'buñuelos de acelga', 0, 2, 0, 0, 110, 0, 0),
-(13, 'pastel de papa', 0, 3, 0, 0, 110, 0, 0),
-(14, 'bizcocho de vainilla', 0, 2, 0, 0, 420, 0, 0),
-(20, 'cafe', 0, 1, 0, 0, 514, 0, 0),
-(24, 'gelatina', 0, 2, 0, 0, 514, 0, 0),
-(25, 'flan', 5, 2, 2, 3, 400.5, 4, 1),
-(26, 'empanada de carne', 3, 3, 1, 0, 200.54, 1, 1);
+INSERT INTO `recetas` (`recetas_id`, `nombre`, `ingrediente_ppal_id`, `dificultad`, `temporada_id`, `categoria_id`, `caloriasTotales`, `condicion_id`, `dieta_id`, `procedimiento_id`) VALUES
+(8, 'milanesa a la maryland', 3, 3, 1, 0, 541, 1, 1, 0),
+(9, 'pizza', 1, 1, 13, 0, 125, 4, 1, 0),
+(10, 'pati a la parrilla', 0, 5, 0, 0, 500, 0, 0, 0),
+(11, 'tallarines', 0, 2, 0, 0, 350, 0, 0, 0),
+(12, 'buñuelos de acelga', 0, 2, 0, 0, 110, 0, 0, 0),
+(13, 'pastel de papa', 0, 3, 0, 0, 110, 0, 0, 0),
+(14, 'bizcocho de vainilla', 0, 2, 0, 0, 420, 0, 0, 0),
+(20, 'cafe', 0, 1, 0, 0, 514, 0, 0, 0),
+(24, 'gelatina', 0, 2, 0, 0, 514, 0, 0, 0),
+(25, 'flan', 5, 2, 2, 3, 400.5, 4, 1, 0),
+(26, 'empanada de carne', 3, 3, 1, 0, 200.54, 1, 1, 0);
 
 -- --------------------------------------------------------
 

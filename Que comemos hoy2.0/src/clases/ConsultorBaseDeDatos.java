@@ -163,10 +163,10 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 
-	 public int insertarReceta(String nombre,String ingrediente,int dificultad,String temporada,String cat,double calorias,String condicion,String dieta) {
+	 public int insertarReceta(String nombre,String ingrediente,int dificultad,String temporada,String cat,double calorias,String condicion,String dieta,String imagen1) {
 		 	ResultSet data;
 		 	int resultado=0;
-		 	int temp,ing,categ,cond,diet;
+		 	int temp,ing,categ,cond,diet,im1;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
@@ -177,9 +177,10 @@ public class ConsultorBaseDeDatos {
 	        	 categ = obtenerIDCategoria(cat, cn, cst); 
 	           	 cond = obtenerIDCondicion(condicion, cn, cst);
 	           	 diet = obtenerIDDieta(dieta, cn, cst);
+	           	 im1 = obtenerIDProcedimiento(imagen1, cn, cst);
 	           	 
 	           	 
-	             cst = cn.prepareCall("{call insertarReceta(?,?,?,?,?,?,?,?)}");
+	             cst = cn.prepareCall("{call insertarReceta(?,?,?,?,?,?,?,?,?)}");
 	             cst.setString(1,nombre);
 	             cst.setInt(2,ing);
 	             cst.setInt(3,dificultad);
@@ -188,6 +189,7 @@ public class ConsultorBaseDeDatos {
 	             cst.setDouble(6,calorias);
 	             cst.setInt(7,cond);
 	             cst.setInt(8,diet);
+	             cst.setInt(9,im1);
 	             cst.executeUpdate();
 	             cst = cn.prepareCall("{call obtenerIDReceta(?)}");
 	             cst.setString(1,nombre);
@@ -416,7 +418,36 @@ public class ConsultorBaseDeDatos {
 	        	
 	        }
 	        
+	 } 
+	 
+	 public void insertarProcedimiento(String im1,java.lang.String pas1,String im2,java.lang.String pas2,String im3,java.lang.String pas3,String im4,java.lang.String pas4,String im5,java.lang.String pas5) {
+		 	Connection cn = null;
+		 	CallableStatement cst = null;
+	        try {
+	        	 cn = getConexion("disenio", "root", "");
+	           	           
+	             cst = cn.prepareCall("{call insertarCondimento(?,?,?,?,?,?,?,?,?,?)}");
+	             cst.setString(1,im1);
+	             cst.setString(2,pas1);
+	             cst.setString(3,im2);
+	             cst.setString(4,pas2);
+	             cst.setString(5,im3);
+	             cst.setString(6,pas3);
+	             cst.setString(7,im4);
+	             cst.setString(8,pas4);
+	             cst.setString(9,im5);
+	             cst.setString(10,pas5);
+	             cst.executeUpdate();
+	                
+	                
+	                         
+	        }catch (Exception e) {
+	        	
+	        }
+	        
+	        return ;
 	 }  
+	 
 	 
 	 
 //****************Funciones de Consulta**************************
@@ -505,202 +536,296 @@ public class ConsultorBaseDeDatos {
 		 
 		 //devuelve los condimentos de una receta en un Set
 	 public Set<String> obtenerCondimentos(String nombre) {
-		 	ResultSet data=null;
-		 	Connection cn = null;
-		 	CallableStatement cst = null;
-		 	Set<String> lista = new HashSet<>();
-		 	int rec;
-		 	try {
-	        	 cn = getConexion("disenio", "root", "");
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		 Set<String> lista = new HashSet<>();
+		 int rec;
+		 try {
+			 cn = getConexion("disenio", "root", "");
 	           	 
-	        	 rec = obtenerIDReceta(nombre, cn, cst);
+			 rec = obtenerIDReceta(nombre, cn, cst);
 	        	 
-	             cst = cn.prepareCall("{call condSegunReceta(?)}");
-	             cst.setInt(1,rec);
-	             data = cst.executeQuery();
-	             data.next();
-	             while (data != null)
-	             {
+			 cst = cn.prepareCall("{call condSegunReceta(?)}");
+			 cst.setInt(1,rec);
+			 data = cst.executeQuery();
+			 data.next();
+			 while (data != null)
+			 {
 	            	   	 		                	
-	            	 lista.add(data.getString("nombre"));
-	            	 data.next();
-	             }               
+				 lista.add(data.getString("nombre"));
+				 data.next();
+			 }               
 	                          
 	            
-	        }catch (Exception e) {
+		 }catch (Exception e) {
 	        	
-	        } return lista;
+		 } return lista;
 	 }  
 
 	//devuelve las recetas segun condimento dado 
-		 public ResultSet recetaSegunCond(String condim) {
-			 	ResultSet data=null;
-			 	Connection cn = null;
-			 	CallableStatement cst = null;
+	 public ResultSet recetaSegunCond(String condim) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
 			 		 
-			 	try {
-		        	 cn = getConexion("disenio", "root", "");
-		           	   	      	 
-		             cst = cn.prepareCall("{call recetaSegunCondimento(?)}");
-		             cst.setString(1,condim);
-		             data = cst.executeQuery();
+		 try {
+			 cn = getConexion("disenio", "root", "");
+			 
+			 cst = cn.prepareCall("{call recetaSegunCondimento(?)}");
+			 cst.setString(1,condim);
+			 data = cst.executeQuery();
 		                           
 		                
-			 	}catch (Exception e) {
+		 }catch (Exception e) {
 		        	
-		        } return data;
-		 }  
+		 } return data;
+	 }  
 		 
-		//devuelve las recetas segun dieta dada 
-			 public ResultSet recetaSegunDieta(String dieta) {
-				 	ResultSet data=null;
-				 	Connection cn = null;
-				 	CallableStatement cst = null;
+	 //devuelve las recetas segun dieta dada 
+	 public ResultSet recetaSegunDieta(String dieta) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
 				 		 
-				 	try {
-			        	 cn = getConexion("disenio", "root", "");
+		 try {
+			 cn = getConexion("disenio", "root", "");
+			 
+			 cst = cn.prepareCall("{call recetaSegunDieta(?)}");
+			 cst.setString(1,dieta);
+			 data = cst.executeQuery();
+			             
+			                
+		 }catch (Exception e) {
+			        	
+		 } return data;
+	 }  
+			 
+	 //devuelve las recetas segun dieta dada 
+	 public ResultSet recetaSegunNivelAlimenticio(String nivel) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+				 		 
+		 try {
+			 cn = getConexion("disenio", "root", "");
 			           	   	      	 
-			             cst = cn.prepareCall("{call recetaSegunDieta(?)}");
-			             cst.setString(1,dieta);
-			             data = cst.executeQuery();
+			 cst = cn.prepareCall("{call recetaSegunNivelAlimenticio(?)}");
+			 cst.setString(1,nivel);
+			 data = cst.executeQuery();
 			                           
 			                
-				 	}catch (Exception e) {
+		 }catch (Exception e) {
 			        	
-			        } return data;
-			 }  
+		 } return data;
+	 }  
 			 
-			//devuelve las recetas segun dieta dada 
-			 public ResultSet recetaSegunNivelAlimenticio(String nivel) {
-				 	ResultSet data=null;
-				 	Connection cn = null;
-				 	CallableStatement cst = null;
+	 //devuelve las recetas segun los gustos del usuario dado 
+	 public ResultSet recetaSegunPreferencia(String nombreUsuario) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		 int usu;	 
+		 try {
+			 cn = getConexion("disenio", "root", "");
+			 usu = obtenerIDUsuario(nombreUsuario, cn, cst);  	      	 
+			 cst = cn.prepareCall("{call recetaSegunPreferencia(?)}");
+			 cst.setInt(1,usu);
+			 data = cst.executeQuery();
+			                           
+			 
+		 }catch (Exception e) {
+			        	
+		 } return data;
+	 } 
+			 
+	 //devuelve las recetas segun ing ppal dado 
+	 public ResultSet recetaSegunIngPpal(String ingrediente) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
 				 		 
-				 	try {
-			        	 cn = getConexion("disenio", "root", "");
-			           	   	      	 
-			             cst = cn.prepareCall("{call recetaSegunNivelAlimenticio(?)}");
-			             cst.setString(1,nivel);
-			             data = cst.executeQuery();
-			                           
-			                
-				 	}catch (Exception e) {
-			        	
-			        } return data;
-			 }  
+		 try {
+			 cn = getConexion("disenio", "root", "");
 			 
-			//devuelve las recetas segun los gustos del usuario dado 
-			 public ResultSet recetaSegunPreferencia(String nombreUsuario) {
-				 	ResultSet data=null;
-				 	Connection cn = null;
-				 	CallableStatement cst = null;
-				 	int usu;	 
-				 	try {
-			        	 cn = getConexion("disenio", "root", "");
-			           	 usu = obtenerIDUsuario(nombreUsuario, cn, cst);  	      	 
-			             cst = cn.prepareCall("{call recetaSegunNivelAlimenticio(?)}");
-			             cst.setInt(1,usu);
-			             data = cst.executeQuery();
-			                           
+			 cst = cn.prepareCall("{call recetaSegunIngPpal(?)}");
+			 cst.setString(1,ingrediente);
+			 data = cst.executeQuery();
+			                       
 			                
-				 	}catch (Exception e) {
-			        	
-			        } return data;
-			 } 
+		 }catch (Exception e) {
 			 
-			//devuelve las recetas segun ing ppal dado 
-			 public ResultSet recetaSegunIngPpal(String ingrediente) {
-				 	ResultSet data=null;
-				 	Connection cn = null;
-				 	CallableStatement cst = null;
+		 } return data;
+	 }  
+			 
+	 public ResultSet recetaSegunDificultad(int dificultad) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
 				 		 
-				 	try {
-			        	 cn = getConexion("disenio", "root", "");
+		 try {
+			 cn = getConexion("disenio", "root", "");
 			           	  	      	 
-			             cst = cn.prepareCall("{call recetaSegunIngPpal(?)}");
-			             cst.setString(1,ingrediente);
-			             data = cst.executeQuery();
+			 cst = cn.prepareCall("{call recetaSegunDificultad(?)}");
+			 cst.setInt(1,dificultad);
+			 data = cst.executeQuery();
 			                           
 			                
-				 	}catch (Exception e) {
+		 }catch (Exception e) {
 			        	
-			        } return data;
-			 }  
+		 } return data;
+	 }  
 			 
-			 public ResultSet recetaSegunDificultad(int dificultad) {
-				 	ResultSet data=null;
-				 	Connection cn = null;
-				 	CallableStatement cst = null;
+	 //segun un rango de calorias devuelve las recetas con calorias dentro de ese rango
+	 public ResultSet recetaSegunCalorias(double cal1,double cal2) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
 				 		 
-				 	try {
-			        	 cn = getConexion("disenio", "root", "");
+		 try {
+			 cn = getConexion("disenio", "root", "");
 			           	  	      	 
-			             cst = cn.prepareCall("{call recetaSegunDificultad(?)}");
-			             cst.setInt(1,dificultad);
-			             data = cst.executeQuery();
-			                           
+			 cst = cn.prepareCall("{call reporteRangoCalorias(?,?)}");
+			 cst.setDouble(1,cal1);
+			 cst.setDouble(2,cal2);
+			 data = cst.executeQuery();
+			             
 			                
-				 	}catch (Exception e) {
+		 }catch (Exception e) {
 			        	
-			        } return data;
-			 }  
+		 } return data;
+	 }  
 			 
-			//segun un rango de calorias devuelve las recetas con calorias dentro de ese rango
-			 public ResultSet recetaSegunCalorias(double cal1,double cal2) {
-				 	ResultSet data=null;
-				 	Connection cn = null;
-				 	CallableStatement cst = null;
+	//Devuelve las recetas mas consultadas dado un periodo de tiempo		 
+	 public ResultSet recetaMasConsultada(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
 				 		 
-				 	try {
-			        	 cn = getConexion("disenio", "root", "");
+		 try {
+			 cn = getConexion("disenio", "root", "");
 			           	  	      	 
-			             cst = cn.prepareCall("{call reporteRangoCalorias(?,?)}");
-			             cst.setDouble(1,cal1);
-			             cst.setDouble(2,cal2);
-			             data = cst.executeQuery();
-			                           
-			                
-				 	}catch (Exception e) {
-			        	
-			        } return data;
-			 }  
-			 
-			 
-			 public ResultSet recetaMasConsultada() {
-				 	ResultSet data=null;
-				 	Connection cn = null;
-				 	CallableStatement cst = null;
-				 		 
-				 	try {
-			        	 cn = getConexion("disenio", "root", "");
-			           	  	      	 
-			             cst = cn.prepareCall("{call recetaMasConsultada()}");
-			             data = cst.executeQuery();
+			 cst = cn.prepareCall("{call recetaMasConsultada(?,?)}");
+			 cst.setTimestamp(1,fecha1);
+			 cst.setTimestamp(2,fecha2);
+			 data = cst.executeQuery();
 			                    
 			             
-				 	}catch (Exception e) {
+		 }catch (Exception e) {
 			        	
-			        } return data;
-			 }  
+		 } return data;
+	 }  
 		
-		// devuelve las recetas creadas por un usuario-- todavia en proceso de restauracion	 
-			 public ResultSet recetaCreadas(String usuario) {
-				 	ResultSet data=null;
-				 	Connection cn = null;
-				 	CallableStatement cst = null;
+	 // devuelve las recetas creadas por un usuario	 
+	 public ResultSet recetaCreadas(String usuario) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
 				 		 
-				 	try {
-			        	 cn = getConexion("disenio", "root", "");
+		 try {
+			 cn = getConexion("disenio", "root", "");
 			           	  	      	 
-			             cst = cn.prepareCall("{call mostrarRecetasCreadas(?)}");
-			             cst.setString(1,usuario);
-			             data = cst.executeQuery();
+			 cst = cn.prepareCall("{call mostrarRecetasCreadas(?)}");
+			 cst.setString(1,usuario);
+			 data = cst.executeQuery();
 			                    
 			             
-				 	}catch (Exception e) {
+		 }catch (Exception e) {
 			        	
-			        } return data;
-			 }
+		 } return data;
+	 }
+
+	 //devuelve todos los ing de la db
+	 public ResultSet mostrarIngredientesDB( ) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		 try {
+			 cn = getConexion("disenio", "root", "");
+			           	           
+			 cst = cn.prepareCall("{call listarIngredientes()}");
+			 data = cst.executeQuery();
+			            
+			            
+		 }catch (Exception e) {
+			        	
+		 } return data;
+	 }
+	
+	 //devuelve todos los condimentos de la db 
+	 public ResultSet mostrarCondimentosDB( ) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		 try {
+			 cn = getConexion("disenio", "root", "");
+			           	           
+			 cst = cn.prepareCall("{call listarCondimentos()}");
+			 data = cst.executeQuery();
+			            
+			            
+		 }catch (Exception e) {
+			        	
+		 } return data;
+	 }  
+	 
+	 //devuelve el perfil del usuario
+	 public ResultSet mostrarPerfilUsuario(String usuario ) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		 try {
+			 cn = getConexion("disenio", "root", "");
+			           	           
+			 cst = cn.prepareCall("{call obtenerPerfil(?)}");
+			 cst.setString(1,usuario);
+			 data = cst.executeQuery();
+			            
+			            
+		 }catch (Exception e) {
+			        	
+		 } return data;
+	 }  
+	 
+	//devuelve recetas con calificacion 5 dada una temporada
+	 public ResultSet recetaTopTemporada(String temporada) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+				 		 
+		 try {
+			 cn = getConexion("disenio", "root", "");
+			 
+			 cst = cn.prepareCall("{call recetaTopTemporada(?)}");
+			 cst.setString(1,temporada);
+			 data = cst.executeQuery();
+			                       
+			                
+		 }catch (Exception e) {
+			 
+		 } return data;
+	 }  
+	 
+	//devuelve recetas con calificacion 5 dada una temporada
+		 public ResultSet recetaSegunRangoCalorias(double cal1,double cal2) {
+			 ResultSet data=null;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+					 		 
+			 try {
+				 cn = getConexion("disenio", "root", "");
+				 
+				 cst = cn.prepareCall("{call reporteRangoCalorias(?,?)}");
+				 cst.setDouble(1,cal1);
+				 cst.setDouble(2,cal2);
+				 data = cst.executeQuery();
+				                       
+				                
+			 }catch (Exception e) {
+				 
+			 } return data;
+		 }  
+				
 		
 		    
 //********************* Funciones Auxiliares******************************		  
@@ -840,6 +965,20 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("condimentos_id"); 
+			 }catch(Exception e) {       	
+		        }
+			 return resultado;
+		 }
+		 
+		 private int obtenerIDProcedimiento(String im,Connection cn,CallableStatement cst){
+			 ResultSet data;
+			 int resultado = 0;
+			 try{
+			 cst = cn.prepareCall("{call obtenerIDProcedimiento(?)}");
+			 cst.setString(1,im);
+			 data = cst.executeQuery();
+	         data.next();
+	         resultado = data.getInt("procedimientos_id"); 
 			 }catch(Exception e) {       	
 		        }
 			 return resultado;
