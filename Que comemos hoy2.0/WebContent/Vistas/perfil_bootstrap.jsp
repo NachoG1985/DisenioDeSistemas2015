@@ -1,6 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
+<%@ page import="clases.ConsultorBaseDeDatos" %>
+<%@ page import="clases.Usuario" %>
+<%@ page import="java.sql.*" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,18 +14,21 @@
     <!-- CSS de Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
  
-    <!-- librerÃ­as opcionales que activan el soporte de HTML5 para IE8 -->
+    <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body> 
-    <!-- LibrerÃ­a jQuery requerida por los plugins de JavaScript -->
+  <body>   
+	<%
+		Usuario usuario = (Usuario)session.getAttribute("usuario");	
+	%>
+    <!-- Librería jQuery requerida por los plugins de JavaScript -->
     <script src="http://code.jquery.com/jquery.js"></script>
  
-    <!-- Todos los plugins JavaScript de Bootstrap (tambiÃ©n puedes
-         incluir archivos JavaScript individuales de los Ãºnicos
+    <!-- Todos los plugins JavaScript de Bootstrap (también puedes
+         incluir archivos JavaScript individuales de los únicos
          plugins que utilices) -->
     <script src="js/bootstrap.min.js"></script>
 	
@@ -28,20 +36,20 @@
 	<!-- BARRA DE NAVEGACION SUPERIOR -->
 	
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <!-- El logotipo y el icono que despliega el menÃº se agrupan
-       para mostrarlos mejor en los dispositivos mÃ³viles -->
+  <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse"
             data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Desplegar navegaciÃ³n</span>
+      <span class="sr-only">Desplegar navegación</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="home_bootstrap.jsp">Â¿QuÃ© comemos hoy?</a>
+    <a class="navbar-brand" href="home_bootstrap.jsp">¿Qué comemos hoy?</a>
   </div>
  
-  <!-- Agrupar los enlaces de navegaciÃ³n, los formularios y cualquier
+  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
        otro elemento que se pueda ocultar al minimizar la barra -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav navbar-right" style="margin-right:1%">
@@ -69,10 +77,14 @@
 	  <!-- DESPLEGABLE DEL USUARIO-->
 	  <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          Usuario <b class="caret"></b>
+         <span class="glyphicon glyphicon-user"></span>
+        	<%
+        		out.println(usuario.getNombreUsuario());    	
+        	%>
+		 <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="perfil_bootstrap.html">Ver Perfil</a></li>
+          <li><a href="perfil_bootstrap.jsp">Ver Perfil</a></li>
           <li class="divider"></li>
           <li><a href="Inicio_bootstrap.html">Salir</a></li>
         </ul>
@@ -82,18 +94,18 @@
   </div>
 </nav>
 
-	<h1 class="text-primary text-left col-md-offset-1">Perfil de: <small>Nombre de usuario</small></h1>
+	<h1 class="text-primary text-left col-md-offset-1">Perfil de: <small><% out.println(usuario.getNombreUsuario()); %></small></h1>
 	
 	<hr>
 	
 	<div class="row">
 	
 			<div class="col-md-5  col-md-offset-1">
-				<h3 class="text-primary text-left">Email: <small>nombre@email.com</small></h3>
+				<h3 class="text-primary text-left">Email: <small><% out.println(usuario.getEmail()); %></small></h3>
 			</div>
 		
 			<div class="col-md-3">
-				<h3 class="text-primary text-left">Fecha de Nacimiento: <small>dd/mm/aaaa</small></h3>
+				<h3 class="text-primary text-left">Fecha de Nacimiento: <small><% out.println(usuario.getFechaNacimiento()); %></small></h3>
 			</div>
 			
 		
@@ -121,12 +133,12 @@
 		
 		<div class="col-md-6 col-md-offset-1">
 		
-			<h3 class="text-primary text-left" >Perfil FÃ­sico </h3>
+			<h3 class="text-primary text-left" >Perfil Físico </h3>
 			<br>
 			
 			<h4 class="text-info text-left">Sexo: <small>Sexo</small></h4>
 			<br>
-			<h4 class="text-info text-left">ComplexiÃ³n FÃ­sica: <small>ComplexiÃ³n</small></h4>
+			<h4 class="text-info text-left">Complexión Física: <small>Complexión</small></h4>
 			<br>
 			<h4 class="text-info text-left">Rutina de ejercicios: <small>Rutina</small></h4>
 			<br>

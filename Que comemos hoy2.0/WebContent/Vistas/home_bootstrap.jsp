@@ -1,6 +1,7 @@
     
 <%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Receta" %>
+<%@ page import="clases.Usuario" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="java.util.HashSet" %>
@@ -26,6 +27,11 @@
 <title>Home</title>
 </head>
 <body>
+
+
+	<%
+		Usuario usuario = (Usuario)session.getAttribute("usuario");	
+	%>
  <!-- Librería jQuery requerida por los plugins de JavaScript -->
     <script src="http://code.jquery.com/jquery.js"></script>
  
@@ -42,7 +48,7 @@
        para mostrarlos mejor en los dispositivos móviles -->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse"
-            data-target=".navbar-ex1-collapse">
+            data-target="navbar-ex1-collapse">
       <span class="sr-only">Desplegar navegación</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -79,10 +85,14 @@
 	  <!-- DESPLEGABLE DEL USUARIO-->
 	  <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          Usuario <b class="caret"></b>
+        <span class="glyphicon glyphicon-user"></span>
+        	<%
+        		out.println(usuario.getNombreUsuario());    	
+        	%>
+        <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="perfil_bootstrap.html">Ver Perfil</a></li>
+          <li><a href="perfil_bootstrap.jsp">Ver Perfil</a></li>
           <li class="divider"></li>
           <li><a href="Inicio_bootstrap.html">Salir</a></li>
         </ul>

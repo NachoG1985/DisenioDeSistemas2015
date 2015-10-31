@@ -29,22 +29,28 @@
 			String sexo = request.getParameter("sexo");
 			String dieta = request.getParameter("dieta");
 			
-			String condiciones = request.getParameter("condicionPreexistente");
+			String condiciones[] = request.getParameterValues("condicionPreexistente");
+			String condicionesDB = "";
 			
-			if(condiciones!= null)
+			if(condiciones!= null && condiciones.length > 0)
 			{
-				if(condiciones.contains(","))
-					condiciones = condiciones.replaceAll(",", "-");
+				for(int i = 0; i < condiciones.length; i++)
+				{
+					if(i > 0)
+						condicionesDB = condicionesDB + "_";
+					
+					condicionesDB = condicionesDB + condiciones[i];					
+				}
 			}
 			else{
-				condiciones = "Nada";
+				condicionesDB = "Nada";
 			}
 			
 			String rutina = request.getParameter("rutina");
 			String complexion = request.getParameter("complexion");
 			
 			//Se crea el objeto del tipo perfil de usuario
-			PerfilUsuario nuevoPerfil = new PerfilUsuario(nombre, apellido, sexo, edad, altura, complexion, dieta, null, rutina, condiciones);
+			PerfilUsuario nuevoPerfil = new PerfilUsuario(nombre, apellido, sexo, edad, altura, complexion, dieta, null, rutina, condicionesDB);
 			
 			//Le agrego al usuario el perfil cargado
 			nuevoUsuario.setPerfil(nuevoPerfil);
@@ -55,10 +61,10 @@
 		
 			
 			consultor.insertarUsuario(nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(), nuevoUsuario.getContraseña(), nuevoUsuario.getFechaNacimiento());
-			consultor.insertarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina, condiciones);
+			consultor.insertarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina, condicionesDB);
 			
 			session.setAttribute("usuario", (Object)nuevoUsuario);
-			response.sendRedirect("../Vistas/home_bootstrap.html");
+			response.sendRedirect("../Vistas/home_bootstrap.jsp");
 			}
 			catch(Exception e){
 				System.out.println("Error al cargar a la db");

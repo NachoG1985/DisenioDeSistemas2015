@@ -21,32 +21,87 @@
 		Receta nuevaReceta;
 		String nombreReceta;
 		int dificultad;
-		String aptaPara;
-		String categorias;
-		String temporadas;
-		String dietasAptas;
+		String aptaPara[];
+		String categorias[];
+		String temporadas[];
+		String dietasAptas[];
+		
+		String aptaParaDB = "";
+		String categoriasDB = "";
+		String temporadasDB = "";
+		String dietasAptasDB = "";
 		
 		
 		nombreReceta = request.getParameter("nombreReceta");
 		dificultad = Integer.parseInt(request.getParameter("dificultad"));
 		
-		aptaPara = request.getParameter("aptaPara");
-		if(aptaPara.contains(","))
-			aptaPara = aptaPara.replaceAll(",", "-");
+		aptaPara = request.getParameterValues("aptaPara");
 		
-		categorias = request.getParameter("categorias");
-		if(categorias.contains(","))
-			categorias = categorias.replaceAll(",", "-");
+		categorias = request.getParameterValues("categorias");
 		
-		temporadas = request.getParameter("temporadas");
-		if(temporadas.contains(","))
-			temporadas = temporadas.replaceAll(",", "-");
+		temporadas = request.getParameterValues("temporadas");
 		
-		dietasAptas = request.getParameter("Dietas");
-		if(dietasAptas.contains(","))
-			dietasAptas = dietasAptas.replaceAll(",", "-");
+		dietasAptas = request.getParameterValues("Dietas");
 		
-		nuevaReceta = new Receta(nombreReceta, null, dificultad, dietasAptas, aptaPara, categorias, temporadas, 0, "",  Date.valueOf(LocalDate.now()));
+		if(aptaPara!= null && aptaPara.length > 0)
+		{
+			for(int i = 0; i < aptaPara.length; i++)
+			{
+				if(i > 0)
+					aptaParaDB = aptaParaDB + "_";
+				
+				aptaParaDB = aptaParaDB + aptaPara[i];					
+			}
+		}
+		else{
+			aptaParaDB = "Nada";
+		}
+		
+		if(categorias!= null && categorias.length > 0)
+		{
+			for(int i = 0; i < categorias.length; i++)
+			{
+				if(i > 0)
+					categoriasDB = categoriasDB + "_";
+				
+				categoriasDB = categoriasDB + categorias[i];					
+			}
+		}
+		else{
+			aptaParaDB = "Nada";
+		}
+		
+		if(temporadas!= null && temporadas.length > 0)
+		{
+			for(int i = 0; i < temporadas.length; i++)
+			{
+				if(i > 0)
+					temporadasDB = temporadasDB + "_";
+				
+				temporadasDB = temporadasDB + temporadas[i];					
+			}
+		}
+		else{
+			temporadasDB = "Nada";
+		}
+		
+		if(dietasAptas!= null && dietasAptas.length > 0)
+		{
+			for(int i = 0; i < dietasAptas.length; i++)
+			{
+				if(i > 0)
+					dietasAptasDB = dietasAptasDB + "_";
+				
+				dietasAptasDB = dietasAptasDB + dietasAptas[i];					
+			}
+		}
+		else{
+			dietasAptasDB = "Nada";
+		}
+		
+		
+		
+		nuevaReceta = new Receta(nombreReceta, null, dificultad, dietasAptasDB, aptaParaDB, categoriasDB, temporadasDB, 0, "",  Date.valueOf(LocalDate.now()));
 		
 		session.setAttribute("receta", (Object)nuevaReceta);
 	

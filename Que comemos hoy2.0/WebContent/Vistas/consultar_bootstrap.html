@@ -72,7 +72,7 @@
           Usuario <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="perfil_bootstrap.html">Ver Perfil</a></li>
+          <li><a href="perfil_bootstrap.jsp">Ver Perfil</a></li>
           <li class="divider"></li>
           <li><a href="Inicio_bootstrap.html">Salir</a></li>
         </ul>
@@ -124,40 +124,75 @@
 							
 							<div class="form-group">
 								<input type="text" class="form-control center-block " id="IngredientePpal" placeholder="Ingrediente Principal">
-								<input type="text" class="form-control center-block " id="Calorias" placeholder="Calorías Máximas">
+								<div class="row">
+									<div class="col-md-6">
+										<input type="text" class="form-control center-block " id="CaloriasMin" placeholder="Calorías Mínimas">
+									</div>
+									<div class="col-md-6">
+										<input type="text" class="form-control center-block " id="CaloriasMax" placeholder="Calorías Máximas">
+									</div>
+								</div>
 								<input type="text" class="form-control center-block " id="calificacion" placeholder="Calificación">
 								<input type="text" class="form-control center-block " id="dificultad" placeholder="Dificultad">
-							</div>
+								<input type="text" class="form-control center-block " id="condimento" placeholder="Condimento">
+								
+								<label for="dieta" class="control-label">Dieta</label>
+								<select name="dieta" class="form-control">
+									<option value=""> </option>
+									<option value="normal"> Normal </option>
+									<option value="ovolactovegetariano"> Ovolactovegetariano </option>
+									<option value="vegetariano"> Vegetariano </option>
+									<option value="vegano"> Vegano </option>
+								</select>
+								
+								<label for="dieta" class="control-label">Temporada</label>
+								<select name="temporada" class="form-control">
+									<option value=""> </option>
+									<option value="verano"> verano </option>
+									<option value="otoño"> otoño </option>
+									<option value="invierno"> invierno </option>
+									<option value="primavera"> primavera </option>
+									<option value="navidad"> navidad </option>
+									<option value="pascua"> pascua </option>
+								</select>						
 							
+							<label for="dieta" class="control-label">Categoria</label>
+								<select name="dieta" class="form-control">
+									<option value=""> </option>
+									<option value="Desayuno"> Desayuno </option>
+									<option value="Almuerzo"> Almuerzo </option>
+									<option value="Merienda"> Merienda </option>
+									<option value="Cena"> Cena </option>
+								</select>
+
 							<hr>
 							
-						<div class="checkbox ">
+							<label for="aptaPara" class="control-label">Apta para:  </label>
+							<br>
+						<div class="checkbox-inline">
 							<label>
-								<input type="checkbox" id="categoria" value="desayuno">
-									Desayuno
+								<input type="checkbox" name="aptaPara" id="aptaPara" value="Celiacos">
+									Celíacos
 							</label>
 						</div>
 						
-						<div class="checkbox ">
+						<div class="checkbox-inline">
 							<label>
-								<input type="checkbox" id="categoria" value="almuerzo">
-									Almuerzo
+								<input type="checkbox" name="aptaPara" id="aptaPara" value="Diabeticos">
+									Diabéticos
 							</label>
 						</div>
 
-						<div class="checkbox">
+						<div class="checkbox-inline">
 							<label>
-								<input type="checkbox" id="categoria" value="merienda">
-									Merienda
-							</label>
-						</div>	
-
-						<div class="checkbox ">
-							<label>
-								<input type="checkbox" id="categoria" value="cena">
-									Cena
+								<input type="checkbox" name="aptaPara" id="aptaPara" value="Hipertensos">
+									Hipertensos
 							</label>
 						</div>						
+						
+
+								
+						</div>					
 													
 							<br>
 							<div class="form-group">
@@ -173,7 +208,7 @@
 		</div>
 
 		
-		<div class="col-md-8">
+		<div class="col-md-7 col-md-offset-1">
 
 		<div class="row">
 		

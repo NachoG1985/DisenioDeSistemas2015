@@ -45,9 +45,11 @@
 						}
 						else
 						{
-					//Si el usuario existe y la contraseña ingresada es correcta entonces setear el nombre de usuario en la sesion y redirigir a la pagina home
+							nuevoUsuario = new Usuario(nombreUsuario, resultado.getString("email"), 
+									Date.valueOf(resultado.getString("fecha_Nacimiento")),
+									contraseñaIngresada);
 							
-							//session.setAttribute("usuario", (Object)nuevoUsuario);
+							session.setAttribute("usuario", (Object)nuevoUsuario);
 							response.sendRedirect("../Vistas/home_bootstrap.jsp");
 						}
 					}

@@ -47,8 +47,8 @@
 	  
 	 <form id="logger" action="../Logica/ValidarPaginaIngreso.jsp" method="POST" class="navbar-form navbar-left">
       <div class="form-group">
-        <input type="text" name="nombreUsuarioIngreso" class="form-control" placeholder="Nombre Usuario">
-		<input type="password" name="contraseniaIngreso" class="form-control" placeholder="Contraseña">
+        <input type="text" name="nombreUsuarioIngreso" class="form-control" placeholder="Nombre Usuario" required>
+		<input type="password" name="contraseniaIngreso" class="form-control" placeholder="Contraseña" required>
       </div>
       <button type="submit" name="boton" value="Ingresar" class="btn btn-default">Entrar</button>
     </form>
@@ -71,43 +71,43 @@
 				<div class="form-group">
 					<label for="nombreUsuario" class="col-lg-3 control-label">Nombre Usuario</label>
 					<div class="col-lg-9">
-						<input type="text" class="form-control" name="nombreUsuarioRegistro" id="nombreUsuario" placeholder="Nombre Usuario">
+						<input type="text" class="form-control" name="nombreUsuarioRegistro" id="nombreUsuario" placeholder="Nombre Usuario" required>
 					</div>
 				</div>				
 				
 				<div class="form-group">
 					<label for="email" class="col-lg-3 control-label">Email</label>
 					<div class="col-lg-9">
-						<input type="email" class="form-control" name="emailRegistro" id="email" placeholder="Email">
+						<input type="email" class="form-control" name="emailRegistro" id="email" placeholder="Email" required>
 					</div>
 				</div>
 				
 				<div class="form-group">
 					<label class="col-lg-3 control-label">Fecha de Nacimiento</label>
 					<div class="col-lg-2">
-						<input type="text" class="form-control" name="diaNacimiento" id="diaNacimiento" placeholder="dd">
+						<input type="number" class="form-control" min="01" max="31" name="diaNacimiento" id="diaNacimiento" placeholder="dd" required>
 					</div>
 					
 					<div class="col-lg-2 col-lg-offset-1">
-						<input type="text" class="form-control" name="mesNacimiento" id="mesNacimiento" placeholder="mm">
+						<input type="number" class="form-control" min="01" max="12" name="mesNacimiento" id="mesNacimiento" placeholder="mm" required>
 					</div>
 					
 					<div class="col-lg-2 col-lg-offset-1">
-						<input type="text" class="form-control" name="anioNacimiento" id="añoNacimiento" placeholder="aaaa">
+						<input type="number" class="form-control" min="1940" max="2015" name="anioNacimiento" id="añoNacimiento" placeholder="aaaa" required>
 					</div>
 				</div>	
 				
 				<div class="form-group">
 					<label for="contraseña" class="col-lg-3 control-label">Contraseña</label>
 					<div class="col-lg-9">
-						<input type="password" class="form-control" name="contraseniaRegistro" id="contraseña" placeholder="Contraseña">
+						<input type="password" class="form-control" name="contraseniaRegistro" id="contraseña" placeholder="Contraseña" required>
 					</div>	
 				</div>
 				
 				<div class="form-group">
 					<label for="repeticionContraseña" class="col-lg-3 control-label">Contraseña</label>
 					<div class="col-lg-9">
-						<input type="password" class="form-control" name="confirmacionContraseniaRegistro" id="repeticionContraseña" placeholder="Repita la Contraseña">
+						<input type="password" class="form-control" name="confirmacionContraseniaRegistro" id="repeticionContraseña" placeholder="Repita la Contraseña" required>
 					</div>	
 				</div>
 			
