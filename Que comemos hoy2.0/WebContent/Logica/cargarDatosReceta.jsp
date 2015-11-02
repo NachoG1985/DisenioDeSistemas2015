@@ -5,7 +5,11 @@
 <%@ page import="clases.Receta" %>
 <%@ page import="clases.Usuario" %>
 <%@ page import="java.sql.Date" %>
+<%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashSet" %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -104,8 +108,28 @@
 		nuevaReceta = new Receta(nombreReceta, null, dificultad, dietasAptasDB, aptaParaDB, categoriasDB, temporadasDB, 0, "",  Date.valueOf(LocalDate.now()));
 		
 		session.setAttribute("receta", (Object)nuevaReceta);
-	
-		response.sendRedirect("../Vistas/cargarIngredientePrincipal_bootstrap.html");
+		
+		ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
+		
+		HashSet<String> ingredientes = new HashSet<String>();
+		ResultSet ingredientesDB = consultor.mostrarIngredientesDB();
+		HashSet<String> condimentos = new HashSet<String>();
+		ResultSet condimentosDB = consultor.mostrarCondimentosDB();
+		
+		while(ingredientesDB.next())
+		{
+			ingredientes.add(ingredientesDB.getString("nombre"));
+		}
+		
+		while(condimentosDB.next())
+		{
+			condimentos.add(condimentosDB.getString("nombre"));
+		}
+		
+		session.setAttribute("ingredientes", (Object)ingredientes);
+		session.setAttribute("condimentos", (Object)condimentos);
+		
+		response.sendRedirect("../Vistas/cargarIngredientePrincipal_bootstrap.jsp?inicial=a");
 	
 	%>
 		

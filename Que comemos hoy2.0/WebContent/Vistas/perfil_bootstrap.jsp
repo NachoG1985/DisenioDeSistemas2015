@@ -1,5 +1,6 @@
 <%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Usuario" %>
+<%@ page import="clases.PerfilUsuario" %>
 <%@ page import="java.sql.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -114,15 +115,15 @@
 	<div class="row">
 		
 			<div class="col-md-5 col-md-offset-1">
-				<h3 class="text-primary text-left">Nombre y Apellido: <small>Nombre Apellido</small></h3>
+				<h3 class="text-primary text-left">Nombre y Apellido: <small><%out.println(usuario.getPerfil().getNombre()+ " " + usuario.getPerfil().getApellido()); %></small></h3>
 			</div>
 			
 			<div class="col-md-3">
-				<h3 class="text-primary text-left">Edad: <small>AA</small></h3>
+				<h3 class="text-primary text-left">Edad: <small><%out.println(usuario.getPerfil().getEdad()); %></small></h3>
 			</div>
 			
 			<div class="col-md-3">
-				<h3 class="text-primary text-left">Altura: <small>AAA (cm)</small></h3>
+				<h3 class="text-primary text-left">Altura: <small><%out.println(usuario.getPerfil().getAltura()); %></small></h3>
 			</div>
 		</div>
 		
@@ -136,15 +137,15 @@
 			<h3 class="text-primary text-left" >Perfil Físico </h3>
 			<br>
 			
-			<h4 class="text-info text-left">Sexo: <small>Sexo</small></h4>
+			<h4 class="text-info text-left">Sexo: <small><%out.println(usuario.getPerfil().getSexo()); %></small></h4>
 			<br>
-			<h4 class="text-info text-left">Complexión Física: <small>Complexión</small></h4>
+			<h4 class="text-info text-left">Complexión Física: <small><%out.println(usuario.getPerfil().getComplexion()); %></small></h4>
 			<br>
 			<h4 class="text-info text-left">Rutina de ejercicios: <small>Rutina</small></h4>
 			<br>
-			<h4 class="text-info text-left">Tipo de Dieta: <small>Dieta</small></h4>
+			<h4 class="text-info text-left">Tipo de Dieta: <small><%out.println(usuario.getPerfil().getDieta()); %></small></h4>
 			<br>
-			<h4 class="text-info text-left">Condiciones Preexistentes: <small>Condicion1 - Condicion 2 - Condicion 3</small></h4>
+			<h4 class="text-info text-left">Condiciones Preexistentes: <small><%out.println(usuario.getPerfil().getCondicionPreexistente()); %></small></h4>
 			
 		
 		</div>

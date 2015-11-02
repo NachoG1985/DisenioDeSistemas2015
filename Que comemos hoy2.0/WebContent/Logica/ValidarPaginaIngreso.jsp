@@ -1,5 +1,6 @@
 <%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Usuario" %>
+<%@ page import="clases.PerfilUsuario" %>
 <%@ page import="clases.Fecha" %>
 <%@ page import="java.sql.*" %>
 
@@ -15,9 +16,10 @@
 		<%
 			//Obtener el consultor de la base de datos
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
+			PerfilUsuario perfil = null;
 			String nombreUsuario;
 			String contraseñaIngresada;
-			ResultSet resultado;
+			ResultSet resultado, resultadoPerfil;
 			String contraseñaUsuario;
 			Usuario nuevoUsuario;
 			//Analizar de cual de los dos botones viene el pedido
@@ -48,7 +50,25 @@
 							nuevoUsuario = new Usuario(nombreUsuario, resultado.getString("email"), 
 									Date.valueOf(resultado.getString("fecha_Nacimiento")),
 									contraseñaIngresada);
+					
+							resultadoPerfil = consultor.mostrarPerfilUsuario(nombreUsuario);
 							
+							if(resultadoPerfil.first())
+							{
+								
+								perfil = new PerfilUsuario(resultadoPerfil.getString("nombre"),
+										resultadoPerfil.getString("apellido"),
+										resultadoPerfil.getString("sexo"),
+										resultadoPerfil.getInt("edad"),
+										resultadoPerfil.getDouble("altura"),
+										resultadoPerfil.getString("complexion"),
+										consultor.obtenerNombreDieta(resultadoPerfil.getInt("dieta_id")),
+										null,
+										"",
+										consultor.obtenerNombreCondicion(resultadoPerfil.getInt("condicion_id")));
+							}
+							
+							nuevoUsuario.setPerfil(perfil);
 							session.setAttribute("usuario", (Object)nuevoUsuario);
 							response.sendRedirect("../Vistas/home_bootstrap.jsp");
 						}
