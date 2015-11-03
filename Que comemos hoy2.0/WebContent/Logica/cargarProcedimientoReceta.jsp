@@ -30,7 +30,7 @@
 	Receta nuevaReceta = (Receta)session.getAttribute("receta");
 	PasoDeReceta paso1, paso2, paso3, paso4, paso5;
 	String instruccion1, instruccion2, instruccion3, instruccion4, instruccion5;
-	String ruta1 ="", ruta2 ="", ruta3 ="", ruta4 ="", ruta5 ="";
+	String[] rutas = new String[5];
 	int contador = 0;
 	
 	instruccion1 = request.getParameter("textoPaso1");
@@ -93,6 +93,11 @@
 	            fi.write( file ) ;
 	            out.println("Uploaded Filename: " + filePath + 
 	            fileName + "<br>");
+	            
+	            rutas[contador] = fileName;
+	            
+	            contador++;
+	            
 	            }
 	         }
 	         out.println("</body>");
@@ -111,17 +116,12 @@
 	      out.println("</html>");
 	   }
 
-	   ruta1= request.getParameter("imagenPaso1");
-	   ruta2= request.getParameter("imagenPaso2");
-	   ruta3= request.getParameter("imagenPaso3");
-	   ruta4= request.getParameter("imagenPaso4");
-	   ruta5= request.getParameter("imagenPaso5");
 	   
-		paso1 = new PasoDeReceta(instruccion1,ruta1);
-		paso2 = new PasoDeReceta(instruccion2,ruta2);
-		paso3 = new PasoDeReceta(instruccion3,ruta3);
-		paso4 = new PasoDeReceta(instruccion4,ruta4);
-		paso5 = new PasoDeReceta(instruccion5,ruta5);
+		paso1 = new PasoDeReceta(instruccion1,rutas[0]);
+		paso2 = new PasoDeReceta(instruccion2,rutas[1]);
+		paso3 = new PasoDeReceta(instruccion3,rutas[2]);
+		paso4 = new PasoDeReceta(instruccion4,rutas[3]);
+		paso5 = new PasoDeReceta(instruccion5,rutas[4]);
 		
 		nuevaReceta.agregarPasoDeReceta(paso1);
 		nuevaReceta.agregarPasoDeReceta(paso2);
@@ -130,9 +130,8 @@
 		nuevaReceta.agregarPasoDeReceta(paso5);
 		
 		
-	//consultor.insertarProcedimiento(ruta1, instruccion1, ruta2, instruccion2, ruta3, instruccion3, ruta4, instruccion4, ruta5, instruccion5);
+	consultor.insertarProcedimiento(rutas[0], instruccion1, rutas[1], instruccion2, rutas[2], instruccion3, rutas[3], instruccion4, rutas[4], instruccion5);
 	
-	consultor.insertarProcedimiento("Imagen1", "Paso1", "Imagen2", "Paso2", "Imagen3", "Paso3", "Imagen4", "Paso4", "Imagen5", "Paso5");
 	
 	consultor.insertarReceta(nuevaReceta.getNombre(), nuevaReceta.getNombreIngredientePrincipal(), nuevaReceta.getDificultad(), 
 			nuevaReceta.getTemporada(), nuevaReceta.getCategorias(), 666, nuevaReceta.getAptaPara(), nuevaReceta.getDietasAptas(), "");

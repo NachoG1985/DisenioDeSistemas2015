@@ -426,7 +426,7 @@ public class ConsultorBaseDeDatos {
 	        try {
 	        	 cn = getConexion("disenio", "root", "");
 	           	           
-	             cst = cn.prepareCall("{call insertarCondimento(?,?,?,?,?,?,?,?,?,?)}");
+	             cst = cn.prepareCall("{call insertarProcedimiento(?,?,?,?,?,?,?,?,?,?)}");
 	             cst.setString(1,im1);
 	             cst.setString(2,pas1);
 	             cst.setString(3,im2);
@@ -442,7 +442,7 @@ public class ConsultorBaseDeDatos {
 	                
 	                         
 	        }catch (Exception e) {
-	        	
+	        	e.printStackTrace();	        	
 	        }
 	        
 	        return ;
