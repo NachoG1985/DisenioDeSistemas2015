@@ -146,7 +146,7 @@ public class ConsultorBaseDeDatos {
 	             cst.setString(1,nombre);
 	             cst.setString(2,mail);
 	             cst.setString(3,pass);
-	             cst.setDate(3,fecha);
+	             cst.setDate(4,fecha);
 	             cst.executeUpdate();
 	             cst = cn.prepareCall("{call obtenerIDUsuario(?)}");
 	             cst.setString(1,nombre);
@@ -156,7 +156,7 @@ public class ConsultorBaseDeDatos {
 	                                  
 	            
 	        }catch (Exception e) {
-	        	
+	        	e.printStackTrace();
 	        }
 	        
 	        return resultado;
@@ -275,7 +275,7 @@ public class ConsultorBaseDeDatos {
 	        	 routine = obtenerIDRutina(rutina, cn, cst);
 	        	 cond = obtenerIDCondicion(condicion, cn, cst);
 	           	           
-	             cst = cn.prepareCall("{call insertarPerfil(?,?,?,?,?,?,?,?,?)}");
+	             cst = cn.prepareCall("{call insertarPerfil(?,?,?,?,?,?,?,?,?,?)}");
 	             cst.setInt(1,usu);
 	             cst.setString(2,nombre);
 	             cst.setString(3,apellido);
@@ -296,7 +296,7 @@ public class ConsultorBaseDeDatos {
 	                
 	                         
 	        }catch (Exception e) {
-	        	
+	        	e.printStackTrace();
 	        }
 	        
 	        return resultado;

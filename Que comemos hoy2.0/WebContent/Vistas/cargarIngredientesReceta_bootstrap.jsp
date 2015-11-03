@@ -31,13 +31,21 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
+    ev.dataTransfer.setData("text", ev.target.innerHTML);
 }
 
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
+    document.getElementById("ingredienteDropeado").innerHTML = data;
+    document.getElementById("ingrediente").value = data;
+}
+function validateForm() {
+    var x = document.forms["agregadoIngrediente"]["nombreIngrediente"].value;
+    if (x == null || x == "") {
+        alert("Agregue un ingrediente antes de continuar");
+        return false;
+    }
 }
 </script>
   </head>
@@ -152,7 +160,7 @@ function drop(ev) {
 					
 			<br>
 		
-			<form id="registro" action="../Logica/cargarIngrediente.jsp" method="POST" class="form-horizontal">
+			<form id="registro" name="agregadoIngrediente" onsubmit="return validateForm()" action="../Logica/cargarIngrediente.jsp" method="POST" class="form-horizontal">
 			
 			
 			<%
@@ -176,13 +184,15 @@ function drop(ev) {
 			
 				<br><br>
 					<label for="ingrediente" class="col-lg-2 col-lg-offset-1 control-label">Ingrediente</label>
-					<div class="col-lg-4">
-						<input type="text" class="form-control" name="nombreIngrediente"  id="ingrediente" placeholder="Arrastre el ingrediente aqui">
+					
+					<div class="col-lg-4" ondrop="drop(event)" ondragover="allowDrop(event)" style="padding-top:10px;padding-bottom:10px;color:inherit;background-color:#eee;" id="dropDiv">
+						<p id="ingredienteDropeado" class="text-center center-block">Arrastre el ingrediente aqui</p>
+						<input type="hidden" class="form-control" name="nombreIngrediente"  id="ingrediente" required>
 					</div>
 					
 					<label for="cantidad" class="col-lg-2 control-label">Cantidad</label>
 					<div class="col-lg-3">
-						<input type="text" class="form-control" name="cantidad" id="cantidad" placeholder="Cantidad (gr)">
+						<input type="number" min="0" class="form-control" name="cantidad" id="cantidad" placeholder="Cantidad (gr)" required>
 					</div>
 			</div>
 							
