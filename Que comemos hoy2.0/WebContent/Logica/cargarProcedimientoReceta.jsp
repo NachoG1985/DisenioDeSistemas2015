@@ -29,15 +29,10 @@
 	ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 	Receta nuevaReceta = (Receta)session.getAttribute("receta");
 	PasoDeReceta paso1, paso2, paso3, paso4, paso5;
-	String instruccion1, instruccion2, instruccion3, instruccion4, instruccion5;
+	String instruccion1="", instruccion2 ="", instruccion3="", instruccion4="", instruccion5="";
 	String[] rutas = new String[5];
+	String nombreCampo;
 	int contador = 0;
-	
-	instruccion1 = request.getParameter("textoPaso1");
-	instruccion2 = request.getParameter("textoPaso2");
-	instruccion3 = request.getParameter("textoPaso3");
-	instruccion4 = request.getParameter("textoPaso4");
-	instruccion5 = request.getParameter("textoPaso5");
 	
 	
 	File file ;
@@ -67,11 +62,6 @@
 	         // Process the uploaded file items
 	         Iterator i = fileItems.iterator();
 
-	         out.println("<html>");
-	         out.println("<head>");
-	         out.println("<title>JSP File upload</title>");  
-	         out.println("</head>");
-	         out.println("<body>");
 	         while ( i.hasNext () ) 
 	         {
 	            FileItem fi = (FileItem)i.next();
@@ -91,29 +81,38 @@
 	            fileName.substring(fileName.lastIndexOf("\\")+1)) ;
 	            }
 	            fi.write( file ) ;
-	            out.println("Uploaded Filename: " + filePath + 
-	            fileName + "<br>");
 	            
 	            rutas[contador] = fileName;
 	            
 	            contador++;
 	            
 	            }
+	            else
+	            {
+	            	nombreCampo = fi.getFieldName();
+	            	
+	            	if(nombreCampo.equals("textoPaso1"))
+	            		instruccion1 = fi.getString();
+	            	
+	            	if(nombreCampo.equals("textoPaso2"))
+	            		instruccion2 = fi.getString();
+	            	
+	            	if(nombreCampo.equals("textoPaso3"))
+	            		instruccion3 = fi.getString();
+	            	
+	            	if(nombreCampo.equals("textoPaso4"))
+	            		instruccion4 = fi.getString();
+	            	
+	            	if(nombreCampo.equals("textoPaso5"))
+	            		instruccion5 = fi.getString();
+	            }
 	         }
-	         out.println("</body>");
-	         out.println("</html>");
+
 	      }catch(Exception ex) {
 	         System.out.println(ex);
 	      }
 	   }else{
-	      out.println("<html>");
-	      out.println("<head>");
-	      out.println("<title>Servlet upload</title>");  
-	      out.println("</head>");
-	      out.println("<body>");
-	      out.println("<p>No file uploaded</p>"); 
-	      out.println("</body>");
-	      out.println("</html>");
+
 	   }
 
 	   
