@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2015 a las 16:25:32
+-- Tiempo de generación: 06-11-2015 a las 17:15:56
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -133,6 +133,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `listarIngredientes`()
     SQL SECURITY INVOKER
 SELECT I.nombre, I.ingredientes_id
 FROM ingredientes I$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `modificarPerfilUsuario`(IN `nom` VARCHAR(40), IN `ape` VARCHAR(40), IN `sex` VARCHAR(20), IN `ed` INT(3), IN `alt` DOUBLE, IN `compl` VARCHAR(20), IN `diet` INT, IN `rutin` INT, IN `cond` INT, IN `usu` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+update perfil_usuario
+set nombre=nom,apellido=ape,sexo=sex,edad=ed,altura=alt,complexion=compl,dieta_id=diet,rutina_id=rutin,condicion_id=cond
+where usuario_id = usu$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarDatosIng`(IN `nom` VARCHAR(40))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select porcion, calorias, nivel_id
+from ingredientes
+where nombre = nom$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadas`(IN `usu` VARCHAR(50))
     READS SQL DATA
@@ -317,12 +331,33 @@ select nombre
 from ingredientes
 where ingredientes_id = id$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreNivelAlim`(IN `id` INT)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select tipo 
+from nivel_alimenticio
+where nivel_id = id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreRutina`(IN `id` INT)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select tipo
+from rutinas
+where rutina_id = id$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreTemporada`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
 select tipo
 from temporadas
 where temporada_id = id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreUsuario`(IN `id` INT)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select nombreUsuario
+from usuarios
+where usuario_id = id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerPerfil`(IN `usu` VARCHAR(50))
     READS SQL DATA
@@ -486,30 +521,6 @@ INSERT INTO `calificacion_usuario_receta` (`calif_recet_usuario`, `recetas_id`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categorias`
---
-
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `categoria_hora_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
-  `horaMax` time NOT NULL,
-  `horaMin` time NOT NULL,
-  PRIMARY KEY (`categoria_hora_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`categoria_hora_id`, `nombre`, `horaMax`, `horaMin`) VALUES
-(1, 'Desayuno', '11:00:00', '04:00:00'),
-(2, 'Almuerzo', '14:30:00', '11:00:00'),
-(3, 'Merienda', '20:00:00', '14:30:00'),
-(4, 'Cena', '04:00:00', '20:00:00');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `categoria_receta`
 --
 
@@ -539,6 +550,30 @@ INSERT INTO `categoria_receta` (`categorias_id`, `tipo`) VALUES
 (13, 'Desayuno_Merienda_Cena'),
 (14, 'Almuerzo_Merienda_Cena'),
 (15, 'Desayuno_Almuerzo_Merienda_Cena');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `categoria_hora_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
+  `horaMax` time NOT NULL,
+  `horaMin` time NOT NULL,
+  PRIMARY KEY (`categoria_hora_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`categoria_hora_id`, `nombre`, `horaMax`, `horaMin`) VALUES
+(1, 'Desayuno', '11:00:00', '04:00:00'),
+(2, 'Almuerzo', '14:30:00', '11:00:00'),
+(3, 'Merienda', '20:00:00', '14:30:00'),
+(4, 'Cena', '04:00:00', '20:00:00');
 
 -- --------------------------------------------------------
 
@@ -889,7 +924,7 @@ CREATE TABLE IF NOT EXISTS `perfil_usuario` (
 --
 
 INSERT INTO `perfil_usuario` (`perfil_id`, `usuario_id`, `nombre`, `apellido`, `sexo`, `edad`, `altura`, `complexion`, `dieta_id`, `rutina_id`, `condicion_id`) VALUES
-(8, 59, 'Juan Cruz', 'Reines', 'masculino', 21, 1.78, 'mediana', 1, 0, 0);
+(8, 59, 'Juan Cruz', 'Reines', 'masculino', 21, 1.78, 'mediana', 1, 3, 2);
 
 -- --------------------------------------------------------
 

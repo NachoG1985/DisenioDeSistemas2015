@@ -132,7 +132,7 @@ public class ConsultorBaseDeDatos {
     }
 	
 
-//******************* Funciones Insert*************************
+//************************ Funciones INSERT*************************
 	
 	 public int insertarUsuario(String nombre,String mail,String pass,java.sql.Date fecha) {
 		 	ResultSet data;
@@ -450,7 +450,7 @@ public class ConsultorBaseDeDatos {
 	 
 	 
 	 
-//****************Funciones de Consulta**************************
+//****************Funciones CONSULTA**************************
 //Devuelve todos los datos de un usuario	
 	 public ResultSet consultarUsuario(String nombre) {
 	 	ResultSet data=null;
@@ -787,7 +787,7 @@ public class ConsultorBaseDeDatos {
 		 } return data;
 	 }  
 	 
-	//devuelve recetas con calificacion 5 dada una temporada
+	 //devuelve recetas con calificacion 5 dada una temporada
 	 public ResultSet recetaTopTemporada(String temporada) {
 		 ResultSet data=null;
 		 Connection cn = null;
@@ -806,27 +806,81 @@ public class ConsultorBaseDeDatos {
 		 } return data;
 	 }  
 	 
-	//devuelve recetas con calificacion 5 dada una temporada
-		 public ResultSet recetaSegunRangoCalorias(double cal1,double cal2) {
-			 ResultSet data=null;
-			 Connection cn = null;
-			 CallableStatement cst = null;
+	 //devuelve recetas con calificacion 5 dada una temporada
+	 public ResultSet recetaSegunRangoCalorias(double cal1,double cal2) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
 					 		 
-			 try {
-				 cn = getConexion("disenio", "root", "");
+		 try {
+			 cn = getConexion("disenio", "root", "");
 				 
-				 cst = cn.prepareCall("{call reporteRangoCalorias(?,?)}");
-				 cst.setDouble(1,cal1);
-				 cst.setDouble(2,cal2);
-				 data = cst.executeQuery();
+			 cst = cn.prepareCall("{call reporteRangoCalorias(?,?)}");
+			 cst.setDouble(1,cal1);
+			 cst.setDouble(2,cal2);
+			 data = cst.executeQuery();
 				                       
 				                
-			 }catch (Exception e) {
+		 }catch (Exception e) {
 				 
-			 } return data;
-		 }  
+		 } return data;
+	 }  
+		 
+		 
+	 //devuelve la porcion, calorias y nivel_id(el cual se puede convertir a string via la func aux)
+	 public ResultSet mostrarDatosIngrediente(String nombre) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+					 		 
+		 try {
+			 cn = getConexion("disenio", "root", "");
+				 
+			 cst = cn.prepareCall("{call mostrarDatosIng(?)}");
+			 cst.setString(1,nombre);
+			 data = cst.executeQuery();
+				                       
+				                
+		 }catch (Exception e) {
+				 
+		 } return data;
+	 }  
 				
-		
+//*********************Funciones UPDATE***********************************
+
+	 //dado un usuario permite modificar el perfil
+	 public void actualizarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina,String condicion) {
+		 int usu,diet,routine,cond;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		 try {
+			 cn = getConexion("disenio", "root", "");
+		        	 
+			 usu = obtenerIDUsuario(usuario, cn, cst);
+			 diet = obtenerIDDieta(dieta, cn, cst);
+			 routine = obtenerIDRutina(rutina, cn, cst);
+			 cond = obtenerIDCondicion(condicion, cn, cst);
+		           	           
+			 cst = cn.prepareCall("{call modificarPerfilUsuario(?,?,?,?,?,?,?,?,?,?)}");
+			 cst.setString(1,nombre);
+			 cst.setString(2,apellido);
+			 cst.setString(3,sexo);
+			 cst.setInt(4,edad);
+			 cst.setDouble(5,altura);
+			 cst.setString(6,complexion);
+			 cst.setInt(7,diet);
+			 cst.setInt(8,routine);
+			 cst.setInt(9,cond);
+			 cst.setInt(10,usu);
+			 cst.executeUpdate();
+		            
+		                         
+		 }catch (Exception e) {
+			 e.printStackTrace();
+		 }
+		        
+		 return;
+	 }		 
 		    
 //********************* Funciones Auxiliares******************************		  
 
@@ -1064,6 +1118,58 @@ public class ConsultorBaseDeDatos {
 				 data = cst.executeQuery();
 				 data.next();
 				 resultado = data.getString("tipo"); 
+			 	}catch(Exception e) {       	
+			 	}
+			 return resultado;
+		 }
+		 
+		 public String obtenerNombreNivelAlim(int nivel){
+			 ResultSet data;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 String resultado = null;
+			 try{
+				 cn = getConexion("disenio", "root", "");
+				 cst = cn.prepareCall("{call obtenerNombreNivelAlim(?)}");
+				 cst.setInt(1,nivel);
+				 data = cst.executeQuery();
+				 data.next();
+				 resultado = data.getString("tipo"); 
+			 	}catch(Exception e) {       	
+			 	}
+			 return resultado;
+		 }
+		
+		 
+		 public String obtenerNombreRutina(int rutina){
+			 ResultSet data;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 String resultado = null;
+			 try{
+				 cn = getConexion("disenio", "root", "");
+				 cst = cn.prepareCall("{call obtenerNombreRutina(?)}");
+				 cst.setInt(1,rutina);
+				 data = cst.executeQuery();
+				 data.next();
+				 resultado = data.getString("tipo"); 
+			 	}catch(Exception e) {       	
+			 	}
+			 return resultado;
+		 }
+		 
+		 public String obtenerNombreUsuario(int usu){
+			 ResultSet data;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 String resultado = null;
+			 try{
+				 cn = getConexion("disenio", "root", "");
+				 cst = cn.prepareCall("{call obtenerNombreUsuario(?)}");
+				 cst.setInt(1,usu);
+				 data = cst.executeQuery();
+				 data.next();
+				 resultado = data.getString("nombreUsuario"); 
 			 	}catch(Exception e) {       	
 			 	}
 			 return resultado;
