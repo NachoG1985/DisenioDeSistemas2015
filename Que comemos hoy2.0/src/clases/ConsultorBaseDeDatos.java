@@ -62,7 +62,7 @@ public class ConsultorBaseDeDatos {
 	public ConsultorBaseDeDatos conectar() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String BaseDeDatos = "jdbc:mysql://localhost/disenio?user=root&password=";
+            String BaseDeDatos = "jdbc:mysql://localhost/test?user=usuario&password=123";
             setConexion(DriverManager.getConnection(BaseDeDatos));
             if(getConexion("disenio", "root", "") != null){
                 System.out.println("Conexion Exitosa!");
@@ -564,12 +564,10 @@ public class ConsultorBaseDeDatos {
 	 }  
 
 	//devuelve las recetas segun condimento dado 
-	 public HashSet<Receta> recetaSegunCond(String condim) {
+	 public ResultSet recetaSegunCond(String condim) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 Receta aux;
-		 HashSet<Receta> buscadas = new HashSet<Receta>();
 			 		 
 		 try {
 			 cn = getConexion("disenio", "root", "");
@@ -577,35 +575,18 @@ public class ConsultorBaseDeDatos {
 			 cst = cn.prepareCall("{call recetaSegunCondimento(?)}");
 			 cst.setString(1,condim);
 			 data = cst.executeQuery();
-			 
-			 while(data.next())
-			 {			 
-			 	String nombreReceta = data.getString("nombre");
-				int dificultad = data.getInt("dificultad");
-				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
-				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
-				
-				buscadas.add(aux);
-			 }
 		                           
 		                
 		 }catch (Exception e) {
 		        	
-		 } return buscadas;
+		 } return data;
 	 }  
 		 
 	 //devuelve las recetas segun dieta dada 
-	 public HashSet<Receta> recetaSegunDieta(String dieta) {
+	 public ResultSet recetaSegunDieta(String dieta) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 Receta aux;
-		 HashSet<Receta> buscadas = new HashSet<Receta>();
 				 		 
 		 try {
 			 cn = getConexion("disenio", "root", "");
@@ -613,35 +594,18 @@ public class ConsultorBaseDeDatos {
 			 cst = cn.prepareCall("{call recetaSegunDieta(?)}");
 			 cst.setString(1,dieta);
 			 data = cst.executeQuery();
-			 
-			 while(data.next())
-			 {			 
-			 	String nombreReceta = data.getString("nombre");
-				int dificultad = data.getInt("dificultad");
-				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dietaReceta = obtenerNombreDieta(data.getInt("dieta_id"));
-				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dietaReceta,null, categorias,temporadas,calorias,"",null);
-				
-				buscadas.add(aux);
-			 }
 			             
 			                
 		 }catch (Exception e) {
 			        	
-		 } return buscadas;
+		 } return data;
 	 }  
 			 
 	 //devuelve las recetas segun dieta dada 
-	 public HashSet<Receta> recetaSegunNivelAlimenticio(String nivel) {
+	 public ResultSet recetaSegunNivelAlimenticio(String nivel) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 Receta aux;
-		 HashSet<Receta> buscadas = new HashSet<Receta>();
 				 		 
 		 try {
 			 cn = getConexion("disenio", "root", "");
@@ -649,26 +613,11 @@ public class ConsultorBaseDeDatos {
 			 cst = cn.prepareCall("{call recetaSegunNivelAlimenticio(?)}");
 			 cst.setString(1,nivel);
 			 data = cst.executeQuery();
-			 
-			 while(data.next())
-			 {			 
-			 	String nombreReceta = data.getString("nombre");
-				int dificultad = data.getInt("dificultad");
-				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
-				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
-				
-				buscadas.add(aux);
-			 }
 			                           
 			                
 		 }catch (Exception e) {
 			        	
-		 } return buscadas;
+		 } return data;
 	 }  
 			 
 	 //devuelve las recetas segun los gustos del usuario dado 
@@ -691,12 +640,10 @@ public class ConsultorBaseDeDatos {
 	 } 
 			 
 	 //devuelve las recetas segun ing ppal dado 
-	 public HashSet<Receta> recetaSegunIngPpal(String ingrediente) {
+	 public ResultSet recetaSegunIngPpal(String ingrediente) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 Receta aux;
-		 HashSet<Receta> buscadas = new HashSet<Receta>();
 				 		 
 		 try {
 			 cn = getConexion("disenio", "root", "");
@@ -704,34 +651,17 @@ public class ConsultorBaseDeDatos {
 			 cst = cn.prepareCall("{call recetaSegunIngPpal(?)}");
 			 cst.setString(1,ingrediente);
 			 data = cst.executeQuery();
-			 
-			 while(data.next())
-			 {			 
-			 	String nombreReceta = data.getString("nombre");
-				int dificultad = data.getInt("dificultad");
-				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
-				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
-				
-				buscadas.add(aux);
-			 }
-				
+			                       
 			                
 		 }catch (Exception e) {
 			 
-		 } return buscadas;
+		 } return data;
 	 }  
 			 
-	 public HashSet<Receta> recetaSegunDificultad(int dificultad) {
+	 public ResultSet recetaSegunDificultad(int dificultad) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 Receta aux;
-		 HashSet<Receta> buscadas = new HashSet<Receta>();
 				 		 
 		 try {
 			 cn = getConexion("disenio", "root", "");
@@ -739,34 +669,18 @@ public class ConsultorBaseDeDatos {
 			 cst = cn.prepareCall("{call recetaSegunDificultad(?)}");
 			 cst.setInt(1,dificultad);
 			 data = cst.executeQuery();
-			             
-			 while(data.next())
-			 {			 
-			 	String nombreReceta = data.getString("nombre");
-				int dificultadReceta = data.getInt("dificultad");
-				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
-				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultadReceta,dieta,null, categorias,temporadas,calorias,"",null);
-				
-				buscadas.add(aux);
-			 }
+			                           
 			                
 		 }catch (Exception e) {
 			        	
-		 } return buscadas;
+		 } return data;
 	 }  
 			 
 	 //segun un rango de calorias devuelve las recetas con calorias dentro de ese rango
-	 public HashSet<Receta> recetaSegunCalorias(double cal1,double cal2) {
+	 public ResultSet recetaSegunCalorias(double cal1,double cal2) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 Receta aux;
-		 HashSet<Receta> buscadas = new HashSet<Receta>();
 				 		 
 		 try {
 			 cn = getConexion("disenio", "root", "");
@@ -775,26 +689,11 @@ public class ConsultorBaseDeDatos {
 			 cst.setDouble(1,cal1);
 			 cst.setDouble(2,cal2);
 			 data = cst.executeQuery();
-			 
-			 while(data.next())
-			 {			 
-			 	String nombreReceta = data.getString("nombre");
-				int dificultad = data.getInt("dificultad");
-				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
-				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
-				
-				buscadas.add(aux);
-			 }
 			             
 			                
 		 }catch (Exception e) {
 			        	
-		 } return buscadas;
+		 } return data;
 	 }  
 			 
 	//Devuelve las recetas mas consultadas dado un periodo de tiempo		 
