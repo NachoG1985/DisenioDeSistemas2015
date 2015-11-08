@@ -85,7 +85,7 @@ function validateForm() {
           Recetas <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="consultar_bootstrap.html">Consultar Recetas</a></li>
+          <li><a href="consultar_bootstrap.jsp">Consultar Recetas</a></li>
           <li><a href="cargarDatosReceta_bootstrap.html">Subir Receta</a></li>
 		  <li><a href="#">Recibir Recomendaciones</a></li>
         </ul>
