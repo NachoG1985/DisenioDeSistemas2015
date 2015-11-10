@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2015 a las 16:25:32
+-- Tiempo de generación: 10-11-2015 a las 03:27:55
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -126,6 +126,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `listarCondimentos`()
     SQL SECURITY INVOKER
 SELECT C.nombre, C.condimentos_id
 FROM condimentos C$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `listarHome`(IN `usuario` INT(10), IN `operacion` VARCHAR(10), IN `limite` TINYINT)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select *
+from historial
+where usuario_id = usuario
+and operacion like concat("%",operacion,"%")
+limit limite$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarIngredientes`()
     READS SQL DATA
@@ -419,7 +428,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaTopTemporada`(IN `temporada` 
 select * 
 from recetas as R inner join temporadas as T on R.temporada_id = T.temporada_id 
 inner join promedio_calificacion as P on R.recetas_id = P.recetas_id 
-where P.calificacion_promedio = 5 and T.tipo like concat("%",temporada,"%")$$
+where T.tipo like concat("%",temporada,"%")
+order by P.calificacion_promedio$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reporteRangoCalorias`(IN `caloria1` DOUBLE, IN `caloria2` DOUBLE)
     READS SQL DATA
