@@ -71,7 +71,7 @@
 		//if(nivelAlimenticios != null || nivelAlimenticios != "")
 		//	recetasSegunNivelAlimenticio = consultor.recetaSegunNivelAlimenticio(nivelAlimenticios);
 		
-
+	/*
 		if (recetasSegunCondimento != null)
 			recetasSegunCalorias.retainAll(recetasSegunCondimento);
 		
@@ -83,8 +83,8 @@
 		
 		if (recetasSegunDieta != null)
 			recetasSegunCalorias.retainAll(recetasSegunDieta);
-			
-			session.setAttribute("recetasFiltradas", recetasSegunCalorias);
+		*/	
+			session.setAttribute("recetasFiltradas", recetasSegunIngrediente);
 			
 			response.sendRedirect("../Vistas/consultar_bootstrap.jsp");
 			

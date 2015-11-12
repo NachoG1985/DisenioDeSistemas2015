@@ -17,7 +17,7 @@
     <description>Location to store uploaded file</description> 
     <param-name>file-upload</param-name> 
     <param-value>
-         C:\Users\Juan\Documents\GitHub\DisenioDeSistemas2015\Que comemos hoy2.0\WebContent\Vistas\Imagenes\Procedimientos recetas\
+         C:\Users\Belen\Documents\DisenioDeSistemas2015\Que comemos hoy2.0\WebContent\Vistas\Imagenes\Procedimientos recetas\
      </param-value> 
 </context-param>
 
