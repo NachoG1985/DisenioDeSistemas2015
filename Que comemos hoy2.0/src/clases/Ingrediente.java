@@ -6,11 +6,11 @@ public class Ingrediente {
 	private String nombreIngrediente;
 	private int porcion;
 	private int caloriasPorPorcion;
-	private int nivelPiramideAlimenticia;
+	private String nivelPiramideAlimenticia;
 
 	// Constructor de la clase
 	public Ingrediente(String nombre, int tamanioPorcion, int calorias,
-			int nivelPiramide) {
+			String nivelPiramide) {
 		setNombreIngrediente(nombre);
 		setPorcion(tamanioPorcion);
 		setCaloriasPorPorcion(calorias);
@@ -48,11 +48,11 @@ public class Ingrediente {
 		this.caloriasPorPorcion = caloriasPorPorcion;
 	}
 
-	public int getNivelPiramideAlimenticia() {
+	public String getNivelPiramideAlimenticia() {
 		return nivelPiramideAlimenticia;
 	}
 
-	public void setNivelPiramideAlimenticia(int nivelPiramideAlimenticia) {
+	public void setNivelPiramideAlimenticia(String nivelPiramideAlimenticia) {
 		this.nivelPiramideAlimenticia = nivelPiramideAlimenticia;
 	}
 	

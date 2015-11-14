@@ -1,7 +1,7 @@
 package clases;
 
 import java.sql.*;
-
+import java.sql.Date;
 import java.util.*;
 
 
@@ -455,61 +455,91 @@ public class ConsultorBaseDeDatos {
 	 
 //****************Funciones CONSULTA**************************
 //Devuelve todos los datos de un usuario	
-	 public ResultSet consultarUsuario(String nombre) {
+	 public Usuario consultarUsuario(String nombre) {
 	 	ResultSet data=null;
 	 	Connection cn = null;
 	 	CallableStatement cst = null;
-        try {
+	 	Usuario usuarioBuscado = null;
+	 	String nombreUsuario;
+		String email;
+		String contrasenia;
+		Date fechaNacimiento;
+	 	try {
         	 cn = getConexion("disenio", "root", "");
-           	           
              cst = cn.prepareCall("{call consultaUsuario(?)}");
              cst.setString(1,nombre);
              data = cst.executeQuery();
-             //data.close();
-             
-            // cn.close();
-             
-            
-            
+             data.next();
+             nombreUsuario = data.getString("nombreUsuario");
+			 email = data.getString("email");
+			 contrasenia = data.getString("contrasenia");
+			 fechaNacimiento = data.getDate("fecha_nacimiento");
+			 usuarioBuscado = new Usuario(nombreUsuario,email,fechaNacimiento,contrasenia);
+             data.close();
+			 cn.close();
         }catch (Exception e) {
         	System.out.println("Error");
-        } return data;
+        }
+	 	return usuarioBuscado;
  }  
 	
 	
-	 public ResultSet consultarReceta(String nombre) {
+	 public Receta consultarReceta(String nombre) {
 	 	ResultSet data=null;
 	 	Connection cn = null;
 	 	CallableStatement cst = null;
+	 	Receta recetaBuscada=null;
         try {
         	 cn = getConexion("disenio", "root", "");
            	           
              cst = cn.prepareCall("{call consultaReceta(?)}");
              cst.setString(1,nombre);
              data = cst.executeQuery();
-             
-             //cn.close();
-            
+             data.next();
+             String nombreReceta = data.getString("nombre");
+			 int dificultad = data.getInt("dificultad");
+			 float calorias = data.getInt("caloriasTotales");
+			 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
+			 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
+			 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
+			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+			 recetaBuscada = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+			 data.close();
+			 cn.close();
         }catch (Exception e) {
         	System.out.println("Error");
-        } return data;
+        } return recetaBuscada;
  }  
 	
-	public ResultSet mostrarRecetasDB( ) {
+	public HashSet<Receta> mostrarRecetasDB( ) {
 	 	ResultSet data=null;
 	 	Connection cn = null;
 	 	CallableStatement cst = null;
+	 	HashSet<Receta> recetasDB = new HashSet<Receta>();
+	 	Receta recetaDB;
         try {
         	 cn = getConexion("disenio", "root", "");
            	           
              cst = cn.prepareCall("{call mostrarRecetasDB()}");
              data = cst.executeQuery();
-            
-             //cn.close();
-            
+             while(data.next())
+			 {			 
+			 	String nombreReceta = data.getString("nombre");
+				int dificultad = data.getInt("dificultad");
+				float calorias = data.getInt("caloriasTotales");
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				recetaDB = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+				recetasDB.add(recetaDB);
+			 }
+             data.close();
+             cn.close();
+             
         }catch (Exception e) {
         	System.out.println("Error");
-        } return data;
+        } return recetasDB;
  }  
 	
 	
@@ -887,62 +917,87 @@ public class ConsultorBaseDeDatos {
 	 }
 
 	 //devuelve todos los ing de la db
-	 public ResultSet mostrarIngredientesDB( ) {
+	 public HashSet<String> mostrarIngredientesDB( ) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
+		 HashSet<String> nombresIngredientes = new HashSet<String>();
+		 String nombreIngrediente;
 		 try {
 			 cn = getConexion("disenio", "root", "");
 			           	           
 			 cst = cn.prepareCall("{call listarIngredientes()}");
 			 data = cst.executeQuery();
-			            
-			 //cn.close();
+			 while(data.next())
+			 {			 
+			 	nombreIngrediente = data.getString("nombre");
+				nombresIngredientes.add(nombreIngrediente);		
+			 }           
+			 data.close();
+			 cn.close();
 			            
 		 }catch (Exception e) {
 			        	
-		 } return data;
+		 } return nombresIngredientes;
 	 }
 	
 	 //devuelve todos los condimentos de la db 
-	 public ResultSet mostrarCondimentosDB( ) {
+	 public HashSet<String> mostrarCondimentosDB( ) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
+		 HashSet<String> nombresCondimentos = new HashSet<String>();
+		 String nombreCondimento;
 		 try {
 			 cn = getConexion("disenio", "root", "");
 			           	           
 			 cst = cn.prepareCall("{call listarCondimentos()}");
 			 data = cst.executeQuery();
-			            
-			 //cn.close();
+			 while(data.next())
+			 {			 
+			 	nombreCondimento = data.getString("nombre");
+				nombresCondimentos.add(nombreCondimento);		
+			 }
+			 data.close();
+			 cn.close();
 			            
 		 }catch (Exception e) {
 			        	
-		 } return data;
+		 } return nombresCondimentos;
 	 }  
 	 
 	 //devuelve el perfil del usuario
-	 public ResultSet mostrarPerfilUsuario(String usuario ) {
+	 public PerfilUsuario mostrarPerfilUsuario(String usuario ) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
+		 PerfilUsuario perfilBuscado = null;
 		 try {
-			 cn = getConexion("disenio", "root", "");
-			           	           
+			 cn = getConexion("disenio", "root", "");        	           
 			 cst = cn.prepareCall("{call obtenerPerfil(?)}");
 			 cst.setString(1,usuario);
 			 data = cst.executeQuery();
-			            
-			 //cn.close();
+			 data.next();
+			 String nombre = data.getString("nombre");
+			 String apellido = data.getString("apellido");
+			 String sexo = data.getString("sexo");
+			 int edad = data.getInt("edad");
+			 int altura = data.getInt("altura");
+			 String complexion = data.getString("complexion");
+			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+			 String rutina = obtenerNombreRutina(data.getInt("rutina_id"));
+			 String condicion = obtenerNombreCondicion(data.getInt("condicion_id"));
+			 perfilBuscado = new PerfilUsuario(nombre,apellido,sexo,edad,altura,complexion,dieta,null,rutina,condicion);
+			 data.close();
+			 cn.close();
 			            
 		 }catch (Exception e) {
 			        	
-		 } return data;
+		 } return perfilBuscado;
 	 }  
 	 
 	 //devuelve recetas con calificacion 5 dada una temporada
-	 public ResultSet recetaTopTemporada(String temporada) {
+	 public ResultSet recetaTopTemporada(String temporada) { // <-- ESTA DOS VECES POR LAS DUDAS NO LA TOCO
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
@@ -984,23 +1039,28 @@ public class ConsultorBaseDeDatos {
 		 
 		 
 	 //devuelve la porcion, calorias y nivel_id(el cual se puede convertir a string via la func aux)
-	 public ResultSet mostrarDatosIngrediente(String nombre) {
+	 public Ingrediente mostrarDatosIngrediente(String nombre) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-					 		 
+		 Ingrediente ingredienteBuscado= null;		 		 
 		 try {
 			 cn = getConexion("disenio", "root", "");
 				 
 			 cst = cn.prepareCall("{call mostrarDatosIng(?)}");
 			 cst.setString(1,nombre);
 			 data = cst.executeQuery();
-				                       
-				        
-			 //cn.close();
+			 data.next();
+			 int porcion = data.getInt("porcion");
+			 int calorias = data.getInt("calorias");
+			 String nivel = obtenerNombreNivelAlim(data.getInt("nivel_id"));
+			 ingredienteBuscado = new Ingrediente(nombre,porcion,calorias,nivel);        
+			 
+			 data.close();
+			 cn.close();
 		 }catch (Exception e) {
 				 
-		 } return data;
+		 } return ingredienteBuscado;
 	 }  
 	 
 	//Devuelve las recetas preferidas en un periodo		 
