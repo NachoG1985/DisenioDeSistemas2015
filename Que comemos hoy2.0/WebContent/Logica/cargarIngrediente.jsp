@@ -23,7 +23,7 @@
 		nombreIngrediente = request.getParameter("nombreIngrediente");
 		cantidad = Integer.parseInt(request.getParameter("cantidad"));
 		
-		ingrediente = new Ingrediente(nombreIngrediente,0, 0, 0);
+		ingrediente = new Ingrediente(nombreIngrediente,0, 0, null);
 		
 		nuevoIngredienteEnReceta = new IngredienteEnReceta(ingrediente, cantidad);
 		

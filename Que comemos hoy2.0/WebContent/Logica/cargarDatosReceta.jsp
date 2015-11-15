@@ -111,21 +111,8 @@
 		
 		ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 		
-		HashSet<String> ingredientes = new HashSet<String>();
-		ResultSet ingredientesDB = consultor.mostrarIngredientesDB();
-		HashSet<String> condimentos = new HashSet<String>();
-		ResultSet condimentosDB = consultor.mostrarCondimentosDB();
-		
-		while(ingredientesDB.next())
-		{
-			ingredientes.add(ingredientesDB.getString("nombre"));
-		}
-		
-		while(condimentosDB.next())
-		{
-			condimentos.add(condimentosDB.getString("nombre"));
-		}
-		
+		HashSet<String> ingredientes = consultor.mostrarIngredientesDB();
+		HashSet<String> condimentos = consultor.mostrarCondimentosDB();
 		session.setAttribute("ingredientes", (Object)ingredientes);
 		session.setAttribute("condimentos", (Object)condimentos);
 		
