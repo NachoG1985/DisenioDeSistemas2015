@@ -552,21 +552,19 @@ public class ConsultorBaseDeDatos {
 		 	Set<String> lista = new HashSet<>();
 		 	int rec;
 		 	try {
-	        	 cn = getConexion("disenio", "root", "");
+		 		cn = getConexion("disenio", "root", "");
 	           	 
-	        	 rec = obtenerIDReceta(nombre, cn, cst);
+		 		rec = obtenerIDReceta(nombre, cn, cst);
 	        	 
-	             cst = cn.prepareCall("{call ingYCantSegunReceta(?)}");
-	             cst.setInt(1,rec);
-	             data = cst.executeQuery();
-	             data.next();
-	             while (data != null)
-	             {
-	            	  	 		                	
-	            	 lista.add(data.getString("nombre"));
-	            	 lista.add(""+data.getInt("cantidad"));
-	            	 data.next();
-	             }      
+		 		cst = cn.prepareCall("{call ingYCantSegunReceta(?)}");
+		 		cst.setInt(1,rec);
+		 		data = cst.executeQuery();
+		 		while (data.next())
+		 		{
+		 			lista.add(data.getString("nombre"));
+		 			lista.add(""+data.getInt("cantidad"));
+	            	
+		 		}      
 	             
 	             cn.close();
 	                          
@@ -591,12 +589,12 @@ public class ConsultorBaseDeDatos {
 			 cst = cn.prepareCall("{call condSegunReceta(?)}");
 			 cst.setInt(1,rec);
 			 data = cst.executeQuery();
-			 data.next();
-			 while (data != null)
+			 
+			 while (data.next())
 			 {
-	            	   	 		                	
+	                        	
 				 lista.add(data.getString("nombre"));
-				 data.next();
+				 
 			 }               
 	                         
 			 cn.close();
@@ -756,7 +754,45 @@ public class ConsultorBaseDeDatos {
 		 }catch (Exception e) {
 			        	
 		 } return buscadas;
-	 } 
+	 }
+	 
+	 //devuelve las recetas segun dentro de un periodo
+	 public HashSet<Receta> recetaSegunPreferenciaPorPeriodo(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		 	 
+		 
+		 HashSet<Receta> buscadas = new HashSet<Receta>();
+		 Receta aux;
+		 try {
+			 cn = getConexion("disenio", "root", "");
+			 cst = cn.prepareCall("{call recetaSegunPrefPeriodo(?,?)}");
+			 cst.setTimestamp(1,fecha1);
+			 cst.setTimestamp(2,fecha2);
+			 data = cst.executeQuery();
+			 
+			 
+			 while(data.next())
+			 {			 
+			 	String nombreReceta = data.getString("nombre");
+				int dificultad = data.getInt("dificultad");
+				float calorias = data.getInt("caloriasTotales");
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+				
+				buscadas.add(aux);
+			 }
+			                           
+			 cn.close();
+		 }catch (Exception e) {
+			        	
+		 } return buscadas;
+	 }
 			 
 	 //devuelve las recetas segun ing ppal dado 
 	 public HashSet<Receta> recetaSegunIngPpal(String ingrediente) {
@@ -876,11 +912,13 @@ public class ConsultorBaseDeDatos {
 	 }  
 			 
 	//Devuelve las recetas mas consultadas dado un periodo de tiempo		 
-	 public ResultSet recetaMasConsultada(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2) {
+	 public HashSet<Receta> recetaMasConsultada(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-				 		 
+			
+		 HashSet<Receta> buscadas = new HashSet<Receta>();
+		 Receta aux;
 		 try {
 			 cn = getConexion("disenio", "root", "");
 			           	  	      	 
@@ -888,32 +926,63 @@ public class ConsultorBaseDeDatos {
 			 cst.setTimestamp(1,fecha1);
 			 cst.setTimestamp(2,fecha2);
 			 data = cst.executeQuery();
-			            
+			 
+			 while(data.next())
+			 {			 
+			 	String nombreReceta = data.getString("nombre");
+				int dificultad = data.getInt("dificultad");
+				float calorias = data.getInt("caloriasTotales");
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+				
+				buscadas.add(aux);
+			 }
 			 cn.close();
 			             
 		 }catch (Exception e) {
 			        	
-		 } return data;
+		 } return buscadas;
 	 }  
 		
 	 // devuelve las recetas creadas por un usuario	 
-	 public ResultSet recetaCreadas(String usuario) {
+	 public HashSet<Receta> recetaCreadas(String usuario) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-				 		 
+		
+		 HashSet<Receta> buscadas = new HashSet<Receta>();
+		 Receta aux;
 		 try {
 			 cn = getConexion("disenio", "root", "");
 			           	  	      	 
 			 cst = cn.prepareCall("{call mostrarRecetasCreadas(?)}");
 			 cst.setString(1,usuario);
 			 data = cst.executeQuery();
+			 
+			 while(data.next())
+			 {			 
+			 	String nombreReceta = data.getString("nombre");
+				int dificultad = data.getInt("dificultad");
+				float calorias = data.getInt("caloriasTotales");
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+				
+				buscadas.add(aux);
+			 }
 			            
 			 cn.close();
 			             
 		 }catch (Exception e) {
 			        	
-		 } return data;
+		 } return buscadas;
 	 }
 
 	 //devuelve todos los ing de la db
@@ -996,32 +1065,89 @@ public class ConsultorBaseDeDatos {
 		 } return perfilBuscado;
 	 }  
 	 
-	 //devuelve recetas con calificacion 5 dada una temporada
-	 public ResultSet recetaTopTemporada(String temporada) { // <-- ESTA DOS VECES POR LAS DUDAS NO LA TOCO
+	//devuelve recetas dada una temporada
+	 public HashSet<Receta> recetaSegunTemporada(String temporada) {  
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-				 		 
+			
+		 HashSet<Receta> buscadas = new HashSet<Receta>();
+		 Receta aux;
+		 try {
+			 cn = getConexion("disenio", "root", "");
+				 
+			 cst = cn.prepareCall("{call recetaSegunTemporada(?)}");
+			 cst.setString(1,temporada);
+			 data = cst.executeQuery();
+				 
+			 while(data.next())
+			 {			 
+				 String nombreReceta = data.getString("nombre");
+				 int dificultad = data.getInt("dificultad");
+				 float calorias = data.getInt("caloriasTotales");
+				 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
+				 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
+				 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
+				 String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+					
+				 aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+					
+				 buscadas.add(aux);
+			 }
+				            
+			 cn.close();
+		 }catch (Exception e) {
+				 
+		 } return buscadas;
+	 }
+	 
+	 
+	 
+	 //devuelve recetas con calificacion 5 dada una temporada
+	 public HashSet<Receta> recetaTopTemporada(String temporada) {  
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		
+		 HashSet<Receta> buscadas = new HashSet<Receta>();
+		 Receta aux;
 		 try {
 			 cn = getConexion("disenio", "root", "");
 			 
 			 cst = cn.prepareCall("{call recetaTopTemporada(?)}");
 			 cst.setString(1,temporada);
 			 data = cst.executeQuery();
-			                       
+			 
+			 while(data.next())
+			 {			 
+			 	String nombreReceta = data.getString("nombre");
+				int dificultad = data.getInt("dificultad");
+				float calorias = data.getInt("caloriasTotales");
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+				
+				buscadas.add(aux);
+			 }
 			            
 			 cn.close();
 		 }catch (Exception e) {
 			 
-		 } return data;
-	 }  
+		 } return buscadas;
+	 }
 	 
-	 //devuelve recetas con calificacion 5 dada una temporada
-	 public ResultSet recetaSegunRangoCalorias(double cal1,double cal2) {
+	
+	 //Devuelve las recetas que se encuentran en el rango de calorias.
+	 public HashSet<Receta> recetaSegunRangoCalorias(double cal1,double cal2) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-					 		 
+		
+		 HashSet<Receta> buscadas = new HashSet<Receta>();
+		 Receta aux;
 		 try {
 			 cn = getConexion("disenio", "root", "");
 				 
@@ -1029,12 +1155,26 @@ public class ConsultorBaseDeDatos {
 			 cst.setDouble(1,cal1);
 			 cst.setDouble(2,cal2);
 			 data = cst.executeQuery();
-				        
+			
+			 while(data.next())
+			 {			 
+			 	String nombreReceta = data.getString("nombre");
+				int dificultad = data.getInt("dificultad");
+				float calorias = data.getInt("caloriasTotales");
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+				
+				buscadas.add(aux);
+			 }
 			 cn.close();
 				                
 		 }catch (Exception e) {
 				 
-		 } return data;
+		 } return buscadas;
 	 }  
 		 
 		 

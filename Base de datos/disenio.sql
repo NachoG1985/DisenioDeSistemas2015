@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-11-2015 a las 03:40:56
+-- Tiempo de generación: 20-01-2016 a las 23:06:50
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -64,19 +64,19 @@ where nombreUsuario = nom$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `countOperacion`(IN `operacion` VARCHAR(10))
     READS SQL DATA
     SQL SECURITY INVOKER
-select H.operacion, count(*)
+select H.operacion, count(H.operacion)
 from historial H 
-where H.operacion like concat("%",operacion,"%")
+where H.operacion = operacion
 group by H.operacion$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaRankingRecetaConsultada`()
     READS SQL DATA
     SQL SECURITY INVOKER
-select H.receta_id, count(h.operacion)
+select H.receta_id, count(H.operacion)
 from historial H 
 where H.operacion = 'consultar'
 group by H.receta_id
-Order by count(h.operacion) desc$$
+Order by count(H.operacion) desc$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaRecetaDificultad`()
     READS SQL DATA
@@ -196,7 +196,7 @@ where nombre = nom$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadas`(IN `usu` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
-select * 
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id 
 from usuarios as U 
 inner join historial as H on U.usuario_id = H.usuario_id
 inner join recetas R on (R.recetas_id = H.receta_id)
@@ -414,7 +414,7 @@ WHERE U.nombreUsuario = usu$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaMasConsultada`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from historial as H inner join recetas as R on H.receta_id = R.recetas_id
 where operacion = 'consultar' and H.tiempo between fecha1 and fecha2
 group by receta_id
@@ -423,7 +423,7 @@ order by count(*) desc$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondicion`(IN `user_id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from perfil_usuario as P
 /*inner join condicion_prexistente C on C.condicion_id = R.condicion_id*/
 inner join recetas as R  on ( P.condicion_id = R.condicion_id)
@@ -432,7 +432,7 @@ where P.usuario_id = user_id$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondimento`(IN `cond` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from condimentos C
 inner join condimentos_receta CR on CR.condimentos_id = C.condimentos_id
 inner join recetas R on (R.recetas_id = CR.recetas_id)
@@ -443,7 +443,7 @@ limit 5$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunDieta`(IN `dieta` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from recetas R
 inner join dietas D on R.dieta_id = D.dieta_id
 where D.tipo = dieta$$
@@ -451,19 +451,14 @@ where D.tipo = dieta$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunDificultad`(IN `dif` INT(4))
     READS SQL DATA
     SQL SECURITY INVOKER
-select * 
+select nombre,dificultad,caloriasTotales,ingrediente_ppal_id,categoria_id,temporada_id,dieta_id
 from recetas
 where dificultad = dif$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunIngPpal`(IN `ing` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.ingrediente_ppal_id,R.dificultad,R.temporada_id,
-R.categoria_id,
-R.caloriasTotales,
-R.condicion_id,
-R.dieta_id,
-R.procedimiento_id
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from ingredientes as I inner join recetas as R on  R.ingrediente_ppal_id = I.ingredientes_id 
 where I.nombre = ing 
 order by rand(R.recetas_id)$$
@@ -471,7 +466,7 @@ order by rand(R.recetas_id)$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunInteresPeriodo`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from historial as H inner join recetas as R on H.receta_id = R.recetas_id
 where H.operacion in ('confirmar','consultar')
 and H.tiempo between fecha1 and fecha2
@@ -481,7 +476,7 @@ order by count(*) desc$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunNivelAlimenticio`(IN `nivel` VARCHAR(30))
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from recetas as R
 inner join ingredientes as I on R.ingrediente_ppal_id = I.ingredientes_id
 inner join nivel_alimenticio as NA on (I.nivel_id = NA.nivel_id)
@@ -492,7 +487,7 @@ limit 5$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunPreferencia`(IN `user_id` INT(11))
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from recetas R
 inner join preferencias_alimenticias_usuario PA on R.ingrediente_ppal_id = PA.ingredientes_id
 where PA.usuario_id = user_id
@@ -502,7 +497,7 @@ limit 3$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunPrefPeriodo`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from historial as H inner join recetas as R on H.receta_id = R.recetas_id
 where H.operacion in ('confirmar','consultar')
 and H.tiempo between fecha1 and fecha2
@@ -512,14 +507,14 @@ order by count(*) desc$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunTemporada`(IN `temporada` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
-select * 
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id 
 from recetas as R inner join temporadas as T on R.temporada_id = T.temporada_id 
 where T.tipo like concat("%",temporada,"%")$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaTopTemporada`(IN `temporada` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
-select * 
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from recetas as R inner join temporadas as T on R.temporada_id = T.temporada_id 
 inner join promedio_calificacion as P on R.recetas_id = P.recetas_id 
 where T.tipo like concat("%",temporada,"%")
@@ -590,30 +585,6 @@ INSERT INTO `calificacion_usuario_receta` (`calif_recet_usuario`, `recetas_id`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categorias`
---
-
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `categoria_hora_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
-  `horaMax` time NOT NULL,
-  `horaMin` time NOT NULL,
-  PRIMARY KEY (`categoria_hora_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`categoria_hora_id`, `nombre`, `horaMax`, `horaMin`) VALUES
-(1, 'Desayuno', '11:00:00', '04:00:00'),
-(2, 'Almuerzo', '14:30:00', '11:00:00'),
-(3, 'Merienda', '20:00:00', '14:30:00'),
-(4, 'Cena', '04:00:00', '20:00:00');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `categoria_receta`
 --
 
@@ -643,6 +614,30 @@ INSERT INTO `categoria_receta` (`categorias_id`, `tipo`) VALUES
 (13, 'Desayuno_Merienda_Cena'),
 (14, 'Almuerzo_Merienda_Cena'),
 (15, 'Desayuno_Almuerzo_Merienda_Cena');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `categoria_hora_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
+  `horaMax` time NOT NULL,
+  `horaMin` time NOT NULL,
+  PRIMARY KEY (`categoria_hora_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`categoria_hora_id`, `nombre`, `horaMax`, `horaMin`) VALUES
+(1, 'Desayuno', '11:00:00', '04:00:00'),
+(2, 'Almuerzo', '14:30:00', '11:00:00'),
+(3, 'Merienda', '20:00:00', '14:30:00'),
+(4, 'Cena', '04:00:00', '20:00:00');
 
 -- --------------------------------------------------------
 
