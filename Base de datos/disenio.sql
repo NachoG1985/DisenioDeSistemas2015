@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-01-2016 a las 23:06:50
+-- Tiempo de generación: 22-01-2016 a las 01:08:16
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -72,8 +72,8 @@ group by H.operacion$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaRankingRecetaConsultada`()
     READS SQL DATA
     SQL SECURITY INVOKER
-select H.receta_id, count(H.operacion)
-from historial H 
+select R.nombre, count(H.operacion)
+from historial H inner join recetas R on H.receta_id = R.recetas_id
 where H.operacion = 'consultar'
 group by H.receta_id
 Order by count(H.operacion) desc$$
@@ -81,7 +81,7 @@ Order by count(H.operacion) desc$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaRecetaDificultad`()
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.dificultad, count(H.receta_id)
+select R.nombre,R.dificultad, count(H.receta_id)
 from historial H 
 inner join recetas R on R.recetas_id = H.receta_id
 where H.operacion = 'consultar'
@@ -90,12 +90,14 @@ group by R.dificultad$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaSegunSexo`(IN `sexo` VARCHAR(20))
     READS SQL DATA
     SQL SECURITY INVOKER
-select H.receta_id, count(H.operacion)
+select R.nombre, count(H.operacion)
 from historial H 
 inner join perfil_usuario PU on PU.usuario_id = H.usuario_id
+inner join recetas R on H.receta_id = R.recetas_id
 where H.operacion = 'consultar'
 and PU.sexo = sexo
-group by H.usuario_id$$
+group by H.usuario_id
+order by count(H.operacion) desc$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ingYCantSegunReceta`(IN `rec` INT)
     READS SQL DATA
@@ -193,14 +195,21 @@ select porcion, calorias, nivel_id
 from ingredientes
 where nombre = nom$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadas`(IN `usu` VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadas`(IN `usu_id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
 select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id 
-from usuarios as U 
-inner join historial as H on U.usuario_id = H.usuario_id
-inner join recetas R on (R.recetas_id = H.receta_id)
-where H.operacion = 'cargar' and U.nombreUsuario = usu$$
+from recetas R
+inner join historial H on (R.recetas_id = H.receta_id)
+where H.operacion = 'cargar' and H.usuario_id = usu_id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadasEnDB`()
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id 
+from recetas R
+inner join historial H on (R.recetas_id = H.receta_id)
+where H.operacion = 'cargar'$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`()
     READS SQL DATA
@@ -411,12 +420,13 @@ SELECT PU.nombre,PU.apellido,PU.sexo,PU.edad,PU.altura,PU.complexion,PU.dieta_id
 FROM usuarios as U inner join perfil_usuario as PU on U.usuario_id = PU.usuario_id
 WHERE U.nombreUsuario = usu$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaMasConsultada`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaMasConsultada`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP, IN `usu_id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
 select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
 from historial as H inner join recetas as R on H.receta_id = R.recetas_id
-where operacion = 'consultar' and H.tiempo between fecha1 and fecha2
+where (operacion = 'consultar' and H.tiempo between fecha1 and fecha2) and
+H.usuario_id = usu_id
 group by receta_id
 order by count(*) desc$$
 

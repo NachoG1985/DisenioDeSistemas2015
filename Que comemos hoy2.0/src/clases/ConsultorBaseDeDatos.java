@@ -911,20 +911,23 @@ public class ConsultorBaseDeDatos {
 		 } return buscadas;
 	 }  
 			 
-	//Devuelve las recetas mas consultadas dado un periodo de tiempo		 
-	 public HashSet<Receta> recetaMasConsultada(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2) {
+	//Devuelve las recetas mas consultadas dado un periodo de tiempo para un usuario dado.		 
+	 public HashSet<Receta> recetaMasConsultada(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2,String nombreUsuario) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-			
+		 int usu;
+		 
 		 HashSet<Receta> buscadas = new HashSet<Receta>();
 		 Receta aux;
 		 try {
 			 cn = getConexion("disenio", "root", "");
-			           	  	      	 
-			 cst = cn.prepareCall("{call recetaMasConsultada(?,?)}");
+			 
+			 usu = obtenerIDUsuario(nombreUsuario, cn, cst);
+			 cst = cn.prepareCall("{call recetaMasConsultada(?,?,?)}");
 			 cst.setTimestamp(1,fecha1);
 			 cst.setTimestamp(2,fecha2);
+			 cst.setInt(3,usu);
 			 data = cst.executeQuery();
 			 
 			 while(data.next())
@@ -948,19 +951,21 @@ public class ConsultorBaseDeDatos {
 		 } return buscadas;
 	 }  
 		
-	 // devuelve las recetas creadas por un usuario	 
-	 public HashSet<Receta> recetaCreadas(String usuario) {
+	 // Devuelve las recetas creadas por un usuario dado.
+	 public HashSet<Receta> recetaCreadasPorUsuario(String nombreUsuario) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
+		 int usu;
 		
 		 HashSet<Receta> buscadas = new HashSet<Receta>();
 		 Receta aux;
 		 try {
 			 cn = getConexion("disenio", "root", "");
-			           	  	      	 
+			 
+			 usu = obtenerIDUsuario(nombreUsuario, cn, cst);
 			 cst = cn.prepareCall("{call mostrarRecetasCreadas(?)}");
-			 cst.setString(1,usuario);
+			 cst.setInt(1,usu);
 			 data = cst.executeQuery();
 			 
 			 while(data.next())
@@ -984,6 +989,43 @@ public class ConsultorBaseDeDatos {
 			        	
 		 } return buscadas;
 	 }
+	 
+	// Devuelve las recetas creadas por todos los usuarios.
+		 public HashSet<Receta> recetaCreadasPorTodosLosUsuarios() {
+			 ResultSet data=null;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 
+			
+			 HashSet<Receta> buscadas = new HashSet<Receta>();
+			 Receta aux;
+			 try {
+				 cn = getConexion("disenio", "root", "");
+				 
+				 cst = cn.prepareCall("{call mostrarRecetasCreadasEnDB()}");
+				 data = cst.executeQuery();
+				 
+				 while(data.next())
+				 {			 
+				 	String nombreReceta = data.getString("nombre");
+					int dificultad = data.getInt("dificultad");
+					float calorias = data.getInt("caloriasTotales");
+					String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
+					String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
+					String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
+					String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+					
+					aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+					
+					buscadas.add(aux);
+				 }
+				            
+				 cn.close();
+				             
+			 }catch (Exception e) {
+				        	
+			 } return buscadas;
+		 }
 
 	 //devuelve todos los ing de la db
 	 public HashSet<String> mostrarIngredientesDB( ) {
@@ -1201,28 +1243,11 @@ public class ConsultorBaseDeDatos {
 		 }catch (Exception e) {
 				 
 		 } return ingredienteBuscado;
-	 }  
+	 }
 	 
-	//Devuelve las recetas preferidas en un periodo		 
-		 public ResultSet recetaPreferenciaPeriodo(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2) {
-			 ResultSet data=null;
-			 Connection cn = null;
-			 CallableStatement cst = null;
-					 		 
-			 try {
-				 cn = getConexion("disenio", "root", "");
-				           	  	      	 
-				 cst = cn.prepareCall("{call recetaSegunInteresPeriodo(?,?)}");
-				 cst.setTimestamp(1,fecha1);
-				 cst.setTimestamp(2,fecha2);
-				 data = cst.executeQuery();
-				            
-				 cn.close();
-				             
-			 }catch (Exception e) {
-				        	
-			 } return data;
-		 }  
+	 
+	 
+	
 				
 //*********************Funciones UPDATE***********************************
 
