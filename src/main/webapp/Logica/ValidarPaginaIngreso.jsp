@@ -36,6 +36,7 @@
 					//Si el usuario no existe o la contraseña ingresada no coincide mostrar cartel de error
 					if(nuevoUsuario == null)
 					{
+						consultor.desconectar();
 						response.sendRedirect("../index.html");
 					}
 					else
