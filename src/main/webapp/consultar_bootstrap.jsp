@@ -268,7 +268,7 @@
 				}*/
 						
 				out.println("<a class=\"btn btn-primary btn-sm btn-block\" href=\"verReceta_bootstrap.jsp?receta=" + aux.getNombre() + " role=\"button\">"
-						+ "Ver m�s <span class=\"glyphicon glyphicon-cutlery\"></span></a>");
+						+ "Ver mas <span class=\"glyphicon glyphicon-cutlery\"></span></a>");
 						out.println("</div>");
 						out.println("</div>");
 						out.println("</div>");
