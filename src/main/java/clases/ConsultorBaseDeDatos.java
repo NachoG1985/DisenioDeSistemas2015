@@ -16,6 +16,7 @@ public class ConsultorBaseDeDatos {
 	private static String rutaBaseDeDatos;
 	private  static ConsultorBaseDeDatos instance;
 	private Connection miConexion;
+	private String username, password, dbUrl;
 	
 	
 	
@@ -66,9 +67,9 @@ public class ConsultorBaseDeDatos {
             
             URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
 
-            String username = dbUri.getUserInfo().split(":")[0];
-            String password = dbUri.getUserInfo().split(":")[1];
-            String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+           this.username = dbUri.getUserInfo().split(":")[0];
+           this.password = dbUri.getUserInfo().split(":")[1];
+           this.dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
 
             
             setConexion(DriverManager.getConnection(dbUrl, username, password));
@@ -95,10 +96,9 @@ public class ConsultorBaseDeDatos {
         try {
             //llamar a la clase o driver de jdbc
             Class.forName("com.mysql.jdbc.Driver");
-            //String servidor = "jdbc:mysql://localhost:3306/" + BD;
-            String servidor = "jdbc:mysql://localhost/" + BD ;
+            //String servidor = "jdbc:mysql://localhost:3306/" + BD
             
-            miConexion = DriverManager.getConnection(servidor,usuario,contrasenia);
+            miConexion = DriverManager.getConnection(BD,usuario,contrasenia);
         } 
         catch (ClassNotFoundException e)
         {
@@ -108,6 +108,7 @@ public class ConsultorBaseDeDatos {
         catch(SQLException ex)
         {
             System.err.println("No se pudo conectar a la base de datos");
+            ex.printStackTrace();
             miConexion = null;
         }
         
@@ -118,7 +119,7 @@ public class ConsultorBaseDeDatos {
 	public boolean ejecutar(String sql)
 	{
         try {
-            Statement sentencia = getConexion("disenio", "root", "").createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            Statement sentencia = getConexion(dbUrl, username, password).createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
             sentencia.executeUpdate(sql);
             sentencia.close();
         } catch (SQLException e) {
@@ -133,7 +134,7 @@ public class ConsultorBaseDeDatos {
 	{
         ResultSet resultado;
         try {
-            Statement sentencia = getConexion("disenio", "root", "").createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            Statement sentencia = getConexion(dbUrl, username, password).createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
             resultado = sentencia.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -150,7 +151,7 @@ public class ConsultorBaseDeDatos {
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
-	        	 cn = getConexion("disenio", "root", "");
+	        	 cn = getConexion(dbUrl, username, password);
 	           	           
 	             cst = cn.prepareCall("{call insertarUsuario(?,?,?,?)}");
 	             cst.setString(1,nombre);
@@ -181,7 +182,7 @@ public class ConsultorBaseDeDatos {
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
-	        	 cn = getConexion("disenio", "root", "");
+	        	 cn = getConexion(dbUrl, username, password);
 	        	 
 	           	 temp = obtenerIDTemporada(temporada, cn, cst);
 	           	 ing = obtenerIDIng(ingrediente, cn, cst);
@@ -224,7 +225,7 @@ public class ConsultorBaseDeDatos {
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
-	        	 cn = getConexion("disenio", "root", "");
+	        	 cn = getConexion(dbUrl, username, password);
 	           	 
 	        	 level= obtenerIDAlimenticio(nivel, cn, cst);
 	             cst = cn.prepareCall("{call insertarIngrediente(?,?,?,?)}");
@@ -254,7 +255,7 @@ public class ConsultorBaseDeDatos {
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
-	        	 cn = getConexion("disenio", "root", "");
+	        	 cn = getConexion(dbUrl, username, password);
 	           	           
 	             cst = cn.prepareCall("{call insertarCondimento(?)}");
 	             cst.setString(1,nombre);
@@ -281,7 +282,7 @@ public class ConsultorBaseDeDatos {
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
-	        	 cn = getConexion("disenio", "root", "");
+	        	 cn = getConexion(dbUrl, username, password);
 	        	 
 	        	 usu = obtenerIDUsuario(usuario, cn, cst);
 	        	 diet = obtenerIDDieta(dieta, cn, cst);
@@ -322,7 +323,7 @@ public class ConsultorBaseDeDatos {
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
-	        	 cn = getConexion("disenio", "root", "");
+	        	 cn = getConexion(dbUrl, username, password);
 	           	 
 	        	 cond = obtenerIDCondimento(condimento, cn, cst);
 	        	 rec = obtenerIDReceta(receta, cn, cst);
@@ -353,7 +354,7 @@ public class ConsultorBaseDeDatos {
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
-	        	 cn = getConexion("disenio", "root", "");
+	        	 cn = getConexion(dbUrl, username, password);
 	           	 
 	        	 ing = obtenerIDIng(ingrediente, cn, cst);
 	        	 rec = obtenerIDReceta(receta, cn, cst);
@@ -385,7 +386,7 @@ public class ConsultorBaseDeDatos {
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
-	        	 cn = getConexion("disenio", "root", "");
+	        	 cn = getConexion(dbUrl, username, password);
 	           	 
 	        	 usu = obtenerIDUsuario(usuario, cn, cst);
 	        	 rec = obtenerIDReceta(receta, cn, cst);
@@ -414,7 +415,7 @@ public class ConsultorBaseDeDatos {
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
-	        	 cn = getConexion("disenio", "root", "");
+	        	 cn = getConexion(dbUrl, username, password);
 	           	 
 	        	 usu = obtenerIDUsuario(usuario, cn, cst);
 	        	 rec = obtenerIDReceta(receta, cn, cst);
@@ -437,7 +438,7 @@ public class ConsultorBaseDeDatos {
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
-	        	 cn = getConexion("disenio", "root", "");
+	        	 cn = getConexion(dbUrl, username, password);
 	           	           
 	             cst = cn.prepareCall("{call insertarProcedimiento(?,?,?,?,?,?,?,?,?,?)}");
 	             cst.setString(1,im1);
@@ -475,7 +476,7 @@ public class ConsultorBaseDeDatos {
 		String contrasenia;
 		Date fechaNacimiento;
 	 	try {
-        	 cn = getConexion("disenio", "root", "");
+        	 cn = getConexion(dbUrl, username, password);
              cst = cn.prepareCall("{call consultaUsuario(?)}");
              cst.setString(1,nombre);
              data = cst.executeQuery();
@@ -500,7 +501,7 @@ public class ConsultorBaseDeDatos {
 	 	CallableStatement cst = null;
 	 	Receta recetaBuscada=null;
         try {
-        	 cn = getConexion("disenio", "root", "");
+        	 cn = getConexion(dbUrl, username, password);
            	           
              cst = cn.prepareCall("{call consultaReceta(?)}");
              cst.setString(1,nombre);
@@ -528,7 +529,7 @@ public class ConsultorBaseDeDatos {
 	 	HashSet<Receta> recetasDB = new HashSet<Receta>();
 	 	Receta recetaDB;
         try {
-        	 cn = getConexion("disenio", "root", "");
+        	 cn = getConexion(dbUrl, username, password);
            	           
              cst = cn.prepareCall("{call mostrarRecetasDB()}");
              data = cst.executeQuery();
@@ -562,7 +563,7 @@ public class ConsultorBaseDeDatos {
 		 	Set<String> lista = new HashSet<String>();
 		 	int rec;
 		 	try {
-		 		cn = getConexion("disenio", "root", "");
+		 		cn = getConexion(dbUrl, username, password);
 	           	 
 		 		rec = obtenerIDReceta(nombre, cn, cst);
 	        	 
@@ -592,7 +593,7 @@ public class ConsultorBaseDeDatos {
 		 Set<String> lista = new HashSet<String>();
 		 int rec;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 	           	 
 			 rec = obtenerIDReceta(nombre, cn, cst);
 	        	 
@@ -624,7 +625,7 @@ public class ConsultorBaseDeDatos {
 		 Receta aux;
 			 		 
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			 
 			 cst = cn.prepareCall("{call recetaSegunCondimento(?)}");
 			 cst.setString(1,condim);
@@ -662,7 +663,7 @@ public class ConsultorBaseDeDatos {
 		 Receta aux;
 				 		 
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			 
 			 cst = cn.prepareCall("{call recetaSegunDieta(?)}");
 			 cst.setString(1,dieta);
@@ -699,7 +700,7 @@ public class ConsultorBaseDeDatos {
 		 Receta aux;
 				 		 
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			           	   	      	 
 			 cst = cn.prepareCall("{call recetaSegunNivelAlimenticio(?)}");
 			 cst.setString(1,nivel);
@@ -738,7 +739,7 @@ public class ConsultorBaseDeDatos {
 		 HashSet<Receta> buscadas = new HashSet<Receta>();
 		 Receta aux;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			 usu = obtenerIDUsuario(nombreUsuario, cn, cst);  	      	 
 			 cst = cn.prepareCall("{call recetaSegunPreferencia(?)}");
 			 cst.setInt(1,usu);
@@ -776,7 +777,7 @@ public class ConsultorBaseDeDatos {
 		 HashSet<Receta> buscadas = new HashSet<Receta>();
 		 Receta aux;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			 cst = cn.prepareCall("{call recetaSegunPrefPeriodo(?,?)}");
 			 cst.setTimestamp(1,fecha1);
 			 cst.setTimestamp(2,fecha2);
@@ -813,7 +814,7 @@ public class ConsultorBaseDeDatos {
 		 Receta aux;
 				 		 
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			 
 			 cst = cn.prepareCall("{call recetaSegunIngPpal(?)}");
 			 cst.setString(1,ingrediente);
@@ -850,7 +851,7 @@ public class ConsultorBaseDeDatos {
 		 Receta aux;
 				 		 
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			           	  	      	 
 			 cst = cn.prepareCall("{call recetaSegunDificultad(?)}");
 			 cst.setInt(1,dificultad);
@@ -890,7 +891,7 @@ public class ConsultorBaseDeDatos {
 		 Receta aux;
 				 		 
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			           	  	      	 
 			 cst = cn.prepareCall("{call reporteRangoCalorias(?,?)}");
 			 cst.setDouble(1,cal1);
@@ -931,7 +932,7 @@ public class ConsultorBaseDeDatos {
 		 HashSet<Receta> buscadas = new HashSet<Receta>();
 		 Receta aux;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			 
 			 usu = obtenerIDUsuario(nombreUsuario, cn, cst);
 			 cst = cn.prepareCall("{call recetaMasConsultada(?,?,?)}");
@@ -971,7 +972,7 @@ public class ConsultorBaseDeDatos {
 		 HashSet<Receta> buscadas = new HashSet<Receta>();
 		 Receta aux;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			 
 			 usu = obtenerIDUsuario(nombreUsuario, cn, cst);
 			 cst = cn.prepareCall("{call mostrarRecetasCreadas(?)}");
@@ -1010,7 +1011,7 @@ public class ConsultorBaseDeDatos {
 			 HashSet<Receta> buscadas = new HashSet<Receta>();
 			 Receta aux;
 			 try {
-				 cn = getConexion("disenio", "root", "");
+				 cn = getConexion(dbUrl, username, password);
 				 
 				 cst = cn.prepareCall("{call mostrarRecetasCreadasEnDB()}");
 				 data = cst.executeQuery();
@@ -1045,7 +1046,7 @@ public class ConsultorBaseDeDatos {
 		 HashSet<String> nombresIngredientes = new HashSet<String>();
 		 String nombreIngrediente;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			           	           
 			 cst = cn.prepareCall("{call listarIngredientes()}");
 			 data = cst.executeQuery();
@@ -1070,7 +1071,7 @@ public class ConsultorBaseDeDatos {
 		 HashSet<String> nombresCondimentos = new HashSet<String>();
 		 String nombreCondimento;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			           	           
 			 cst = cn.prepareCall("{call listarCondimentos()}");
 			 data = cst.executeQuery();
@@ -1094,7 +1095,7 @@ public class ConsultorBaseDeDatos {
 		 CallableStatement cst = null;
 		 PerfilUsuario perfilBuscado = null;
 		 try {
-			 cn = getConexion("disenio", "root", "");        	           
+			 cn = getConexion(dbUrl, username, password);        	           
 			 cst = cn.prepareCall("{call obtenerPerfil(?)}");
 			 cst.setString(1,usuario);
 			 data = cst.executeQuery();
@@ -1126,7 +1127,7 @@ public class ConsultorBaseDeDatos {
 		 HashSet<Receta> buscadas = new HashSet<Receta>();
 		 Receta aux;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 				 
 			 cst = cn.prepareCall("{call recetaSegunTemporada(?)}");
 			 cst.setString(1,temporada);
@@ -1164,7 +1165,7 @@ public class ConsultorBaseDeDatos {
 		 HashSet<Receta> buscadas = new HashSet<Receta>();
 		 Receta aux;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 			 
 			 cst = cn.prepareCall("{call recetaTopTemporada(?)}");
 			 cst.setString(1,temporada);
@@ -1201,7 +1202,7 @@ public class ConsultorBaseDeDatos {
 		 HashSet<Receta> buscadas = new HashSet<Receta>();
 		 Receta aux;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 				 
 			 cst = cn.prepareCall("{call reporteRangoCalorias(?,?)}");
 			 cst.setDouble(1,cal1);
@@ -1237,7 +1238,7 @@ public class ConsultorBaseDeDatos {
 		 CallableStatement cst = null;
 		 Ingrediente ingredienteBuscado= null;		 		 
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 				 
 			 cst = cn.prepareCall("{call mostrarDatosIng(?)}");
 			 cst.setString(1,nombre);
@@ -1267,7 +1268,7 @@ public class ConsultorBaseDeDatos {
 		 Connection cn = null;
 		 CallableStatement cst = null;
 		 try {
-			 cn = getConexion("disenio", "root", "");
+			 cn = getConexion(dbUrl, username, password);
 		        	 
 			 usu = obtenerIDUsuario(usuario, cn, cst);
 			 diet = obtenerIDDieta(dieta, cn, cst);
@@ -1459,7 +1460,7 @@ public class ConsultorBaseDeDatos {
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion("disenio", "root", "");
+				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreIng(?)}");
 				 cst.setInt(1,ing);
 				 data = cst.executeQuery();
@@ -1476,7 +1477,7 @@ public class ConsultorBaseDeDatos {
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion("disenio", "root", "");
+				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreTemporada(?)}");
 				 cst.setInt(1,tempo);
 				 data = cst.executeQuery();
@@ -1493,7 +1494,7 @@ public class ConsultorBaseDeDatos {
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion("disenio", "root", "");
+				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreCategoria(?)}");
 				 cst.setInt(1,cate);
 				 data = cst.executeQuery();
@@ -1510,7 +1511,7 @@ public class ConsultorBaseDeDatos {
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion("disenio", "root", "");
+				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreCondicion(?)}");
 				 cst.setInt(1,cond);
 				 data = cst.executeQuery();
@@ -1527,7 +1528,7 @@ public class ConsultorBaseDeDatos {
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion("disenio", "root", "");
+				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreDieta(?)}");
 				 cst.setInt(1,dieta);
 				 data = cst.executeQuery();
@@ -1544,7 +1545,7 @@ public class ConsultorBaseDeDatos {
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion("disenio", "root", "");
+				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreNivelAlim(?)}");
 				 cst.setInt(1,nivel);
 				 data = cst.executeQuery();
@@ -1562,7 +1563,7 @@ public class ConsultorBaseDeDatos {
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion("disenio", "root", "");
+				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreRutina(?)}");
 				 cst.setInt(1,rutina);
 				 data = cst.executeQuery();
@@ -1579,7 +1580,7 @@ public class ConsultorBaseDeDatos {
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion("disenio", "root", "");
+				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreUsuario(?)}");
 				 cst.setInt(1,usu);
 				 data = cst.executeQuery();
