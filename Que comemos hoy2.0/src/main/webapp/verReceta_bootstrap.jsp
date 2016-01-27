@@ -1,9 +1,11 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Receta" %>
 <%@ page import="clases.Usuario" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.Iterator" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -116,8 +118,9 @@
 			receta = consultor.consultarReceta(nombreReceta);
 						
 			Set<String> condimentosObtenidos = consultor.obtenerCondimentos(nombreReceta);
-			
-			Set<String> ingredientesObtenidos = consultor.obtenerIngyCant(nombreReceta);
+
+			ArrayList<String> ingredientesObtenidos = consultor.obtenerIngyCant(nombreReceta);
+						
 			
 			out.println("<h1 class=\"text-primary text-left col-md-offset-1\">"+ receta.getNombre() +"</h1>");
 		%>

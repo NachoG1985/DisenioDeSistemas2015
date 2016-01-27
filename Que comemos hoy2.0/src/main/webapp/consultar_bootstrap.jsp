@@ -12,17 +12,11 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home</title>
+    <title>Consultar Recetas</title>
  
     <!-- CSS de Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
  
-    <!-- librerÃ­as opcionales que activan el soporte de HTML5 para IE8 -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-<title>Consultar Recetas</title>
 </head>
 <body>
 
@@ -52,7 +46,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="home_bootstrap.jsp">Â¿QuÃ© comemos hoy?</a>
+    <a class="navbar-brand" href="home_bootstrap.jsp">¿Que comemos hoy?</a>
   </div>
  
   <!-- Agrupar los enlaces de navegaciÃ³n, los formularios y cualquier
@@ -141,20 +135,17 @@
 							<hr>
 							
 							<div class="form-group">
-														<div class="form-group">
-								<button type="submit" class="btn btn-primary  btn-block">Aplicar filtros</button>
-							</div>
 								<input type="text" class="form-control center-block " name="IngredientePpal" placeholder="Ingrediente Principal">
 								<input type="text" class="form-control center-block " name="condimento" placeholder="Condimento">
 								<div class="row">
 									<div class="col-md-6">
-										<input type="number" min="0" max="10000" step="0.01" class="form-control center-block " name="CaloriasMin" placeholder="Calorï¿½as Mï¿½nimas">
+										<input type="number" min="0" max="10000" step="0.01" class="form-control center-block " name="CaloriasMin" placeholder="Calorias Minimas">
 									</div>
 									<div class="col-md-6">
-										<input type="number"  min="0" max="10000" step="0.01" class="form-control center-block " name="CaloriasMax" placeholder="Calorï¿½as Mï¿½ximas">
+										<input type="number"  min="0" max="10000" step="0.01" class="form-control center-block " name="CaloriasMax" placeholder="Calorias Maximas">
 									</div>
 								</div>
-								<input type="number" min="1" max="5" class="form-control center-block " name="calificacion" placeholder="Calificaciï¿½n" disabled>
+								<input type="number" min="1" max="5" class="form-control center-block " name="calificacion" placeholder="Calificacion" disabled>
 								<input type="number" min="1" max="5" class="form-control center-block " name="dificultad" placeholder="Dificultad">
 								<input type="number" min="1" max="5" class="form-control center-block " name="nivelAlimenticio" placeholder="Nivel de la piramide alimenticia">
 								
@@ -172,7 +163,7 @@
 								<select name="temporada" class="form-control" disabled>
 									<option value=""> </option>
 									<option value="verano"> verano </option>
-									<option value="otoï¿½o"> otoï¿½o </option>
+									<option value="otoño"> otoño </option>
 									<option value="invierno"> invierno </option>
 									<option value="primavera"> primavera </option>
 									<option value="navidad"> navidad </option>
@@ -195,14 +186,14 @@
 						<div class="checkbox-inline">
 							<label>
 								<input type="checkbox" name="aptaPara" id="aptaPara" value="Celiacos" disabled>
-									Celï¿½acos
+									Celiacos
 							</label>
 						</div>
 						
 						<div class="checkbox-inline">
 							<label>
 								<input type="checkbox" name="aptaPara" id="aptaPara" value="Diabeticos" disabled>
-									Diabï¿½ticos
+									Diabeticos
 							</label>
 						</div>
 

@@ -162,8 +162,8 @@ public class ConsultorBaseDeDatos {
 	             cst = cn.prepareCall("{call obtenerIDUsuario(?)}");
 	             cst.setString(1,nombre);
 	             data = cst.executeQuery();
-	             data.next();
-	             resultado=data.getInt("usuario_id");
+	             if(data.next())
+	            	 resultado=data.getInt("usuario_id");
 	             cn.close();
 	                                  
 	            
@@ -305,8 +305,8 @@ public class ConsultorBaseDeDatos {
 	             cst.setString(1,nombre);
 	             cst.setString(2,apellido);
 	             data = cst.executeQuery();
-	             data.next();
-	             resultado = data.getInt("perfil_id");         
+	             if(data.next())
+	            	 resultado = data.getInt("perfil_id");         
 	             cn.close();   
 	                         
 	        }catch (Exception e) {
@@ -514,10 +514,10 @@ public class ConsultorBaseDeDatos {
              String nombreReceta = data.getString("nombre");
 			 int dificultad = data.getInt("dificultad");
 			 float calorias = data.getInt("caloriasTotales");
-			 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-			 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-			 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+			 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+			 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+			 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 			 recetaBuscada = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 			 data.close();
 			 cn.close();
@@ -542,10 +542,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				recetaDB = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				recetasDB.add(recetaDB);
 			 }
@@ -560,11 +560,11 @@ public class ConsultorBaseDeDatos {
 	
  
 	//devuelve los ingredientes y cant de una receta en un Set
-	 public Set<String> obtenerIngyCant(String nombre) {
+	 public ArrayList<String> obtenerIngyCant(String nombre) {
 		 	ResultSet data=null;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
-		 	Set<String> lista = new HashSet<String>();
+		 	ArrayList<String> lista = new ArrayList<String>();
 		 	int rec;
 		 	try {
 		 		cn = getConexion(dbUrl, username, password);
@@ -640,10 +640,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -678,10 +678,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dietaReceta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dietaReceta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dietaReceta,null, categorias,temporadas,calorias,"",null);
 				
@@ -716,10 +716,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -755,10 +755,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -793,10 +793,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -830,10 +830,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -868,10 +868,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultadReceta = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultadReceta,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -908,10 +908,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -950,10 +950,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -988,10 +988,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -1025,10 +1025,10 @@ public class ConsultorBaseDeDatos {
 				 	String nombreReceta = data.getString("nombre");
 					int dificultad = data.getInt("dificultad");
 					float calorias = data.getInt("caloriasTotales");
-					String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-					String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-					String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-					String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+					String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+					String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+					String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+					String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 					
 					aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 					
@@ -1103,17 +1103,19 @@ public class ConsultorBaseDeDatos {
 			 cst = cn.prepareCall("{call obtenerPerfil(?)}");
 			 cst.setString(1,usuario);
 			 data = cst.executeQuery();
-			 data.next();
+			 if(data.next())
+			 {
 			 String nombre = data.getString("nombre");
 			 String apellido = data.getString("apellido");
 			 String sexo = data.getString("sexo");
 			 int edad = data.getInt("edad");
-			 int altura = data.getInt("altura");
+			 double altura = data.getDouble("altura");
 			 String complexion = data.getString("complexion");
-			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
-			 String rutina = obtenerNombreRutina(data.getInt("rutina_id"));
-			 String condicion = obtenerNombreCondicion(data.getInt("condicion_id"));
+			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
+			 String rutina = obtenerNombreRutina(data.getInt("rutina_id"),cn);
+			 String condicion = obtenerNombreCondicion(data.getInt("condicion_id"),cn);
 			 perfilBuscado = new PerfilUsuario(nombre,apellido,sexo,edad,altura,complexion,dieta,null,rutina,condicion);
+			 }
 			 data.close();
 			 cn.close();
 			            
@@ -1142,10 +1144,10 @@ public class ConsultorBaseDeDatos {
 				 String nombreReceta = data.getString("nombre");
 				 int dificultad = data.getInt("dificultad");
 				 float calorias = data.getInt("caloriasTotales");
-				 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				 String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 					
 				 aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 					
@@ -1180,10 +1182,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -1218,10 +1220,10 @@ public class ConsultorBaseDeDatos {
 			 	String nombreReceta = data.getString("nombre");
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
-				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"));
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"));
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"));
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"));
+				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 				
 				aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
 				
@@ -1250,7 +1252,7 @@ public class ConsultorBaseDeDatos {
 			 data.next();
 			 int porcion = data.getInt("porcion");
 			 int calorias = data.getInt("calorias");
-			 String nivel = obtenerNombreNivelAlim(data.getInt("nivel_id"));
+			 String nivel = obtenerNombreNivelAlim(data.getInt("nivel_id"),cn);
 			 ingredienteBuscado = new Ingrediente(nombre,porcion,calorias,nivel);        
 			 
 			 data.close();
@@ -1458,138 +1460,122 @@ public class ConsultorBaseDeDatos {
 			 return resultado;
 		 }
 		 
-		 public String obtenerNombreIng(int ing){
+		 public String obtenerNombreIng(int ing,Connection cn){
 			 ResultSet data;
-			 Connection cn = null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreIng(?)}");
 				 cst.setInt(1,ing);
 				 data = cst.executeQuery();
-				 data.next();
-				 resultado = data.getString("nombre"); 
+				 if(data.next())
+					 resultado = data.getString("nombre");
 			 	}catch(Exception e) {       	
 			 	}
 			 return resultado;
 		 }
 		 
-		 public String obtenerNombreTemporada(int tempo){
+		 public String obtenerNombreTemporada(int tempo,Connection cn){
 			 ResultSet data;
-			 Connection cn = null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreTemporada(?)}");
 				 cst.setInt(1,tempo);
 				 data = cst.executeQuery();
-				 data.next();
-				 resultado = data.getString("tipo"); 
+				 if(data.next())
+					 resultado = data.getString("tipo"); 
 			 	}catch(Exception e) {       	
 			 	}
 			 return resultado;
 		 }
 		 
-		 public String obtenerNombreCategoria(int cate){
+		 public String obtenerNombreCategoria(int cate,Connection cn){
 			 ResultSet data;
-			 Connection cn = null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreCategoria(?)}");
 				 cst.setInt(1,cate);
 				 data = cst.executeQuery();
-				 data.next();
-				 resultado = data.getString("tipo"); 
+				 if(data.next())
+					 resultado = data.getString("tipo"); 
 			 	}catch(Exception e) {       	
 			 	}
 			 return resultado;
 		 }
 		 
-		 public String obtenerNombreCondicion(int cond){
+		 public String obtenerNombreCondicion(int cond,Connection cn){
 			 ResultSet data;
-			 Connection cn = null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreCondicion(?)}");
 				 cst.setInt(1,cond);
 				 data = cst.executeQuery();
-				 data.next();
-				 resultado = data.getString("tipo"); 
+				 if(data.next())
+					 resultado = data.getString("tipo"); 
 			 	}catch(Exception e) {       	
 			 	}
 			 return resultado;
 		 }
 		 
-		 public String obtenerNombreDieta(int dieta){
+		 public String obtenerNombreDieta(int dieta,Connection cn){
 			 ResultSet data;
-			 Connection cn = null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreDieta(?)}");
 				 cst.setInt(1,dieta);
 				 data = cst.executeQuery();
-				 data.next();
-				 resultado = data.getString("tipo"); 
+				 if(data.next())
+					 resultado = data.getString("tipo"); 
 			 	}catch(Exception e) {       	
 			 	}
 			 return resultado;
 		 }
 		 
-		 public String obtenerNombreNivelAlim(int nivel){
+		 public String obtenerNombreNivelAlim(int nivel,Connection cn){
 			 ResultSet data;
-			 Connection cn = null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreNivelAlim(?)}");
 				 cst.setInt(1,nivel);
 				 data = cst.executeQuery();
-				 data.next();
-				 resultado = data.getString("tipo"); 
+				 if(data.next())
+					 resultado = data.getString("tipo"); 
 			 	}catch(Exception e) {       	
 			 	}
 			 return resultado;
 		 }
 		
 		 
-		 public String obtenerNombreRutina(int rutina){
+		 public String obtenerNombreRutina(int rutina,Connection cn){
 			 ResultSet data;
-			 Connection cn = null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreRutina(?)}");
 				 cst.setInt(1,rutina);
 				 data = cst.executeQuery();
-				 data.next();
-				 resultado = data.getString("tipo"); 
+				 if(data.next())
+					 resultado = data.getString("tipo"); 
 			 	}catch(Exception e) {       	
 			 	}
 			 return resultado;
 		 }
 		 
-		 public String obtenerNombreUsuario(int usu){
+		 public String obtenerNombreUsuario(int usu,Connection cn){
 			 ResultSet data;
-			 Connection cn = null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
-				 cn = getConexion(dbUrl, username, password);
 				 cst = cn.prepareCall("{call obtenerNombreUsuario(?)}");
 				 cst.setInt(1,usu);
 				 data = cst.executeQuery();
-				 data.next();
-				 resultado = data.getString("nombreUsuario"); 
+				 if(data.next())
+					 resultado = data.getString("nombreUsuario"); 
 			 	}catch(Exception e) {       	
 			 	}
 			 return resultado;

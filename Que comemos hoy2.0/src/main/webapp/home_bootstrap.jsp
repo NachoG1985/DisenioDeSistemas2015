@@ -119,6 +119,8 @@
 	String categorias;
 	
 	int contador = 0;
+	
+	consultor.desconectar();
 		
 	
 	%>

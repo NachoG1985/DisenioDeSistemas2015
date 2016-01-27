@@ -63,6 +63,8 @@
 			consultor.insertarUsuario(nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(), nuevoUsuario.getContrasenia(), nuevoUsuario.getFechaNacimiento());
 			consultor.insertarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina, condicionesDB);
 			
+			consultor.desconectar();
+			
 			session.setAttribute("usuario", (Object)nuevoUsuario);
 			response.sendRedirect("../home_bootstrap.jsp");
 			}
