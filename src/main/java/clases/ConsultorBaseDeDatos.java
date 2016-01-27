@@ -560,11 +560,11 @@ public class ConsultorBaseDeDatos {
 	
  
 	//devuelve los ingredientes y cant de una receta en un Set
-	 public Set<String> obtenerIngyCant(String nombre) {
+	 public ArrayList<String> obtenerIngyCant(String nombre) {
 		 	ResultSet data=null;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
-		 	Set<String> lista = new HashSet<String>();
+		 	ArrayList<String> lista = new ArrayList<String>();
 		 	int rec;
 		 	try {
 		 		cn = getConexion(dbUrl, username, password);
@@ -1109,7 +1109,7 @@ public class ConsultorBaseDeDatos {
 			 String apellido = data.getString("apellido");
 			 String sexo = data.getString("sexo");
 			 int edad = data.getInt("edad");
-			 int altura = data.getInt("altura");
+			 double altura = data.getDouble("altura");
 			 String complexion = data.getString("complexion");
 			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 			 String rutina = obtenerNombreRutina(data.getInt("rutina_id"),cn);
