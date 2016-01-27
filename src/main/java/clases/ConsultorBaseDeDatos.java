@@ -64,17 +64,17 @@ public class ConsultorBaseDeDatos {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             
-    	    URI jdbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+            URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
 
-    	    String username = jdbUri.getUserInfo().split(":")[0];
-    	    String password = jdbUri.getUserInfo().split(":")[1];
-    	    //String port = String.valueOf(jdbUri.getPort());
-            String BaseDeDatos = "jdbc:mysql://" + jdbUri.getHost() + jdbUri.getPath();
+            String username = dbUri.getUserInfo().split(":")[0];
+            String password = dbUri.getUserInfo().split(":")[1];
+            String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+
             
-            //setConexion(DriverManager.getConnection(BaseDeDatos, username, password));
+            setConexion(DriverManager.getConnection(dbUrl, username, password));
             
-            setConexion(DriverManager.getConnection(System.getenv("CLEARDB_DATABASE_URL")));
-            if(getConexion(BaseDeDatos, username, password) != null){
+          //setConexion(DriverManager.getConnection(System.getenv("CLEARDB_DATABASE_URL")));
+            if(getConexion(dbUrl, username, password) != null){
                 System.out.println("Conexion Exitosa!");
             }else{
                 System.out.println("Conexion Fallida!");                
