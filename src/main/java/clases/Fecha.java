@@ -3,12 +3,12 @@ package clases;
 public class Fecha {
 	private int dia;
 	private int mes;
-	private int año;
+	private int anio;
 
-	public Fecha(int nuevoDia, int nuevoMes, int nuevoAño) {
+	public Fecha(int nuevoDia, int nuevoMes, int nuevoAnio) {
 		setDia(nuevoDia);
 		setMes(nuevoMes);
-		setAño(nuevoAño);
+		setAnio(nuevoAnio);
 	}
 
 
@@ -20,8 +20,8 @@ public class Fecha {
 		return mes;
 	}
 
-	public int getAño() {
-		return año;
+	public int getAnio() {
+		return anio;
 	}
 
 	public void setDia(int dia) {
@@ -32,8 +32,8 @@ public class Fecha {
 		this.mes = mes;
 	}
 
-	public void setAño(int año) {
-		this.año = año;
+	public void setAnio(int año) {
+		this.anio = año;
 	}
 	
 	

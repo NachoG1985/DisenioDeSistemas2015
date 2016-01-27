@@ -88,7 +88,7 @@ public class ConsultorBaseDeDatos {
 	
 	
 	//Retorna la conexion de la DB
-	private Connection getConexion(String BD, String usuario, String contraseña)
+	private Connection getConexion(String BD, String usuario, String contrasenia)
 	{
         try {
             //llamar a la clase o driver de jdbc
@@ -96,7 +96,7 @@ public class ConsultorBaseDeDatos {
             //String servidor = "jdbc:mysql://localhost:3306/" + BD;
             String servidor = "jdbc:mysql://localhost/" + BD ;
             
-            miConexion = DriverManager.getConnection(servidor,usuario,contraseña);
+            miConexion = DriverManager.getConnection(servidor,usuario,contrasenia);
         } 
         catch (ClassNotFoundException e)
         {

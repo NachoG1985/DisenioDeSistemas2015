@@ -8,7 +8,7 @@ public class Usuario {
 	// Atributos de la clase Usuario
 	private String nombreUsuario;
 	private String email;
-	private String contraseña;
+	private String contrasenia;
 	private PerfilUsuario perfil;
 	private HistorialRecetas historicoRecetas;
 	private Set<Usuario> amigos;
@@ -30,12 +30,12 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getContrasenia() {
+		return contrasenia;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 
 	public PerfilUsuario getPerfil() {
@@ -71,13 +71,13 @@ public class Usuario {
 	}
 
 	// Constructor de la clase
-	public Usuario(String nuevoNombre, String nuevoEmail, Date nuevaFecha, String nuevaContraseña) 
+	public Usuario(String nuevoNombre, String nuevoEmail, Date nuevaFecha, String nuevaContrasenia) 
 	{
 		setNombreUsuario(nuevoNombre);
 		setEmail(nuevoEmail);
 		setFechaNacimiento(nuevaFecha);
 		amigos = new HashSet<Usuario>();
-		setContraseña(nuevaContraseña);
+		setContrasenia(nuevaContrasenia);
 	}
 
 	// Metodos de la clase
