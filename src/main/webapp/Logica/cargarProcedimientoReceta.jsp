@@ -172,7 +172,7 @@
 		
 	}
 	
-	response.sendRedirect("../Vistas/home_bootstrap.jsp");
+	response.sendRedirect("../home_bootstrap.jsp");
 	
 	%>
 

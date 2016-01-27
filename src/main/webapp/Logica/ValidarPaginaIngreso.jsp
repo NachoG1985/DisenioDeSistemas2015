@@ -40,17 +40,17 @@
 					}
 					else
 					{
-						contraseñaUsuario = nuevoUsuario.getContraseña();
+						contraseñaUsuario = nuevoUsuario.getContrasenia();
 						if(!contraseñaUsuario.equals(contraseñaIngresada))
 						{
-							response.sendRedirect("../Vistas/index.html");
+							response.sendRedirect("../index.html");
 						}
 						
 						nuevoUsuario.setPerfil(consultor.mostrarPerfilUsuario(nombreUsuario));
 							
 
 							session.setAttribute("usuario", (Object)nuevoUsuario);
-							response.sendRedirect("../Vistas/home_bootstrap.jsp");
+							response.sendRedirect("../home_bootstrap.jsp");
 					
 					}
 				}
@@ -79,18 +79,18 @@
 							{
 								nuevoUsuario = new Usuario(nombreUsuario, email, fechaNacimiento,contraseña);
 								session.setAttribute("usuario", (Object)nuevoUsuario);
-								response.sendRedirect("../Vistas/registro_bootstrap.html");
+								response.sendRedirect("../registro_bootstrap.html");
 								
 							}
 							else
 							{
-								response.sendRedirect("../Vistas/index.html");
+								response.sendRedirect("../index.html");
 							}
 						}
 					//Si el nombre de usuario ya existe msotrar cartel de nombre de usuario en uso
 						else
 						{
-							response.sendRedirect("../Vistas/index.html");
+							response.sendRedirect("../index.html");
 						}
 					}
 				}

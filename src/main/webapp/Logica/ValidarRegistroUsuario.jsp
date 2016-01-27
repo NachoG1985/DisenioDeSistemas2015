@@ -60,15 +60,15 @@
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 		
 			
-			consultor.insertarUsuario(nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(), nuevoUsuario.getContraseña(), nuevoUsuario.getFechaNacimiento());
+			consultor.insertarUsuario(nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(), nuevoUsuario.getContrasenia(), nuevoUsuario.getFechaNacimiento());
 			consultor.insertarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina, condicionesDB);
 			
 			session.setAttribute("usuario", (Object)nuevoUsuario);
-			response.sendRedirect("../Vistas/home_bootstrap.jsp");
+			response.sendRedirect("../home_bootstrap.jsp");
 			}
 			catch(Exception e){
 				System.out.println("Error al cargar a la db");
-				response.sendRedirect("../Vistas/index.html");
+				response.sendRedirect("../index.html");
 			}
 			
 			

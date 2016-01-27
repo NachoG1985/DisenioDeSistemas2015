@@ -32,7 +32,7 @@
 		
 		session.setAttribute("receta", (Object)nuevaReceta);
 		
-		response.sendRedirect("../Vistas/cargarIngredientesReceta_bootstrap.jsp?inicial=a");
+		response.sendRedirect("../cargarIngredientesReceta_bootstrap.jsp?inicial=a");
 	
 	
 	%>

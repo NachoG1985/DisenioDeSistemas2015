@@ -86,7 +86,7 @@
 		*/	
 			session.setAttribute("recetasFiltradas", recetasSegunIngrediente);
 			
-			response.sendRedirect("../Vistas/consultar_bootstrap.jsp");
+			response.sendRedirect("../consultar_bootstrap.jsp");
 			
 		%>
 		
