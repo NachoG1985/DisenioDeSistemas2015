@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registro de Usuario</title>
+ 
+    <!-- CSS de Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+ 
+    <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body> 
+    <!-- Librería jQuery requerida por los plugins de JavaScript -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+ 
+    <!-- Todos los plugins JavaScript de Bootstrap (también puedes
+         incluir archivos JavaScript individuales de los únicos
+         plugins que utilices) -->
+    <script src="js/bootstrap.min.js"></script>
+	
+<!-- BARRA DE NAVEGACION SUPERIOR -->
+	
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+  <div class="navbar-header">
+    <p class="navbar-brand" >¿Qué comemos hoy?</p>
+  </div>
+  
+  </nav>
+  
+  <div class="row">
+		<div class="col-md-6">
+		
+		<h1 class="text-primary text-center"> Segundo Paso </h1><br>
+		
+			<form id="registro" action="../Logica/ValidarRegistroUsuario.jsp" method="POST" class="form-horizontal">
+				
+				<div class="form-group">
+					<label for="nombreYApellido" class="col-lg-4 control-label">Nombre y Apellido</label>
+					<div class="col-lg-4">
+						<input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" required>
+					</div>
+					<div class="col-lg-4">
+						<input type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido" required>
+					</div>
+				</div>				
+				
+				<div class="form-group">
+					<label for="edad" class="col-lg-4 control-label">Edad</label>
+					<div class="col-lg-3">
+						<input type="number" class="form-control" min="0" max="75" name="edad" id="edad" placeholder="Edad" required>
+					</div>
+					<label for="altura" class="col-lg-1 control-label">Altura</label>
+					<div class="col-lg-4">
+						<input type="number" class="form-control" min="0" max="2.20" step="0.01" name="altura" id="altura" placeholder="Altura (mts)" required>
+					</div>
+				</div>	
+								
+				<div class="form-group">
+					<label for="sexo" class="col-lg-4 control-label">Sexo</label>
+					<div class="col-lg-8">
+						<div class="radio-inline">
+							<label>
+								<input type="radio" name="sexo" id="masculino" value="masculino" checked>
+							Masculino
+							</label>
+					</div>
+					<div class="radio-inline">
+						<label>
+							<input type="radio" name="sexo" id="femenino" value="femenino">
+								Femenino
+						</label>
+					</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="dieta" class="col-lg-4 control-label">Dieta</label>
+					<div class="col-lg-8">
+						<select name="dieta" class="form-control" required>
+							<option value="normal"> Normal </option>
+							<option value="ovolactovegetariano"> Ovolactovegetariano </option>
+							<option value="vegetariano"> Vegetariano </option>
+							<option value="vegano"> Vegano </option>
+						</select>
+					</div>	
+				</div>
+				
+				<div class="form-group">
+					<label for="condicionPreexistente" class="col-lg-4 control-label">Condiciones Preexistentes</label>
+					<div class="col-lg-8">
+						<div class="checkbox-inline">
+							<label>
+								<input type="checkbox" name="condicionPreexistente" id="condicionPreexistente" value="diabetes">
+									Diabetes
+							</label>
+						</div>
+						
+						<div class="checkbox-inline">
+							<label>
+								<input type="checkbox" name="condicionPreexistente" id="condicionPreexistente" value="celiasis">
+									Celiasis
+							</label>
+						</div>
+
+						<div class="checkbox-inline">
+							<label>
+								<input type="checkbox" name="condicionPreexistente" id="condicionPreexistente" value="hipertension">
+									Hipertensión
+							</label>
+						</div>						
+						
+					</div>	
+				</div>
+				
+				<div class="form-group">
+					<label for="rutina" class="col-lg-4 control-label">Rutina de ejercicios</label>
+					<div class="col-lg-8">
+						<div class="radio">
+							<label>
+								<input type="radio" name="rutina" id="nada" value="nada" checked>
+							Nada
+							</label>
+					</div>
+					
+					<div class="radio">
+						<label>
+							<input type="radio" name="rutina" id="leve" value="leve">
+								Leve
+						</label>
+					</div>
+					
+						<div class="radio">
+							<label>
+								<input type="radio" name="rutina" id="mediana" value="mediana" checked>
+							Mediana
+							</label>
+					</div>
+					
+					<div class="radio">
+						<label>
+							<input type="radio" name="rutina" id="grande" value="grande">
+								Grande
+						</label>
+					</div>
+					
+					<div class="radio">
+						<label>
+							<input type="radio" name="rutina" id="intensiva" value="intensiva">
+								Intensiva
+						</label>
+					</div>
+					
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="sexo" class="col-lg-4 control-label">Complexion física</label>
+					<div class="col-lg-8">
+						<div class="radio-inline">
+							<label>
+								<input type="radio" name="complexion" id="pequeña" value="pequeña" checked>
+							Pequeña
+							</label>
+					</div>
+					<div class="radio-inline">
+						<label>
+							<input type="radio" name="complexion" id="mediana" value="mediana">
+								Mediana
+						</label>
+					</div>
+					
+					<div class="radio-inline">
+						<label>
+							<input type="radio" name="complexion" id="grande" value="grande">
+								Grande
+						</label>
+					</div>
+					
+					</div>
+				</div>
+			
+				<div class="col-md-4 col-md-offset-5">
+					<br><br>
+					<button type="submit" class="btn btn-default btn-primary  btn-block">Registrarse</button>
+				</div>
+			</form>
+		</div>	
+
+		<div class="col-md-4 col-md-offset-1">
+			<img src="Imagenes/Contenido estatico/Logo.png"/>
+		</div>
+	</div>			
+	
+	</body>
+</html>
