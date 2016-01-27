@@ -480,15 +480,19 @@ public class ConsultorBaseDeDatos {
              cst = cn.prepareCall("{call consultaUsuario(?)}");
              cst.setString(1,nombre);
              data = cst.executeQuery();
-             data.next();
-             nombreUsuario = data.getString("nombreUsuario");
-			 email = data.getString("email");
-			 contrasenia = data.getString("contrasenia");
-			 fechaNacimiento = data.getDate("fecha_nacimiento");
-			 usuarioBuscado = new Usuario(nombreUsuario,email,fechaNacimiento,contrasenia);
+             
+             if(data.next())
+             {
+            	 nombreUsuario = data.getString("nombreUsuario");
+            	 email = data.getString("email");
+            	 contrasenia = data.getString("contrasenia");
+            	 fechaNacimiento = data.getDate("fecha_nacimiento");
+            	 usuarioBuscado = new Usuario(nombreUsuario,email,fechaNacimiento,contrasenia);
+             }
              data.close();
 			 cn.close();
         }catch (Exception e) {
+        	e.printStackTrace();
         	System.out.println("Error");
         }
 	 	return usuarioBuscado;
