@@ -43,12 +43,13 @@
 						contraseñaUsuario = nuevoUsuario.getContrasenia();
 						if(!contraseñaUsuario.equals(contraseñaIngresada))
 						{
+							consultor.desconectar();
 							response.sendRedirect("../index.html");
 						}
 						
 						nuevoUsuario.setPerfil(consultor.mostrarPerfilUsuario(nombreUsuario));
 							
-
+							consultor.desconectar();
 							session.setAttribute("usuario", (Object)nuevoUsuario);
 							response.sendRedirect("../home_bootstrap.jsp");
 					
@@ -79,17 +80,20 @@
 							{
 								nuevoUsuario = new Usuario(nombreUsuario, email, fechaNacimiento,contraseña);
 								session.setAttribute("usuario", (Object)nuevoUsuario);
+								consultor.desconectar();
 								response.sendRedirect("../registro_bootstrap.html");
 								
 							}
 							else
 							{
+								consultor.desconectar();
 								response.sendRedirect("../index.html");
 							}
 						}
 					//Si el nombre de usuario ya existe msotrar cartel de nombre de usuario en uso
 						else
 						{
+							consultor.desconectar();
 							response.sendRedirect("../index.html");
 						}
 					}

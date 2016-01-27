@@ -116,6 +116,8 @@
 		session.setAttribute("ingredientes", (Object)ingredientes);
 		session.setAttribute("condimentos", (Object)condimentos);
 		
+		consultor.desconectar();
+		
 		response.sendRedirect("../cargarIngredientePrincipal_bootstrap.jsp?inicial=a");
 	
 	%>

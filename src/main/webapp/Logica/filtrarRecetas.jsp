@@ -85,6 +85,8 @@
 			recetasSegunCalorias.retainAll(recetasSegunDieta);
 		*/	
 			session.setAttribute("recetasFiltradas", recetasSegunIngrediente);
+		
+			consultor.desconectar();
 			
 			response.sendRedirect("../consultar_bootstrap.jsp");
 			

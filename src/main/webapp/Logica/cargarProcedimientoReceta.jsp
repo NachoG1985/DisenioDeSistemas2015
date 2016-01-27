@@ -172,6 +172,8 @@
 		
 	}
 	
+	consultor.desconectar();
+	
 	response.sendRedirect("../home_bootstrap.jsp");
 	
 	%>
