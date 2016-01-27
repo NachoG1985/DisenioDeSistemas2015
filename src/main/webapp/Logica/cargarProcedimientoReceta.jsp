@@ -95,16 +95,17 @@
 	            file = new File( filePath + 
 	            fileName.substring(fileName.lastIndexOf("\\")+1)) ;
 	            }
-	            //CARGO LA NUEVA IMAGEN A TRAVES DEL OBJETO CLOUDINARY Y ALMACENO EN EL UPLOAD RESULT LOS DATOS DE LA IMAGEN SUBIDA A LA NUBE
-	            //Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
-	            //TOMO DEL RESULTADO LA URL GENERADA PARA LA IMAGEN SUBIDA Y LA ALMACENO PARA INSERTARLA A LA DB Y LUEGO PODER CONSULTARLA
-	           // rutas[contador] = (String) uploadResult.get("url");
 	            
 	            fi.write( file ) ;
  	            out.println("Uploaded Filename: " + filePath + 
  	            fileName + "<br>");
+ 	            
+	            //CARGO LA NUEVA IMAGEN A TRAVES DEL OBJETO CLOUDINARY Y ALMACENO EN EL UPLOAD RESULT LOS DATOS DE LA IMAGEN SUBIDA A LA NUBE
+	            Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+	            //TOMO DEL RESULTADO LA URL GENERADA PARA LA IMAGEN SUBIDA Y LA ALMACENO PARA INSERTARLA A LA DB Y LUEGO PODER CONSULTARLA
+	            rutas[contador] = (String) uploadResult.get("url");
   	            
-  	            rutas[contador] = fileName;
+  	            //rutas[contador] = fileName;
 	            
 	            contador++;
 	            
@@ -155,7 +156,7 @@
 	
 	
 	consultor.insertarReceta(nuevaReceta.getNombre(), nuevaReceta.getNombreIngredientePrincipal(), nuevaReceta.getDificultad(), 
-			nuevaReceta.getTemporada(), nuevaReceta.getCategorias(), 666, nuevaReceta.getAptaPara(), nuevaReceta.getDietasAptas(), "");
+			nuevaReceta.getTemporada(), nuevaReceta.getCategorias(), 666, nuevaReceta.getAptaPara(), nuevaReceta.getDietasAptas(), rutas[0]);
 	
 	consultor.insertarRecUsuario(((Usuario)session.getAttribute("usuario")).getNombreUsuario(), nuevaReceta.getNombre());
 	

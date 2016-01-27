@@ -510,15 +510,17 @@ public class ConsultorBaseDeDatos {
              cst = cn.prepareCall("{call consultaReceta(?)}");
              cst.setString(1,nombre);
              data = cst.executeQuery();
-             data.next();
-             String nombreReceta = data.getString("nombre");
-			 int dificultad = data.getInt("dificultad");
-			 float calorias = data.getInt("caloriasTotales");
-			 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
-			 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
-			 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
-			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
-			 recetaBuscada = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+             if(data.next())
+             {
+            	 String nombreReceta = data.getString("nombre");
+            	 int dificultad = data.getInt("dificultad");
+            	 float calorias = data.getInt("caloriasTotales");
+            	 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+            	 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+            	 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+            	 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
+            	 recetaBuscada = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+             }
 			 data.close();
 			 cn.close();
         }catch (Exception e) {
