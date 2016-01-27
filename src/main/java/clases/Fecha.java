@@ -32,8 +32,8 @@ public class Fecha {
 		this.mes = mes;
 	}
 
-	public void setAnio(int año) {
-		this.anio = año;
+	public void setAnio(int anio) {
+		this.anio = anio;
 	}
 	
 	
