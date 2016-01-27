@@ -36,7 +36,7 @@
 					//Si el usuario no existe o la contraseña ingresada no coincide mostrar cartel de error
 					if(nuevoUsuario == null)
 					{
-						response.sendRedirect("../Vistas/index.html");
+						response.sendRedirect("../index.html");
 					}
 					else
 					{

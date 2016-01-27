@@ -71,8 +71,10 @@ public class ConsultorBaseDeDatos {
     	    //String port = String.valueOf(jdbUri.getPort());
             String BaseDeDatos = "jdbc:mysql://" + jdbUri.getHost() + jdbUri.getPath();
             
-            setConexion(DriverManager.getConnection(BaseDeDatos, username, password));
-            if(getConexion("disenio", "root", "") != null){
+            //setConexion(DriverManager.getConnection(BaseDeDatos, username, password));
+            
+            setConexion(DriverManager.getConnection(System.getenv("CLEARDB_DATABASE_URL")));
+            if(getConexion(BaseDeDatos, username, password) != null){
                 System.out.println("Conexion Exitosa!");
             }else{
                 System.out.println("Conexion Fallida!");                
