@@ -54,37 +54,22 @@
 		
 		Receta aux;
 		
-		if(!ingredientePpal.equals(""))
-			recetasSegunIngrediente = consultor.recetaSegunIngPpal(ingredientePpal);
-		
-		if(!condimento.equals(""))
-			recetasSegunCondimento = consultor.recetaSegunCond(condimento);
-
-		if(!dieta.equals(""))
-			recetasSegunDieta = consultor.recetaSegunDieta(dieta);
-		
 		recetasSegunCalorias = consultor.recetaSegunCalorias(caloriasMin, caloriasMax);
 		
+		if(!ingredientePpal.equals(""))
+			recetasSegunCalorias.retainAll(consultor.recetaSegunIngPpal(ingredientePpal));
+		
+		if(!condimento.equals(""))
+			recetasSegunCalorias.retainAll(consultor.recetaSegunCond(condimento));
+
+		if(!dieta.equals(""))
+			recetasSegunCalorias.retainAll(consultor.recetaSegunDieta(dieta));
+				
 		if(!dificultads.equals(""))
-			recetasSegunDificultad = consultor.recetaSegunDificultad(Integer.parseInt(dificultads));
+			recetasSegunCalorias.retainAll(consultor.recetaSegunDificultad(Integer.parseInt(dificultads)));
 			
-		//if(nivelAlimenticios != null || nivelAlimenticios != "")
-		//	recetasSegunNivelAlimenticio = consultor.recetaSegunNivelAlimenticio(nivelAlimenticios);
-		
-	/*
-		if (recetasSegunCondimento != null)
-			recetasSegunCalorias.retainAll(recetasSegunCondimento);
-		
-		if (recetasSegunIngrediente != null)
-			recetasSegunCalorias.retainAll(recetasSegunIngrediente);
-		
-		if (recetasSegunDificultad != null)
-			recetasSegunCalorias.retainAll(recetasSegunDificultad);
-		
-		if (recetasSegunDieta != null)
-			recetasSegunCalorias.retainAll(recetasSegunDieta);
-		*/	
-			session.setAttribute("recetasFiltradas", recetasSegunIngrediente);
+
+			session.setAttribute("recetasFiltradas", recetasSegunCalorias);
 		
 			consultor.desconectar();
 			
