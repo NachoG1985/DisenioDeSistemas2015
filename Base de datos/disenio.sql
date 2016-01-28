@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-01-2016 a las 01:08:16
+-- Tiempo de generación: 28-01-2016 a las 01:15:46
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -194,6 +194,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarDatosIng`(IN `nom` VARCHAR(4
 select porcion, calorias, nivel_id
 from ingredientes
 where nombre = nom$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarProcedimientoReceta`(IN `nombreReceta` VARCHAR(40))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select P.imagen1,P.paso1,P.imagen2,P.paso2,P.imagen3,P.paso3,P.imagen4,P.paso4,P.imagen5,P.paso5
+from recetas R inner join procedimientos P on R.procedimiento_id = P.procedimientos_id
+where R.nombre = nombreReceta$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadas`(IN `usu_id` INT)
     READS SQL DATA
