@@ -145,7 +145,7 @@ public class ConsultorBaseDeDatos {
 
 //************************ Funciones INSERT*************************
 	
-	 public int insertarUsuario(String nombre,String mail,String pass,java.sql.Date fecha) {
+	 public void insertarUsuario(String nombre,String mail,String pass,java.sql.Date fecha) {
 		 	ResultSet data;
 		 	int resultado=0;
 		 	Connection cn = null;
@@ -159,23 +159,18 @@ public class ConsultorBaseDeDatos {
 	             cst.setString(3,pass);
 	             cst.setDate(4,fecha);
 	             cst.executeUpdate();
-	             cst = cn.prepareCall("{call obtenerIDUsuario(?)}");
-	             cst.setString(1,nombre);
-	             data = cst.executeQuery();
-	             if(data.next())
-	            	 resultado=data.getInt("usuario_id");
+	           
 	             cn.close();
 	                                  
 	            
 	        }catch (Exception e) {
 	        	e.printStackTrace();
 	        }
-	        
-	        return resultado;
+       
 	 }  
 	 
 	 
-	 public int insertarReceta(String nombre,String ingrediente,int dificultad,String temporada,String cat,double calorias,String condicion,String dieta,String imagen1) {
+	 public void insertarReceta(String nombre,String ingrediente,int dificultad,String temporada,String cat,double calorias,String condicion,String dieta,String imagen1) {
 		 	ResultSet data;
 		 	int resultado=0;
 		 	int temp,ing,categ,cond,diet,im1;
@@ -203,22 +198,18 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(8,diet);
 	             cst.setInt(9,im1);
 	             cst.executeUpdate();
-	             cst = cn.prepareCall("{call obtenerIDReceta(?)}");
-	             cst.setString(1,nombre);
-	             data = cst.executeQuery();
-	             data.next();
-	             resultado = data.getInt("recetas_id");
+	         
 	             cn.close();
 	                
 	                         
 	        }catch (Exception e) {	        	
 	        }
 	        
-	        return resultado;
+	        
 	 }  
 	
 	 
-	 public int insertarIngrediente(String nombre,int porcion,double calorias,String nivel) {
+	 public void insertarIngrediente(String nombre,int porcion,double calorias,String nivel) {
 		 	ResultSet data;
 		 	int resultado=0;
 		 	int level; 
@@ -234,11 +225,7 @@ public class ConsultorBaseDeDatos {
 	             cst.setDouble(3,calorias);
 	             cst.setInt(4,level);
 	             cst.executeUpdate();
-	             cst = cn.prepareCall("{call obtenerIDIng(?)}");
-	             cst.setString(1,nombre);
-	             data = cst.executeQuery();
-	             data.next();
-	             resultado = data.getInt("ingredientes_id");
+	             
 	             cn.close();
 	                
 	                         
@@ -246,10 +233,10 @@ public class ConsultorBaseDeDatos {
 	        	
 	        }
 	        
-	        return resultado;
+	       
 	 }  
 	 
-	 public int insertarCondimento(String nombre) {
+	 public void insertarCondimento(String nombre) {
 		 	ResultSet data;
 		 	int resultado=0;
 		 	Connection cn = null;
@@ -260,22 +247,18 @@ public class ConsultorBaseDeDatos {
 	             cst = cn.prepareCall("{call insertarCondimento(?)}");
 	             cst.setString(1,nombre);
 	             cst.executeUpdate();
-	             cst = cn.prepareCall("{call obtenerIDCondimento(?)}");
-	             cst.setString(1,nombre);
-	             data = cst.executeQuery();
-	             data.next();
-	             resultado = data.getInt("condimentos_id");         
+	                   
 	             cn.close(); 
 	                         
 	        }catch (Exception e) {
 	        	
 	        }
 	        
-	        return resultado;
+	      
 	 }  
 	 
 	 
-	 public int insertarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina,String condicion) {
+	 public void insertarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina,String condicion) {
 		 	ResultSet data;
 		 	int resultado=0;
 		 	int usu,diet,routine,cond;
@@ -301,22 +284,17 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(9,routine);
 	             cst.setInt(10,cond);
 	             cst.executeUpdate();
-	             cst = cn.prepareCall("{call obtenerIDPerfil(?,?)}");
-	             cst.setString(1,nombre);
-	             cst.setString(2,apellido);
-	             data = cst.executeQuery();
-	             if(data.next())
-	            	 resultado = data.getInt("perfil_id");         
+	                   
 	             cn.close();   
 	                         
 	        }catch (Exception e) {
 	        	e.printStackTrace();
 	        }
 	        
-	        return resultado;
+	      
 	 }  
 	 
-	 public int insertarCondimentoReceta(String receta,String condimento) {
+	 public void insertarCondimentoReceta(String receta,String condimento) {
 		 	ResultSet data;
 		 	int resultado=0;
 		 	int cond, rec;
@@ -332,22 +310,17 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(1,rec);
 	             cst.setInt(2,cond);
 	             cst.executeUpdate();
-	             cst = cn.prepareCall("{call obtenerIDCondReceta(?,?)}");
-	             cst.setInt(1,rec);
-	             cst.setInt(2,cond);
-	             data = cst.executeQuery();
-	             data.next();
-	             resultado = data.getInt("condim_recet_id");         
+	                
 	             cn.close();   
 	                         
 	        }catch (Exception e) {
 	        	
 	        }
 	        
-	        return resultado;
+	    
 	 }  
 	 
-	 public int insertarIngReceta(String receta,String ingrediente,int cantidad) {
+	 public void insertarIngReceta(String receta,String ingrediente,int cantidad) {
 		 	ResultSet data;
 		 	int resultado=0;
 		 	int ing, rec;
@@ -364,22 +337,16 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(2,ing);
 	             cst.setInt(3,cantidad);
 	             cst.executeUpdate();
-	             cst = cn.prepareCall("{call obtenerIDIngReceta(?,?)}");
-	             cst.setInt(1,rec);
-	             cst.setInt(2,ing);
-	             data = cst.executeQuery();
-	             data.next();
-	             resultado = data.getInt("ingred_recet_id");         
+	                    
 	             cn.close();   
 	                         
 	        }catch (Exception e) {
 	        	
 	        }
-	        
-	        return resultado;
+	
 	 }  
 	 
-	 public int insertarRecUsuario(String usuario,String receta) {
+	 public void insertarRecUsuario(String usuario,String receta) {
 		 	ResultSet data;
 		 	int resultado=0;
 		 	int usu, rec;
@@ -395,19 +362,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(1,usu);
 	             cst.setInt(2,rec);
 	             cst.executeUpdate();
-	             cst = cn.prepareCall("{call obtenerIDRecUsuario(?,?)}");
-	             cst.setInt(1,usu);
-	             cst.setInt(2,rec);
-	             data = cst.executeQuery();
-	             data.next();
-	             resultado = data.getInt("recet_usuario_id");         
+	                    
 	             cn.close();   
 	                         
 	        }catch (Exception e) {
 	        	
 	        }
-	        
-	        return resultado;
+        
 	 }  
 	 
 	 public void insertarEventoEnHistorial(String usuario,String receta,String operacion) {
@@ -510,17 +471,16 @@ public class ConsultorBaseDeDatos {
              cst = cn.prepareCall("{call consultaReceta(?)}");
              cst.setString(1,nombre);
              data = cst.executeQuery();
-             if(data.next())
-             {
-            	 String nombreReceta = data.getString("nombre");
-            	 int dificultad = data.getInt("dificultad");
-            	 float calorias = data.getInt("caloriasTotales");
-            	 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
-            	 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
-            	 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
-            	 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
-            	 recetaBuscada = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
-             }
+             data.next();
+             String nombreReceta = data.getString("nombre");
+			 int dificultad = data.getInt("dificultad");
+			 float calorias = data.getInt("caloriasTotales");
+			 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+			 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
+			 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
+			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
+			 recetaBuscada = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+			 recetaBuscada.setProcedimiento(this.procedimientoDeReceta(recetaBuscada.getNombre()));
 			 data.close();
 			 cn.close();
         }catch (Exception e) {
@@ -592,16 +552,17 @@ public class ConsultorBaseDeDatos {
 	 }  
 		 
 		 //devuelve los condimentos de una receta en un Set
-	 public Set<String> obtenerCondimentos(String nombre) {
+	 public HashSet<Condimento> obtenerCondimentos(String nombreReceta) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 Set<String> lista = new HashSet<String>();
+		 HashSet<Condimento> buscadas = new HashSet<Condimento>();
+		 Condimento aux;
 		 int rec;
 		 try {
 			 cn = getConexion(dbUrl, username, password);
 	           	 
-			 rec = obtenerIDReceta(nombre, cn, cst);
+			 rec = obtenerIDReceta(nombreReceta, cn, cst);
 	        	 
 			 cst = cn.prepareCall("{call condSegunReceta(?)}");
 			 cst.setInt(1,rec);
@@ -609,8 +570,9 @@ public class ConsultorBaseDeDatos {
 			 
 			 while (data.next())
 			 {
-	                        	
-				 lista.add(data.getString("nombre"));
+				String nombreCond = data.getString("nombre");
+				aux = new Condimento(nombreCond);
+				buscadas.add(aux);
 				 
 			 }               
 	                         
@@ -618,7 +580,7 @@ public class ConsultorBaseDeDatos {
 	            
 		 }catch (Exception e) {
 	        	
-		 } return lista;
+		 } return buscadas;
 	 }  
 
 	//devuelve las recetas segun condimento dado 
@@ -1263,6 +1225,51 @@ public class ConsultorBaseDeDatos {
 				 
 		 } return ingredienteBuscado;
 	 }
+	 
+	 //Devuelve los pasos/procedimiento de una receta.
+	 public ArrayList<PasoDeReceta> procedimientoDeReceta(String nombreReceta) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		
+		 ArrayList<PasoDeReceta> buscadas = new ArrayList<PasoDeReceta>();
+		 PasoDeReceta aux;
+		 try {
+			 cn = getConexion(dbUrl, username, password);
+				 
+			 cst = cn.prepareCall("{call mostrarProcedimientoReceta(?)}");
+			 cst.setString(1,nombreReceta);
+			 data = cst.executeQuery();
+			
+			 if(data.next())
+			 {
+				 String imagen1 = data.getString("imagen1");
+				 String paso1 = data.getString("paso1");
+				 aux = new PasoDeReceta(paso1,imagen1);
+				 buscadas.add(aux);
+				 String imagen2 = data.getString("imagen2");
+				 String paso2 = data.getString("paso2");
+				 aux = new PasoDeReceta(paso2,imagen2);
+				 buscadas.add(aux);
+				 String imagen3 = data.getString("imagen3");
+				 String paso3 = data.getString("paso3");
+				 aux = new PasoDeReceta(paso3,imagen3);
+				 buscadas.add(aux);
+				 String imagen4 = data.getString("imagen4");
+				 String paso4 = data.getString("paso4");
+				 aux = new PasoDeReceta(paso4,imagen4);
+				 buscadas.add(aux);
+				 String imagen5 = data.getString("imagen5");
+				 String paso5 = data.getString("paso5");
+				 aux = new PasoDeReceta(paso5,imagen5);
+				 buscadas.add(aux);
+			 }
+			 cn.close();
+				                
+		 }catch (Exception e) {
+				 
+		 } return buscadas;
+	 }  
 	 
 	 
 	 

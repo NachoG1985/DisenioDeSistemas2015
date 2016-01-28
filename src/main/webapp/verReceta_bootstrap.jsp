@@ -1,3 +1,5 @@
+<%@page import="clases.PasoDeReceta"%>
+<%@page import="clases.Condimento"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Receta" %>
@@ -117,7 +119,7 @@
 			
 			receta = consultor.consultarReceta(nombreReceta);
 						
-			Set<String> condimentosObtenidos = consultor.obtenerCondimentos(nombreReceta);
+			Set<Condimento> condimentosObtenidos = consultor.obtenerCondimentos(nombreReceta);
 
 			ArrayList<String> ingredientesObtenidos = consultor.obtenerIngyCant(nombreReceta);
 						
@@ -272,16 +274,17 @@
 				</tr>
 				
 					<%
-					 it = condimentosObtenidos.iterator();
+					 Iterator<Condimento> itCondimentos = condimentosObtenidos.iterator();
+					Condimento auxCondimento;
 					contador = 1;
 				
-					while(it.hasNext())
+					while(itCondimentos.hasNext())
 					{
-						aux = it.next();
+						auxCondimento = itCondimentos.next();
 						
 						out.println("<tr>");
 						out.println("<td>"+ String.valueOf(contador) + "</td>");
-						out.println("<td>" + aux + "</td>");
+						out.println("<td>" + auxCondimento.getNombreCondimento() + "</td>");
 						out.println("</tr>");
 						
 						contador++;
@@ -294,83 +297,37 @@
 			</div>			
 		
 		</div>
+		
+		
 
 		<div class="row">
 		
-			<div class="col-md-2 col-md-offset-1">
+		<% Iterator<PasoDeReceta> itPasos = receta.getProcedimiento().iterator();
+		PasoDeReceta paso;
+		int i= 1;
+		
+		while(itPasos.hasNext())
+		{
+			paso = (PasoDeReceta)itPasos.next();
+			if(i == 1)
+				out.println("<div class=\"col-md-2 col-md-offset-1\">");
+			else
+				out.println("<div class=\"col-md-2\">");
+			out.println("<div class=\"thumbnail\">");
+			out.println("<img src=\"" + paso.getImagen() + " alt=\"...\">");
+			out.println("<div class=\"caption\">");
+			out.println("<h3 class=\"text-primary text-center\">Paso " + i + "</h3>");
+			out.println("<p>" + paso.getDescripcion() + "</p>");
+			out.println("</div>");
+			out.println("</div>");
+			out.println("</div>");
+			out.println("</div>");
 			
-				<div class="thumbnail">
-					<img src="Imagenes/Procedimientos recetas/pizza-stock.jpg" alt="...">
-					<div class="caption">
-						<h3 class="text-primary text-center">Paso 1</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la información para llevar adelante el paso ilustrado.
-						Deberá no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedaría el 
-						diseño de la imagen con su parrafo.</p>
-					</div>
-				
-				</div>
-	
-			</div>
+			i++;
 			
-			<div class="col-md-2">
-			
-				<div class="thumbnail">
-					<img src="Imagenes/Procedimientos recetas/hamburguesa.jpg" alt="...">
-					<div class="caption">
-						<h3 class="text-primary text-center">Paso 2</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la información para llevar adelante el paso ilustrado.
-						Deberá no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedaría el 
-						diseño de la imagen con su parrafo.</p>
-					</div>
-				
-				</div>
-				
-			</div>
-			
-			<div class="col-md-2">
-			
-				<div class="thumbnail">
-					<img src="Imagenes/Procedimientos recetas/raviolesconsalsadetomates.jpg" alt="...">
-					<div class="caption">
-						<h3 class="text-primary text-center">Paso 3</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la información para llevar adelante el paso ilustrado.
-						Deberá no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedaría el 
-						diseño de la imagen con su parrafo.</p>
-					</div>
-				
-				</div>			
-			
-			</div>
-			
-			<div class="col-md-2">
-			
-				<div class="thumbnail">
-					<img src="..." alt="...">
-					<div class="caption">
-						<h3 class="text-primary text-center">Paso 4</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la información para llevar adelante el paso ilustrado.
-						Deberá no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedaría el 
-						diseño de la imagen con su parrafo.</p>
-					</div>
-				
-				</div>			
-			
-			</div>
-			
-			<div class="col-md-2">
-			
-				<div class="thumbnail">
-					<img src="..." alt="...">
-					<div class="caption">
-						<h3 class="text-primary text-center">Paso 5</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la información para llevar adelante el paso ilustrado.
-						Deberá no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedaría el 
-						diseño de la imagen con su parrafo.</p>
-					</div>
-				
-				</div>			
-			
-			</div>
+		}
+		
+		%>
 		
 		</div>
 
