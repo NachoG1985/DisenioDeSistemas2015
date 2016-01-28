@@ -314,7 +314,7 @@
 			else
 				out.println("<div class=\"col-md-2\">");
 			out.println("<div class=\"thumbnail\">");
-			out.println("<img src=\"" + paso.getImagen() + " alt=\"...\">");
+			out.println("<img src=\"" + paso.getImagen() + " \" alt=\"...\">");
 			out.println("<div class=\"caption\">");
 			out.println("<h3 class=\"text-primary text-center\">Paso " + i + "</h3>");
 			out.println("<p>" + paso.getDescripcion() + "</p>");
