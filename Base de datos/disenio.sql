@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-01-2016 a las 01:15:46
+-- Tiempo de generación: 30-01-2016 a las 22:57:00
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -54,6 +54,15 @@ select *
 from recetas
 where nombre = nom$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `consultarEventoEnHistorial`(IN `nombreUsu` VARCHAR(50), IN `nombreRec` VARCHAR(40), IN `operac` VARCHAR(10))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select H.tiempo
+from historial H
+inner join usuarios U on H.usuario_id = U.usuario_id
+inner join recetas R on H.receta_id = R.recetas_id
+where (U.nombreUsuario = nombreUsu and R.nombre = nombreRec) and H.operacion = operac$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `consultaUsuario`(IN `nom` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -69,32 +78,32 @@ from historial H
 where H.operacion = operacion
 group by H.operacion$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaRankingRecetaConsultada`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaRankingRecetaConsultada`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre, count(H.operacion)
+select R.nombre, count(H.operacion) as count
 from historial H inner join recetas R on H.receta_id = R.recetas_id
-where H.operacion = 'consultar'
+where H.operacion = 'consultar' and (H.tiempo between fecha1 and fecha2)
 group by H.receta_id
 Order by count(H.operacion) desc$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaRecetaDificultad`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaRecetaDificultad`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad, count(H.receta_id)
+select R.nombre,R.dificultad, count(H.receta_id) as count
 from historial H 
 inner join recetas R on R.recetas_id = H.receta_id
-where H.operacion = 'consultar'
+where H.operacion = 'consultar' and (H.tiempo between fecha1 and fecha2)
 group by R.dificultad$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaSegunSexo`(IN `sexo` VARCHAR(20))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaSegunSexo`(IN `sexo` VARCHAR(20), IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre, count(H.operacion)
+select R.nombre,count(H.operacion) as count
 from historial H 
 inner join perfil_usuario PU on PU.usuario_id = H.usuario_id
 inner join recetas R on H.receta_id = R.recetas_id
-where H.operacion = 'consultar'
+where H.operacion = 'consultar' and (H.tiempo between fecha1 and fecha2)
 and PU.sexo = sexo
 group by H.usuario_id
 order by count(H.operacion) desc$$
@@ -243,9 +252,26 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCalificacionReceta`(IN `nomb
     READS SQL DATA
     SQL SECURITY INVOKER
 select P.calificacion_promedio 
-from promedio_calificacion P
-inner join recetas R on R.recetas_id = P.recetas_id
+from recetas R
+inner join promedio_calificacion P on R.recetas_id = P.recetas_id
 where R.nombre like concat("%",nombre,"%")$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCalificacionRecetaBeta`(IN `nombreRec` VARCHAR(40), OUT `promedio` FLOAT)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select AVG(C.calificacion) into promedio
+from calificacion_usuario_receta C
+inner join recetas R on C.recetas_id=R.recetas_id
+where R.nombre = nombreRec$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCalificacionRecetaUsuario`(IN `nombreUsu` VARCHAR(50), IN `nombreRec` VARCHAR(40), OUT `calificacion` FLOAT)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select CUR.calificacion into calificacion
+from calificacion_usuario_receta CUR
+inner join usuarios U on CUR.usuario_id = U.usuario_id
+inner join recetas R on CUR.recetas_id = R.recetas_id
+where U.nombreUsuario = nombreUsu and R.nombre=nombreRec$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondimentos`(IN `id` INT)
     READS SQL DATA
@@ -427,13 +453,15 @@ SELECT PU.nombre,PU.apellido,PU.sexo,PU.edad,PU.altura,PU.complexion,PU.dieta_id
 FROM usuarios as U inner join perfil_usuario as PU on U.usuario_id = PU.usuario_id
 WHERE U.nombreUsuario = usu$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaMasConsultada`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP, IN `usu_id` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaMasConsultada`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP, IN `nombre` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
 select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
-from historial as H inner join recetas as R on H.receta_id = R.recetas_id
+from historial as H 
+inner join recetas as R on H.receta_id = R.recetas_id
+inner join usuarios as U on H.usuario_id = U.usuario_id
 where (operacion = 'consultar' and H.tiempo between fecha1 and fecha2) and
-H.usuario_id = usu_id
+U.nombreUsuario = nombre
 group by receta_id
 order by count(*) desc$$
 
@@ -588,7 +616,7 @@ CREATE TABLE IF NOT EXISTS `calificacion_usuario_receta` (
   `usuario_id` int(11) NOT NULL,
   `calificacion` tinyint(4) NOT NULL,
   PRIMARY KEY (`calif_recet_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `calificacion_usuario_receta`
@@ -597,7 +625,8 @@ CREATE TABLE IF NOT EXISTS `calificacion_usuario_receta` (
 INSERT INTO `calificacion_usuario_receta` (`calif_recet_usuario`, `recetas_id`, `usuario_id`, `calificacion`) VALUES
 (1, 10, 7, 3),
 (2, 12, 46, 4),
-(3, 10, 2, 1);
+(3, 10, 2, 1),
+(4, 10, 60, 2);
 
 -- --------------------------------------------------------
 
@@ -791,7 +820,7 @@ CREATE TABLE IF NOT EXISTS `historial` (
   `operacion` varchar(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `tiempo` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`movimiento_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=11 ;
 
 --
 -- Volcado de datos para la tabla `historial`
@@ -805,7 +834,8 @@ INSERT INTO `historial` (`movimiento_id`, `usuario_id`, `receta_id`, `operacion`
 (6, 60, 12, 'consultar', '2015-10-19 22:06:36'),
 (7, 54, 9, 'confirmar', '2015-10-20 01:35:32'),
 (8, 60, 12, 'consultar', '2015-10-21 00:32:52'),
-(9, 4, 10, 'cargar', '2015-10-26 23:44:03');
+(9, 4, 10, 'cargar', '2015-10-26 23:44:03'),
+(10, 7, 12, 'consultar', '2016-01-29 22:07:42');
 
 -- --------------------------------------------------------
 
@@ -1093,7 +1123,7 @@ CREATE TABLE IF NOT EXISTS `recetas` (
 INSERT INTO `recetas` (`recetas_id`, `nombre`, `ingrediente_ppal_id`, `dificultad`, `temporada_id`, `categoria_id`, `caloriasTotales`, `condicion_id`, `dieta_id`, `procedimiento_id`) VALUES
 (8, 'milanesa a la maryland', 3, 3, 1, 0, 541, 1, 1, 0),
 (9, 'pizza', 1, 1, 13, 0, 125, 4, 1, 0),
-(10, 'pati a la parrilla', 0, 5, 0, 0, 500, 0, 0, 0),
+(10, 'pati a la parrilla', 0, 5, 1, 0, 500, 0, 0, 0),
 (11, 'tallarines', 0, 2, 8, 0, 350, 0, 0, 0),
 (12, 'buñuelos de acelga', 0, 1, 12, 0, 110, 0, 0, 0),
 (13, 'pastel de papa', 0, 3, 0, 0, 110, 0, 0, 0),
