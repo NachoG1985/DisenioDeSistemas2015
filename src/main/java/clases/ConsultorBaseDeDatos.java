@@ -480,7 +480,6 @@ public class ConsultorBaseDeDatos {
 			 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
 			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 			 recetaBuscada = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
-			 recetaBuscada.setProcedimiento(this.procedimientoDeReceta(recetaBuscada.getNombre()));
 			 data.close();
 			 cn.close();
         }catch (Exception e) {
@@ -891,22 +890,20 @@ public class ConsultorBaseDeDatos {
 	 }  
 			 
 	//Devuelve las recetas mas consultadas dado un periodo de tiempo para un usuario dado.		 
-	 public HashSet<Receta> recetaMasConsultada(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2,String nombreUsuario) {
+	 public ArrayList<Receta> recetaMasConsultada(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2,String nombreUsuario) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 int usu;
-		 
-		 HashSet<Receta> buscadas = new HashSet<Receta>();
+		 		 
+		 ArrayList<Receta> buscadas = new ArrayList<Receta>();
 		 Receta aux;
 		 try {
 			 cn = getConexion(dbUrl, username, password);
 			 
-			 usu = obtenerIDUsuario(nombreUsuario, cn, cst);
 			 cst = cn.prepareCall("{call recetaMasConsultada(?,?,?)}");
 			 cst.setTimestamp(1,fecha1);
 			 cst.setTimestamp(2,fecha2);
-			 cst.setInt(3,usu);
+			 cst.setString(3,nombreUsuario);
 			 data = cst.executeQuery();
 			 
 			 while(data.next())
@@ -1126,7 +1123,7 @@ public class ConsultorBaseDeDatos {
 	 
 	 
 	 
-	 //devuelve recetas con calificacion 5 dada una temporada
+	 //devuelve recetas mejor calificadas.
 	 public HashSet<Receta> recetaTopTemporada(String temporada) {  
 		 ResultSet data=null;
 		 Connection cn = null;
@@ -1241,35 +1238,194 @@ public class ConsultorBaseDeDatos {
 			 cst.setString(1,nombreReceta);
 			 data = cst.executeQuery();
 			
-			 if(data.next())
-			 {
-				 String imagen1 = data.getString("imagen1");
-				 String paso1 = data.getString("paso1");
-				 aux = new PasoDeReceta(paso1,imagen1);
-				 buscadas.add(aux);
-				 String imagen2 = data.getString("imagen2");
-				 String paso2 = data.getString("paso2");
-				 aux = new PasoDeReceta(paso2,imagen2);
-				 buscadas.add(aux);
-				 String imagen3 = data.getString("imagen3");
-				 String paso3 = data.getString("paso3");
-				 aux = new PasoDeReceta(paso3,imagen3);
-				 buscadas.add(aux);
-				 String imagen4 = data.getString("imagen4");
-				 String paso4 = data.getString("paso4");
-				 aux = new PasoDeReceta(paso4,imagen4);
-				 buscadas.add(aux);
-				 String imagen5 = data.getString("imagen5");
-				 String paso5 = data.getString("paso5");
-				 aux = new PasoDeReceta(paso5,imagen5);
-				 buscadas.add(aux);
-			 }
+			 data.next();
+			 String imagen1 = data.getString("imagen1");
+			 String paso1 = data.getString("paso1");
+			 aux = new PasoDeReceta(paso1,imagen1);
+			 buscadas.add(aux);
+			 String imagen2 = data.getString("imagen2");
+			 String paso2 = data.getString("paso2");
+			 aux = new PasoDeReceta(paso2,imagen2);
+			 buscadas.add(aux);
+			 String imagen3 = data.getString("imagen3");
+			 String paso3 = data.getString("paso3");
+			 aux = new PasoDeReceta(paso3,imagen3);
+			 buscadas.add(aux);
+			 String imagen4 = data.getString("imagen4");
+			 String paso4 = data.getString("paso4");
+			 aux = new PasoDeReceta(paso4,imagen4);
+			 buscadas.add(aux);
+			 String imagen5 = data.getString("imagen5");
+			 String paso5 = data.getString("paso5");
+			 aux = new PasoDeReceta(paso5,imagen5);
+			 buscadas.add(aux);
+		 
 			 cn.close();
 				                
 		 }catch (Exception e) {
 				 
 		 } return buscadas;
 	 }  
+	 
+	 //devuelve el promedio de las calificaciones a una receta.
+	 public float obtenerCalificacionReceta(String nombreReceta) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		 float resultado= 5;
+		 	 		 
+		 try {
+			 cn = getConexion(dbUrl, username, password);
+				 
+			 cst = cn.prepareCall("{call obtenerCalificacionRecetaBeta(?,?)}");
+			 cst.setString(1,nombreReceta);
+			 cst.registerOutParameter("promedio",java.sql.Types.FLOAT );
+			 data = cst.executeQuery();
+			 data.next();
+			 resultado = data.getFloat("promedio");
+			 data.close();
+			 cn.close();
+		 }catch (Exception e) {
+				 
+		 } return resultado;
+	 }
+	 
+	 //devuelve la calificacion hecha por un usuario a una receta.
+	 public float obtenerCalificacionRecetaUsuario(String nombreUsuario,String nombreReceta) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		 float resultado = 5;
+		 	 		 
+		 try {
+			 cn = getConexion(dbUrl, username, password);
+				 
+			 cst = cn.prepareCall("{call obtenerCalificacionRecetaUsuario(?,?,?)}");
+			 cst.setString(1,nombreUsuario);
+			 cst.setString(2,nombreReceta);
+			 cst.registerOutParameter("calificacion",java.sql.Types.FLOAT );
+			 data = cst.executeQuery();
+			 data.next();
+			 resultado = data.getFloat("calificacion");
+			 data.close();
+			 cn.close();
+		 }catch (Exception e) {
+				 
+		 } return resultado;
+	 }
+	 
+	 //Dado el usuario, receta yla operacion(cargar,consultar,calificar,confirmar) devuelve la fecha en q lo hizo.
+	 public java.sql.Timestamp consultarEventoEnHistorial(String nombreUsuario,String nombreReceta,String operacion) {
+		 ResultSet data=null;
+		 Connection cn = null;
+		 CallableStatement cst = null;
+		 java.sql.Timestamp fecha = null;		 
+		 try {
+			 cn = getConexion(dbUrl, username, password);
+			 
+			 cst = cn.prepareCall("{call consultarEventoEnHistorial(?,?,?)}");
+			 cst.setString(1,nombreUsuario);
+			 cst.setString(2,nombreReceta);
+			 cst.setString(3,operacion);
+			 data = cst.executeQuery();
+			 data.next();
+			 fecha = data.getTimestamp("tiempo");
+			 cn.close();
+			             
+		 }catch (Exception e) {
+			        	
+		 } return fecha;
+	 }  
+	 
+	 //Devuelve las recetas mas consultadas por sexo en un periodo.
+	 public ArrayList<String> estadisticaSegunSexo(String sexo,java.sql.Timestamp fecha1,java.sql.Timestamp fecha2) {
+		 	ResultSet data=null;
+		 	Connection cn = null;
+		 	CallableStatement cst = null;
+		 	ArrayList<String> lista = new ArrayList<String>();
+		 
+		 	try {
+		 		cn = getConexion(dbUrl, username, password);
+	           		 		       	 
+		 		cst = cn.prepareCall("{call estadisticaSegunSexo(?,?,?)}");
+		 		cst.setString(1,sexo);
+		 		cst.setTimestamp(2,fecha1);
+		 		cst.setTimestamp(3,fecha2);
+		 		data = cst.executeQuery();
+		 		while (data.next())
+		 		{
+		 			lista.add(data.getString("nombre"));
+		 			lista.add(""+data.getInt("count"));
+	            	
+		 		}      
+	             
+	             cn.close();
+	                          
+	            
+	        }catch (Exception e) {
+	        	
+	        } return lista;
+	 }  
+	 
+	 //Devuelve las recetas mas consultadas segun la dificultad dentro de un periodo.
+	 public ArrayList<String> estadisticaRecetaDificultad(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2) {
+		 	ResultSet data=null;
+		 	Connection cn = null;
+		 	CallableStatement cst = null;
+		 	ArrayList<String> lista = new ArrayList<String>();
+		 
+		 	try {
+		 		cn = getConexion(dbUrl, username, password);
+	           		 		       	 
+		 		cst = cn.prepareCall("{call estadisticaRecetaDificultad(?,?)}");
+		 		cst.setTimestamp(1,fecha1);
+		 		cst.setTimestamp(2,fecha2);
+		 		data = cst.executeQuery();
+		 		while (data.next())
+		 		{
+		 			lista.add(data.getString("nombre"));
+		 			lista.add(""+data.getInt("dificultad"));
+		 			lista.add(""+data.getInt("count"));
+	            	
+		 		}      
+	             
+		 		cn.close();
+	                          
+	            
+	        }catch (Exception e) {
+	        	
+	        } return lista;
+	 }  
+	 
+	 //Devuelve las recetas mas consultadas en un periodo.
+	 public ArrayList<String> estadisticaRankingRecetaConsultada(java.sql.Timestamp fecha1,java.sql.Timestamp fecha2) {
+		 	ResultSet data=null;
+		 	Connection cn = null;
+		 	CallableStatement cst = null;
+		 	ArrayList<String> lista = new ArrayList<String>();
+		 
+		 	try {
+		 		cn = getConexion(dbUrl, username, password);
+	           		 		       	 
+		 		cst = cn.prepareCall("{call estadisticaRankingRecetaConsultada(?,?)}");
+		 		cst.setTimestamp(1,fecha1);
+		 		cst.setTimestamp(2,fecha2);
+		 		data = cst.executeQuery();
+		 		while (data.next())
+		 		{
+		 			lista.add(data.getString("nombre"));
+		 			lista.add(""+data.getInt("count"));
+	            	
+		 		}      
+	             
+		 		cn.close();
+	                          
+	            
+	        }catch (Exception e) {
+	        	
+	        } return lista;
+	 }  
+	 
 	 
 	 
 	 

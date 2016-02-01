@@ -124,7 +124,33 @@
 			ArrayList<String> ingredientesObtenidos = consultor.obtenerIngyCant(nombreReceta);
 						
 			
-			out.println("<h1 class=\"text-primary text-left col-md-offset-1\">"+ receta.getNombre() +"</h1>");
+			out.println("<h1 class=\"pull-left text-primary text-left col-md-offset-1\">"+ receta.getNombre() +"</h1>");
+			
+			if(consultor.consultarEventoEnHistorial(usuario.getNombreUsuario(), receta.getNombre(), "confirmar") == null)
+				out.println("<a class=\"pull-left btn btn-primary btn-sm btn-block\" href=\"confirmar_calificar_receta.jsp?accion=confirmar&receta=" + receta.getNombre() + "\" role=\"button\"<span class=\"glyphicon glyphicon-ok\"></span></a>");
+			else
+				out.println("<p><span class=\"pull-left glyphicon glyphicon-ok\"></span></p>");
+			
+			if(consultor.consultarEventoEnHistorial(usuario.getNombreUsuario(), receta.getNombre(), "calificar") == null)
+			{
+				out.println("<form id=\"registro\" action=\"confirmar_calificar_receta.jsp?accion=calificar&receta=" + receta.getNombre() + "\" method=\"POST\" class=\"form-horizontal\">");
+				out.println("<div class=\"form-group\">");
+				out.println("<div class=\"col-lg-2\">");
+				out.println("<select name=\"calificacion\" class=\"pull-left form-control\">");
+				out.println("<option value=\"1\"> 1 </option>");
+				out.println("<option value=\"2\"> 2 </option>");
+				out.println("<option value=\"3\"> 3 </option>");
+				out.println("<option value=\"4\"> 4 </option>");
+				out.println("<option value=\"5\"> 5 </option>");
+				out.println("</select>");
+				out.println("</div>");
+				
+				out.println("<button type=\"submit\" class=\"pull-left btn btn-default btn-primary  btn-block\">Calificar</button>");
+				
+				out.println("</div>");
+			}
+			else
+				out.println("<p class=\"pull-left\">" + consultor.obtenerCalificacionRecetaUsuario(usuario.getNombreUsuario(), receta.getNombre()) +" <span class=\"glyphicon glyphicon-star\"></span></p>");
 		%>
 		
 		<div class="row">
@@ -134,7 +160,7 @@
 			</div>
 			
 			<div class="col-md-5">
-				<h3 class="text-primary text-left">Calificación: <small>C</small></h3>
+				<h3 class="text-primary text-left">Calificación: <small><%out.println(consultor.obtenerCalificacionReceta(receta.getNombre()));%></small></h3>
 			</div>
 		
 		</div>
@@ -309,16 +335,17 @@
 		while(itPasos.hasNext())
 		{
 			paso = (PasoDeReceta)itPasos.next();
+			
 			if(i == 1)
 				out.println("<div class=\"col-md-2 col-md-offset-1\">");
 			else
 				out.println("<div class=\"col-md-2\">");
+			
 			out.println("<div class=\"thumbnail\">");
 			out.println("<img src=\"" + paso.getImagen() + " \" alt=\"...\">");
 			out.println("<div class=\"caption\">");
 			out.println("<h3 class=\"text-primary text-center\">Paso " + i + "</h3>");
 			out.println("<p>" + paso.getDescripcion() + "</p>");
-			out.println("</div>");
 			out.println("</div>");
 			out.println("</div>");
 			out.println("</div>");
