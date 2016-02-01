@@ -105,6 +105,8 @@
   </div>
 </nav>
 
+		<div class="row">
+
 		<%
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 			Receta receta;
@@ -124,18 +126,18 @@
 			ArrayList<String> ingredientesObtenidos = consultor.obtenerIngyCant(nombreReceta);
 						
 			
-			out.println("<h1 class=\"pull-left text-primary text-left col-md-offset-1\">"+ receta.getNombre() +"</h1>");
+			out.println("<h1 class=\"text-primary text-left col-md-offset-1 col-md-5\">"+ receta.getNombre() +"</h1>");
 			
 			if(consultor.consultarEventoEnHistorial(usuario.getNombreUsuario(), receta.getNombre(), "confirmar") == null)
-				out.println("<a class=\"pull-left btn btn-primary btn-sm btn-block\" href=\"confirmar_calificar_receta.jsp?accion=confirmar&receta=" + receta.getNombre() + "\" role=\"button\"<span class=\"glyphicon glyphicon-ok\"></span></a>");
+				out.println("<a class=\"btn btn-primary btn-sm btn-block col-md-1\" href=\"confirmar_calificar_receta.jsp?accion=confirmar&receta=" + receta.getNombre() + "\" role=\"button\"<span class=\"glyphicon glyphicon-ok\"></span></a>");
 			else
-				out.println("<p><span class=\"pull-left glyphicon glyphicon-ok\"></span></p>");
+				out.println("<p><span class=\"col-md-1 glyphicon glyphicon-ok\"></span></p>");
 			
 			if(consultor.consultarEventoEnHistorial(usuario.getNombreUsuario(), receta.getNombre(), "calificar") == null)
 			{
 				out.println("<form id=\"registro\" action=\"confirmar_calificar_receta.jsp?accion=calificar&receta=" + receta.getNombre() + "\" method=\"POST\" class=\"form-horizontal\">");
-				out.println("<div class=\"form-group\">");
-				out.println("<div class=\"col-lg-2\">");
+				out.println("<div class=\" col-md-3 form-group\">");
+				out.println("<div class=\"col-md-1\">");
 				out.println("<select name=\"calificacion\" class=\"pull-left form-control\">");
 				out.println("<option value=\"1\"> 1 </option>");
 				out.println("<option value=\"2\"> 2 </option>");
@@ -145,13 +147,15 @@
 				out.println("</select>");
 				out.println("</div>");
 				
-				out.println("<button type=\"submit\" class=\"pull-left btn btn-default btn-primary  btn-block\">Calificar</button>");
+				out.println("<button type=\"submit\" class=\"col-md-2 btn btn-default btn-primary  btn-block\">Calificar</button>");
 				
 				out.println("</div>");
 			}
 			else
-				out.println("<p class=\"pull-left\">" + consultor.obtenerCalificacionRecetaUsuario(usuario.getNombreUsuario(), receta.getNombre()) +" <span class=\"glyphicon glyphicon-star\"></span></p>");
+				out.println("<p class=\"col-md-3\">" + consultor.obtenerCalificacionRecetaUsuario(usuario.getNombreUsuario(), receta.getNombre()) +" <span class=\"glyphicon glyphicon-star\"></span></p>");
 		%>
+		
+		</div>
 		
 		<div class="row">
 		
