@@ -123,6 +123,8 @@
 			Set<Condimento> condimentosObtenidos = consultor.obtenerCondimentos(nombreReceta);
 
 			ArrayList<String> ingredientesObtenidos = consultor.obtenerIngyCant(nombreReceta);
+			
+			receta.setProcedimiento(consultor.procedimientoDeReceta(receta.getNombre()));
 						
 			
 			out.println("<h1 class=\"text-primary text-left col-md-offset-1 col-md-5\">"+ receta.getNombre() +"</h1>");
