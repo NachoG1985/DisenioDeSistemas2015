@@ -47,12 +47,14 @@
 							consultor.desconectar();
 							response.sendRedirect("../index.html");
 						}
-						
-						nuevoUsuario.setPerfil(consultor.mostrarPerfilUsuario(nombreUsuario));
+						else
+						{
+							nuevoUsuario.setPerfil(consultor.mostrarPerfilUsuario(nombreUsuario));
 							
 							consultor.desconectar();
 							session.setAttribute("usuario", (Object)nuevoUsuario);
 							response.sendRedirect("../home_bootstrap.jsp");
+						}
 					
 					}
 				}

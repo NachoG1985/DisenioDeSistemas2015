@@ -150,7 +150,7 @@
 			<br>
 			<h4 class="text-info text-left">Complexión Física: <small><%out.println(usuario.getPerfil().getComplexion()); %></small></h4>
 			<br>
-			<h4 class="text-info text-left">Rutina de ejercicios: <small>Rutina</small></h4>
+			<h4 class="text-info text-left">Rutina de ejercicios: <small><%out.println(usuario.getPerfil().getRutina()); %></small></h4>
 			<br>
 			<h4 class="text-info text-left">Tipo de Dieta: <small><%out.println(usuario.getPerfil().getDieta()); %></small></h4>
 			<br>
