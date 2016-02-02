@@ -1272,7 +1272,7 @@ public class ConsultorBaseDeDatos {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 float resultado;
+		 float resultado= 5;
 		 	 		 
 		 try {
 			 cn = getConexion(dbUrl, username, password);
@@ -1295,7 +1295,7 @@ public class ConsultorBaseDeDatos {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 float resultado;
+		 float resultado = 5;
 		 	 		 
 		 try {
 			 cn = getConexion(dbUrl, username, password);
@@ -1319,7 +1319,7 @@ public class ConsultorBaseDeDatos {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 java.sql.Timestamp fecha;		 
+		 java.sql.Timestamp fecha = null;		 
 		 try {
 			 cn = getConexion(dbUrl, username, password);
 			 

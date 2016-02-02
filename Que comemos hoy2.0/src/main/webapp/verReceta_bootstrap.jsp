@@ -1,3 +1,5 @@
+<%@page import="clases.PasoDeReceta"%>
+<%@page import="clases.Condimento"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Receta" %>
@@ -103,6 +105,7 @@
   </div>
 </nav>
 
+
 		<%
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 			Receta receta;
@@ -117,13 +120,49 @@
 			
 			receta = consultor.consultarReceta(nombreReceta);
 						
-			Set<String> condimentosObtenidos = consultor.obtenerCondimentos(nombreReceta);
+			Set<Condimento> condimentosObtenidos = consultor.obtenerCondimentos(nombreReceta);
 
 			ArrayList<String> ingredientesObtenidos = consultor.obtenerIngyCant(nombreReceta);
+			
+			receta.setProcedimiento(consultor.procedimientoDeReceta(receta.getNombre()));
 						
 			
-			out.println("<h1 class=\"text-primary text-left col-md-offset-1\">"+ receta.getNombre() +"</h1>");
+			out.println("<h1 class=\"text-primary text-left col-md-offset-1 col-md-5\">"+ receta.getNombre() +"</h1>");
+			
+			out.println("<div class=\"row\" style=\"margin-top:20px;\">");
+			
+			
+			
+			if(consultor.consultarEventoEnHistorial(usuario.getNombreUsuario(), receta.getNombre(), "confirmar") == null)
+				out.println("<a class=\"btn btn-primary btn-sm col-md-1\" href=\"confirmar_calificar_receta.jsp?accion=confirmar&receta=" + receta.getNombre() + "\" role=\"button\">Confirmar<span class=\"glyphicon glyphicon-ok\"></span></a>");
+			else
+				out.println("<p>Confirmada <span class=\"col-md-1 glyphicon glyphicon-ok\"></span></p>");
+			
+			if(consultor.consultarEventoEnHistorial(usuario.getNombreUsuario(), receta.getNombre(), "calificar") == null)
+			{
+				out.println("<form id=\"registro\" action=\"confirmar_calificar_receta.jsp?accion=calificar&receta=" + receta.getNombre() + "\" method=\"POST\" class=\"form-horizontal\">");
+				out.println("<div class=\" col-md-3 form-group\">");
+				out.println("<div class=\"col-md-5\">");
+				out.println("<select name=\"calificacion\" class=\"pull-left form-control\">");
+				out.println("<option value=\"1\"> 1 </option>");
+				out.println("<option value=\"2\"> 2 </option>");
+				out.println("<option value=\"3\"> 3 </option>");
+				out.println("<option value=\"4\"> 4 </option>");
+				out.println("<option value=\"5\"> 5 </option>");
+				out.println("</select>");
+				out.println("</div>");
+				
+				out.println("<button type=\"submit\" class=\"col-md-5 btn btn-default btn-primary  \">Calificar</button>");
+				
+				out.println("</div>");
+			}
+			else
+				out.println("<p class=\"col-md-3\">" + consultor.obtenerCalificacionRecetaUsuario(usuario.getNombreUsuario(), receta.getNombre()) +" <span class=\"glyphicon glyphicon-star\"></span></p>");
+			
+			out.println("</div>");
+		
 		%>
+		
 		
 		<div class="row">
 		
@@ -132,7 +171,7 @@
 			</div>
 			
 			<div class="col-md-5">
-				<h3 class="text-primary text-left">Calificación: <small>C</small></h3>
+				<h3 class="text-primary text-left">Calificación: <small><%out.println(consultor.obtenerCalificacionReceta(receta.getNombre()));%></small></h3>
 			</div>
 		
 		</div>
@@ -272,20 +311,22 @@
 				</tr>
 				
 					<%
-					 it = condimentosObtenidos.iterator();
+					 Iterator<Condimento> itCondimentos = condimentosObtenidos.iterator();
+					Condimento auxCondimento;
 					contador = 1;
 				
-					while(it.hasNext())
+					while(itCondimentos.hasNext())
 					{
-						aux = it.next();
+						auxCondimento = itCondimentos.next();
 						
 						out.println("<tr>");
 						out.println("<td>"+ String.valueOf(contador) + "</td>");
-						out.println("<td>" + aux + "</td>");
+						out.println("<td>" + auxCondimento.getNombreCondimento() + "</td>");
 						out.println("</tr>");
 						
 						contador++;
 					}
+					
 				%>
 			
 			</table>
@@ -293,83 +334,38 @@
 			</div>			
 		
 		</div>
+		
+		
 
 		<div class="row">
 		
-			<div class="col-md-2 col-md-offset-1">
+		<% Iterator<PasoDeReceta> itPasos = receta.getProcedimiento().iterator();
+		PasoDeReceta paso;
+		int i= 1;
+		
+		while(itPasos.hasNext())
+		{
+			paso = (PasoDeReceta)itPasos.next();
 			
-				<div class="thumbnail">
-					<img src="Imagenes/Procedimientos recetas/pizza-stock.jpg" alt="...">
-					<div class="caption">
-						<h3 class="text-primary text-center">Paso 1</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la información para llevar adelante el paso ilustrado.
-						Deberá no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedaría el 
-						diseño de la imagen con su parrafo.</p>
-					</div>
-				
-				</div>
-	
-			</div>
+			if(i == 1)
+				out.println("<div class=\"col-md-2 col-md-offset-1\">");
+			else
+				out.println("<div class=\"col-md-2\">");
 			
-			<div class="col-md-2">
+			out.println("<div class=\"thumbnail\">");
+			out.println("<img src=\"" + paso.getImagen() + " \" alt=\"...\">");
+			out.println("<div class=\"caption\">");
+			out.println("<h3 class=\"text-primary text-center\">Paso " + i + "</h3>");
+			out.println("<p>" + paso.getDescripcion() + "</p>");
+			out.println("</div>");
+			out.println("</div>");
+			out.println("</div>");
 			
-				<div class="thumbnail">
-					<img src="Imagenes/Procedimientos recetas/hamburguesa.jpg" alt="...">
-					<div class="caption">
-						<h3 class="text-primary text-center">Paso 2</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la información para llevar adelante el paso ilustrado.
-						Deberá no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedaría el 
-						diseño de la imagen con su parrafo.</p>
-					</div>
-				
-				</div>
-				
-			</div>
+			i++;
 			
-			<div class="col-md-2">
-			
-				<div class="thumbnail">
-					<img src="Imagenes/Procedimientos recetas/raviolesconsalsadetomates.jpg" alt="...">
-					<div class="caption">
-						<h3 class="text-primary text-center">Paso 3</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la información para llevar adelante el paso ilustrado.
-						Deberá no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedaría el 
-						diseño de la imagen con su parrafo.</p>
-					</div>
-				
-				</div>			
-			
-			</div>
-			
-			<div class="col-md-2">
-			
-				<div class="thumbnail">
-					<img src="..." alt="...">
-					<div class="caption">
-						<h3 class="text-primary text-center">Paso 4</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la información para llevar adelante el paso ilustrado.
-						Deberá no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedaría el 
-						diseño de la imagen con su parrafo.</p>
-					</div>
-				
-				</div>			
-			
-			</div>
-			
-			<div class="col-md-2">
-			
-				<div class="thumbnail">
-					<img src="..." alt="...">
-					<div class="caption">
-						<h3 class="text-primary text-center">Paso 5</h3>
-						<p>Paso de la receta que representa a la imagen de arriba. Contendra la información para llevar adelante el paso ilustrado.
-						Deberá no ser muy extenso y ser claro para el usuario que la lea. Este es un parrafo de ejemplo para ver como quedaría el 
-						diseño de la imagen con su parrafo.</p>
-					</div>
-				
-				</div>			
-			
-			</div>
+		}
+		
+		%>
 		
 		</div>
 
