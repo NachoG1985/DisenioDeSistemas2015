@@ -14,19 +14,19 @@ public class Receta {
 	private Set<Condimento> condimentos;
 	private ArrayList<PasoDeReceta> procedimiento;
 	private int dificultad;
-	private String temporada;
+	private HashSet<String> temporada;
 	private float caloriasTotales;
 	private Set<Calificacion> calificaciones;
 	private String nombreCreador;
 	private Date fechaDeCreacion;
-	private String dietasAptas;
-	private String aptaPara;
-	private String categorias;
+	private HashSet<String> dietasAptas;
+	private HashSet<String> aptaPara;
+	private HashSet<String> categorias;
 	
 	
 	
 	// Constructor de la clase
-	public Receta(String nuevoNombre, String ingredientePrincipal, int valorDificultad,String dietasAptas, String recetaAptaPara, String categorias, String temporadaReceta, float calorias, String creador, Date fecha) {
+	public Receta(String nuevoNombre, String ingredientePrincipal, int valorDificultad, float calorias, String creador, Date fecha) {
 		ingredientes =  new HashSet<IngredienteEnReceta>();
 		condimentos = new HashSet<Condimento>();
 		procedimiento= new ArrayList<PasoDeReceta>();
@@ -34,19 +34,35 @@ public class Receta {
 		setNombre(nuevoNombre);
 		setNombreIngredientePrincipal(ingredientePrincipal);
 		setDificultad(valorDificultad);
-		setTemporada(temporadaReceta);
+		temporada = new HashSet<String>();
 		setCaloriasTotales(calorias);
 		setNombreCreador(creador);
 		setFechaDeCreacion(fecha);
-		setAptaPara(recetaAptaPara);
-		setDietasAptas(dietasAptas);
-		setCategorias(categorias);
+		aptaPara =  new HashSet<String>();
+		dietasAptas = new HashSet<String>();
+		categorias = new HashSet<String>();
 		}
 	
 
 	
 	public void agregarCalificacion(Calificacion calificacionCorrespondiente){
 		calificaciones.add(calificacionCorrespondiente);
+	}
+	
+	public void agregarTemporada(String nuevatemporada){
+		temporada.add(nuevatemporada);
+	}
+	
+	public void agregarCategoria(String nuevacategoria){
+		categorias.add(nuevacategoria);
+	}
+	
+	public void agregarCondicionApta(String nuevaCondicion){
+		aptaPara.add(nuevaCondicion);
+	}
+	
+	public void agregarDietaApta(String nuevaDieta){
+		dietasAptas.add(nuevaDieta);
 	}
 	
 	public void agregarPasoDeReceta(PasoDeReceta nuevoPaso){
@@ -67,22 +83,22 @@ public class Receta {
 		ingredientes.add(nuevoIngrediente);
 	}
 
-	public String getDietasAptas() {
+	public HashSet<String> getDietasAptas() {
 		return dietasAptas;
 	}
 
 
-	public void setDietasAptas(String dietasAptas) {
+	public void setDietasAptas(HashSet<String> dietasAptas) {
 		this.dietasAptas = dietasAptas;
 	}
 
 
-	public String getAptaPara() {
+	public HashSet<String> getAptaPara() {
 		return aptaPara;
 	}
 
 
-	public void setAptaPara(String aptaPara) {
+	public void setAptaPara(HashSet<String> aptaPara) {
 		this.aptaPara = aptaPara;
 	}
 
@@ -155,11 +171,11 @@ public class Receta {
 		this.dificultad = dificultad;
 	}
 
-	public String getTemporada() {
+	public HashSet<String> getTemporada() {
 		return temporada;
 	}
 
-	public void setTemporada(String temporada) {
+	public void setTemporada(HashSet<String> temporada) {
 		this.temporada = temporada;
 	}
 
@@ -179,11 +195,11 @@ public class Receta {
 		this.calificaciones = calificaciones;
 	}
 
-	public String getCategorias() {
+	public HashSet<String> getCategorias() {
 		return categorias;
 	}
 
-	public void setCategorias(String categoriasReceta) {
+	public void setCategorias(HashSet<String> categoriasReceta) {
 		this.categorias = categoriasReceta;
 	}
 

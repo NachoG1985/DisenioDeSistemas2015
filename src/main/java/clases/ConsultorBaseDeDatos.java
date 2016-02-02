@@ -596,15 +596,23 @@ public class ConsultorBaseDeDatos {
              cst = cn.prepareCall("{call consultaReceta(?)}");
              cst.setString(1,nombre);
              data = cst.executeQuery();
-             data.next();
+             
+             if(data.next())
+             {
              String nombreReceta = data.getString("nombre");
 			 int dificultad = data.getInt("dificultad");
 			 float calorias = data.getInt("caloriasTotales");
 			 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
-			 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
-			 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
-			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
-			 recetaBuscada = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+			 
+			 recetaBuscada = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+			 
+			 recetaBuscada.setCategorias(obtenerCategoriasReceta(nombre));
+			 recetaBuscada.setTemporada(obtenerTemporadasReceta(nombre));
+			 recetaBuscada.setAptaPara(obtenerCondicionesReceta(nombre));
+			 recetaBuscada.setDietasAptas(obtenerDietasReceta(nombre));
+			 
+             }
+			
 			 data.close();
 			 cn.close();
         }catch (Exception e) {
@@ -629,10 +637,13 @@ public class ConsultorBaseDeDatos {
 				int dificultad = data.getInt("dificultad");
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
-				String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
-				String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
-				String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
-				recetaDB = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+				recetaDB = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+								 
+				recetaDB.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				recetaDB.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				recetaDB.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				recetaDB.setDietasAptas(obtenerDietasReceta(nombreReceta));
+				
 				recetasDB.add(recetaDB);
 			 }
              data.close();
@@ -730,7 +741,12 @@ public class ConsultorBaseDeDatos {
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 			
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null,null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -766,7 +782,12 @@ public class ConsultorBaseDeDatos {
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 				
 				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null,null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -801,7 +822,12 @@ public class ConsultorBaseDeDatos {
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 								
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null, null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -837,7 +863,12 @@ public class ConsultorBaseDeDatos {
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 								
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null,null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -872,7 +903,12 @@ public class ConsultorBaseDeDatos {
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 								
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null, null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -906,7 +942,12 @@ public class ConsultorBaseDeDatos {
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null,null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -941,7 +982,12 @@ public class ConsultorBaseDeDatos {
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 								
-				aux = new Receta(nombreReceta, ingredientePpal, dificultadReceta,null,null, null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultadReceta,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -978,7 +1024,12 @@ public class ConsultorBaseDeDatos {
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null,null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -1015,7 +1066,12 @@ public class ConsultorBaseDeDatos {
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null, null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -1050,7 +1106,12 @@ public class ConsultorBaseDeDatos {
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null,null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -1084,7 +1145,12 @@ public class ConsultorBaseDeDatos {
 					float calorias = data.getInt("caloriasTotales");
 					String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 					
-					aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null,null,null,calorias,"",null);
+					aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+					
+					aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+					aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+					aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+					aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 					
 					buscadas.add(aux);
 				 }
@@ -1167,8 +1233,8 @@ public class ConsultorBaseDeDatos {
 			 String complexion = data.getString("complexion");
 			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 			 String rutina = obtenerNombreRutina(data.getInt("rutina_id"),cn);
-			 String condicion = obtenerNombreCondicion(data.getInt("condicion_id"),cn);
-			 perfilBuscado = new PerfilUsuario(nombre,apellido,sexo,edad,altura,complexion,dieta,null,rutina,condicion);
+
+			 perfilBuscado = new PerfilUsuario(nombre,apellido,sexo,edad,altura,complexion,dieta,null,rutina,null);
 			 }
 			 data.close();
 			 cn.close();
@@ -1199,11 +1265,13 @@ public class ConsultorBaseDeDatos {
 				 int dificultad = data.getInt("dificultad");
 				 float calorias = data.getInt("caloriasTotales");
 				 String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
-				 String categorias = obtenerNombreCategoria(data.getInt("categoria_id"),cn);
-				 String temporadas = obtenerNombreTemporada(data.getInt("temporada_id"),cn);
-				 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
 					
-				 aux = new Receta(nombreReceta, ingredientePpal, dificultad,dieta,null, categorias,temporadas,calorias,"",null);
+				 aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+					
+					aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+					aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+					aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+					aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 					
 				 buscadas.add(aux);
 			 }
@@ -1239,7 +1307,12 @@ public class ConsultorBaseDeDatos {
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 				
 				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null,null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -1274,7 +1347,12 @@ public class ConsultorBaseDeDatos {
 				float calorias = data.getInt("caloriasTotales");
 				String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
 				
-				aux = new Receta(nombreReceta, ingredientePpal, dificultad,null,null,null,null,calorias,"",null);
+				aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+				
+				aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+				aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+				aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+				aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
 				
 				buscadas.add(aux);
 			 }
@@ -1515,11 +1593,11 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 //Devuelve todas las categorias de una receta.
-	 public Set<String> obtenerCategoriasReceta(String nombreReceta ) {
+	 public HashSet<String> obtenerCategoriasReceta(String nombreReceta ) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 Set<String> nombresCategorias = new Set<String>();
+		 HashSet<String> nombresCategorias = new HashSet<String>();
 		 String nombreCategoria;
 		 try {
 			 cn = getConexion(dbUrl, username, password);
@@ -1541,11 +1619,11 @@ public class ConsultorBaseDeDatos {
 	 }
 	 
 	 //Devuelve todas las condiciones de una receta.
-	 public Set<String> obtenerCondicionesReceta(String nombreReceta ) {
+	 public HashSet<String> obtenerCondicionesReceta(String nombreReceta ) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 Set<String> nombres = new Set<String>();
+		 HashSet<String> nombres = new HashSet<String>();
 		 String nombre;
 		 try {
 			 cn = getConexion(dbUrl, username, password);
@@ -1567,11 +1645,11 @@ public class ConsultorBaseDeDatos {
 	 }
 	
 	 //Devuelve todas las dietas de una receta.
-	 public Set<String> obtenerDietasReceta(String nombreReceta ) {
+	 public HashSet<String> obtenerDietasReceta(String nombreReceta ) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 Set<String> nombres = new Set<String>();
+		 HashSet<String> nombres = new HashSet<String>();
 		 String nombre;
 		 try {
 			 cn = getConexion(dbUrl, username, password);
@@ -1593,11 +1671,11 @@ public class ConsultorBaseDeDatos {
 	 }
 	 
 	//Devuelve todas las dietas de una receta.
-		 public Set<String> obtenerTemporadasReceta(String nombreReceta ) {
+		 public HashSet<String> obtenerTemporadasReceta(String nombreReceta ) {
 			 ResultSet data=null;
 			 Connection cn = null;
 			 CallableStatement cst = null;
-			 Set<String> nombres = new Set<String>();
+			 HashSet<String> nombres = new HashSet<String>();
 			 String nombre;
 			 try {
 				 cn = getConexion(dbUrl, username, password);

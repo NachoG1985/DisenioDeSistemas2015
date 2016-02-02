@@ -1,5 +1,6 @@
 package clases;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class PerfilUsuario implements Visitable{
@@ -16,13 +17,13 @@ public class PerfilUsuario implements Visitable{
 	private String dieta;
 	private String[] preferencias;
 	private String rutina;
-	private static String condicionPreexistente;
+	private static HashSet<String> condicionPreexistente;
 
 	// Constructor de la clase
 	public PerfilUsuario(String nombre,String apellido, String nuevoSexo,
 			int nuevaEdad, double nuevaAltura, String nuevaComplexion,
 			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina,
-			String nuevasCondiciones) {
+			HashSet<String> condicion) {
 
 		setNombre(nombre);
 		setApellido(apellido);
@@ -33,7 +34,7 @@ public class PerfilUsuario implements Visitable{
 		setDieta(nuevaDieta);
 		setPreferencias(nuevasPreferencias);
 		setRutina(nuevaRutina);
-		setCondicionPreexistente(nuevasCondiciones);
+		setCondicionPreexistente(condicion);
 	}
 
 	// Metodos de la clase
@@ -110,11 +111,11 @@ public class PerfilUsuario implements Visitable{
 	}
 
 	
-	public String getCondicionPreexistente() {
+	public HashSet<String> getCondicionPreexistente() {
 		return condicionPreexistente;
 	}
 
-	public static void setCondicionPreexistente(String condicion) {
+	public static void setCondicionPreexistente(HashSet<String> condicion) {
 		PerfilUsuario.condicionPreexistente = condicion;
 	}
 
