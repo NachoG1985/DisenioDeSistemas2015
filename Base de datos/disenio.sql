@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-01-2016 a las 22:57:00
+-- Tiempo de generación: 02-02-2016 a las 18:27:04
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -31,6 +31,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `calcularPromedio`()
     SQL SECURITY INVOKER
 SELECT C.recetas_id, AVG(C.calificacion)
 FROM calificacion_usuario_receta C GROUP BY C.recetas_id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `calificarRecetaUsuario`(IN `usu_id` INT, IN `rec_id` INT, IN `calif` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+insert into calificacion_usuario_receta (recetas_id,usuario_id,calificacion)
+values (usu_id,rec_id,calif)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `caloriasRutina`(IN `actividad` VARCHAR(20))
     READS SQL DATA
@@ -115,6 +121,22 @@ select I.nombre,IR.cantidad
 from ingredientes_receta as IR inner join ingredientes as I on IR.ingredientes_id = I.ingredientes_id
 where IR.recetas_id = rec$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarCategoriaReceta`(IN `receta` INT, IN `categ` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+insert into `categoria_receta`(recetas_id,categoria_id) VALUES(receta,categ)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarCondicionPerfil`(IN `perfil` INT, IN `cond` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+insert into `condicion_prexistente_perfil`(perfil_id,condicion_id)
+VALUES (perfil,cond)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarCondicionReceta`(IN `rec` INT, IN `cond` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+insert into `condicion_receta`(recetas_id,condicion_id) VALUES(rec,cond)$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarCondimento`(IN `nom` VARCHAR(40))
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
@@ -129,6 +151,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarConsulta`(IN `fecha` TIMEST
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into consultareceta (fecha,usuario_id,recetas_id) values (fecha,id_usu,id_rec)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarDietaPerfil`(IN `perfil` INT, IN `dieta` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+insert into `dieta_perfil`(perfil_id,dieta_id) VALUES(perfil,dieta)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarDietaReceta`(IN `rec` INT, IN `dieta` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+insert into `dieta_receta`(recetas_id,dieta_id) VALUES(rec,dieta)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarEventoEnHistorial`(IN `usuario` INT(10), IN `receta` INT(10), IN `operacion` VARCHAR(10))
     MODIFIES SQL DATA
@@ -145,24 +177,30 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarIngrediente`(IN `nombre` VA
     SQL SECURITY INVOKER
 insert into ingredientes(nombre,porcion,calorias,nivel_id) VALUES(nombre,porcion,cal,nivel)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarPerfil`(IN `usu` INT(11), IN `nom` VARCHAR(40), IN `ape` VARCHAR(40), IN `sexo` VARCHAR(20), IN `edad` INT(3), IN `altura` DOUBLE, IN `comple` VARCHAR(20), IN `dieta` INT, IN `rutina` INT, IN `cond` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarPerfil`(IN `usu` INT(11), IN `nom` VARCHAR(40), IN `ape` VARCHAR(40), IN `sexo` VARCHAR(20), IN `edad` INT(3), IN `altura` DOUBLE, IN `comple` VARCHAR(20), IN `dieta` INT, IN `rutina` INT)
     MODIFIES SQL DATA
-insert into perfil_usuario(usuario_id,nombre,apellido,sexo,edad,altura,complexion,dieta_id,rutina_id,condicion_id) VALUES(usu,nom,ape,sexo,edad,altura,comple,dieta,rutina,cond)$$
+    SQL SECURITY INVOKER
+insert into perfil_usuario(usuario_id,nombre,apellido,sexo,edad,altura,complexion,dieta_id,rutina_id) VALUES(usu,nom,ape,sexo,edad,altura,comple,dieta,rutina)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarProcedimiento`(IN `im1` VARCHAR(100), IN `pas1` TEXT, IN `im2` VARCHAR(100), IN `pas2` TEXT, IN `im3` VARCHAR(100), IN `pas3` TEXT, IN `im4` VARCHAR(100), IN `pas4` TEXT, IN `im5` VARCHAR(100), IN `pas5` TEXT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into procedimientos(imagen1,paso1,imagen2,paso2,imagen3,paso3,imagen4,paso4,imagen5,paso5) VALUES(im1,pas1,im2,pas2,im3,pas3,im4,pas4,im5,pas5)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nom` VARCHAR(40), IN `ing` INT, IN `dif` INT(4), IN `tempo` INT, IN `cat` INT, IN `calo` DOUBLE, IN `cond` INT, IN `dieta` INT, IN `proc` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nom ` VARCHAR(40), IN `ing` INT, IN `dif` INT(4), IN `calo` INT, IN `proc` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
-insert into recetas(nombre,ingrediente_ppal_id,dificultad,temporada_id,categoria_id,caloriasTotales,condicion_id,dieta_id,procedimiento_id) VALUES(nom,ing,dif,tempo,cat,calo,cond,dieta,proc)$$
+insert into recetas(nombre,ingrediente_ppal_id,dificultad,caloriasTotales,procedimiento_id) values (nom,ing,dif,calo,proc)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarRecUsuario`(IN `usu` INT, IN `rec` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into `recetas_usuario`(usuario_id,recetas_id) VALUES(usu,rec)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarTemporadaReceta`(IN `receta` INT, IN `temp` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+insert into `temporadas_receta`(recetas_id,temporada_id) VALUES(receta,temp)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(IN `nombre` VARCHAR(50), IN `mail` VARCHAR(100), IN `pass` VARCHAR(100), IN `fecha` DATE)
     MODIFIES SQL DATA
@@ -214,15 +252,16 @@ where R.nombre = nombreReceta$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadas`(IN `usu_id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id 
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
 from recetas R
 inner join historial H on (R.recetas_id = H.receta_id)
+inner join categoria_receta CR on (R.recetas_id = CR.recetas_id)
 where H.operacion = 'cargar' and H.usuario_id = usu_id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadasEnDB`()
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id 
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id 
 from recetas R
 inner join historial H on (R.recetas_id = H.receta_id)
 where H.operacion = 'cargar'$$
@@ -273,6 +312,32 @@ inner join usuarios U on CUR.usuario_id = U.usuario_id
 inner join recetas R on CUR.recetas_id = R.recetas_id
 where U.nombreUsuario = nombreUsu and R.nombre=nombreRec$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCategoriaReceta`(IN `nomRec` VARCHAR(40))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select C.nombre
+from categoria_receta CR
+inner join recetas R on CR.recetas_id = R.recetas_id
+inner join categorias C on CR.categoria_id = C.categoria_id
+where R.nombre = nomRec$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondicionPerfil`(IN `perf_id` INT)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select C.tipo
+from condicion_prexistente_perfil CP
+inner join condicion_prexistente C on CP.condicion_id = C.condicion_id
+where CP.perfil_id = perf_id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondicionReceta`(IN `nomRec` VARCHAR(40))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select C.tipo
+from condicion_receta CR
+inner join recetas R on CR.recetas_id = R.recetas_id
+inner join condicion_prexistente C on CR.condicion_id = C.condicion_id
+where R.nombre = nomRec$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondimentos`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -290,6 +355,15 @@ inner join usuarios U on U.usuario_id = H.usuario_id
 where R.nombre like concat ("%",nombre,"%")
 and H.operacion = 'cargar'$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerDietaReceta`(IN `nomRec` VARCHAR(40))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select D.tipo
+from dieta_receta DR
+inner join recetas R on DR.recetas_id = R.recetas_id
+inner join dietas D on DR.dieta_id = D.dieta_id
+where R.nombre = nomRec$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDAlimenticio`(IN `tipo` VARCHAR(30))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -297,12 +371,12 @@ select nivel_id
 from nivel_alimenticio
 where tipo = nom$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDCategoria`(IN `nom` VARCHAR(100))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDCategoria`(IN `nom` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
-select categorias_id 
-from categoria_receta
-where tipo=nom$$
+select categoria_id 
+from categorias
+where nombre=nom$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDCondicion`(IN `nom` VARCHAR(60))
     READS SQL DATA
@@ -393,9 +467,9 @@ where nombreUsuario = nombre$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreCategoria`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
-select tipo
-from categoria_receta
-where categorias_id = id$$
+select nombre
+from categorias
+where categoria_id = id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreCondicion`(IN `id` INT)
     READS SQL DATA
@@ -446,17 +520,27 @@ select nombreUsuario
 from usuarios
 where usuario_id = id$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerPerfil`(IN `usu` VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerPerfil`(IN `nombre` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
-SELECT PU.nombre,PU.apellido,PU.sexo,PU.edad,PU.altura,PU.complexion,PU.dieta_id,PU.rutina_id,PU.condicion_id
-FROM usuarios as U inner join perfil_usuario as PU on U.usuario_id = PU.usuario_id
-WHERE U.nombreUsuario = usu$$
+SELECT PU.nombre,PU.apellido,PU.sexo,PU.edad,PU.altura,PU.complexion,PU.dieta_id,PU.rutina_id
+FROM perfil_usuario PU
+inner join usuarios U on PU.usuario_id = U.usuario_id
+WHERE U.nombreUsuario = nombre$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerTemporadaReceta`(IN `nomRec` VARCHAR(40))
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select T.tipo
+from temporadas_receta TR
+inner join recetas R on TR.recetas_id = R.recetas_id
+inner join temporadas T on TR.temporada_id = T.temporada_id
+where R.nombre = nomRec$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaMasConsultada`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP, IN `nombre` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
 from historial as H 
 inner join recetas as R on H.receta_id = R.recetas_id
 inner join usuarios as U on H.usuario_id = U.usuario_id
@@ -468,19 +552,20 @@ order by count(*) desc$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondicion`(IN `user_id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
-from perfil_usuario as P
-/*inner join condicion_prexistente C on C.condicion_id = R.condicion_id*/
-inner join recetas as R  on ( P.condicion_id = R.condicion_id)
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,CAR.categoria_id,TR.temporada_id,R.dieta_id
+from recetas as R
+inner join perfil_usuario as P  on ( R.condicion_id = P.condicion_id)
+inner join categoria_receta  CAR on R.recetas_id = CAR.recetas_id
+inner join temporadas_receta  TR on R.recetas_id = TR.recetas_id
 where P.usuario_id = user_id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondimento`(IN `cond` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
-from condimentos C
-inner join condimentos_receta CR on CR.condimentos_id = C.condimentos_id
-inner join recetas R on (R.recetas_id = CR.recetas_id)
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
+from condimentos_receta CR
+inner join condimentos C on  CR.condimentos_id=C.condimentos_id
+inner join recetas R on (CR.recetas_id = R.recetas_id)
 where C.nombre like concat("%",cond,"%")
 order by rand(R.recetas_id)
 limit 5$$
@@ -488,7 +573,7 @@ limit 5$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunDieta`(IN `dieta` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
 from recetas R
 inner join dietas D on R.dieta_id = D.dieta_id
 where D.tipo = dieta$$
@@ -496,15 +581,16 @@ where D.tipo = dieta$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunDificultad`(IN `dif` INT(4))
     READS SQL DATA
     SQL SECURITY INVOKER
-select nombre,dificultad,caloriasTotales,ingrediente_ppal_id,categoria_id,temporada_id,dieta_id
-from recetas
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
+from recetas R
 where dificultad = dif$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunIngPpal`(IN `ing` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
-from ingredientes as I inner join recetas as R on  R.ingrediente_ppal_id = I.ingredientes_id 
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
+from recetas as R 
+inner join ingredientes as I on  R.ingrediente_ppal_id = I.ingredientes_id 
 where I.nombre = ing 
 order by rand(R.recetas_id)$$
 
@@ -518,21 +604,19 @@ and H.tiempo between fecha1 and fecha2
 group by receta_id
 order by count(*) desc$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunNivelAlimenticio`(IN `nivel` VARCHAR(30))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunNivelAlimenticio`(IN `nivelID` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
 from recetas as R
-inner join ingredientes as I on R.ingrediente_ppal_id = I.ingredientes_id
-inner join nivel_alimenticio as NA on (I.nivel_id = NA.nivel_id)
-where NA.tipo like concat("%",nivel,"%")
+where R.ingrediente_ppal_id = nivelID
 order by rand(R.recetas_id) 
 limit 5$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunPreferencia`(IN `user_id` INT(11))
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
 from recetas R
 inner join preferencias_alimenticias_usuario PA on R.ingrediente_ppal_id = PA.ingredientes_id
 where PA.usuario_id = user_id
@@ -542,8 +626,9 @@ limit 3$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunPrefPeriodo`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
-from historial as H inner join recetas as R on H.receta_id = R.recetas_id
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
+from historial as H 
+inner join recetas as R on H.receta_id = R.recetas_id
 where H.operacion in ('confirmar','consultar')
 and H.tiempo between fecha1 and fecha2
 group by receta_id
@@ -552,15 +637,16 @@ order by count(*) desc$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunTemporada`(IN `temporada` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id 
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
 from recetas as R inner join temporadas as T on R.temporada_id = T.temporada_id 
 where T.tipo like concat("%",temporada,"%")$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaTopTemporada`(IN `temporada` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
-select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id,R.categoria_id,R.temporada_id,R.dieta_id
-from recetas as R inner join temporadas as T on R.temporada_id = T.temporada_id 
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
+from recetas as R
+inner join temporadas as T on R.temporada_id = T.temporada_id 
 inner join promedio_calificacion as P on R.recetas_id = P.recetas_id 
 where T.tipo like concat("%",temporada,"%")
 order by P.calificacion_promedio desc$$
@@ -568,9 +654,9 @@ order by P.calificacion_promedio desc$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reporteRangoCalorias`(IN `caloria1` DOUBLE, IN `caloria2` DOUBLE)
     READS SQL DATA
     SQL SECURITY INVOKER
-select *
-from recetas re
-where re.caloriasTotales between caloria1 and caloria2$$
+select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
+from recetas R
+where R.caloriasTotales between caloria1 and caloria2$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reporteRecetas`(IN `usuario` INT(10), IN `operacion` VARCHAR(10), IN `fecha1` DATE, IN `fecha2` DATE)
     READS SQL DATA
@@ -615,7 +701,9 @@ CREATE TABLE IF NOT EXISTS `calificacion_usuario_receta` (
   `recetas_id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL,
   `calificacion` tinyint(4) NOT NULL,
-  PRIMARY KEY (`calif_recet_usuario`)
+  PRIMARY KEY (`calif_recet_usuario`),
+  KEY `recetas_id` (`recetas_id`),
+  KEY `usuario_id` (`usuario_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
 
 --
@@ -635,31 +723,22 @@ INSERT INTO `calificacion_usuario_receta` (`calif_recet_usuario`, `recetas_id`, 
 --
 
 CREATE TABLE IF NOT EXISTS `categoria_receta` (
-  `categorias_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
-  PRIMARY KEY (`categorias_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=16 ;
+  `categorias_receta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `recetas_id` int(11) NOT NULL,
+  `categoria_id` int(11) NOT NULL,
+  PRIMARY KEY (`categorias_receta_id`),
+  KEY `recetas_id` (`recetas_id`),
+  KEY `categoria_id` (`categoria_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `categoria_receta`
 --
 
-INSERT INTO `categoria_receta` (`categorias_id`, `tipo`) VALUES
-(1, 'Desayuno'),
-(2, 'Almuerzo'),
-(3, 'Merienda'),
-(4, 'Cena'),
-(5, 'Desayuno_Almuerzo'),
-(6, 'Desayuno_Merienda'),
-(7, 'Desayuno_Cena'),
-(8, 'Almuerzo_Merienda'),
-(9, 'Almuerzo_Cena'),
-(10, 'Merienda_Cena'),
-(11, 'Desayuno_Almuerzo_Merienda'),
-(12, 'Desayuno_Almuerzo_Cena'),
-(13, 'Desayuno_Merienda_Cena'),
-(14, 'Almuerzo_Merienda_Cena'),
-(15, 'Desayuno_Almuerzo_Merienda_Cena');
+INSERT INTO `categoria_receta` (`categorias_receta_id`, `recetas_id`, `categoria_id`) VALUES
+(1, 10, 2),
+(2, 8, 2),
+(3, 24, 3);
 
 -- --------------------------------------------------------
 
@@ -668,18 +747,18 @@ INSERT INTO `categoria_receta` (`categorias_id`, `tipo`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `categorias` (
-  `categoria_hora_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `categoria_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
   `horaMax` time NOT NULL,
   `horaMin` time NOT NULL,
-  PRIMARY KEY (`categoria_hora_id`)
+  PRIMARY KEY (`categoria_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `categorias`
 --
 
-INSERT INTO `categorias` (`categoria_hora_id`, `nombre`, `horaMax`, `horaMin`) VALUES
+INSERT INTO `categorias` (`categoria_id`, `nombre`, `horaMax`, `horaMin`) VALUES
 (1, 'Desayuno', '11:00:00', '04:00:00'),
 (2, 'Almuerzo', '14:30:00', '11:00:00'),
 (3, 'Merienda', '20:00:00', '14:30:00'),
@@ -695,7 +774,7 @@ CREATE TABLE IF NOT EXISTS `condicion_prexistente` (
   `condicion_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(60) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`condicion_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `condicion_prexistente`
@@ -705,10 +784,52 @@ INSERT INTO `condicion_prexistente` (`condicion_id`, `tipo`) VALUES
 (1, 'Celiasis'),
 (2, 'Diabetes'),
 (3, 'Hipertension'),
-(4, 'Diabetes_Hipertension'),
-(5, 'Celiasis_Diabetes'),
-(6, 'Celiasis_Hipertension'),
-(7, 'Celiasis_Diabetes_Hipertension');
+(4, 'Nada');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `condicion_prexistente_perfil`
+--
+
+CREATE TABLE IF NOT EXISTS `condicion_prexistente_perfil` (
+  `condicion_prex_perfil_id` int(11) NOT NULL AUTO_INCREMENT,
+  `perfil_id` int(11) NOT NULL,
+  `condicion_id` int(11) NOT NULL,
+  PRIMARY KEY (`condicion_prex_perfil_id`),
+  KEY `perfil_id` (`perfil_id`,`condicion_id`),
+  KEY `condicion_id` (`condicion_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `condicion_prexistente_perfil`
+--
+
+INSERT INTO `condicion_prexistente_perfil` (`condicion_prex_perfil_id`, `perfil_id`, `condicion_id`) VALUES
+(1, 8, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `condicion_receta`
+--
+
+CREATE TABLE IF NOT EXISTS `condicion_receta` (
+  `condicion_receta_id` int(11) NOT NULL AUTO_INCREMENT,
+  `recetas_id` int(11) NOT NULL,
+  `condicion_id` int(11) NOT NULL,
+  PRIMARY KEY (`condicion_receta_id`),
+  KEY `recetas_id` (`recetas_id`,`condicion_id`),
+  KEY `condicion_id` (`condicion_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `condicion_receta`
+--
+
+INSERT INTO `condicion_receta` (`condicion_receta_id`, `recetas_id`, `condicion_id`) VALUES
+(2, 10, 1),
+(1, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -717,7 +838,7 @@ INSERT INTO `condicion_prexistente` (`condicion_id`, `tipo`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `condimentos` (
-  `condimentos_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `condimentos_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
   PRIMARY KEY (`condimentos_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=24 ;
@@ -760,7 +881,9 @@ CREATE TABLE IF NOT EXISTS `condimentos_receta` (
   `condim_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
   `condimentos_id` int(11) NOT NULL,
-  PRIMARY KEY (`condim_recet_id`)
+  PRIMARY KEY (`condim_recet_id`),
+  KEY `recetas_id` (`recetas_id`,`condimentos_id`),
+  KEY `condimentos_id` (`condimentos_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=6 ;
 
 --
@@ -773,6 +896,28 @@ INSERT INTO `condimentos_receta` (`condim_recet_id`, `recetas_id`, `condimentos_
 (3, 12, 6),
 (4, 24, 3),
 (5, 26, 7);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `dieta_receta`
+--
+
+CREATE TABLE IF NOT EXISTS `dieta_receta` (
+  `dieta_receta_id` int(11) NOT NULL AUTO_INCREMENT,
+  `recetas_id` int(11) NOT NULL,
+  `dieta_id` int(11) NOT NULL,
+  PRIMARY KEY (`dieta_receta_id`),
+  KEY `recetas_id` (`recetas_id`,`dieta_id`),
+  KEY `dieta_id` (`dieta_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `dieta_receta`
+--
+
+INSERT INTO `dieta_receta` (`dieta_receta_id`, `recetas_id`, `dieta_id`) VALUES
+(1, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -794,18 +939,7 @@ INSERT INTO `dietas` (`dieta_id`, `tipo`) VALUES
 (1, 'Normal'),
 (2, 'Ovolactovegetariano'),
 (3, 'Vegano'),
-(4, 'Vegetariano'),
-(5, 'Normal_Ovolactovegetariano'),
-(6, 'Normal_Vegano'),
-(7, 'Normal_Vegetariano'),
-(8, 'Ovolactovegetariano_Vegano'),
-(9, 'Ovolactovegetariano_Vegetariano'),
-(10, 'Vegano_Vegetariano'),
-(11, 'Normal_Ovolactovegetariano_Vegano'),
-(12, 'Normal_Ovolactovegetariano_Vegetariano'),
-(13, 'Normal_Vegano_Vegetariano'),
-(14, 'Ovolactovegetariano_Vegano_Vegetariano'),
-(15, 'Normal_Ovolactovegetariano_Vegano_Vegetariano');
+(4, 'Vegetariano');
 
 -- --------------------------------------------------------
 
@@ -820,7 +954,7 @@ CREATE TABLE IF NOT EXISTS `historial` (
   `operacion` varchar(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `tiempo` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`movimiento_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=12 ;
 
 --
 -- Volcado de datos para la tabla `historial`
@@ -834,8 +968,9 @@ INSERT INTO `historial` (`movimiento_id`, `usuario_id`, `receta_id`, `operacion`
 (6, 60, 12, 'consultar', '2015-10-19 22:06:36'),
 (7, 54, 9, 'confirmar', '2015-10-20 01:35:32'),
 (8, 60, 12, 'consultar', '2015-10-21 00:32:52'),
-(9, 4, 10, 'cargar', '2015-10-26 23:44:03'),
-(10, 7, 12, 'consultar', '2016-01-29 22:07:42');
+(9, 59, 10, 'cargar', '2015-10-26 23:44:03'),
+(10, 7, 12, 'consultar', '2016-01-29 22:07:42'),
+(11, 59, 8, 'consultar', '2016-01-31 21:00:49');
 
 -- --------------------------------------------------------
 
@@ -844,7 +979,7 @@ INSERT INTO `historial` (`movimiento_id`, `usuario_id`, `receta_id`, `operacion`
 --
 
 CREATE TABLE IF NOT EXISTS `ingredientes` (
-  `ingredientes_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ingredientes_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
   `porcion` int(11) NOT NULL,
   `calorias` double NOT NULL,
@@ -971,20 +1106,24 @@ CREATE TABLE IF NOT EXISTS `ingredientes_receta` (
   `ingred_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
   `ingredientes_id` int(11) NOT NULL,
+  `nivel_id` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
-  PRIMARY KEY (`ingred_recet_id`)
+  PRIMARY KEY (`ingred_recet_id`),
+  KEY `recetas_id` (`recetas_id`),
+  KEY `ingredientes_id` (`ingredientes_id`),
+  KEY `nivel_id` (`nivel_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `ingredientes_receta`
 --
 
-INSERT INTO `ingredientes_receta` (`ingred_recet_id`, `recetas_id`, `ingredientes_id`, `cantidad`) VALUES
-(1, 9, 1, 250),
-(2, 10, 3, 0),
-(3, 14, 1, 0),
-(4, 11, 1, 100),
-(5, 9, 4, 300);
+INSERT INTO `ingredientes_receta` (`ingred_recet_id`, `recetas_id`, `ingredientes_id`, `nivel_id`, `cantidad`) VALUES
+(1, 9, 1, 1, 250),
+(2, 10, 64, 3, 500),
+(3, 14, 1, 1, 1000),
+(4, 11, 1, 1, 100),
+(5, 9, 4, 3, 300);
 
 -- --------------------------------------------------------
 
@@ -1016,7 +1155,7 @@ INSERT INTO `nivel_alimenticio` (`nivel_id`, `tipo`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `perfil_usuario` (
-  `perfil_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `perfil_id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
   `apellido` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
@@ -1026,17 +1165,19 @@ CREATE TABLE IF NOT EXISTS `perfil_usuario` (
   `complexion` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `dieta_id` int(11) NOT NULL,
   `rutina_id` int(11) NOT NULL,
-  `condicion_id` int(11) NOT NULL,
-  PRIMARY KEY (`perfil_id`)
+  PRIMARY KEY (`perfil_id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `dieta_id` (`dieta_id`),
+  KEY `rutina_id` (`rutina_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=10 ;
 
 --
 -- Volcado de datos para la tabla `perfil_usuario`
 --
 
-INSERT INTO `perfil_usuario` (`perfil_id`, `usuario_id`, `nombre`, `apellido`, `sexo`, `edad`, `altura`, `complexion`, `dieta_id`, `rutina_id`, `condicion_id`) VALUES
-(8, 59, 'Juan Cruz', 'Reines', 'masculino', 21, 1.78, 'mediana', 1, 3, 2),
-(9, 60, 'Roberto', 'Carlos', 'masculino', 35, 2, 'pequeÃ±a', 3, 0, 0);
+INSERT INTO `perfil_usuario` (`perfil_id`, `usuario_id`, `nombre`, `apellido`, `sexo`, `edad`, `altura`, `complexion`, `dieta_id`, `rutina_id`) VALUES
+(8, 59, 'Juan Cruz', 'Reines', 'masculino', 21, 1.78, 'mediana', 1, 3),
+(9, 60, 'Roberto', 'Carlos', 'masculino', 35, 2, 'pequeña', 2, 3);
 
 -- --------------------------------------------------------
 
@@ -1045,10 +1186,16 @@ INSERT INTO `perfil_usuario` (`perfil_id`, `usuario_id`, `nombre`, `apellido`, `
 --
 
 CREATE TABLE IF NOT EXISTS `preferencias_alimenticias_usuario` (
-  `prefe_usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `prefe_usuario_id` int(11) NOT NULL AUTO_INCREMENT,
   `ingredientes_id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL,
-  PRIMARY KEY (`prefe_usuario_id`)
+  PRIMARY KEY (`prefe_usuario_id`),
+  KEY `ingredientes_id` (`ingredientes_id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `usuario_id_2` (`usuario_id`),
+  KEY `usuario_id_3` (`usuario_id`),
+  KEY `usuario_id_4` (`usuario_id`),
+  KEY `usuario_id_5` (`usuario_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
 
 --
@@ -1056,10 +1203,10 @@ CREATE TABLE IF NOT EXISTS `preferencias_alimenticias_usuario` (
 --
 
 INSERT INTO `preferencias_alimenticias_usuario` (`prefe_usuario_id`, `ingredientes_id`, `usuario_id`) VALUES
-(1, 1, 4),
-(2, 3, 7),
-(3, 1, 46),
-(4, 2, 45);
+(1, 1, 59),
+(2, 3, 59),
+(3, 1, 60),
+(4, 2, 60);
 
 -- --------------------------------------------------------
 
@@ -1089,11 +1236,12 @@ CREATE TABLE IF NOT EXISTS `procedimientos` (
 --
 
 CREATE TABLE IF NOT EXISTS `promedio_calificacion` (
-  `promedio_califacion_id` int(10) NOT NULL AUTO_INCREMENT,
-  `recetas_id` int(10) NOT NULL,
+  `promedio_califacion_id` int(11) NOT NULL AUTO_INCREMENT,
+  `recetas_id` int(11) NOT NULL,
   `calificacion_promedio` decimal(4,2) NOT NULL,
   PRIMARY KEY (`promedio_califacion_id`),
-  UNIQUE KEY `promedio_califacion_id` (`promedio_califacion_id`,`recetas_id`)
+  UNIQUE KEY `promedio_califacion_id` (`promedio_califacion_id`,`recetas_id`),
+  KEY `recetas_id` (`recetas_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -1103,15 +1251,11 @@ CREATE TABLE IF NOT EXISTS `promedio_calificacion` (
 --
 
 CREATE TABLE IF NOT EXISTS `recetas` (
-  `recetas_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `recetas_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
   `ingrediente_ppal_id` int(11) NOT NULL,
   `dificultad` int(4) NOT NULL,
-  `temporada_id` int(11) NOT NULL,
-  `categoria_id` int(11) NOT NULL,
   `caloriasTotales` double NOT NULL,
-  `condicion_id` int(11) NOT NULL,
-  `dieta_id` int(11) NOT NULL,
   `procedimiento_id` int(11) NOT NULL,
   PRIMARY KEY (`recetas_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=27 ;
@@ -1120,18 +1264,18 @@ CREATE TABLE IF NOT EXISTS `recetas` (
 -- Volcado de datos para la tabla `recetas`
 --
 
-INSERT INTO `recetas` (`recetas_id`, `nombre`, `ingrediente_ppal_id`, `dificultad`, `temporada_id`, `categoria_id`, `caloriasTotales`, `condicion_id`, `dieta_id`, `procedimiento_id`) VALUES
-(8, 'milanesa a la maryland', 3, 3, 1, 0, 541, 1, 1, 0),
-(9, 'pizza', 1, 1, 13, 0, 125, 4, 1, 0),
-(10, 'pati a la parrilla', 0, 5, 1, 0, 500, 0, 0, 0),
-(11, 'tallarines', 0, 2, 8, 0, 350, 0, 0, 0),
-(12, 'buñuelos de acelga', 0, 1, 12, 0, 110, 0, 0, 0),
-(13, 'pastel de papa', 0, 3, 0, 0, 110, 0, 0, 0),
-(14, 'bizcocho de vainilla', 0, 2, 0, 0, 420, 0, 0, 0),
-(20, 'cafe', 0, 1, 0, 0, 514, 0, 0, 0),
-(24, 'gelatina', 0, 3, 4, 0, 514, 0, 0, 0),
-(25, 'flan', 5, 2, 2, 3, 400.5, 4, 1, 0),
-(26, 'empanada de carne', 3, 3, 1, 0, 200.54, 1, 1, 0);
+INSERT INTO `recetas` (`recetas_id`, `nombre`, `ingrediente_ppal_id`, `dificultad`, `caloriasTotales`, `procedimiento_id`) VALUES
+(8, 'milanesa a la maryland', 3, 3, 541, 0),
+(9, 'pizza', 1, 1, 125, 0),
+(10, 'pati a la parrilla', 64, 5, 500, 0),
+(11, 'tallarines', 1, 2, 350, 0),
+(12, 'buñuelos de acelga', 0, 1, 110, 0),
+(13, 'pastel de papa', 0, 3, 110, 0),
+(14, 'bizcocho de vainilla', 1, 2, 420, 0),
+(20, 'cafe', 0, 1, 514, 0),
+(24, 'gelatina', 0, 3, 514, 0),
+(25, 'flan', 5, 2, 400.5, 0),
+(26, 'empanada de carne', 3, 3, 200.54, 0);
 
 -- --------------------------------------------------------
 
@@ -1143,7 +1287,10 @@ CREATE TABLE IF NOT EXISTS `recetas_usuario` (
   `recet_usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,
   `recetas_id` int(11) NOT NULL,
-  PRIMARY KEY (`recet_usuario_id`)
+  PRIMARY KEY (`recet_usuario_id`),
+  KEY `recetas_id` (`recetas_id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `recetas_id_2` (`recetas_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=11 ;
 
 --
@@ -1206,14 +1353,29 @@ INSERT INTO `temporadas` (`temporada_id`, `tipo`) VALUES
 (3, 'Invierno'),
 (4, 'Primavera'),
 (5, 'Navidad'),
-(6, 'Pascua'),
-(7, 'Verano_Otonio'),
-(8, 'Verano_Primavera'),
-(9, 'Otonio_Primavera'),
-(10, 'Otonio_Invierno'),
-(11, 'Primavera_Invierno'),
-(12, 'Verano_Invierno'),
-(13, 'Anual');
+(6, 'Pascua');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `temporadas_receta`
+--
+
+CREATE TABLE IF NOT EXISTS `temporadas_receta` (
+  `temporadas_receta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `recetas_id` int(11) NOT NULL,
+  `temporada_id` int(11) NOT NULL,
+  PRIMARY KEY (`temporadas_receta_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `temporadas_receta`
+--
+
+INSERT INTO `temporadas_receta` (`temporadas_receta_id`, `recetas_id`, `temporada_id`) VALUES
+(1, 10, 1),
+(2, 8, 1),
+(3, 24, 4);
 
 -- --------------------------------------------------------
 
@@ -1222,7 +1384,7 @@ INSERT INTO `temporadas` (`temporada_id`, `tipo`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `usuarios` (
-  `usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombreUsuario` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
   `email` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
   `contrasenia` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
@@ -1235,8 +1397,82 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 --
 
 INSERT INTO `usuarios` (`usuario_id`, `nombreUsuario`, `email`, `contrasenia`, `fecha_nacimiento`) VALUES
-(59, 'JuanCruzReines', 'juancruz.reines@gmail.com', 'diseÃ±o2015', '1994-09-19'),
-(60, 'Roberto Carlos', 'rober@gmail.com', 'brasil', '1940-12-12');
+(59, 'JuanCruzReines', 'juancruz@hotmail.com', 'diseño2015', '1994-04-16'),
+(60, 'Roberto Carlos', 'croberto@hotmail.com', 'brasil', '1965-07-26');
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `calificacion_usuario_receta`
+--
+ALTER TABLE `calificacion_usuario_receta`
+  ADD CONSTRAINT `calificacion_usuario_receta_ibfk_1` FOREIGN KEY (`recetas_id`) REFERENCES `recetas` (`recetas_id`);
+
+--
+-- Filtros para la tabla `categoria_receta`
+--
+ALTER TABLE `categoria_receta`
+  ADD CONSTRAINT `categoria_receta_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`categoria_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `categoria_receta_ibfk_1` FOREIGN KEY (`recetas_id`) REFERENCES `recetas` (`recetas_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `condicion_prexistente_perfil`
+--
+ALTER TABLE `condicion_prexistente_perfil`
+  ADD CONSTRAINT `condicion_prexistente_perfil_ibfk_2` FOREIGN KEY (`condicion_id`) REFERENCES `condicion_prexistente` (`condicion_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `condicion_prexistente_perfil_ibfk_1` FOREIGN KEY (`perfil_id`) REFERENCES `perfil_usuario` (`perfil_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `condicion_receta`
+--
+ALTER TABLE `condicion_receta`
+  ADD CONSTRAINT `condicion_receta_ibfk_2` FOREIGN KEY (`condicion_id`) REFERENCES `condicion_prexistente` (`condicion_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `condicion_receta_ibfk_1` FOREIGN KEY (`recetas_id`) REFERENCES `recetas` (`recetas_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `condimentos_receta`
+--
+ALTER TABLE `condimentos_receta`
+  ADD CONSTRAINT `condimentos_receta_ibfk_2` FOREIGN KEY (`condimentos_id`) REFERENCES `condimentos` (`condimentos_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `condimentos_receta_ibfk_1` FOREIGN KEY (`recetas_id`) REFERENCES `recetas` (`recetas_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `dieta_receta`
+--
+ALTER TABLE `dieta_receta`
+  ADD CONSTRAINT `dieta_receta_ibfk_2` FOREIGN KEY (`dieta_id`) REFERENCES `dietas` (`dieta_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `dieta_receta_ibfk_1` FOREIGN KEY (`recetas_id`) REFERENCES `recetas` (`recetas_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `ingredientes_receta`
+--
+ALTER TABLE `ingredientes_receta`
+  ADD CONSTRAINT `ingredientes_receta_ibfk_3` FOREIGN KEY (`nivel_id`) REFERENCES `nivel_alimenticio` (`nivel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ingredientes_receta_ibfk_1` FOREIGN KEY (`recetas_id`) REFERENCES `recetas` (`recetas_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ingredientes_receta_ibfk_2` FOREIGN KEY (`ingredientes_id`) REFERENCES `ingredientes` (`ingredientes_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `perfil_usuario`
+--
+ALTER TABLE `perfil_usuario`
+  ADD CONSTRAINT `perfil_usuario_ibfk_3` FOREIGN KEY (`rutina_id`) REFERENCES `rutinas` (`rutina_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `perfil_usuario_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `perfil_usuario_ibfk_2` FOREIGN KEY (`dieta_id`) REFERENCES `dietas` (`dieta_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `preferencias_alimenticias_usuario`
+--
+ALTER TABLE `preferencias_alimenticias_usuario`
+  ADD CONSTRAINT `preferencias_alimenticias_usuario_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `preferencias_alimenticias_usuario_ibfk_1` FOREIGN KEY (`ingredientes_id`) REFERENCES `ingredientes` (`ingredientes_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `promedio_calificacion`
+--
+ALTER TABLE `promedio_calificacion`
+  ADD CONSTRAINT `promedio_calificacion_ibfk_1` FOREIGN KEY (`recetas_id`) REFERENCES `recetas` (`recetas_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
