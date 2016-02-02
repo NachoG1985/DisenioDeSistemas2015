@@ -1703,7 +1703,7 @@ public class ConsultorBaseDeDatos {
 //*********************Funciones UPDATE***********************************
 
 	 //dado un usuario permite modificar el perfil
-	 public void actualizarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina,String condicion) {
+	 public void actualizarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina/*,String condicion*/) {
 		 int usu,diet,routine,cond;
 		 Connection cn = null;
 		 CallableStatement cst = null;
@@ -1713,7 +1713,7 @@ public class ConsultorBaseDeDatos {
 			 usu = obtenerIDUsuario(usuario, cn, cst);
 			 diet = obtenerIDDieta(dieta, cn, cst);
 			 routine = obtenerIDRutina(rutina, cn, cst);
-			 cond = obtenerIDCondicion(condicion, cn, cst);
+			 //cond = obtenerIDCondicion(condicion, cn, cst);
 		           	           
 			 cst = cn.prepareCall("{call modificarPerfilUsuario(?,?,?,?,?,?,?,?,?,?)}");
 			 cst.setString(1,nombre);
@@ -1724,7 +1724,7 @@ public class ConsultorBaseDeDatos {
 			 cst.setString(6,complexion);
 			 cst.setInt(7,diet);
 			 cst.setInt(8,routine);
-			 cst.setInt(9,cond);
+			 //cst.setInt(9,cond);
 			 cst.setInt(10,usu);
 			 cst.executeUpdate();
 		            

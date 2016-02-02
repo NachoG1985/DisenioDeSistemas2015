@@ -99,7 +99,10 @@
 </nav>
 <%PerfilUsuario perfil = usuario.getPerfil(); %>
 
-<form id="registro" action="../Logica/actualizarPerfilenDB.jsp" method="POST" class="form-horizontal">
+<div class="row">
+		<div class="col-md-6">
+
+	<form id="registro" action="../Logica/actualizarPerfilenDB.jsp" method="POST" class="form-horizontal">
 				
 				<div class="form-group">
 					<label for="nombreYApellido" class="col-lg-4 control-label">Nombre y Apellido</label>

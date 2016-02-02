@@ -4,6 +4,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.HashSet" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -27,28 +28,18 @@
 			String dieta = request.getParameter("dieta");
 			
 			String condiciones[] = request.getParameterValues("condicionPreexistente");
-			String condicionesDB = "";
+
+			HashSet<String> condicionesUsuario = new HashSet<String>();
 			
-			if(condiciones!= null && condiciones.length > 0)
-			{
-				for(int i = 0; i < condiciones.length; i++)
-				{
-					if(i > 0)
-						condicionesDB = condicionesDB + "_";
-					
-					condicionesDB = condicionesDB + condiciones[i];					
-				}
-			}
-			else{
-				condicionesDB = "Nada";
-			}
+			for(int i = 0; i < condiciones.length; i++)
+				condicionesUsuario.add(condiciones[i]);
 			
 			String rutina = request.getParameter("rutina");
 			String complexion = request.getParameter("complexion");
 			
 			//Se crea el objeto del tipo perfil de usuario
-			PerfilUsuario nuevoPerfil = new PerfilUsuario(nombre, apellido, sexo, edad, altura, complexion, dieta, null, rutina, condicionesDB);
-			
+			PerfilUsuario nuevoPerfil = new PerfilUsuario(nombre, apellido, sexo, edad, altura, complexion, dieta, null, rutina, condicionesUsuario);
+
 			//Le agrego al usuario el perfil cargado
 			nuevoUsuario.setPerfil(nuevoPerfil);
 			
@@ -56,7 +47,7 @@
 			
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 			
-			consultor.actualizarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina, condicionesDB);
+			consultor.actualizarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina/*, condicionesDB*/);
 			
 			consultor.desconectar();
 			
