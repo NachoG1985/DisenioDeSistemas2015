@@ -5,6 +5,7 @@
 <%@ page import="clases.IngredienteEnReceta" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="java.util.HashSet" %>
+<%@ page import="clases.Usuario" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -50,6 +51,9 @@ function validateForm() {
 </script>
   </head>
   <body> 
+  	<%
+		Usuario usuario = (Usuario)session.getAttribute("usuario");	
+	%>
     <!-- Librería jQuery requerida por los plugins de JavaScript -->
     <script src="http://code.jquery.com/jquery.js"></script>
  
@@ -86,7 +90,7 @@ function validateForm() {
         </a>
         <ul class="dropdown-menu">
           <li><a href="consultar_bootstrap.jsp">Consultar Recetas</a></li>
-          <li><a href="cargarDatosReceta_bootstrap.html">Subir Receta</a></li>
+          <li><a href="cargarDatosReceta_bootstrap.jsp">Subir Receta</a></li>
 		  <li><a href="#">Recibir Recomendaciones</a></li>
         </ul>
       </li>
@@ -102,7 +106,11 @@ function validateForm() {
 	  <!-- DESPLEGABLE DEL USUARIO-->
 	  <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          Usuario <b class="caret"></b>
+         <span class="glyphicon glyphicon-user"></span>
+        	<%
+        		out.println(usuario.getNombreUsuario());    	
+        	%>
+		 <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li><a href="perfil_bootstrap.jsp">Ver Perfil</a></li>
