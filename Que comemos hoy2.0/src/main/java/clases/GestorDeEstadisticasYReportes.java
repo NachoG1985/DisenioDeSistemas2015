@@ -1,5 +1,6 @@
 package clases;
 
+import java.sql.Timestamp;
 
 public class GestorDeEstadisticasYReportes
 {
@@ -33,42 +34,27 @@ public class GestorDeEstadisticasYReportes
 			tipo = new ReporteRecetasPorCalorias(valorInicial,valorFin);
 		}
 		
-		public void setTipoRecetasConsultadas(){
-			tipo = new ReporteRecetasConsultadas();
+		public void setTipoRecetasConsultadas(Timestamp inicio, Timestamp fin,String nombre){
+			tipo = new ReporteRecetasConsultadas(inicio,fin,nombre);
 		}
 				
 		public void setTipoRecetasNuevas(){
 			tipo = new ReporteRecetasNuevas();
 		}
 		
-		// tipo de estadisticas mensuales
+		// tipo de estadisticas 
 		
 
-		public void setTipoSexoMes(String sexo) {
-			tipo = new EstadisticaSexoMes(sexo);
-		}
-		
-		public void setTipoDificultadMes() {
-			tipo = new EstadisticaDificultadMes();
-		}
-		
-		public void setTipoRankingMes() {
-			tipo = new EstadisticaRankingMes();
-		}
-
-		// tipo de estadisticas semanales
-		
-
-		public void setTipoSexoSemana(String sexo) {
-			tipo = new EstadisticaSexoSemana(sexo);
+		public void setTipoSexo(String sexo,Timestamp inicio, Timestamp fin) {
+			tipo = new EstadisticaSexo(sexo,inicio,fin);
 		}
 				
-		public void setTipoDificultad() {
-			tipo = new EstadisticaDificultadSemana();
+		public void setTipoDificultad(Timestamp fechaInicio,Timestamp fechaFin) {
+			tipo = new EstadisticaDificultad(fechaInicio,fechaFin);
 		}
 				
-		public void setTipoRankingSemana() {
-			tipo = new EstadisticaRankingSemana();
+		public void setTipoRanking(Timestamp inicio, Timestamp fin) {
+			tipo = new EstadisticaRanking(inicio,fin);
 		}
 		
 		

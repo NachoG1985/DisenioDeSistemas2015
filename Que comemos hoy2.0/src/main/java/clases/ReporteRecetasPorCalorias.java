@@ -4,45 +4,38 @@ import java.util.*;
 
 public class ReporteRecetasPorCalorias implements Tipo
 {
-	public int inicio;
-	public int fin;
+	public double inicio;
+	public double fin;
 	
 		
-	public ReporteRecetasPorCalorias(int inicio, int fin) {
+	public ReporteRecetasPorCalorias(double inicio, double fin) {
 		setInicio(inicio);
 		setFin(fin);
 	}
 
 
-	public int getInicio() {
+	public double getInicio() {
 		return inicio;
 	}
 
-
-	public void setInicio(int inicio) {
+	public void setInicio(double inicio) {
 		this.inicio = inicio;
 	}
 
 
-	public int getFin() {
+	public double getFin() {
 		return fin;
 	}
 
-
-	public void setFin(int fin) {
+	public void setFin(double fin) {
 		this.fin = fin;
 	}
 
 
 	public void generar()
 	{
-		Set<Receta> recetas = new HashSet<Receta>();// reemplazar por = ConsultorBaseDeDatos.getInstance().consultaCorrespondiente() cuando este la consulta
-		Iterator<Receta> iterator = recetas.iterator();
-		while(iterator.hasNext()) 
-		{
-			Receta elemento = iterator.next();
-			elemento.mostrarReceta();
-		}
+		HashSet<Receta> recetas = ConsultorBaseDeDatos.getInstance().recetaSegunRangoCalorias(inicio, fin);
+		
 	}
 
 }

@@ -1,23 +1,61 @@
 package clases;
 
 import java.util.*;
+import java.sql.Timestamp;
 
 public class ReporteRecetasConsultadas implements Tipo
 {
-	public ReporteRecetasConsultadas(){
+	Timestamp fechaInicio;
+	Timestamp fechaFin;
+	String nombreUsuario;
 		
+	public ReporteRecetasConsultadas(Timestamp inicio, Timestamp fin,String nombre) {
+		setFechaInicio(inicio);
+		setFechaFin(fin);
+		setNombreUsuario(nombre);
 	}
+
+
+	public Timestamp getFechaInicio() {
+		return fechaInicio;
+	}
+
+
+
+
+	public void setFechaInicio(Timestamp fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+
+
+
+	public Timestamp getFechaFin() {
+		return fechaFin;
+	}
+
+
+
+
+	public void setFechaFin(Timestamp fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+
+
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+
+
 	// agregar periodo de tiempo
  	public void generar()
 	{
- 		Set<Receta> recetas = new HashSet<Receta>();// reemplazar por = ConsultorBaseDeDatos.getInstance().consultaCorrespondiente() cuando este la consulta
-		Iterator<Receta> iterador = recetas.iterator();
-		Receta receta;
-		while (iterador.hasNext())
-		{
-			receta = iterador.next();
-			receta.mostrarReceta();
-		}
+ 		ArrayList<Receta> recetas = ConsultorBaseDeDatos.getInstance().recetaMasConsultada(fechaInicio, fechaFin, nombreUsuario);
+		
 	}
 
 }
