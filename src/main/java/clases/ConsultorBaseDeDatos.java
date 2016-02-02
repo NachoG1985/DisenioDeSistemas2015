@@ -248,7 +248,7 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 
-	 public void insertarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina,String condicion) {
+	 public void insertarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina/*,String condicion*/) {
 		 	ResultSet data;
 		 	int resultado=0;
 		 	int usu,diet,routine,cond;
@@ -260,7 +260,7 @@ public class ConsultorBaseDeDatos {
 	        	 usu = obtenerIDUsuario(usuario, cn, cst);
 	        	 diet = obtenerIDDieta(dieta, cn, cst);
 	        	 routine = obtenerIDRutina(rutina, cn, cst);
-	        	 cond = obtenerIDCondicion(condicion, cn, cst);
+	        	 //cond = obtenerIDCondicion(condicion, cn, cst);
 	           	           
 	             cst = cn.prepareCall("{call insertarPerfil(?,?,?,?,?,?,?,?,?,?)}");
 	             cst.setInt(1,usu);
@@ -272,7 +272,7 @@ public class ConsultorBaseDeDatos {
 	             cst.setString(7,complexion);
 	             cst.setInt(8,diet);
 	             cst.setInt(9,routine);
-	             cst.setInt(10,cond);
+	             //cst.setInt(10,cond);
 	             cst.executeUpdate();
 	                   
 	             cn.close();   
