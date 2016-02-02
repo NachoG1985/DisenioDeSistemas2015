@@ -95,10 +95,17 @@
   </div>
 </nav>
 
-	<h1 class="text-primary text-left col-md-offset-1">Perfil de: <small><% out.println(usuario.getNombreUsuario()); %></small></h1>
+	<div class="row">
+
+		<div class="col-md-5  col-md-offset-1">
+			<h1 class="text-primary text-left">Perfil de: <small><% out.println(usuario.getNombreUsuario()); %></small></h1>
+		</div>
 	
-	<a class="btn btn-primary btn-sm col-md-1" href="actualizarPerfil.jsp"  role="button">Actualizar<span class="glyphicon glyphicon-ok"></span></a>
+		<div class="col-md-5  col-md-offset-1">
+			<a class="btn btn-primary btn-sm col-md-1" href="actualizarPerfil.jsp"  role="button">Actualizar<span class="glyphicon glyphicon-ok"></span></a>
+		</div>
 	
+	</div>
 	<hr>
 	
 	<div class="row">
