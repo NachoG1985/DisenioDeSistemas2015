@@ -19,7 +19,7 @@
 		
 		nombreCondimento = request.getParameter("nombreCondimento");
 
-		nuevoCondimento = new Condimento(nombreCondimento, "");
+		nuevoCondimento = new Condimento(nombreCondimento);
 		
 		nuevaReceta.agregarCondimento(nuevoCondimento);
 		
@@ -28,7 +28,7 @@
 		if(origen.equals("Agregar"))
 			response.sendRedirect("../cargarCondimentosReceta_bootstrap.jsp?inicial=a");
 		else
-			response.sendRedirect("../cargarPasosReceta_bootstrap.html");
+			response.sendRedirect("../cargarPasosReceta_bootstrap.jsp");
 		
 	%>
 

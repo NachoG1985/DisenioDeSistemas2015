@@ -1,6 +1,8 @@
 <%@ page import="clases.Usuario" %>
 
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="es">
   <head>
     <meta charset="utf-8">
@@ -11,7 +13,7 @@
     <!-- CSS de Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
  
-    <!-- librerÃ­as opcionales que activan el soporte de HTML5 para IE8 -->
+    <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -19,31 +21,34 @@
 
   </head>
   <body> 
-    <!-- LibrerÃ­a jQuery requerida por los plugins de JavaScript -->
+  <%
+		Usuario usuario = (Usuario)session.getAttribute("usuario");	
+	%>
+    <!-- Librería jQuery requerida por los plugins de JavaScript -->
     <script src="http://code.jquery.com/jquery.js"></script>
  
-    <!-- Todos los plugins JavaScript de Bootstrap (tambiÃ©n puedes
-         incluir archivos JavaScript individuales de los Ãºnicos
+    <!-- Todos los plugins JavaScript de Bootstrap (también puedes
+         incluir archivos JavaScript individuales de los únicos
          plugins que utilices) -->
     <script src="js/bootstrap.min.js"></script>
 	
 <!-- BARRA DE NAVEGACION SUPERIOR -->
 	
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <!-- El logotipo y el icono que despliega el menÃº se agrupan
-       para mostrarlos mejor en los dispositivos mÃ³viles -->
+  <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse"
             data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Desplegar navegaciÃ³n</span>
+      <span class="sr-only">Desplegar navegación</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="home_bootstrap.jsp">Â¿QuÃ© comemos hoy?</a>
+    <a class="navbar-brand" href="home_bootstrap.jsp">¿Qué comemos hoy?</a>
   </div>
  
-  <!-- Agrupar los enlaces de navegaciÃ³n, los formularios y cualquier
+  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
        otro elemento que se pueda ocultar al minimizar la barra -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav navbar-right" style="margin-right:1%">
@@ -71,7 +76,11 @@
 	  <!-- DESPLEGABLE DEL USUARIO-->
 	  <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          Usuario <b class="caret"></b>
+         <span class="glyphicon glyphicon-user"></span>
+        	<%
+        		out.println(usuario.getNombreUsuario());    	
+        	%>
+		 <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li><a href="perfil_bootstrap.jsp">Ver Perfil</a></li>
@@ -88,9 +97,9 @@
 	<div class="row">
 		<div class="col-md-6">
 		
-		<h1 class="text-primary text-center"> Ãšltimo paso: Procedimiento de la receta </h1><br>
+		<h1 class="text-primary text-center"> Último paso: Procedimiento de la receta </h1><br>
 		
-		<p class="text-info col-md-offset-2">Para cada uno de los pasos seleccione una imagen que lo represente y agreguele un pequeÃ±o pÃ¡rrafo explicativo.</p>
+		<p class="text-info col-md-offset-2">Para cada uno de los pasos seleccione una imagen que lo represente y agreguele un pequeño párrafo explicativo.</p>
 		
 		
 			<form id="registro" action="../Logica/cargarProcedimientoReceta.jsp" method="post" enctype="multipart/form-data" class="form-horizontal">
