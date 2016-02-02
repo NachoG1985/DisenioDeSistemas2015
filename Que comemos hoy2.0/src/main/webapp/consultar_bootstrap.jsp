@@ -139,10 +139,10 @@
 								<input type="text" class="form-control center-block " name="condimento" placeholder="Condimento">
 								<div class="row">
 									<div class="col-md-6">
-										<input type="number" min="0" max="10000" step="0.01" class="form-control center-block " name="CaloriasMin" placeholder="Calorias Minimas">
+										<input type="number" min="0" max="10000" step="0.01" class="form-control center-block " name="CaloriasMin" placeholder="Calorias Min">
 									</div>
 									<div class="col-md-6">
-										<input type="number"  min="0" max="10000" step="0.01" class="form-control center-block " name="CaloriasMax" placeholder="Calorias Maximas">
+										<input type="number"  min="0" max="10000" step="0.01" class="form-control center-block " name="CaloriasMax" placeholder="Calorias Max">
 									</div>
 								</div>
 								<input type="number" min="1" max="5" class="form-control center-block " name="calificacion" placeholder="Calificacion" disabled>
@@ -250,7 +250,7 @@
 				out.println("<h3 class=\"text-primary\">" + aux.getNombre() +"</h3>");
 						
 				out.println("<h5 >Dificultad: " + aux.getDificultad() + "</h5>");
-				out.println("<h5 >Calorï¿½as: " + aux.getCaloriasTotales() + "</h5>");
+				out.println("<h5 >Calorias: " + aux.getCaloriasTotales() + "</h5>");
 						
 				out.println("<h5>" + aux.getNombreIngredientePrincipal()+ "</h5>");
 				/*
@@ -267,8 +267,7 @@
 						out.println("</div>");
 				}*/
 						
-				out.println("<a class=\"btn btn-primary btn-sm btn-block\" href=\"verReceta_bootstrap.jsp?receta=" + aux.getNombre() + " role=\"button\">"
-						+ "Ver mï¿½s <span class=\"glyphicon glyphicon-cutlery\"></span></a>");
+				out.println("<a class=\"btn btn-primary btn-sm btn-block\" href=\"verReceta_bootstrap.jsp?receta=" + aux.getNombre() + " \" role=\"button\">  Ver más <span class=\"glyphicon glyphicon-cutlery\"></span></a>");
 						out.println("</div>");
 						out.println("</div>");
 						out.println("</div>");
