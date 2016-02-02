@@ -171,7 +171,16 @@
 			</div>
 			
 			<div class="col-md-5">
-				<h3 class="text-primary text-left">Calificación: <small><%out.println(consultor.obtenerCalificacionReceta(receta.getNombre()));%></small></h3>
+				<h3 class="text-primary text-left">Calificación: <small>
+				
+				<%
+				float calificacion = consultor.obtenerCalificacionReceta(receta.getNombre());
+				if(calificacion > 0)
+					out.println(calificacion);
+				else
+					out.println("Sin calificar");	%>
+
+				</small></h3>
 			</div>
 		
 		</div>

@@ -181,7 +181,7 @@
 	
 	consultor.desconectar();
 	
-	response.sendRedirect("../home_bootstrap.jsp");
+	response.sendRedirect("../verReceta_bootstrap.jsp?receta=" + nuevaReceta.getNombre());
 	
 	%>
 

@@ -97,6 +97,8 @@
 
 	<h1 class="text-primary text-left col-md-offset-1">Perfil de: <small><% out.println(usuario.getNombreUsuario()); %></small></h1>
 	
+	<a class="btn btn-primary btn-sm col-md-1" href="actualizarPerfil.jsp"  role="button">Actualizar<span class="glyphicon glyphicon-ok"></span></a>
+	
 	<hr>
 	
 	<div class="row">

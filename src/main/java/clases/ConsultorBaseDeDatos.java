@@ -1272,7 +1272,7 @@ public class ConsultorBaseDeDatos {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
-		 float resultado= 5;
+		 float resultado= 0;
 		 	 		 
 		 try {
 			 cn = getConexion(dbUrl, username, password);
@@ -1281,8 +1281,8 @@ public class ConsultorBaseDeDatos {
 			 cst.setString(1,nombreReceta);
 			 cst.registerOutParameter("promedio",java.sql.Types.FLOAT );
 			 data = cst.executeQuery();
-			 data.next();
-			 resultado = data.getFloat("promedio");
+			 if(data.next())
+				 resultado = data.getFloat("promedio");
 			 data.close();
 			 cn.close();
 		 }catch (Exception e) {
