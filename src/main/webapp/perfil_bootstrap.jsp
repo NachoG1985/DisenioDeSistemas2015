@@ -95,10 +95,17 @@
   </div>
 </nav>
 
-	<h1 class="text-primary text-left col-md-offset-1">Perfil de: <small><% out.println(usuario.getNombreUsuario()); %></small></h1>
+	<div class="row">
+
+		<div class="col-md-5  col-md-offset-1">
+			<h1 class="text-primary text-left">Perfil de: <small><% out.println(usuario.getNombreUsuario()); %></small></h1>
+		</div>
 	
-	<a class="btn btn-primary btn-sm col-md-1" href="actualizarPerfil.jsp"  role="button">Actualizar<span class="glyphicon glyphicon-ok"></span></a>
+		<div class="col-md-5  col-md-offset-1">
+			<a class="btn btn-primary btn-sm col-md-6" href="actualizarPerfil.jsp"  role="button">Actualizar<span class="glyphicon glyphicon-ok"></span></a>
+		</div>
 	
+	</div>
 	<hr>
 	
 	<div class="row">
@@ -143,7 +150,7 @@
 			<br>
 			<h4 class="text-info text-left">Complexión Física: <small><%out.println(usuario.getPerfil().getComplexion()); %></small></h4>
 			<br>
-			<h4 class="text-info text-left">Rutina de ejercicios: <small>Rutina</small></h4>
+			<h4 class="text-info text-left">Rutina de ejercicios: <small><%out.println(usuario.getPerfil().getRutina()); %></small></h4>
 			<br>
 			<h4 class="text-info text-left">Tipo de Dieta: <small><%out.println(usuario.getPerfil().getDieta()); %></small></h4>
 			<br>

@@ -156,9 +156,10 @@
 	
 	
 	consultor.insertarReceta(nuevaReceta.getNombre(), nuevaReceta.getNombreIngredientePrincipal(), nuevaReceta.getDificultad(), 
-			nuevaReceta.getTemporada(), nuevaReceta.getCategorias(), nuevaReceta.calcularCalorias(), nuevaReceta.getAptaPara(), nuevaReceta.getDietasAptas(), rutas[0]);
+			nuevaReceta.calcularCalorias(), rutas[0]);
 	
 	consultor.insertarRecUsuario(((Usuario)session.getAttribute("usuario")).getNombreUsuario(), nuevaReceta.getNombre());
+	
 	
 	Iterator<IngredienteEnReceta> it = nuevaReceta.getIngredientes().iterator();
 	
@@ -178,6 +179,27 @@
 		consultor.insertarCondimentoReceta(nuevaReceta.getNombre(), condimento.getNombreCondimento());
 		
 	}
+	
+	Iterator<String> iterador = nuevaReceta.getTemporada().iterator();
+	
+	while(iterador.hasNext())
+		consultor.insertarTemporadaReceta(nuevaReceta.getNombre(), iterador.next());
+	
+	iterador = nuevaReceta.getCategorias().iterator();
+	
+	while(iterador.hasNext())
+		consultor.insertarCategoriaReceta(nuevaReceta.getNombre(), iterador.next());
+	
+	iterador = nuevaReceta.getDietasAptas().iterator();
+	
+	while(iterador.hasNext())
+		consultor.insertarDietaReceta(nuevaReceta.getNombre(), iterador.next());
+	
+	
+	iterador = nuevaReceta.getAptaPara().iterator();
+	
+	while(iterador.hasNext())
+		consultor.insertarCondicionReceta(nuevaReceta.getNombre(), iterador.next());
 	
 	consultor.desconectar();
 	

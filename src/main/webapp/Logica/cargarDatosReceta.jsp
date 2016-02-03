@@ -29,12 +29,7 @@
 		String categorias[];
 		String temporadas[];
 		String dietasAptas[];
-		
-		String aptaParaDB = "";
-		String categoriasDB = "";
-		String temporadasDB = "";
-		String dietasAptasDB = "";
-		
+				
 		
 		nombreReceta = request.getParameter("nombreReceta");
 		dificultad = Integer.parseInt(request.getParameter("dificultad"));
@@ -47,65 +42,21 @@
 		
 		dietasAptas = request.getParameterValues("Dietas");
 		
-		if(aptaPara!= null && aptaPara.length > 0)
-		{
+		nuevaReceta = new Receta(nombreReceta, null, dificultad, 0, "", Date.valueOf(LocalDate.now()));
+		
+		
 			for(int i = 0; i < aptaPara.length; i++)
-			{
-				if(i > 0)
-					aptaParaDB = aptaParaDB + "_";
-				
-				aptaParaDB = aptaParaDB + aptaPara[i];					
-			}
-		}
-		else{
-			aptaParaDB = "Nada";
-		}
-		
-		if(categorias!= null && categorias.length > 0)
-		{
+				nuevaReceta.agregarCondicionApta(aptaPara[i]);	
+			
 			for(int i = 0; i < categorias.length; i++)
-			{
-				if(i > 0)
-					categoriasDB = categoriasDB + "_";
-				
-				categoriasDB = categoriasDB + categorias[i];					
-			}
-		}
-		else{
-			aptaParaDB = "Nada";
-		}
-		
-		if(temporadas!= null && temporadas.length > 0)
-		{
+				nuevaReceta.agregarCategoria(categorias[i]);
+			
 			for(int i = 0; i < temporadas.length; i++)
-			{
-				if(i > 0)
-					temporadasDB = temporadasDB + "_";
-				
-				temporadasDB = temporadasDB + temporadas[i];					
-			}
-		}
-		else{
-			temporadasDB = "Nada";
-		}
-		
-		if(dietasAptas!= null && dietasAptas.length > 0)
-		{
+				nuevaReceta.agregarTemporada(temporadas[i]);
+			
 			for(int i = 0; i < dietasAptas.length; i++)
-			{
-				if(i > 0)
-					dietasAptasDB = dietasAptasDB + "_";
-				
-				dietasAptasDB = dietasAptasDB + dietasAptas[i];					
-			}
-		}
-		else{
-			dietasAptasDB = "Nada";
-		}
-		
-		
-		
-		nuevaReceta = new Receta(nombreReceta, null, dificultad, dietasAptasDB, aptaParaDB, categoriasDB, temporadasDB, 0, "",  Date.valueOf(LocalDate.now()));
+				nuevaReceta.agregarDietaApta(dietasAptas[i]);
+
 		
 		session.setAttribute("receta", (Object)nuevaReceta);
 		
