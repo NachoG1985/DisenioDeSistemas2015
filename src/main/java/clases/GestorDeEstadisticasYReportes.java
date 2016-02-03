@@ -1,8 +1,7 @@
 package clases;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
+import static java.lang.System.out;
 
 
 public class GestorDeEstadisticasYReportes
@@ -16,10 +15,7 @@ public class GestorDeEstadisticasYReportes
 				tipo = tipoNuevo;
 			}
 		
-		public void generarReporteoEstadistica()
-		{ 
-			
-		}
+	
 		
 		public Tipo getTipo() {
 			return tipo;
@@ -28,16 +24,16 @@ public class GestorDeEstadisticasYReportes
 		
 		// tipos de reportes
 	
-		public void setTipoPreferencias() {
+/*		public void setTipoPreferencias() {
 			tipo = new ReportePreferencias();
 		}
-		
+		*/
 		public void setTipoCalorias(int valorInicial,int valorFin)
 		{
 			tipo = new ReporteRecetasPorCalorias(valorInicial,valorFin);
 		}
 		
-		public void setTipoRecetasConsultadas(){
+	/*	public void setTipoRecetasConsultadas(){
 			tipo = new ReporteRecetasConsultadas();
 		}
 				
@@ -73,8 +69,13 @@ public class GestorDeEstadisticasYReportes
 				
 		public void setTipoRankingSemana() {
 			tipo = new EstadisticaRankingSemana();
+		}*/
+		public ArrayList<String> generar(){
+			
+			out.println("guacho");
+			ArrayList<String> resultado = tipo.generar();
+			return resultado;
 		}
-		
 		
 		// FUNCIONES PARA OBTENER LAS FECHAS REQUERIDAS POR LOS REPORTES Y
 		// ESTADISTICAS

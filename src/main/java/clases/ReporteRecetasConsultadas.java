@@ -1,23 +1,68 @@
 package clases;
 
+import static java.lang.System.out;
+import java.sql.Timestamp;
 import java.util.*;
 
-public class ReporteRecetasConsultadas implements Tipo
+public class ReporteRecetasConsultadas //implements Tipo
 {
-	public ReporteRecetasConsultadas(){
-		
+	Timestamp inicio;
+	Timestamp fin;
+	String nombreUsuario;
+	
+	
+	public ReporteRecetasConsultadas(Timestamp inicio, Timestamp fin, String nombreUsuario) {
+		this.inicio = inicio;
+		this.fin = fin;
+		this.nombreUsuario = nombreUsuario;
 	}
-	// agregar periodo de tiempo
- 	public void generar()
+
+
+	public Timestamp getInicio() {
+		return inicio;
+	}
+
+
+	public void setInicio(Timestamp inicio) {
+		this.inicio = inicio;
+	}
+
+
+	public Timestamp getFin() {
+		return fin;
+	}
+
+
+	public void setFin(Timestamp fin) {
+		this.fin = fin;
+	}
+
+
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+
+
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+
+
+	public ArrayList<String> generar()
 	{
- 		Set<Receta> recetas = new HashSet<Receta>();// reemplazar por = ConsultorBaseDeDatos.getInstance().consultaCorrespondiente() cuando este la consulta
-		Iterator<Receta> iterador = recetas.iterator();
-		Receta receta;
-		while (iterador.hasNext())
+		ArrayList<String> datos = new ArrayList<String>();
+		ArrayList<Receta> recetas = ConsultorBaseDeDatos.getInstance().recetaMasConsultada(inicio,fin,nombreUsuario);
+		Iterator<Receta> iterator = recetas.iterator();
+		out.println("guacho");
+		String renglon;
+		while(iterator.hasNext()) 
 		{
-			receta = iterador.next();
-			receta.mostrarReceta();
+			Receta elemento = iterator.next();
+			renglon = elemento.getNombre() /*+" " + Float.toString(elemento.getCaloriasTotales())*/;
+			datos.add(renglon);
+			
 		}
+		return datos;
 	}
 
 }

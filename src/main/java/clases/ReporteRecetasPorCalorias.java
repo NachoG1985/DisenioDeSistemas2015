@@ -1,48 +1,70 @@
 package clases;
 
 import java.util.*;
+import static java.lang.System.out;
 
 public class ReporteRecetasPorCalorias implements Tipo
 {
-	public int inicio;
-	public int fin;
+	public double inicio;
+	public double fin;
 	
 		
-	public ReporteRecetasPorCalorias(int inicio, int fin) {
+	public ReporteRecetasPorCalorias(double inicio,double fin) {
 		setInicio(inicio);
 		setFin(fin);
 	}
 
 
-	public int getInicio() {
+
+
+
+	public double getInicio() {
 		return inicio;
 	}
 
 
-	public void setInicio(int inicio) {
+
+
+
+	public void setInicio(double inicio) {
 		this.inicio = inicio;
 	}
 
 
-	public int getFin() {
+
+
+
+	public double getFin() {
 		return fin;
 	}
 
 
-	public void setFin(int fin) {
+
+
+
+	public void setFin(double fin) {
 		this.fin = fin;
 	}
 
 
-	public void generar()
+
+
+
+	public ArrayList<String> generar()
 	{
-		Set<Receta> recetas = new HashSet<Receta>();// reemplazar por = ConsultorBaseDeDatos.getInstance().consultaCorrespondiente() cuando este la consulta
+		ArrayList<String> datos = new ArrayList<String>();
+		HashSet<Receta> recetas = ConsultorBaseDeDatos.getInstance().recetaSegunCalorias(inicio,fin);
 		Iterator<Receta> iterator = recetas.iterator();
+		out.println("guacho");
+		String renglon;
 		while(iterator.hasNext()) 
 		{
 			Receta elemento = iterator.next();
-			elemento.mostrarReceta();
+			renglon = elemento.getNombre() /*+" " + Float.toString(elemento.getCaloriasTotales())*/;
+			datos.add(renglon);
+			
 		}
+		return datos;
 	}
 
 }

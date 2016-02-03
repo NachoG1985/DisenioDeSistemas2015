@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="clases.*" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -88,95 +90,36 @@
     </ul>
   </div>
 </nav>
-
-
 	<div class="row">
 		<div class="col-md-6">
-		
-		<h1 class="text-primary text-center"> Estadísticas y reportes </h1><br>
-		
-		<h4>
-		<div class="well well-sm"> Estadísticas </div>
-		</h4>
-		<div class="col-md-6 col-md-offset-5">
-					
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Recetas mas consultadas (Según sexo)</button>
-				</div>
-				<div class="col-md-6 col-md-offset-5">
-					<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Consultas según dificultad</button>
-				</div>
-				
-				<div class="col-md-6 col-md-offset-5">
-					<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Ranking recetas mas consultadas</button>
-				</div>
-	
-	    <br><br><br><br><br><br><br>
-		<h4>
-		<div class="well well-sm"> Reportes </div>
-		</h4>		
-				
-					
-				
+		<h1 class="text-primary text-center">Resultado Reporte</h1>
+			<br>			
+		<%
+			GestorDeEstadisticasYReportes gestor = (GestorDeEstadisticasYReportes) session.getAttribute("Gestor");
+			ArrayList<String> resultado = gestor.generar();
+			Iterator<String> iterator = resultado.iterator();
+			String renglon;
+			while(iterator.hasNext())
+			{
+				renglon = iterator.next();
+				out.println("<div class=\"col-md-4 col-md-offset-3\">");
+				out.println("<h2 class=\text-center\">" + renglon + "<h2>");
+				out.println("</div>");
+			}
+			out.println("</div>");
+		%>
 			
-				
-				<div class="col-md-6 col-md-offset-5">
-					<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Preferencias de recetas </button>
-				</div>
-				
-				
-				<div class="col-md-6 col-md-offset-5">
-				<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Recetas consultadas por mi</button>
-				</div>
-				
-				<div class="col-md-6 col-md-offset-5">
-					<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Recetas propuestas por usuarios</button>
-				</div>
-			
-			
-			
-		
-					
-				
-			
-			
-			<form id="reporteCalorias" action="Logica/generarReporteCalorias.jsp"
-				method="POST" class="form-horizontal">
-					
-				<label for="valorMin" class="col-lg-3 control-label">Valor mínimo calorías</label>
-					<div class="col-lg-2">
-					<br>
-						<input type="number" class="form-control" min="0" 
-							name="valorMin" id="valorMin" placeholder="min" required>
-					</div>
-					
-				<label for="numeroSemana" class="col-lg-3 control-label">Valor máximo calorías</label>
-					<div class="col-lg-2">
-					<br>
-						<input type="number" class="form-control" min="0"
-							name="valorMax" id="valorMax" placeholder="max" required>
-					</div>
-							
-				
-				<div class="col-md-6 col-md-offset-5">
-					<br>
-					<button type="submit" name="generarCalorias" value="generarCalorias"
-					 class="btn btn-default btn-primary  btn-block">Recetas según un rango de calorías </button>
-				</div>
-				
-			</form>
-		
-		</div>	
-  
-		<div class="col-md-6 col-md-offset-0">
-			<img src="Imagenes/Contenido estatico/estadisticas.jpg"/>
 		</div>
-  	</div>
-  </body>
-</html>
+	</div>
+	
+	<div class="row">
+	     <form id="reporteCalorias" action="estadisticasYReportes_bootstrap.jsp"
+				method="POST" class="form-horizontal">
+	     <div class="col-md-3 col-md-offset-2">
+					<br>
+					<button type="submit" class="btn btn-default btn-primary  btn-block">Volver</button>
+				</div>
+	   	 </form>
+	</div>
 </body>
 </html>
