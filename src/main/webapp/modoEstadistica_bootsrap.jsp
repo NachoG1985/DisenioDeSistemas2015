@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Modo estadistica</title>
 </head>
 <body>
 <html lang="es">
@@ -89,18 +89,31 @@
   </div>
 </nav>
 
+	<%
+	
+	String estadistica = request.getParameter("boton").toString();
+	session.setAttribute("TipoEst",estadistica);
+	
+	if(estadistica.equals("Recetas mas consultadas (Según sexo)")){
+	String sexo = request.getParameter("sexo").toString();
+	session.setAttribute("Sexo",sexo);
+	}
+
+	%>
 	<div class="row">
 		<div class="col-md-6">
 
 			<h1 class="text-primary text-center">Modalidad</h1>
 			<br>
 
-			<p class="text-left col-md-offset-1">
-				Semanal
-			</p>
+		<h4> Complete los datos y haga click en el botón continuar de la opción que desee.</h4>
+		<br>
+		<h4>
+		<div class="well well-sm"> Semanal </div>
+		</h4>
 			<br>
 			<!-- cambiar aca por la pag q corresponde -->
-			<form id="registro" action="../Logica/ValidarPaginaIngreso.jsp"
+			<form id="registro" action="Logica/generarEstadistica.jsp"
 				method="POST" class="form-horizontal">
 
 				<div class="form-group">
@@ -130,18 +143,27 @@
 				
 				<div class="col-md-4 col-md-offset-5">
 					<br>
-					<button type="submit" name="botonSemanal" value="Continuar"
+					<button type="submit" name="boton" value="Semanal"
 						class="btn btn-default btn-primary  btn-block">Continuar</button>
+						<br>
 				</div>
-				<br><br><br>
-		</form>
-		
-		<form id="registro" action="../Logica/ValidarPaginaIngreso.jsp"
-				method="POST" class="form-horizontal">
-				<p class="text-left col-md-offset-1">
 				
-				Mensual
-			</p>
+		</form>
+		</div>
+		<div class="col-md-4 col-md-offset-0">
+			<img src="Imagenes/Contenido estatico/calendario.png" />
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-6">
+		
+		<form id="registro" action="Logica/generarEstadistica.jsp"
+				method="POST" class="form-horizontal">
+				
+				<h4>
+				<div class="well well-sm"> Mensual </div>
+				</h4>
 				
 				<div class="form-group">
 					<label for="email" class="col-lg-3 control-label">Mes</label>
@@ -162,15 +184,14 @@
 
 				<div class="col-md-4 col-md-offset-5">
 					<br>
-					<button type="submit" name="botonMensual" value="Registrarse"
+					<button type="submit" name="boton" value="Mensual"
 						class="btn btn-default btn-primary  btn-block">Continuar</button>
+					<br>
 				</div>
 			</form>
 		</div>
 
-		<div class="col-md-4 col-md-offset-0">
-			<img src="Imagenes/Contenido estatico/estadisticas.jpg" />
-		</div>
+		
 	</div>
 
 </body>

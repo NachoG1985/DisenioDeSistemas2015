@@ -60,7 +60,7 @@ public class ReporteRecetasPorCalorias implements Tipo
 		while(iterator.hasNext()) 
 		{
 			Receta elemento = iterator.next();
-			renglon = elemento.getNombre() /*+" " + Float.toString(elemento.getCaloriasTotales())*/;
+			renglon = elemento.getNombre() +"    " + Double.toString(elemento.getCaloriasTotales()) + " " + "Cal.";
 			datos.add(renglon);
 			
 		}

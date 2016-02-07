@@ -15,7 +15,7 @@ public class Receta {
 	private ArrayList<PasoDeReceta> procedimiento;
 	private int dificultad;
 	private HashSet<String> temporada;
-	private float caloriasTotales;
+	private double caloriasTotales;
 	private Set<Calificacion> calificaciones;
 	private String nombreCreador;
 	private Date fechaDeCreacion;
@@ -179,11 +179,11 @@ public class Receta {
 		this.temporada = temporada;
 	}
 
-	public float getCaloriasTotales() {
+	public double getCaloriasTotales() {
 		return caloriasTotales;
 	}
 
-	public void setCaloriasTotales(float caloriasTotales) {
+	public void setCaloriasTotales(double caloriasTotales) {
 		this.caloriasTotales = caloriasTotales;
 	}
 

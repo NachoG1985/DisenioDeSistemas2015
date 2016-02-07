@@ -1,25 +1,63 @@
 package clases;
 
 import java.util.*;
+import java.sql.Timestamp;
 
-public class ReportePreferencias //implements Tipo
+public class ReportePreferencias implements Tipo
 {
-	public ReportePreferencias(){
-		
+	Timestamp fechaInicio;
+	Timestamp fechaFin;
+	
+	
+	public ReportePreferencias(Timestamp inicio, Timestamp fin) {
+		fechaInicio = inicio;
+		fechaFin = fin;
 	}
+
 	
+
+
+	public Timestamp getFechaInicio() {
+		return fechaInicio;
+	}
+
+
+
+
+	public void setFechaInicio(Timestamp fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+
+
+
+	public Timestamp getFechaFin() {
+		return fechaFin;
+	}
+
+
+
+
+	public void setFechaFin(Timestamp fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+
+
+
 	
-	//VOLVER A VER LA CONSULTA!!
-	public void generar()
+	public ArrayList<String> generar()
 	{
-		Set<Receta> recetas = new HashSet<Receta>();// reemplazar por = ConsultorBaseDeDatos.getInstance().consultaCorrespondiente() cuando este la consulta
+		ArrayList<String> resultado = new ArrayList<String>();
+		HashSet<Receta> recetas = ConsultorBaseDeDatos.getInstance().recetaSegunPreferenciaPorPeriodo(fechaInicio, fechaFin);
 		Iterator<Receta> iterador = recetas.iterator();
 		Receta receta;
 		while (iterador.hasNext())
 		{
 			receta = iterador.next();
-			receta.mostrarReceta();
+			resultado.add(receta.getNombre());
 		}
+		return resultado;
 	}
 
 }

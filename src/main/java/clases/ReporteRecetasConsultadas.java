@@ -4,7 +4,7 @@ import static java.lang.System.out;
 import java.sql.Timestamp;
 import java.util.*;
 
-public class ReporteRecetasConsultadas //implements Tipo
+public class ReporteRecetasConsultadas implements Tipo
 {
 	Timestamp inicio;
 	Timestamp fin;
@@ -58,7 +58,7 @@ public class ReporteRecetasConsultadas //implements Tipo
 		while(iterator.hasNext()) 
 		{
 			Receta elemento = iterator.next();
-			renglon = elemento.getNombre() /*+" " + Float.toString(elemento.getCaloriasTotales())*/;
+			renglon = elemento.getNombre();
 			datos.add(renglon);
 			
 		}

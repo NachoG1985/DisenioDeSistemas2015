@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Estadísticas y reportes</title>
 </head>
 <body>
 <html lang="es">
@@ -90,7 +91,7 @@
 </nav>
 
 
-	<div class="row">
+<div class="row">
 		<div class="col-md-6">
 		
 		<h1 class="text-primary text-center"> Estadísticas y reportes </h1><br>
@@ -98,84 +99,147 @@
 		<h4>
 		<div class="well well-sm"> Estadísticas </div>
 		</h4>
-		<div class="col-md-6 col-md-offset-5">
-					
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Recetas mas consultadas (Según sexo)</button>
-				</div>
-				<div class="col-md-6 col-md-offset-5">
-					<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Consultas según dificultad</button>
-				</div>
-				
-				<div class="col-md-6 col-md-offset-5">
-					<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Ranking recetas mas consultadas</button>
-				</div>
-	
-	    <br><br><br><br><br><br><br>
-		<h4>
-		<div class="well well-sm"> Reportes </div>
-		</h4>		
-				
-					
-				
-			
-				
-				<div class="col-md-6 col-md-offset-5">
-					<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Preferencias de recetas </button>
-				</div>
-				
-				
-				<div class="col-md-6 col-md-offset-5">
-				<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Recetas consultadas por mi</button>
-				</div>
-				
-				<div class="col-md-6 col-md-offset-5">
-					<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Recetas propuestas por usuarios</button>
-				</div>
-			
-			
-			
 		
-					
+		<div class="col-md-offset-1">
+		<h4>  Seleccione la estadística que desee generar. Una vez seleccionada, tendrá la posibilidad de elegir entre modalidad semanal o mensual </h4>
+		</div>
+		
+			<form id="estadisticas1" action="modoEstadistica_bootsrap.jsp"
+				method="POST" class="form-horizontal">	
 				
-			
-			
-			<form id="reporteCalorias" action="Logica/generarReporteCalorias.jsp"
-				method="POST" class="form-horizontal">
-					
-				<label for="valorMin" class="col-lg-3 control-label">Valor mínimo calorías</label>
-					<div class="col-lg-2">
+				 	
+				 <div class="col-md-offset-6 col-md-3"> 
 					<br>
-						<input type="number" class="form-control" min="0" 
-							name="valorMin" id="valorMin" placeholder="min" required>
-					</div>
-					
-				<label for="numeroSemana" class="col-lg-3 control-label">Valor máximo calorías</label>
-					<div class="col-lg-2">
-					<br>
-						<input type="number" class="form-control" min="0"
-							name="valorMax" id="valorMax" placeholder="max" required>
-					</div>
-							
+					<select name="sexo" class="form-control" >
+  					<option value="masculino">masculino</option>
+  					<option value="masculino">femenino</option>
+					</select>
+					<span class="help-block">Seleccione un sexo</span>
+				 </div> 
+				
+				
+				<div class="col-md-6 col-md-offset-5"> 
+				<br>
+				<button type="submit" name="boton" value="Recetas mas consultadas (Según sexo)" class="btn btn-default btn-primary  btn-block">Recetas mas consultadas (Según sexo)</button>
+				<br>
+				</div>
+		
+			</form>
+			<form id="estadisticas2" action="modoEstadistica_bootsrap.jsp"
+				method="POST" class="form-horizontal">		
+	
+		
 				
 				<div class="col-md-6 col-md-offset-5">
 					<br>
-					<button type="submit" name="generarCalorias" value="generarCalorias"
-					 class="btn btn-default btn-primary  btn-block">Recetas según un rango de calorías </button>
+					<button type="submit" name="boton" value="Consultas según dificultad" class="btn btn-default btn-primary  btn-block">Consultas según dificultad</button>
+					
 				</div>
-				
+					
+			</form>
+			<form id="estadisticas3" action="modoEstadistica_bootsrap.jsp"
+				method="POST" class="form-horizontal">
+				<div class="col-md-6 col-md-offset-5">
+					<br><br>
+					<button type="submit" name="boton" value="Ranking recetas mas consultadas" class="btn btn-default btn-primary  btn-block">Ranking recetas mas consultadas</button>
+					
+				</div>
 			</form>
 		
-		</div>	
-  
-		<div class="col-md-6 col-md-offset-0">
+		</div>
+				
+		<div class="col-md-1 col-md-offset-0">
 			<img src="Imagenes/Contenido estatico/estadisticas.jpg"/>
 		</div>
-  	</div>
+		
+		
+	</div>
+		
+	
+	
+	
+	<div class="row">
+		<div class="col-md-6">
+		<h4>
+		<div class="well well-sm"> Reportes </div>
+		</h4>	
+		
+		<div class="col-md-offset-1">
+		<h4>  Seleccione el reporte que desee generar. Recuerde completar los campos de aquellos reportes que los tengan antes de hacer click </h4>
+		</div>
+			
+		<form id="reportePeriodo" action="seleccionFecha_bootstrap.jsp" method="POST" class="form-horizontal">
+			
+			<div class="col-md-6 col-md-offset-5">
+				<br>
+				<button type="submit" name="boton" value="Preferencias de recetas" class="btn btn-default btn-primary  btn-block">Preferencias de recetas</button>
+				<br>
+			</div>
+		</form>
+		
+		
+		<form id="reportePeriodo" action="Logica/generarReporte.jsp" method="POST" class="form-horizontal">
+			
+			<div class="col-md-6 col-md-offset-5">
+				<br>
+				<button type="submit" name="boton" value="Recetas propuestas por usuarios" class="btn btn-default btn-primary  btn-block">Recetas propuestas por usuarios</button>
+				<br>
+			</div>
+		</form>
+			
+		<form id="reportePeriodo" action="seleccionFecha_bootstrap.jsp" method="POST" class="form-horizontal">
+				
+			<div class="col-md-3 col-md-offset-6"> 
+				<input type="text" name="usuario" class="form-control" placeholder="Nombre Usuario" required>
+				<span class="help-block">Ingrese un usuario</span>
+			</div>
+				
+			<div class="col-md-6 col-md-offset-5">
+				<br>
+					<button type="submit" value="Recetas consultadas por usuario" name="boton" class="btn btn-default btn-primary  btn-block">Recetas consultadas por usuario</button>
+				<br>
+			</div>
+			
+		</form>		
+			
+					
+		<form id="reporteCalorias" action="Logica/generarReporte.jsp" method="POST" class="form-horizontal">
+					
+						
+		<div class="form-group">			
+			
+		<div class="col-md-offset-5"> 
+			<label for="valorInicial" class="col-lg-4 control-label">Rango calorías</label>
+
+		<div class="col-lg-3">
+					<input type="number" class="form-control" min="0" name="valorMin" id="valorMin" placeholder="min" required>
+			<br>
+			</div>
+								
+			<div class="col-lg-3">
+					<input type="number" class="form-control" min="0" name="valorMax" id="valorMax" placeholder="max" required>
+					<br>
+			</div>
+			
+			
+		</div> 
+		
+		</div>	
+						
+		<div class="col-md-6 col-md-offset-5"> 
+					<button type="submit" name="boton" value="Recetas según un rango de calorías" class="btn btn-default btn-primary  btn-block">Recetas según un rango de calorías </button>
+			<br>
+			 </div> 
+			
+			
+		</form>				  
+		
+	<!-- 	<div class="col-md-1" >
+			<img src="Imagenes/Contenido estatico/estadisticas2.jpg"/>
+			</div> -->
+		
+		</div>
+	</div>	
   </body>
 </html>
 </body>

@@ -1,14 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="clases.*" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
-<%@ page import="java.sql.Timestamp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Error</title>
 </head>
 <body>
 <html lang="es">
@@ -93,71 +89,27 @@
   </div>
 </nav>
 	<div class="row">
-		<div class="col-md-6">
-		<%	
-			String tipo = (String) session.getAttribute("TipoRep");
-			ArrayList<String> datos = (ArrayList<String>) session.getAttribute("Reporte");
-			String titulo = "Reporte de " + tipo;
-			out.println("<h1 class=\"text-primary text-center\">" + titulo + "</h1>");
+		<div class="col-md-8">
+
+			<h1 class="text-primary text-center">Error</h1>
+			<br>
 			
-			out.println("<div class=\"well well-sm \">");
-				Date fechaActual = new Date();
-				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-				out.println("<h4>Fecha: ");
-				out.println(formato.format(fechaActual.getTime()));
-				out.println("</h4>");
-				
-				if(tipo.equals("Preferencias de recetas") || tipo.equals("Recetas consultadas por usuario")){
-					Timestamp inicio = (Timestamp) session.getAttribute("FechaInicio");
-					Timestamp fin = (Timestamp) session.getAttribute("FechaFin");
-					out.println("<h4>Periodo: ");
-					out.println(formato.format(inicio.getTime()));
-					out.println(" a ");
-					out.println(formato.format(fin.getTime()));
-					out.println("</h4>");
-				}
-				
-				if(tipo.equals("Recetas consultadas por usuario")){
-					String nombreUsuario = (String) session.getAttribute("Usuario");
-					out.println("<h4>Usuario: " + nombreUsuario + "</h4>");
-				}
-				
-				if(tipo.equals("Recetas según un rango de calorías")){
-					Double minimo = (Double) session.getAttribute("Min");
-					Double maximo = (Double) session.getAttribute("Max");
-					out.println("<h4>");
-					out.println("Rango de calorías: ");
-					out.println(minimo);
-					out.println(" a ");
-					out.println(maximo);
-					out.println("</h4>");
-				}
-				
+			<% 
+			String error = (String) session.getAttribute("Error");
+			out.println("<div class=\"col-md-5 col-md-offset-5\">");
+			out.println("<h4>" + error + "</h4>" );
 			out.println("</div>");
+			%>
 			
-			out.println("<h4>");
-				Iterator<String> iterator = datos.iterator();
-				String renglon;
-				while(iterator.hasNext()){
-					renglon = iterator.next();
-					out.println("<div class=\"col-md-4 col-md-offset-3\">");
-					out.println(renglon);
-					out.println("</div>");
-				}
-			out.println("</h4>");
-		%>
-			
-		</div>
-	</div>
-	
-	<div class="row">
-	     <form id="reporteCalorias" action="estadisticasYReportes_bootstrap.jsp"
-				method="POST" class="form-horizontal">
-	     <div class="col-md-3 col-md-offset-2">
-					<br>
+			<form id="reporteCalorias" action="estadisticasYReportes_bootstrap.jsp"	method="POST" class="form-horizontal">
+	    		 <div class="col-md-2 col-md-offset-5">
+				<br>
 					<button type="submit" class="btn btn-default btn-primary  btn-block">Volver</button>
 				</div>
-	   	 </form>
-	</div>
+		 	</form>	
+		
+		</div>
+	</div>	
+
 </body>
 </html>

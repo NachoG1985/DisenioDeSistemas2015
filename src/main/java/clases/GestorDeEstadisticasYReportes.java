@@ -1,7 +1,7 @@
 package clases;
 import java.sql.Timestamp;
 import java.util.*;
-import static java.lang.System.out;
+
 
 
 public class GestorDeEstadisticasYReportes
@@ -24,55 +24,40 @@ public class GestorDeEstadisticasYReportes
 		
 		// tipos de reportes
 	
-/*		public void setTipoPreferencias() {
-			tipo = new ReportePreferencias();
+		public void setTipoPreferencias(Timestamp inicio, Timestamp fin) {
+			tipo = new ReportePreferencias(inicio,fin);
 		}
-		*/
-		public void setTipoCalorias(int valorInicial,int valorFin)
+		
+		public void setTipoCalorias(double valorInicial,double valorFin)
 		{
 			tipo = new ReporteRecetasPorCalorias(valorInicial,valorFin);
 		}
 		
-	/*	public void setTipoRecetasConsultadas(){
-			tipo = new ReporteRecetasConsultadas();
+		public void setTipoRecetasConsultadas(Timestamp inicio, Timestamp fin, String nombreUsuario){
+			tipo = new ReporteRecetasConsultadas(inicio,fin,nombreUsuario);
 		}
 				
 		public void setTipoRecetasNuevas(){
 			tipo = new ReporteRecetasNuevas();
 		}
 		
-		// tipo de estadisticas mensuales
+		// tipo de estadisticas  */
 		
 
-		public void setTipoSexoMes(String sexo) {
-			tipo = new EstadisticaSexoMes(sexo);
-		}
-		
-		public void setTipoDificultadMes() {
-			tipo = new EstadisticaDificultadMes();
-		}
-		
-		public void setTipoRankingMes() {
-			tipo = new EstadisticaRankingMes();
-		}
-
-		// tipo de estadisticas semanales
-		
-
-		public void setTipoSexoSemana(String sexo) {
-			tipo = new EstadisticaSexoSemana(sexo);
+		public void setTipoSexo(Timestamp inicio, Timestamp fin, String unSexo) {
+			tipo = new EstadisticaSexo(inicio,fin,unSexo);
 		}
 				
-		public void setTipoDificultad() {
-			tipo = new EstadisticaDificultadSemana();
+		public void setTipoDificultad(Timestamp inicio,Timestamp fin) {
+			tipo = new EstadisticaDificultad(inicio,fin);
 		}
 				
-		public void setTipoRankingSemana() {
-			tipo = new EstadisticaRankingSemana();
-		}*/
+		public void setTipoRanking(Timestamp inicio,Timestamp fin) {
+			tipo = new EstadisticaRanking(inicio,fin);
+		}
+		
+
 		public ArrayList<String> generar(){
-			
-			out.println("guacho");
 			ArrayList<String> resultado = tipo.generar();
 			return resultado;
 		}
@@ -157,6 +142,27 @@ public class GestorDeEstadisticasYReportes
 
 		}
 		
+		public Boolean comprobarPeriodo(Timestamp comienzo,Timestamp fin)
+		{
+			Boolean comprobar = comienzo.after(fin) || comienzo.getTime() == fin.getTime();
+			return comprobar;
+		}
 		
+		public Boolean comprobarUsuario(String nombreUsuario){
+			Boolean resultado;
+			Usuario usuario = ConsultorBaseDeDatos.getInstance().consultarUsuario(nombreUsuario);
+			if(usuario == null)
+			{
+				resultado = true;
+			}
+			else{
+				resultado = false;
+			}
+			return resultado;
+		}
+		
+		public Boolean comprobarRangoCalorias(Double inicio,Double fin){
+			return inicio > fin;
+		}
 }
 

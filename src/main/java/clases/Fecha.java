@@ -1,5 +1,8 @@
 package clases;
 
+import java.sql.Timestamp;
+import java.util.*;
+
 public class Fecha {
 	private int dia;
 	private int mes;
@@ -36,6 +39,15 @@ public class Fecha {
 		this.anio = anio;
 	}
 	
-	
+	public Date ADate(){
+		Date nuevaFecha;
+		Calendar calendario = new GregorianCalendar();
+		calendario.set(Calendar.MONTH, mes - 1);
+		calendario.set(Calendar.YEAR, anio);
+		calendario.set(Calendar.DAY_OF_MONTH,dia);
+		nuevaFecha = calendario.getTime();
+		return nuevaFecha;
+	}
+
 
 }

@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="clases.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
-<%@ page import="java.sql.Timestamp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -92,72 +89,76 @@
     </ul>
   </div>
 </nav>
-	<div class="row">
-		<div class="col-md-6">
-		<%	
-			String tipo = (String) session.getAttribute("TipoRep");
-			ArrayList<String> datos = (ArrayList<String>) session.getAttribute("Reporte");
-			String titulo = "Reporte de " + tipo;
-			out.println("<h1 class=\"text-primary text-center\">" + titulo + "</h1>");
-			
-			out.println("<div class=\"well well-sm \">");
-				Date fechaActual = new Date();
-				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-				out.println("<h4>Fecha: ");
-				out.println(formato.format(fechaActual.getTime()));
-				out.println("</h4>");
-				
-				if(tipo.equals("Preferencias de recetas") || tipo.equals("Recetas consultadas por usuario")){
-					Timestamp inicio = (Timestamp) session.getAttribute("FechaInicio");
-					Timestamp fin = (Timestamp) session.getAttribute("FechaFin");
-					out.println("<h4>Periodo: ");
-					out.println(formato.format(inicio.getTime()));
-					out.println(" a ");
-					out.println(formato.format(fin.getTime()));
-					out.println("</h4>");
-				}
-				
-				if(tipo.equals("Recetas consultadas por usuario")){
-					String nombreUsuario = (String) session.getAttribute("Usuario");
-					out.println("<h4>Usuario: " + nombreUsuario + "</h4>");
-				}
-				
-				if(tipo.equals("Recetas según un rango de calorías")){
-					Double minimo = (Double) session.getAttribute("Min");
-					Double maximo = (Double) session.getAttribute("Max");
-					out.println("<h4>");
-					out.println("Rango de calorías: ");
-					out.println(minimo);
-					out.println(" a ");
-					out.println(maximo);
-					out.println("</h4>");
-				}
-				
-			out.println("</div>");
-			
-			out.println("<h4>");
-				Iterator<String> iterator = datos.iterator();
-				String renglon;
-				while(iterator.hasNext()){
-					renglon = iterator.next();
-					out.println("<div class=\"col-md-4 col-md-offset-3\">");
-					out.println(renglon);
-					out.println("</div>");
-				}
-			out.println("</h4>");
+
+<div class="row">
+	<div class="col-md-6">
+		
+		<%
+		String origen =  request.getParameter("boton").toString();
+		session.setAttribute("TipoRep",origen);
+		if(origen.equals("Recetas consultadas por usuario")){
+		String nombreUsuario = request.getParameter("usuario");
+		session.setAttribute("Usuario",nombreUsuario);
+		}
 		%>
+		<h1 class="text-primary text-center"> Ingrese un periodo de tiempo </h1><br>
+		<div class="col-md-offset-1">
+		<h4>  Complete las fechas entre las cuales quiere generar el reporte y luego seleccione el reporte a generar </h4>
+		<br>
+		</div>
+		
+		<form id="estadisticas2" action="Logica/generarReporteTemporal.jsp"	method="POST" class="form-horizontal">			
+		
+		<div class="form-group">	
+			<label for="diaInicio" class="col-lg-3 control-label">Fecha de inicio</label>
+			
+			<div class="col-lg-2">		
+				<input type="number" class="form-control" min="1" max="31" name="diaInicio" id="diaInicio" placeholder="dd" required>
+			</div>
+				
+			<div class="col-lg-2">
+					<input type="number" class="form-control" min="1" max="12" name="mesInicio" id="mesInicio" placeholder="mm" required>
+			</div>
+					
+			<div class="col-lg-2">
+					<input type="number" class="form-control" min="1940" max="2016"	name="anioInicio" id="anioInicio" placeholder="aaaa" required>
+					<%
+				    /*  Calendar calendario = Calendar.getInstance();
+						String anioActual = Integer.toString(calendario.get(Calendar.YEAR));
+						String anio = "<input type=\"number\" class=\"form-control\" min=\"1940\" max=\"" + anioActual +"\"" + "name=\"anioInicio\" id=\"anioInicio\" placeholder=\"aaaa\" required>";
+						out.println(anio); */
+					%>
+			</div>
+		</div>
+			
+		<div class="form-group">
+				
+			<label for="valorMin" class="col-lg-3 control-label">Fecha de fin </label>
+				
+			<div class="col-lg-2">
+					<input type="number" class="form-control" min="1" max="31" name="diaFin" id="diaFin" placeholder="dd" required>
+			</div>
+			
+			<div class="col-lg-2">
+					<input type="number" class="form-control" min="1" max="12" name="mesFin" id="mesFin" placeholder="mm" required>
+			</div>
+					
+			<div class="col-lg-2">
+					<input type="number" class="form-control" min="1940" max="2016"	name="anioFin" id="anioFin" placeholder="aaaa" required>
+					<%
+					//out.println(anio);
+					%>
+		    </div>
 			
 		</div>
-	</div>
+				
 	
-	<div class="row">
-	     <form id="reporteCalorias" action="estadisticasYReportes_bootstrap.jsp"
-				method="POST" class="form-horizontal">
-	     <div class="col-md-3 col-md-offset-2">
-					<br>
-					<button type="submit" class="btn btn-default btn-primary  btn-block">Volver</button>
-				</div>
-	   	 </form>
-	</div>
+		<div class="col-md-6 col-md-offset-5">
+					<br><br>
+			<button  type="submit" name="boton" value="generarReporte" class="btn btn-default btn-primary  btn-block" onClick=""> Generar reporte </button>
+		</div>
+	</div>		
+</div>
+		</form>
 </body>
 </html>
