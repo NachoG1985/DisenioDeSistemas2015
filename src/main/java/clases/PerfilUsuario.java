@@ -15,14 +15,14 @@ public class PerfilUsuario{
 	private double altura;
 	private String complexion;
 	private String dieta;
-	String[] preferencias;
+	private HashSet<String> preferencias;
 	private String rutina;
 	private ArrayList<Object> condicionPreexistente;
 
 	// Constructor de la clase
 	public PerfilUsuario(String nombre,String apellido, String nuevoSexo,
 			int nuevaEdad, double nuevaAltura, String nuevaComplexion,
-			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina) {
+			String nuevaDieta, HashSet<String> nuevasPreferencias, String nuevaRutina,ArrayList<Object> nuevasCondiciones) {
 
 		setNombre(nombre);
 		setApellido(apellido);
@@ -33,7 +33,7 @@ public class PerfilUsuario{
 		setDieta(nuevaDieta);
 		setPreferencias(nuevasPreferencias);
 		setRutina(nuevaRutina);
-		setCondicionPreexistente();
+		setCondicionPreexistente(nuevasCondiciones);
 	}
 
 	// Metodos de la clase
@@ -93,11 +93,11 @@ public class PerfilUsuario{
 		this.dieta = dieta;
 	}
 
-	public String[] getPreferencias() {
+	public HashSet<String> getPreferencias() {
 		return preferencias;
 	}
 
-	public void setPreferencias(String[] preferencias) {
+	public void setPreferencias(HashSet<String> preferencias) {
 		this.preferencias = preferencias;
 	}
 
@@ -114,8 +114,8 @@ public class PerfilUsuario{
 		return condicionPreexistente;
 	}
 
-	public void setCondicionPreexistente() {
-		condicionPreexistente = new ArrayList<Object>();
+	public void setCondicionPreexistente(ArrayList<Object> condiciones) {
+		this.condicionPreexistente = condiciones;
 	}
 	
 	public ArrayList<String> getRecomendaciones(){

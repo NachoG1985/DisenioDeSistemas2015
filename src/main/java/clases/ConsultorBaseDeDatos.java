@@ -146,8 +146,6 @@ public class ConsultorBaseDeDatos {
 //************************ Funciones INSERT*************************
 	
 	 public void insertarUsuario(String nombre,String mail,String pass,java.sql.Date fecha) {
-		 	ResultSet data;
-		 	int resultado=0;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
@@ -171,8 +169,6 @@ public class ConsultorBaseDeDatos {
 	 
 	 
 	 public void insertarReceta(String nombre,String ingrediente,int dificultad,double calorias,String imagen1) {
-		 	ResultSet data;
-		 	int resultado=0;
 		 	int ing,im1;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
@@ -200,8 +196,6 @@ public class ConsultorBaseDeDatos {
 	
 	 
 	 public void insertarIngrediente(String nombre,int porcion,double calorias,String nivel) {
-		 	ResultSet data;
-		 	int resultado=0;
 		 	int level; 
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
@@ -222,13 +216,11 @@ public class ConsultorBaseDeDatos {
 	        }catch (Exception e) {
 	        	
 	        }
-	        
+	   
 	       
 	 }  
 	 
 	 public void insertarCondimento(String nombre) {
-		 	ResultSet data;
-		 	int resultado=0;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
@@ -248,10 +240,8 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 
-	 public void insertarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina/*,String condicion*/) {
-		 	ResultSet data;
-		 	int resultado=0;
-		 	int usu,diet,routine,cond;
+	 public void insertarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina) {
+		 	int usu,diet,routine;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 	        try {
@@ -260,9 +250,9 @@ public class ConsultorBaseDeDatos {
 	        	 usu = obtenerIDUsuario(usuario, cn, cst);
 	        	 diet = obtenerIDDieta(dieta, cn, cst);
 	        	 routine = obtenerIDRutina(rutina, cn, cst);
-	        	 //cond = obtenerIDCondicion(condicion, cn, cst);
+	        	
 	           	           
-	             cst = cn.prepareCall("{call insertarPerfil(?,?,?,?,?,?,?,?,?,?)}");
+	             cst = cn.prepareCall("{call insertarPerfil(?,?,?,?,?,?,?,?,?)}");
 	             cst.setInt(1,usu);
 	             cst.setString(2,nombre);
 	             cst.setString(3,apellido);
@@ -272,7 +262,6 @@ public class ConsultorBaseDeDatos {
 	             cst.setString(7,complexion);
 	             cst.setInt(8,diet);
 	             cst.setInt(9,routine);
-	             //cst.setInt(10,cond);
 	             cst.executeUpdate();
 	                   
 	             cn.close();   
@@ -280,13 +269,10 @@ public class ConsultorBaseDeDatos {
 	        }catch (Exception e) {
 	        	e.printStackTrace();
 	        }
-	        
 	      
 	 }  
 	 
 	 public void insertarCondimentoReceta(String receta,String condimento) {
-		 	ResultSet data;
-		 	int resultado=0;
 		 	int cond, rec;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
@@ -311,8 +297,6 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 public void insertarIngReceta(String receta,String ingrediente,int cantidad) {
-		 	ResultSet data;
-		 	int resultado=0;
 		 	int ing, rec;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
@@ -336,8 +320,6 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 public void insertarCategoriaReceta(String nombreReceta,String nombreCategoria) {
-		 	ResultSet data;
-		 	int resultado=0;
 		 	int cat, rec;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
@@ -360,8 +342,6 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 public void insertarCondicionReceta(String nombreReceta,String nombreCondicion) {
-		 	ResultSet data;
-		 	int resultado=0;
 		 	int cond, rec;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
@@ -384,8 +364,6 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 public void insertarDietaReceta(String nombreReceta,String nombreDieta) {
-		 	ResultSet data;
-		 	int resultado=0;
 		 	int diet, rec;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
@@ -408,8 +386,6 @@ public class ConsultorBaseDeDatos {
 	 } 
 	 
 	 public void insertarTemporadaReceta(String nombreReceta,String nombreTemporada) {
-		 	ResultSet data;
-		 	int resultado=0;
 		 	int temp, rec;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
@@ -432,9 +408,7 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 public void insertarRecUsuario(String usuario,String receta) {
-		 	ResultSet data;
-		 	int resultado=0;
-		 	int usu, rec;
+		  	int usu, rec;
 		 	Connection cn = null;
 		 	CallableStatement cst = null;
 		 			 	
@@ -547,6 +521,51 @@ public class ConsultorBaseDeDatos {
 	        }
 	        
 	 } 
+	 
+	 //inserta una condicion prexistente de un perfil.
+	 public void insertarCondicionPerfil(String nombreUsuario,String nombreCondicion) {
+		 	int perfil,cond;
+		 	Connection cn = null;
+		 	CallableStatement cst = null;
+	        try {
+	        	 cn = getConexion(dbUrl, username, password);
+	           	 
+	        	 perfil = obtenerIDPerfil(nombreUsuario, cn, cst);
+	        	 cond = obtenerIDCondicion(nombreCondicion, cn, cst);
+	        	 
+	             cst = cn.prepareCall("{call insertarCondicionPerfil(?,?)}");
+	             cst.setInt(1,perfil);
+	             cst.setInt(2,cond);
+	             cst.executeUpdate();
+	                    
+	             cn.close();   
+	                         
+	        }catch (Exception e) {
+	        	
+	        }
+	 }  
+	 
+	 public void insertarPreferenciaPerfil(String nombreUsuario,String nombreIngrediente) {
+		 	int perfil,ing;
+		 	Connection cn = null;
+		 	CallableStatement cst = null;
+	        try {
+	        	 cn = getConexion(dbUrl, username, password);
+	           	 
+	        	 perfil = obtenerIDPerfil(nombreUsuario, cn, cst);
+	        	 ing = obtenerIDIng(nombreIngrediente, cn, cst);
+	        	 
+	             cst = cn.prepareCall("{call insertarPreferenciaPerfil(?,?)}");
+	             cst.setInt(1,perfil);
+	             cst.setInt(2,ing);
+	             cst.executeUpdate();
+	                    
+	             cn.close();   
+	                         
+	        }catch (Exception e) {
+	        	
+	        }
+	 }  
 	 
 	 
 	 
@@ -1213,7 +1232,7 @@ public class ConsultorBaseDeDatos {
 	 }  
 	 
 	 //devuelve el perfil del usuario
-	 public PerfilUsuario mostrarPerfilUsuario(String usuario ) {
+	 public PerfilUsuario mostrarPerfilUsuario(String nombreUsuario ) {
 		 ResultSet data=null;
 		 Connection cn = null;
 		 CallableStatement cst = null;
@@ -1221,7 +1240,7 @@ public class ConsultorBaseDeDatos {
 		 try {
 			 cn = getConexion(dbUrl, username, password);        	           
 			 cst = cn.prepareCall("{call obtenerPerfil(?)}");
-			 cst.setString(1,usuario);
+			 cst.setString(1,nombreUsuario);
 			 data = cst.executeQuery();
 			 if(data.next())
 			 {
@@ -1236,6 +1255,8 @@ public class ConsultorBaseDeDatos {
 
 			 perfilBuscado = new PerfilUsuario(nombre,apellido,sexo,edad,altura,complexion,dieta,null,rutina,null);
 			 }
+			 perfilBuscado.setCondicionPreexistente(obtenerCondicionesPerfil(nombreUsuario));
+			 perfilBuscado.setPreferencias(obtenerPreferenciasPerfil(nombreUsuario));
 			 data.close();
 			 cn.close();
 			            
@@ -1696,7 +1717,71 @@ public class ConsultorBaseDeDatos {
 			 } return nombres;
 		 }
 		 
-	 
+		 public ArrayList<Object> obtenerCondicionesPerfil(String nombreUsuario ) {
+			 ResultSet data=null;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 int perfil;
+			 ArrayList<Object> nombresCondiciones = new ArrayList<Object>();
+			 String nombreCondicion;
+			 try {
+				 cn = getConexion(dbUrl, username, password);
+				 
+				 perfil = obtenerIDPerfil(nombreUsuario, cn, cst);
+				 cst = cn.prepareCall("{call obtenerCondicionPerfil(?)}");
+				 cst.setInt(1,perfil);
+				 data = cst.executeQuery();
+				 while(data.next())
+				 {			 
+					 nombreCondicion = data.getString("tipo");
+					 if(nombreCondicion.equals("Diabetes")){
+						 Diabetes diabetes = new Diabetes();
+						 nombresCondiciones.add(diabetes);	
+					 }
+					 if(nombreCondicion.equals("Celiasis")){
+						 Celiasis celiasis = new Celiasis();
+						 nombresCondiciones.add(celiasis);	
+					 }
+					 if(nombreCondicion.equals("Hipertension")){
+						 Hipertension hiper = new Hipertension();
+						 nombresCondiciones.add(hiper);	
+					 }
+				 }           
+				 data.close();
+				 cn.close();
+				            
+			 }catch (Exception e) {
+				        	
+			 } return nombresCondiciones;
+		 }
+		 
+		 public HashSet<String> obtenerPreferenciasPerfil(String nombreUsuario ) {
+			 ResultSet data=null;
+			 Connection cn = null;
+			 CallableStatement cst = null;
+			 int perfil;
+			 HashSet<String> nombresCondiciones = new HashSet<String>();
+			 String nombreCondicion;
+			 try {
+				 cn = getConexion(dbUrl, username, password);
+				 
+				 perfil = obtenerIDPerfil(nombreUsuario, cn, cst);
+				 cst = cn.prepareCall("{call obtenerPreferenciaPerfil(?)}");
+				 cst.setInt(1,perfil);
+				 data = cst.executeQuery();
+				 while(data.next())
+				 {			 
+					 nombreCondicion = data.getString("nombre");
+					 nombresCondiciones.add(nombreCondicion);		
+				 }           
+				 data.close();
+				 cn.close();
+				            
+			 }catch (Exception e) {
+				        	
+			 } return nombresCondiciones;
+		 }
+		 
 	 
 	
 				
@@ -1704,7 +1789,7 @@ public class ConsultorBaseDeDatos {
 
 	 //dado un usuario permite modificar el perfil
 	 public void actualizarPerfil(String usuario,String nombre,String apellido,String sexo,int edad,double altura,String complexion,String dieta,String rutina/*,String condicion*/) {
-		 int usu,diet,routine,cond;
+		 int usu,diet,routine;
 		 Connection cn = null;
 		 CallableStatement cst = null;
 		 try {
@@ -1713,9 +1798,9 @@ public class ConsultorBaseDeDatos {
 			 usu = obtenerIDUsuario(usuario, cn, cst);
 			 diet = obtenerIDDieta(dieta, cn, cst);
 			 routine = obtenerIDRutina(rutina, cn, cst);
-			 //cond = obtenerIDCondicion(condicion, cn, cst);
+			 
 		           	           
-			 cst = cn.prepareCall("{call modificarPerfilUsuario(?,?,?,?,?,?,?,?,?,?)}");
+			 cst = cn.prepareCall("{call modificarPerfilUsuario(?,?,?,?,?,?,?,?,?)}");
 			 cst.setString(1,nombre);
 			 cst.setString(2,apellido);
 			 cst.setString(3,sexo);
@@ -1724,12 +1809,9 @@ public class ConsultorBaseDeDatos {
 			 cst.setString(6,complexion);
 			 cst.setInt(7,diet);
 			 cst.setInt(8,routine);
-			 //cst.setInt(9,cond);
-			 cst.setInt(10,usu);
+			 cst.setInt(9,usu);
 			 cst.executeUpdate();
-		            
-		                
-			 
+		    
 			 cn.close();
 		 }catch (Exception e) {
 			 e.printStackTrace();
@@ -1894,13 +1976,12 @@ public class ConsultorBaseDeDatos {
 			 return resultado;
 		 }
 		 
-		 private int obtenerIDPerfil(String nombre,String apellido,Connection cn,CallableStatement cst){
+		 private int obtenerIDPerfil(String nombreUsuario,Connection cn,CallableStatement cst){
 			 ResultSet data;
 			 int resultado = 0;
 			 try{
-			 cst = cn.prepareCall("{call obtenerIDPerfil(?,?)}");
-			 cst.setString(1,nombre);
-			 cst.setString(1,apellido);
+			 cst = cn.prepareCall("{call obtenerIDPerfil(?)}");
+			 cst.setString(1,nombreUsuario);
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("perfil_id"); 

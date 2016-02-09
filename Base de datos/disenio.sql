@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-02-2016 a las 03:42:57
+-- Tiempo de generación: 09-02-2016 a las 19:49:33
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -26,7 +26,20 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-DROP PROCEDURE IF EXISTS `calcularPromedio`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `actualizarCondicionPerfil`(IN `perf_id` INT, IN `condNueva_id` INT, IN `condVieja_id` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+update condicion_prexistente_perfil
+set condicion_id=condNueva_id
+where perfil_id = perf_id and condicion_id = condVieja_id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `actualizarPreferenciaPerfil`(IN `perf_id` INT, IN `preferNueva_id` INT, IN `preferVieja_id` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+update preferencias_alimenticias_perfil
+set ingredientes_id=preferNueva_id
+where perfil_id = perf_id and ingredientes_id = preferVieja_id$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `calcularPromedio`()
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
@@ -44,14 +57,12 @@ END IF;
 
 END$$
 
-DROP PROCEDURE IF EXISTS `calificarRecetaUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `calificarRecetaUsuario`(IN `usu_id` INT, IN `rec_id` INT, IN `calif` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into calificacion_usuario_receta (recetas_id,usuario_id,calificacion)
 values (usu_id,rec_id,calif)$$
 
-DROP PROCEDURE IF EXISTS `caloriasRutina`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `caloriasRutina`(IN `actividad` VARCHAR(20))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -59,7 +70,6 @@ select calorias
 from rutinas
 where tipo like concat("%",actividad,"%")$$
 
-DROP PROCEDURE IF EXISTS `cargarPromedio`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarPromedio`()
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
@@ -72,7 +82,6 @@ SELECT recetas_id, calificacion_promedio FROM promedio_calificacion_temp;
 
 END$$
 
-DROP PROCEDURE IF EXISTS `condSegunReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `condSegunReceta`(IN `rec` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -81,7 +90,6 @@ from condimentos_receta as CR
 inner join condimentos as C on CR.condimentos_id = C.condimentos_id
 where CR.recetas_id = rec$$
 
-DROP PROCEDURE IF EXISTS `consultaReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `consultaReceta`(IN `nom` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -89,7 +97,6 @@ select *
 from recetas
 where nombre = nom$$
 
-DROP PROCEDURE IF EXISTS `consultarEventoEnHistorial`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `consultarEventoEnHistorial`(IN `nombreUsu` VARCHAR(50), IN `nombreRec` VARCHAR(40), IN `operac` VARCHAR(10))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -99,7 +106,6 @@ inner join usuarios U on H.usuario_id = U.usuario_id
 inner join recetas R on H.receta_id = R.recetas_id
 where (U.nombreUsuario = nombreUsu and R.nombre = nombreRec) and H.operacion = operac$$
 
-DROP PROCEDURE IF EXISTS `consultaUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `consultaUsuario`(IN `nom` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -107,7 +113,6 @@ select *
 from usuarios
 where nombreUsuario = nom$$
 
-DROP PROCEDURE IF EXISTS `countOperacion`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `countOperacion`(IN `operacion` VARCHAR(10))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -116,7 +121,6 @@ from historial H
 where H.operacion = operacion
 group by H.operacion$$
 
-DROP PROCEDURE IF EXISTS `estadisticaRankingRecetaConsultada`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaRankingRecetaConsultada`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -126,7 +130,6 @@ where H.operacion = 'consultar' and (H.tiempo between fecha1 and fecha2)
 group by H.receta_id
 Order by count(H.operacion) desc$$
 
-DROP PROCEDURE IF EXISTS `estadisticaRecetaDificultad`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaRecetaDificultad`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -136,7 +139,6 @@ inner join recetas R on R.recetas_id = H.receta_id
 where H.operacion = 'consultar' and (H.tiempo between fecha1 and fecha2)
 group by R.dificultad$$
 
-DROP PROCEDURE IF EXISTS `estadisticaSegunSexo`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `estadisticaSegunSexo`(IN `sexo` VARCHAR(20), IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -149,7 +151,6 @@ and PU.sexo = sexo
 group by H.usuario_id
 order by count(H.operacion) desc$$
 
-DROP PROCEDURE IF EXISTS `ingYCantSegunReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ingYCantSegunReceta`(IN `rec` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -157,116 +158,103 @@ select I.nombre,IR.cantidad
 from ingredientes_receta as IR inner join ingredientes as I on IR.ingredientes_id = I.ingredientes_id
 where IR.recetas_id = rec$$
 
-DROP PROCEDURE IF EXISTS `insertarCategoriaReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarCategoriaReceta`(IN `receta` INT, IN `categ` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into `categoria_receta`(recetas_id,categoria_id) VALUES(receta,categ)$$
 
-DROP PROCEDURE IF EXISTS `insertarCondicionPerfil`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarCondicionPerfil`(IN `perfil` INT, IN `cond` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into `condicion_prexistente_perfil`(perfil_id,condicion_id)
 VALUES (perfil,cond)$$
 
-DROP PROCEDURE IF EXISTS `insertarCondicionReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarCondicionReceta`(IN `rec` INT, IN `cond` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into `condicion_receta`(recetas_id,condicion_id) VALUES(rec,cond)$$
 
-DROP PROCEDURE IF EXISTS `insertarCondimento`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarCondimento`(IN `nom` VARCHAR(40))
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into condimentos(nombre) VALUES(nom)$$
 
-DROP PROCEDURE IF EXISTS `insertarCondReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarCondReceta`(IN `rec` INT, IN `cond` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into `condimentos_receta`(recetas_id,condimentos_id) VALUES(rec,cond)$$
 
-DROP PROCEDURE IF EXISTS `insertarConsulta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarConsulta`(IN `fecha` TIMESTAMP, IN `id_usu` INT, IN `id_rec` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into consultareceta (fecha,usuario_id,recetas_id) values (fecha,id_usu,id_rec)$$
 
-DROP PROCEDURE IF EXISTS `insertarDietaPerfil`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarDietaPerfil`(IN `perfil` INT, IN `dieta` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into `dieta_perfil`(perfil_id,dieta_id) VALUES(perfil,dieta)$$
 
-DROP PROCEDURE IF EXISTS `insertarDietaReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarDietaReceta`(IN `rec` INT, IN `dieta` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into `dieta_receta`(recetas_id,dieta_id) VALUES(rec,dieta)$$
 
-DROP PROCEDURE IF EXISTS `insertarEventoEnHistorial`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarEventoEnHistorial`(IN `usuario` INT(10), IN `receta` INT(10), IN `operacion` VARCHAR(10))
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into historial (usuario_id, receta_id, operacion) VALUES(usuario, receta, operacion)$$
 
-DROP PROCEDURE IF EXISTS `insertarIngReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarIngReceta`(IN `rec` INT, IN `ing` INT, IN `cant` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into `ingredientes_receta`(recetas_id,ingredientes_id,cantidad) VALUES(rec,ing,cant)$$
 
-DROP PROCEDURE IF EXISTS `insertarIngrediente`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarIngrediente`(IN `nombre` VARCHAR(40), IN `porcion` INT, IN `cal` FLOAT, IN `nivel` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into ingredientes(nombre,porcion,calorias,nivel_id) VALUES(nombre,porcion,cal,nivel)$$
 
-DROP PROCEDURE IF EXISTS `insertarPerfil`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarPerfil`(IN `usu` INT(11), IN `nom` VARCHAR(40), IN `ape` VARCHAR(40), IN `sexo` VARCHAR(20), IN `edad` INT(3), IN `altura` DOUBLE, IN `comple` VARCHAR(20), IN `dieta` INT, IN `rutina` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into perfil_usuario(usuario_id,nombre,apellido,sexo,edad,altura,complexion,dieta_id,rutina_id) VALUES(usu,nom,ape,sexo,edad,altura,comple,dieta,rutina)$$
 
-DROP PROCEDURE IF EXISTS `insertarProcedimiento`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarPreferenciaPerfil`(IN `perf_id` INT, IN `prefer_id` INT)
+    MODIFIES SQL DATA
+    SQL SECURITY INVOKER
+insert into `preferencias_alimenticias_perfil`(perfil_id,ingredientes_id)
+VALUES (perf_id,prefer_id)$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarProcedimiento`(IN `im1` VARCHAR(100), IN `pas1` TEXT, IN `im2` VARCHAR(100), IN `pas2` TEXT, IN `im3` VARCHAR(100), IN `pas3` TEXT, IN `im4` VARCHAR(100), IN `pas4` TEXT, IN `im5` VARCHAR(100), IN `pas5` TEXT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into procedimientos(imagen1,paso1,imagen2,paso2,imagen3,paso3,imagen4,paso4,imagen5,paso5) VALUES(im1,pas1,im2,pas2,im3,pas3,im4,pas4,im5,pas5)$$
 
-DROP PROCEDURE IF EXISTS `insertarReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarReceta`(IN `nom ` VARCHAR(40), IN `ing` INT, IN `dif` INT(4), IN `calo` INT, IN `proc` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into recetas(nombre,ingrediente_ppal_id,dificultad,caloriasTotales,procedimiento_id) values (nom,ing,dif,calo,proc)$$
 
-DROP PROCEDURE IF EXISTS `insertarRecUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarRecUsuario`(IN `usu` INT, IN `rec` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into `recetas_usuario`(usuario_id,recetas_id) VALUES(usu,rec)$$
 
-DROP PROCEDURE IF EXISTS `insertarTemporadaReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarTemporadaReceta`(IN `receta` INT, IN `temp` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
 insert into `temporadas_receta`(recetas_id,temporada_id) VALUES(receta,temp)$$
 
-DROP PROCEDURE IF EXISTS `insertarUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarUsuario`(IN `nombre` VARCHAR(50), IN `mail` VARCHAR(100), IN `pass` VARCHAR(100), IN `fecha` DATE)
     MODIFIES SQL DATA
 insert into usuarios(nombreUsuario,email,contrasenia,fecha_nacimiento) VALUES(nombre,mail,pass,fecha)$$
 
-DROP PROCEDURE IF EXISTS `listarCondimentos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarCondimentos`()
     READS SQL DATA
     SQL SECURITY INVOKER
 SELECT C.nombre, C.condimentos_id
 FROM condimentos C$$
 
-DROP PROCEDURE IF EXISTS `listarHome`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarHome`(IN `operacion` VARCHAR(10), IN `limite` TINYINT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -276,7 +264,6 @@ where usuario_id = usuario
 and operacion like concat("%",operacion,"%")
 limit limite$$
 
-DROP PROCEDURE IF EXISTS `listarIngredientes`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarIngredientes`()
     READS SQL DATA
     DETERMINISTIC
@@ -284,7 +271,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `listarIngredientes`()
 SELECT I.nombre, I.ingredientes_id
 FROM ingredientes I$$
 
-DROP PROCEDURE IF EXISTS `modificarPerfilUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `modificarPerfilUsuario`(IN `nom` VARCHAR(40), IN `ape` VARCHAR(40), IN `sex` VARCHAR(20), IN `ed` INT(3), IN `alt` DOUBLE, IN `compl` VARCHAR(20), IN `diet` INT, IN `rutin` INT, IN `cond` INT, IN `usu` INT)
     MODIFIES SQL DATA
     SQL SECURITY INVOKER
@@ -292,7 +278,6 @@ update perfil_usuario
 set nombre=nom,apellido=ape,sexo=sex,edad=ed,altura=alt,complexion=compl,dieta_id=diet,rutina_id=rutin,condicion_id=cond
 where usuario_id = usu$$
 
-DROP PROCEDURE IF EXISTS `mostrarDatosIng`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarDatosIng`(IN `nom` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -300,7 +285,6 @@ select porcion, calorias, nivel_id
 from ingredientes
 where nombre = nom$$
 
-DROP PROCEDURE IF EXISTS `mostrarProcedimientoReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarProcedimientoReceta`(IN `nombreReceta` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -308,7 +292,6 @@ select P.imagen1,P.paso1,P.imagen2,P.paso2,P.imagen3,P.paso3,P.imagen4,P.paso4,P
 from recetas R inner join procedimientos P on R.procedimiento_id = P.procedimientos_id
 where R.nombre = nombreReceta$$
 
-DROP PROCEDURE IF EXISTS `mostrarRecetasCreadas`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadas`(IN `usu_id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -318,7 +301,6 @@ inner join historial H on (R.recetas_id = H.receta_id)
 inner join categoria_receta CR on (R.recetas_id = CR.recetas_id)
 where H.operacion = 'cargar' and H.usuario_id = usu_id$$
 
-DROP PROCEDURE IF EXISTS `mostrarRecetasCreadasEnDB`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasCreadasEnDB`()
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -327,14 +309,12 @@ from recetas R
 inner join historial H on (R.recetas_id = H.receta_id)
 where H.operacion = 'cargar'$$
 
-DROP PROCEDURE IF EXISTS `mostrarRecetasDB`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDB`()
     READS SQL DATA
     SQL SECURITY INVOKER
 select * 
 from recetas$$
 
-DROP PROCEDURE IF EXISTS `mostrarRecetasDBConFiltros`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrarRecetasDBConFiltros`(IN `nom` VARCHAR(40), IN `ing` INT, IN `dif` INT(4), IN `temp` INT, IN `cat` INT, IN `calo` DOUBLE, IN `cond` INT, IN `dieta` INT, IN `proc` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -350,7 +330,6 @@ and condicion_id = cond
 and dieta_id = dieta
 and procedimiento_id = proc$$
 
-DROP PROCEDURE IF EXISTS `obtenerCalificacionReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCalificacionReceta`(IN `nombre` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -359,7 +338,6 @@ from recetas R
 inner join promedio_calificacion P on R.recetas_id = P.recetas_id
 where R.nombre like concat("%",nombre,"%")$$
 
-DROP PROCEDURE IF EXISTS `obtenerCalificacionRecetaBeta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCalificacionRecetaBeta`(IN `nombreRec` VARCHAR(40), OUT `promedio` FLOAT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -368,7 +346,6 @@ from calificacion_usuario_receta C
 inner join recetas R on C.recetas_id=R.recetas_id
 where R.nombre = nombreRec$$
 
-DROP PROCEDURE IF EXISTS `obtenerCalificacionRecetaUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCalificacionRecetaUsuario`(IN `nombreUsu` VARCHAR(50), IN `nombreRec` VARCHAR(40), OUT `calificacion` FLOAT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -378,7 +355,6 @@ inner join usuarios U on CUR.usuario_id = U.usuario_id
 inner join recetas R on CUR.recetas_id = R.recetas_id
 where U.nombreUsuario = nombreUsu and R.nombre=nombreRec$$
 
-DROP PROCEDURE IF EXISTS `obtenerCategoriaReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCategoriaReceta`(IN `nomRec` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -388,7 +364,6 @@ inner join recetas R on CR.recetas_id = R.recetas_id
 inner join categorias C on CR.categoria_id = C.categoria_id
 where R.nombre = nomRec$$
 
-DROP PROCEDURE IF EXISTS `obtenerCondicionPerfil`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondicionPerfil`(IN `perf_id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -397,7 +372,6 @@ from condicion_prexistente_perfil CP
 inner join condicion_prexistente C on CP.condicion_id = C.condicion_id
 where CP.perfil_id = perf_id$$
 
-DROP PROCEDURE IF EXISTS `obtenerCondicionReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondicionReceta`(IN `nomRec` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -407,7 +381,6 @@ inner join recetas R on CR.recetas_id = R.recetas_id
 inner join condicion_prexistente C on CR.condicion_id = C.condicion_id
 where R.nombre = nomRec$$
 
-DROP PROCEDURE IF EXISTS `obtenerCondimentos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCondimentos`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -415,7 +388,6 @@ select nombre
 from condimentos
 where condimentos_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerCreacionReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerCreacionReceta`(IN `nombre` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -426,7 +398,6 @@ inner join usuarios U on U.usuario_id = H.usuario_id
 where R.nombre like concat ("%",nombre,"%")
 and H.operacion = 'cargar'$$
 
-DROP PROCEDURE IF EXISTS `obtenerDietaReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerDietaReceta`(IN `nomRec` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -436,7 +407,6 @@ inner join recetas R on DR.recetas_id = R.recetas_id
 inner join dietas D on DR.dieta_id = D.dieta_id
 where R.nombre = nomRec$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDAlimenticio`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDAlimenticio`(IN `tipo` VARCHAR(30))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -444,7 +414,6 @@ select nivel_id
 from nivel_alimenticio
 where tipo = nom$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDCategoria`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDCategoria`(IN `nom` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -452,7 +421,6 @@ select categoria_id
 from categorias
 where nombre=nom$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDCondicion`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDCondicion`(IN `nom` VARCHAR(60))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -460,7 +428,6 @@ select condicion_id
 from condicion_prexistente
 where tipo = nom$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDCondimento`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDCondimento`(IN `nom` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -468,7 +435,6 @@ select condimentos_id
 from  condimentos
 where nombre=nom$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDCondReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDCondReceta`(IN `rec` INT, IN `cond` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -476,7 +442,6 @@ select condim_recet_id
 from `condimentos_receta`
 where recetas_id = rec and condimentos_id = cond$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDDieta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDDieta`(IN `nom` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -484,13 +449,11 @@ select dieta_id
 from dietas
 where tipo = nom$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDIng`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDIng`(IN `nom` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
 SELECT ingredientes_id FROM `ingredientes` WHERE nombre = nom$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDIngReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDIngReceta`(IN `rec` INT, IN `ing` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -498,13 +461,11 @@ select condim_recet_id
 from `ingredientes_receta`
 where recetas_id = rec and ingredientes_id = ing$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDPerfil`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDPerfil`(IN `nom` VARCHAR(40), IN `ape` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
 SELECT perfil_id FROM `perfil_usuario` WHERE nombre = nom and apellido=ape$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDProcedimiento`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDProcedimiento`(IN `im1` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -512,14 +473,12 @@ select procedimientos_id
 from procedimientos
 where imagen1= im1$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDReceta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDReceta`(IN `nom` VARCHAR(40))
     NO SQL
 select recetas_id
 from recetas
 where nombre = nom$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDRecUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDRecUsuario`(IN `usu` INT, IN `rec` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -527,7 +486,6 @@ select recet_usuario_id
 from `recetas_usuario`
 where usuario_id = usu and recetas_id = rec$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDRutina`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDRutina`(IN `nom` VARCHAR(20))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -535,7 +493,6 @@ select usuario_id
 from usuarios
 where tipo = nom$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDSeason`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDSeason`(IN `nom` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -543,7 +500,6 @@ select temporada_id
 from temporadas
 where tipo = nom$$
 
-DROP PROCEDURE IF EXISTS `obtenerIDUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerIDUsuario`(IN `nombre` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -551,7 +507,6 @@ select usuario_id
 from usuarios
 where nombreUsuario = nombre$$
 
-DROP PROCEDURE IF EXISTS `obtenerNombreCategoria`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreCategoria`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -559,7 +514,6 @@ select nombre
 from categorias
 where categoria_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerNombreCondicion`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreCondicion`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -567,7 +521,6 @@ select tipo
 from condicion_prexistente
 where condicion_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerNombreDieta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreDieta`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -575,7 +528,6 @@ select tipo
 from dietas
 where dieta_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerNombreIng`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreIng`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -583,7 +535,6 @@ select nombre
 from ingredientes
 where ingredientes_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerNombreNivelAlim`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreNivelAlim`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -591,7 +542,6 @@ select tipo
 from nivel_alimenticio
 where nivel_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerNombreRutina`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreRutina`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -599,7 +549,6 @@ select tipo
 from rutinas
 where rutina_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerNombreTemporada`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreTemporada`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -607,7 +556,6 @@ select tipo
 from temporadas
 where temporada_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerNombreUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerNombreUsuario`(IN `id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -615,7 +563,6 @@ select nombreUsuario
 from usuarios
 where usuario_id = id$$
 
-DROP PROCEDURE IF EXISTS `obtenerPerfil`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerPerfil`(IN `nombre` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -624,7 +571,14 @@ FROM perfil_usuario PU
 inner join usuarios U on PU.usuario_id = U.usuario_id
 WHERE U.nombreUsuario = nombre$$
 
-DROP PROCEDURE IF EXISTS `obtenerTemporadaReceta`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerPreferenciaPerfil`(IN `perf_id` INT)
+    READS SQL DATA
+    SQL SECURITY INVOKER
+select I.nombre
+from preferencias_alimenticias_perfil PR
+inner join ingredientes I on PR.ingredientes_id = I.ingredientes_id
+where PR.perfil_id = perf_id$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerTemporadaReceta`(IN `nomRec` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -634,7 +588,6 @@ inner join recetas R on TR.recetas_id = R.recetas_id
 inner join temporadas T on TR.temporada_id = T.temporada_id
 where R.nombre = nomRec$$
 
-DROP PROCEDURE IF EXISTS `recetaMasConsultada`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaMasConsultada`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP, IN `nombre` VARCHAR(50))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -647,7 +600,6 @@ U.nombreUsuario = nombre
 group by receta_id
 order by count(*) desc$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunCondicion`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondicion`(IN `user_id` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -658,7 +610,6 @@ inner join categoria_receta  CAR on R.recetas_id = CAR.recetas_id
 inner join temporadas_receta  TR on R.recetas_id = TR.recetas_id
 where P.usuario_id = user_id$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunCondimento`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunCondimento`(IN `cond` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -670,7 +621,6 @@ where C.nombre like concat("%",cond,"%")
 order by rand(R.recetas_id)
 limit 5$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunDieta`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunDieta`(IN `dieta` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -679,7 +629,6 @@ from recetas R
 inner join dietas D on R.dieta_id = D.dieta_id
 where D.tipo = dieta$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunDificultad`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunDificultad`(IN `dif` INT(4))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -687,7 +636,6 @@ select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
 from recetas R
 where dificultad = dif$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunIngPpal`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunIngPpal`(IN `ing` VARCHAR(40))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -697,7 +645,6 @@ inner join ingredientes as I on  R.ingrediente_ppal_id = I.ingredientes_id
 where I.nombre = ing 
 order by rand(R.recetas_id)$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunInteresPeriodo`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunInteresPeriodo`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -708,7 +655,6 @@ and H.tiempo between fecha1 and fecha2
 group by receta_id
 order by count(*) desc$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunNivelAlimenticio`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunNivelAlimenticio`(IN `nivelID` INT)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -718,7 +664,6 @@ where R.ingrediente_ppal_id = nivelID
 order by rand(R.recetas_id) 
 limit 5$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunPreferencia`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunPreferencia`(IN `user_id` INT(11))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -729,7 +674,6 @@ where PA.usuario_id = user_id
 order by rand(R.recetas_id) 
 limit 3$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunPrefPeriodo`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunPrefPeriodo`(IN `fecha1` TIMESTAMP, IN `fecha2` TIMESTAMP)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -741,7 +685,6 @@ and H.tiempo between fecha1 and fecha2
 group by receta_id
 order by count(*) desc$$
 
-DROP PROCEDURE IF EXISTS `recetaSegunTemporada`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaSegunTemporada`(IN `temporada` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -749,7 +692,6 @@ select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
 from recetas as R inner join temporadas as T on R.temporada_id = T.temporada_id 
 where T.tipo like concat("%",temporada,"%")$$
 
-DROP PROCEDURE IF EXISTS `recetaTopTemporada`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `recetaTopTemporada`(IN `temporada` VARCHAR(100))
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -760,7 +702,6 @@ inner join promedio_calificacion as P on R.recetas_id = P.recetas_id
 where T.tipo like concat("%",temporada,"%")
 order by P.calificacion_promedio desc$$
 
-DROP PROCEDURE IF EXISTS `reporteRangoCalorias`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reporteRangoCalorias`(IN `caloria1` DOUBLE, IN `caloria2` DOUBLE)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -768,7 +709,6 @@ select R.nombre,R.dificultad,R.caloriasTotales,R.ingrediente_ppal_id
 from recetas R
 where R.caloriasTotales between caloria1 and caloria2$$
 
-DROP PROCEDURE IF EXISTS `reporteRecetas`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reporteRecetas`(IN `usuario` INT(10), IN `operacion` VARCHAR(10), IN `fecha1` DATE, IN `fecha2` DATE)
     READS SQL DATA
     SQL SECURITY INVOKER
@@ -786,7 +726,6 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `amigos_usuario`
 --
 
-DROP TABLE IF EXISTS `amigos_usuario`;
 CREATE TABLE IF NOT EXISTS `amigos_usuario` (
   `amigo_usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,
@@ -808,7 +747,6 @@ INSERT INTO `amigos_usuario` (`amigo_usuario_id`, `usuario_id`, `amigoUsuario_id
 -- Estructura de tabla para la tabla `calificacion_usuario_receta`
 --
 
-DROP TABLE IF EXISTS `calificacion_usuario_receta`;
 CREATE TABLE IF NOT EXISTS `calificacion_usuario_receta` (
   `calif_recet_usuario` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -832,35 +770,9 @@ INSERT INTO `calificacion_usuario_receta` (`calif_recet_usuario`, `recetas_id`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categorias`
---
-
-DROP TABLE IF EXISTS `categorias`;
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `categoria_id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
-  `horaMax` time NOT NULL,
-  `horaMin` time NOT NULL,
-  PRIMARY KEY (`categoria_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`categoria_id`, `nombre`, `horaMax`, `horaMin`) VALUES
-(1, 'Desayuno', '11:00:00', '04:00:00'),
-(2, 'Almuerzo', '14:30:00', '11:00:00'),
-(3, 'Merienda', '20:00:00', '14:30:00'),
-(4, 'Cena', '04:00:00', '20:00:00');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `categoria_receta`
 --
 
-DROP TABLE IF EXISTS `categoria_receta`;
 CREATE TABLE IF NOT EXISTS `categoria_receta` (
   `categorias_receta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -882,10 +794,33 @@ INSERT INTO `categoria_receta` (`categorias_receta_id`, `recetas_id`, `categoria
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `categoria_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
+  `horaMax` time NOT NULL,
+  `horaMin` time NOT NULL,
+  PRIMARY KEY (`categoria_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`categoria_id`, `nombre`, `horaMax`, `horaMin`) VALUES
+(1, 'Desayuno', '11:00:00', '04:00:00'),
+(2, 'Almuerzo', '14:30:00', '11:00:00'),
+(3, 'Merienda', '20:00:00', '14:30:00'),
+(4, 'Cena', '04:00:00', '20:00:00');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `condicion_prexistente`
 --
 
-DROP TABLE IF EXISTS `condicion_prexistente`;
 CREATE TABLE IF NOT EXISTS `condicion_prexistente` (
   `condicion_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(60) COLLATE utf8_spanish2_ci NOT NULL,
@@ -908,7 +843,6 @@ INSERT INTO `condicion_prexistente` (`condicion_id`, `tipo`) VALUES
 -- Estructura de tabla para la tabla `condicion_prexistente_perfil`
 --
 
-DROP TABLE IF EXISTS `condicion_prexistente_perfil`;
 CREATE TABLE IF NOT EXISTS `condicion_prexistente_perfil` (
   `condicion_prex_perfil_id` int(11) NOT NULL AUTO_INCREMENT,
   `perfil_id` int(11) NOT NULL,
@@ -931,7 +865,6 @@ INSERT INTO `condicion_prexistente_perfil` (`condicion_prex_perfil_id`, `perfil_
 -- Estructura de tabla para la tabla `condicion_receta`
 --
 
-DROP TABLE IF EXISTS `condicion_receta`;
 CREATE TABLE IF NOT EXISTS `condicion_receta` (
   `condicion_receta_id` int(11) NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -955,7 +888,6 @@ INSERT INTO `condicion_receta` (`condicion_receta_id`, `recetas_id`, `condicion_
 -- Estructura de tabla para la tabla `condimentos`
 --
 
-DROP TABLE IF EXISTS `condimentos`;
 CREATE TABLE IF NOT EXISTS `condimentos` (
   `condimentos_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
@@ -996,7 +928,6 @@ INSERT INTO `condimentos` (`condimentos_id`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `condimentos_receta`
 --
 
-DROP TABLE IF EXISTS `condimentos_receta`;
 CREATE TABLE IF NOT EXISTS `condimentos_receta` (
   `condim_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -1020,33 +951,9 @@ INSERT INTO `condimentos_receta` (`condim_recet_id`, `recetas_id`, `condimentos_
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `dietas`
---
-
-DROP TABLE IF EXISTS `dietas`;
-CREATE TABLE IF NOT EXISTS `dietas` (
-  `dieta_id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
-  PRIMARY KEY (`dieta_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=16 ;
-
---
--- Volcado de datos para la tabla `dietas`
---
-
-INSERT INTO `dietas` (`dieta_id`, `tipo`) VALUES
-(1, 'Normal'),
-(2, 'Ovolactovegetariano'),
-(3, 'Vegano'),
-(4, 'Vegetariano');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `dieta_receta`
 --
 
-DROP TABLE IF EXISTS `dieta_receta`;
 CREATE TABLE IF NOT EXISTS `dieta_receta` (
   `dieta_receta_id` int(11) NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -1066,10 +973,31 @@ INSERT INTO `dieta_receta` (`dieta_receta_id`, `recetas_id`, `dieta_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `dietas`
+--
+
+CREATE TABLE IF NOT EXISTS `dietas` (
+  `dieta_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
+  PRIMARY KEY (`dieta_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=16 ;
+
+--
+-- Volcado de datos para la tabla `dietas`
+--
+
+INSERT INTO `dietas` (`dieta_id`, `tipo`) VALUES
+(1, 'Normal'),
+(2, 'Ovolactovegetariano'),
+(3, 'Vegano'),
+(4, 'Vegetariano');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `historial`
 --
 
-DROP TABLE IF EXISTS `historial`;
 CREATE TABLE IF NOT EXISTS `historial` (
   `movimiento_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usuario_id` int(10) NOT NULL,
@@ -1101,7 +1029,6 @@ INSERT INTO `historial` (`movimiento_id`, `usuario_id`, `receta_id`, `operacion`
 -- Estructura de tabla para la tabla `ingredientes`
 --
 
-DROP TABLE IF EXISTS `ingredientes`;
 CREATE TABLE IF NOT EXISTS `ingredientes` (
   `ingredientes_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
@@ -1226,7 +1153,6 @@ INSERT INTO `ingredientes` (`ingredientes_id`, `nombre`, `porcion`, `calorias`, 
 -- Estructura de tabla para la tabla `ingredientes_receta`
 --
 
-DROP TABLE IF EXISTS `ingredientes_receta`;
 CREATE TABLE IF NOT EXISTS `ingredientes_receta` (
   `ingred_recet_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -1256,7 +1182,6 @@ INSERT INTO `ingredientes_receta` (`ingred_recet_id`, `recetas_id`, `ingrediente
 -- Estructura de tabla para la tabla `nivel_alimenticio`
 --
 
-DROP TABLE IF EXISTS `nivel_alimenticio`;
 CREATE TABLE IF NOT EXISTS `nivel_alimenticio` (
   `nivel_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
@@ -1280,7 +1205,6 @@ INSERT INTO `nivel_alimenticio` (`nivel_id`, `tipo`) VALUES
 -- Estructura de tabla para la tabla `perfil_usuario`
 --
 
-DROP TABLE IF EXISTS `perfil_usuario`;
 CREATE TABLE IF NOT EXISTS `perfil_usuario` (
   `perfil_id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,
@@ -1309,32 +1233,25 @@ INSERT INTO `perfil_usuario` (`perfil_id`, `usuario_id`, `nombre`, `apellido`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `preferencias_alimenticias_usuario`
+-- Estructura de tabla para la tabla `preferencias_alimenticias_perfil`
 --
 
-DROP TABLE IF EXISTS `preferencias_alimenticias_usuario`;
-CREATE TABLE IF NOT EXISTS `preferencias_alimenticias_usuario` (
-  `prefe_usuario_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `preferencias_alimenticias_perfil` (
+  `prefe_alim_perfil` int(11) NOT NULL AUTO_INCREMENT,
+  `perfil_id` int(11) NOT NULL,
   `ingredientes_id` int(11) NOT NULL,
-  `usuario_id` int(11) NOT NULL,
-  PRIMARY KEY (`prefe_usuario_id`),
-  KEY `ingredientes_id` (`ingredientes_id`),
-  KEY `usuario_id` (`usuario_id`),
-  KEY `usuario_id_2` (`usuario_id`),
-  KEY `usuario_id_3` (`usuario_id`),
-  KEY `usuario_id_4` (`usuario_id`),
-  KEY `usuario_id_5` (`usuario_id`)
+  PRIMARY KEY (`prefe_alim_perfil`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
 
 --
--- Volcado de datos para la tabla `preferencias_alimenticias_usuario`
+-- Volcado de datos para la tabla `preferencias_alimenticias_perfil`
 --
 
-INSERT INTO `preferencias_alimenticias_usuario` (`prefe_usuario_id`, `ingredientes_id`, `usuario_id`) VALUES
-(1, 1, 59),
-(2, 3, 59),
-(3, 1, 60),
-(4, 2, 60);
+INSERT INTO `preferencias_alimenticias_perfil` (`prefe_alim_perfil`, `perfil_id`, `ingredientes_id`) VALUES
+(1, 8, 1),
+(2, 8, 3),
+(3, 9, 1),
+(4, 9, 2);
 
 -- --------------------------------------------------------
 
@@ -1342,7 +1259,6 @@ INSERT INTO `preferencias_alimenticias_usuario` (`prefe_usuario_id`, `ingredient
 -- Estructura de tabla para la tabla `procedimientos`
 --
 
-DROP TABLE IF EXISTS `procedimientos`;
 CREATE TABLE IF NOT EXISTS `procedimientos` (
   `procedimientos_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `imagen1` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
@@ -1364,7 +1280,6 @@ CREATE TABLE IF NOT EXISTS `procedimientos` (
 -- Estructura de tabla para la tabla `promedio_calificacion`
 --
 
-DROP TABLE IF EXISTS `promedio_calificacion`;
 CREATE TABLE IF NOT EXISTS `promedio_calificacion` (
   `promedio_califacion_id` int(11) NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -1388,7 +1303,6 @@ INSERT INTO `promedio_calificacion` (`promedio_califacion_id`, `recetas_id`, `ca
 -- Estructura de tabla para la tabla `promedio_calificacion_temp`
 --
 
-DROP TABLE IF EXISTS `promedio_calificacion_temp`;
 CREATE TABLE IF NOT EXISTS `promedio_calificacion_temp` (
   `recetas_id` int(11) NOT NULL,
   `calificacion_promedio` decimal(4,2) NOT NULL
@@ -1408,7 +1322,6 @@ INSERT INTO `promedio_calificacion_temp` (`recetas_id`, `calificacion_promedio`)
 -- Estructura de tabla para la tabla `recetas`
 --
 
-DROP TABLE IF EXISTS `recetas`;
 CREATE TABLE IF NOT EXISTS `recetas` (
   `recetas_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(40) COLLATE utf8_spanish2_ci NOT NULL,
@@ -1442,7 +1355,6 @@ INSERT INTO `recetas` (`recetas_id`, `nombre`, `ingrediente_ppal_id`, `dificulta
 -- Estructura de tabla para la tabla `recetas_usuario`
 --
 
-DROP TABLE IF EXISTS `recetas_usuario`;
 CREATE TABLE IF NOT EXISTS `recetas_usuario` (
   `recet_usuario_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,
@@ -1473,7 +1385,6 @@ INSERT INTO `recetas_usuario` (`recet_usuario_id`, `usuario_id`, `recetas_id`) V
 -- Estructura de tabla para la tabla `rutinas`
 --
 
-DROP TABLE IF EXISTS `rutinas`;
 CREATE TABLE IF NOT EXISTS `rutinas` (
   `rutina_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
@@ -1498,7 +1409,6 @@ INSERT INTO `rutinas` (`rutina_id`, `tipo`, `calorias`) VALUES
 -- Estructura de tabla para la tabla `temporadas`
 --
 
-DROP TABLE IF EXISTS `temporadas`;
 CREATE TABLE IF NOT EXISTS `temporadas` (
   `temporada_id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
@@ -1523,7 +1433,6 @@ INSERT INTO `temporadas` (`temporada_id`, `tipo`) VALUES
 -- Estructura de tabla para la tabla `temporadas_receta`
 --
 
-DROP TABLE IF EXISTS `temporadas_receta`;
 CREATE TABLE IF NOT EXISTS `temporadas_receta` (
   `temporadas_receta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `recetas_id` int(11) NOT NULL,
@@ -1546,7 +1455,6 @@ INSERT INTO `temporadas_receta` (`temporadas_receta_id`, `recetas_id`, `temporad
 -- Estructura de tabla para la tabla `usuarios`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `usuario_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombreUsuario` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
@@ -1567,12 +1475,6 @@ INSERT INTO `usuarios` (`usuario_id`, `nombreUsuario`, `email`, `contrasenia`, `
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `calificacion_usuario_receta`
---
-ALTER TABLE `calificacion_usuario_receta`
-  ADD CONSTRAINT `calificacion_usuario_receta_ibfk_1` FOREIGN KEY (`recetas_id`) REFERENCES `recetas` (`recetas_id`);
 
 --
 -- Filtros para la tabla `categoria_receta`
@@ -1624,13 +1526,6 @@ ALTER TABLE `perfil_usuario`
   ADD CONSTRAINT `perfil_usuario_ibfk_3` FOREIGN KEY (`rutina_id`) REFERENCES `rutinas` (`rutina_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `perfil_usuario_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `perfil_usuario_ibfk_2` FOREIGN KEY (`dieta_id`) REFERENCES `dietas` (`dieta_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `preferencias_alimenticias_usuario`
---
-ALTER TABLE `preferencias_alimenticias_usuario`
-  ADD CONSTRAINT `preferencias_alimenticias_usuario_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `preferencias_alimenticias_usuario_ibfk_1` FOREIGN KEY (`ingredientes_id`) REFERENCES `ingredientes` (`ingredientes_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `promedio_calificacion`
