@@ -3,5 +3,5 @@ package clases;
 
 public interface Visitable {
 
-	public void aceptar(Visitante visitor);
+	public String aceptar(Visitante visitor);
 }

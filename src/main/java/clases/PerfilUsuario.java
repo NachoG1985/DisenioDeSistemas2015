@@ -1,9 +1,9 @@
 package clases;
 
-import java.util.HashSet;
-import java.util.Set;
 
-public class PerfilUsuario implements Visitable{
+import java.util.*;
+
+public class PerfilUsuario{
 
 	// Atributos de la clase
 	private String nombre;
@@ -15,15 +15,14 @@ public class PerfilUsuario implements Visitable{
 	private double altura;
 	private String complexion;
 	private String dieta;
-	private String[] preferencias;
+	String[] preferencias;
 	private String rutina;
-	private static HashSet<String> condicionPreexistente;
+	private ArrayList<Object> condicionPreexistente;
 
 	// Constructor de la clase
 	public PerfilUsuario(String nombre,String apellido, String nuevoSexo,
 			int nuevaEdad, double nuevaAltura, String nuevaComplexion,
-			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina,
-			HashSet<String> condicion) {
+			String nuevaDieta, String[] nuevasPreferencias, String nuevaRutina) {
 
 		setNombre(nombre);
 		setApellido(apellido);
@@ -34,7 +33,7 @@ public class PerfilUsuario implements Visitable{
 		setDieta(nuevaDieta);
 		setPreferencias(nuevasPreferencias);
 		setRutina(nuevaRutina);
-		setCondicionPreexistente(condicion);
+		setCondicionPreexistente();
 	}
 
 	// Metodos de la clase
@@ -111,16 +110,34 @@ public class PerfilUsuario implements Visitable{
 	}
 
 	
-	public HashSet<String> getCondicionPreexistente() {
+	public ArrayList<Object> getCondicionPreexistente() {
 		return condicionPreexistente;
 	}
 
-	public static void setCondicionPreexistente(HashSet<String> condicion) {
-		PerfilUsuario.condicionPreexistente = condicion;
+	public void setCondicionPreexistente() {
+		condicionPreexistente = new ArrayList<Object>();
+	}
+	
+	public ArrayList<String> getRecomendaciones(){
+		Iterator<Object> iterator = condicionPreexistente.iterator();
+		Object elemento;
+		ArrayList<String> recomendaciones = new ArrayList<String>();
+		RecomendadorDeRecetas recomendador = new RecomendadorDeRecetas();
+		while(iterator.hasNext()) 
+		{
+			elemento = iterator.next();
+			if(elemento.getClass() == Hipertension.class){
+				recomendaciones.add(recomendador.visitar((Hipertension)elemento));
+			}
+			if(elemento.getClass() == Celiasis.class){
+				recomendaciones.add(recomendador.visitar((Celiasis)elemento));
+			}
+			if(elemento.getClass() == Diabetes.class){
+				recomendaciones.add(recomendador.visitar((Diabetes)elemento));
+			}
+		}
+		return recomendaciones;
 	}
 
-	public void aceptar(Visitante visitor){
-		Set<Receta> recetas =  visitor.visitar(this);
-		// MOSTRAR CUANDO TENGAMOS EL FORMATO!!!
-	}
+	
 }
