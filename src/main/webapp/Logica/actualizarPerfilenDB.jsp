@@ -36,6 +36,7 @@
 
 			ArrayList<CondicionPreexistente> condicionesUsuario = new ArrayList<CondicionPreexistente>();
 			
+			if(condiciones != null){
 			for(int i = 0; i < condiciones.length; i++)
 			{
 				if(condiciones[i] == "Hipertension")
@@ -47,6 +48,7 @@
 				if(condiciones[i] == "Diabetes")
 					condicionesUsuario.add(new Diabetes());
 				
+			}
 			}
 			
 			String rutina = request.getParameter("rutina");

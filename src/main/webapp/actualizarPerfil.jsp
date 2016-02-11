@@ -65,7 +65,7 @@
 	  
 	      <!-- DESPLEGABLE DE ESTADISTICAS-->
 		<li>
-        <a href="estadisticasYReportes_bootstrap.jsp" class="dropdown-toggle" >
+        <a href="estadisticasYReportes_bootstrap.jsp" >
           Reportes y Estadisticas <b class="caret"></b>
         </a>
 		</li>

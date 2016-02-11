@@ -4,9 +4,20 @@
 <%@ page import="java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<<head>
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Seleccionar fecha</title>
+ 
+    <!-- CSS de Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+ 
+    <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
 
@@ -45,7 +56,7 @@
 	  
 	      <!-- DESPLEGABLE DE ESTADISTICAS-->
 		<li>
-        <a href="estadisticasYReportes_bootstrap.jsp" class="dropdown-toggle" >
+        <a href="estadisticasYReportes_bootstrap.jsp"  >
           Reportes y Estadisticas <b class="caret"></b>
         </a>
 		</li>
@@ -157,8 +168,9 @@
 					<br><br>
 			<button  type="submit" name="boton" value="generarReporte" class="btn btn-default btn-primary  btn-block" onClick=""> Generar reporte </button>
 		</div>
+		
+				</form>
 	</div>		
 </div>
-		</form>
 </body>
 </html>
