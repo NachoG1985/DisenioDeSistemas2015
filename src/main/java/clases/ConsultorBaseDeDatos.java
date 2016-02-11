@@ -65,7 +65,11 @@ public class ConsultorBaseDeDatos {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             
-            URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+            //Version para la aplicacion hosteada
+            //URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+            
+            //Version para la aplicacion corriendo en local con wamp
+            URI dbUri = new URI("mysql://root:@localhost/disenio");
 
            this.username = dbUri.getUserInfo().split(":")[0];
            this.password = dbUri.getUserInfo().split(":")[1];
