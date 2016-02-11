@@ -65,6 +65,13 @@
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav navbar-right" style="margin-right:1%">
 	  
+	      <!-- DESPLEGABLE DE ESTADISTICAS-->
+		<li>
+        <a href="estadisticasYReportes_bootstrap.jsp" class="dropdown-toggle" >
+          Reportes y Estadisticas <b class="caret"></b>
+        </a>
+		</li>
+	  
 	  <!-- DESPLEGABLE DE RECETAS-->
 	  <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">

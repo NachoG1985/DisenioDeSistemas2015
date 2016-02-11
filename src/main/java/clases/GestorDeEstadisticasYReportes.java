@@ -89,6 +89,9 @@ public class GestorDeEstadisticasYReportes
 			// Seteo como dia del calendario el minimo dia del mes
 			calendario.set(Calendar.DAY_OF_MONTH,
 					calendario.getMaximum(Calendar.DAY_OF_MONTH));
+			
+			while (calendario.get(Calendar.MONTH) != (mes - 1))
+				calendario.add(Calendar.DATE, -1);
 
 			Date ultimoDia = calendario.getTime();
 

@@ -1,3 +1,7 @@
+<%@page import="clases.Hipertension"%>
+<%@page import="clases.Diabetes"%>
+<%@page import="clases.Celiasis"%>
+<%@page import="clases.CondicionPreexistente"%>
 <%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Usuario" %>
 <%@ page import="clases.PerfilUsuario" %>
@@ -57,6 +61,14 @@
        otro elemento que se pueda ocultar al minimizar la barra -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav navbar-right" style="margin-right:1%">
+	  
+	  
+	      <!-- DESPLEGABLE DE ESTADISTICAS-->
+		<li>
+        <a href="estadisticasYReportes_bootstrap.jsp" class="dropdown-toggle" >
+          Reportes y Estadisticas <b class="caret"></b>
+        </a>
+		</li>
 	  
 	  <!-- DESPLEGABLE DE RECETAS-->
 	  <li class="dropdown">
@@ -173,26 +185,37 @@
 				<div class="form-group">
 					<label for="condicionPreexistente" class="col-lg-4 control-label">Condiciones Preexistentes</label>
 					<div class="col-lg-8">
-						<div class="checkbox-inline">
+					
+					<%
+						ArrayList<String> condicionesExistentes = new ArrayList<String>();
+							
+						condicionesExistentes.add(new Celiasis().getNombre());
+						condicionesExistentes.add(new Diabetes().getNombre());
+						condicionesExistentes.add(new Hipertension().getNombre());
+						
+						Iterator <CondicionPreexistente> iterador = perfil.getCondicionPreexistente().iterator();
+						
+						while(iterador.hasNext())
+							condicionesExistentes.remove(iterador.next().getNombre());
+						
+						Iterator <String> itCondicionesFaltantes = condicionesExistentes.iterator();
+						
+						while(itCondicionesFaltantes.hasNext())
+						{
+							String condicion = itCondicionesFaltantes.next();
+					%>
+					
+					<div class="checkbox-inline">
 							<label>
-								<input type="checkbox" name="condicionPreexistente" id="condicionPreexistente" value="Diabetes">
-									Diabetes
+					
+					<%
+						out.println("<input type=\"checkbox\" name=\"condicionPreexistente\" id=\"condicionPreexistente\" value=\"" + condicion + "\">");
+						out.println(condicion);
+					%>
 							</label>
 						</div>
 						
-						<div class="checkbox-inline">
-							<label>
-								<input type="checkbox" name="condicionPreexistente" id="condicionPreexistente" value="Celiasis">
-									Celiasis
-							</label>
-						</div>
-
-						<div class="checkbox-inline">
-							<label>
-								<input type="checkbox" name="condicionPreexistente" id="condicionPreexistente" value="Hipertension">
-									Hipertensión
-							</label>
-						</div>						
+						<% } %>				
 						
 					</div>	
 				</div>

@@ -1717,12 +1717,12 @@ public class ConsultorBaseDeDatos {
 			 } return nombres;
 		 }
 		 
-		 public ArrayList<Object> obtenerCondicionesPerfil(String nombreUsuario ) {
+		 public ArrayList<CondicionPreexistente> obtenerCondicionesPerfil(String nombreUsuario ) {
 			 ResultSet data=null;
 			 Connection cn = null;
 			 CallableStatement cst = null;
 			 int perfil;
-			 ArrayList<Object> nombresCondiciones = new ArrayList<Object>();
+			 ArrayList<CondicionPreexistente> nombresCondiciones = new ArrayList<CondicionPreexistente>();
 			 String nombreCondicion;
 			 try {
 				 cn = getConexion(dbUrl, username, password);

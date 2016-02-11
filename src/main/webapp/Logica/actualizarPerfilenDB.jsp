@@ -6,6 +6,11 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.HashSet" %>
 
+<%@page import="clases.CondicionPreexistente"%>
+<%@page import="clases.Diabetes"%>
+<%@page import="clases.Celiasis"%>
+<%@page import="clases.Hipertension"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -29,10 +34,20 @@
 			
 			String condiciones[] = request.getParameterValues("condicionPreexistente");
 
-			HashSet<String> condicionesUsuario = new HashSet<String>();
+			ArrayList<CondicionPreexistente> condicionesUsuario = new ArrayList<CondicionPreexistente>();
 			
 			for(int i = 0; i < condiciones.length; i++)
-				condicionesUsuario.add(condiciones[i]);
+			{
+				if(condiciones[i] == "Hipertension")
+					condicionesUsuario.add(new Hipertension());
+				
+				if(condiciones[i] == "Celiasis")
+					condicionesUsuario.add(new Celiasis());
+				
+				if(condiciones[i] == "Diabetes")
+					condicionesUsuario.add(new Diabetes());
+				
+			}
 			
 			String rutina = request.getParameter("rutina");
 			String complexion = request.getParameter("complexion");

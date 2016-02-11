@@ -1,3 +1,7 @@
+<%@page import="clases.CondicionPreexistente"%>
+<%@page import="clases.Diabetes"%>
+<%@page import="clases.Celiasis"%>
+<%@page import="clases.Hipertension"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
@@ -5,6 +9,8 @@
 <%@ page import="clases.Usuario" %>
 <%@ page import="clases.PerfilUsuario" %>
 <%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Iterator" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -32,16 +38,28 @@
 			
 			String condiciones[] = request.getParameterValues("condicionPreexistente");
 			
-			HashSet<String> condicionesUsuario = new HashSet<String>();
+
+			ArrayList<CondicionPreexistente> condicionesUsuario = new ArrayList<CondicionPreexistente>();
 			
 			for(int i = 0; i < condiciones.length; i++)
-				condicionesUsuario.add(condiciones[i]);
+			{
+				if(condiciones[i] == "Hipertension")
+					condicionesUsuario.add(new Hipertension());
+				
+				if(condiciones[i] == "Celiasis")
+					condicionesUsuario.add(new Celiasis());
+				
+				if(condiciones[i] == "Diabetes")
+					condicionesUsuario.add(new Diabetes());
+				
+			}
 			
 			String rutina = request.getParameter("rutina");
 			String complexion = request.getParameter("complexion");
 			
 			//Se crea el objeto del tipo perfil de usuario
 			PerfilUsuario nuevoPerfil = new PerfilUsuario(nombre, apellido, sexo, edad, altura, complexion, dieta, null, rutina, condicionesUsuario);
+			
 			
 			//Le agrego al usuario el perfil cargado
 			nuevoUsuario.setPerfil(nuevoPerfil);
@@ -52,7 +70,15 @@
 		
 			
 			consultor.insertarUsuario(nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(), nuevoUsuario.getContrasenia(), nuevoUsuario.getFechaNacimiento());
-			consultor.insertarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina/*, condicionesDB*/);
+			consultor.insertarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina);
+			
+			Iterator<CondicionPreexistente> iterador = nuevoUsuario.getPerfil().getCondicionPreexistente().iterator();
+			
+			while(iterador.hasNext())
+			{
+				consultor.insertarCondicionPerfil(nuevoUsuario.getNombreUsuario(), iterador.next().getNombre());
+			}
+			
 			
 			consultor.desconectar();
 			

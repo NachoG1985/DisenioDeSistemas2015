@@ -17,12 +17,12 @@ public class PerfilUsuario{
 	private String dieta;
 	private HashSet<String> preferencias;
 	private String rutina;
-	private ArrayList<Object> condicionPreexistente;
+	private ArrayList<CondicionPreexistente> condicionPreexistente;
 
 	// Constructor de la clase
 	public PerfilUsuario(String nombre,String apellido, String nuevoSexo,
 			int nuevaEdad, double nuevaAltura, String nuevaComplexion,
-			String nuevaDieta, HashSet<String> nuevasPreferencias, String nuevaRutina,ArrayList<Object> nuevasCondiciones) {
+			String nuevaDieta, HashSet<String> nuevasPreferencias, String nuevaRutina,ArrayList<CondicionPreexistente> nuevasCondiciones) {
 
 		setNombre(nombre);
 		setApellido(apellido);
@@ -110,16 +110,16 @@ public class PerfilUsuario{
 	}
 
 	
-	public ArrayList<Object> getCondicionPreexistente() {
+	public ArrayList<CondicionPreexistente> getCondicionPreexistente() {
 		return condicionPreexistente;
 	}
 
-	public void setCondicionPreexistente(ArrayList<Object> condiciones) {
+	public void setCondicionPreexistente(ArrayList<CondicionPreexistente> condiciones) {
 		this.condicionPreexistente = condiciones;
 	}
 	
 	public ArrayList<String> getRecomendaciones(){
-		Iterator<Object> iterator = condicionPreexistente.iterator();
+		Iterator<CondicionPreexistente> iterator = condicionPreexistente.iterator();
 		Object elemento;
 		ArrayList<String> recomendaciones = new ArrayList<String>();
 		RecomendadorDeRecetas recomendador = new RecomendadorDeRecetas();
@@ -137,6 +137,18 @@ public class PerfilUsuario{
 			}
 		}
 		return recomendaciones;
+	}
+	
+	public String mostrarCondiciones()
+	{
+		String condiciones = "";
+		Iterator<CondicionPreexistente> iterador = condicionPreexistente.iterator();
+		
+		while(iterador.hasNext())
+			condiciones = condiciones + iterador.next().getNombre() + " ";	
+		
+		return condiciones;
+		
 	}
 
 	

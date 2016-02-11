@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="clases.*" %>
+<%@ page import="clases.Usuario" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
 <%@ page import="java.sql.Timestamp" %>
@@ -11,23 +12,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Estadísticas y Reportes</title>
- 
-    <!-- CSS de Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
- 
-    <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body> 
+
+<%
+		Usuario usuario = (Usuario)session.getAttribute("usuario");	
+	%>
+
     <!-- Librería jQuery requerida por los plugins de JavaScript -->
     <script src="http://code.jquery.com/jquery.js"></script>
  
@@ -57,6 +46,13 @@
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav navbar-right" style="margin-right:1%">
 	  
+	      <!-- DESPLEGABLE DE ESTADISTICAS-->
+		<li>
+        <a href="estadisticasYReportes_bootstrap.jsp" class="dropdown-toggle" >
+          Reportes y Estadisticas <b class="caret"></b>
+        </a>
+		</li>
+	  
 	  <!-- DESPLEGABLE DE RECETAS-->
 	  <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -80,7 +76,11 @@
 	  <!-- DESPLEGABLE DEL USUARIO-->
 	  <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          Usuario <b class="caret"></b>
+        <span class="glyphicon glyphicon-user"></span>
+        	<%
+        		out.println(usuario.getNombreUsuario());    	
+        	%>
+        <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li><a href="perfil_bootstrap.jsp">Ver Perfil</a></li>
