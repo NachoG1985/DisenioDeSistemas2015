@@ -43,7 +43,7 @@
 			}
 			else{
 			ArrayList<String> datosReporte = gestor.generar();
-			session.setAttribute("Reporte",datosReporte); 
+			session.setAttribute("Reporte",(Object)datosReporte); 
 			response.sendRedirect("../reporte_bootstrap.jsp");
 			}
 			

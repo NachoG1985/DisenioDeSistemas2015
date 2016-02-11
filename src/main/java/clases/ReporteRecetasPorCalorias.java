@@ -55,7 +55,6 @@ public class ReporteRecetasPorCalorias implements Tipo
 		ArrayList<String> datos = new ArrayList<String>();
 		HashSet<Receta> recetas = ConsultorBaseDeDatos.getInstance().recetaSegunCalorias(inicio,fin);
 		Iterator<Receta> iterator = recetas.iterator();
-		out.println("guacho");
 		String renglon;
 		while(iterator.hasNext()) 
 		{
@@ -64,6 +63,8 @@ public class ReporteRecetasPorCalorias implements Tipo
 			datos.add(renglon);
 			
 		}
+		System.out.println(recetas.size());
+		System.out.println(datos.size());
 		return datos;
 	}
 

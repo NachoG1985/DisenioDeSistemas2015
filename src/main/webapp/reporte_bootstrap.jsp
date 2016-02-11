@@ -152,7 +152,7 @@
 				while(iterator.hasNext()){
 					renglon = iterator.next();
 					out.println("<div class=\"col-md-4 col-md-offset-3\">");
-					out.println(renglon);
+					out.println("<p>" + renglon + "</p>");
 					out.println("</div>");
 				}
 			out.println("</h4>");
