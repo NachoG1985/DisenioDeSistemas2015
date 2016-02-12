@@ -17,6 +17,8 @@
 		String origen = request.getParameter("boton").toString();
 		IngredienteEnReceta nuevoIngredienteEnReceta;
 		Ingrediente ingrediente;
+		
+		ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 	
 		String nombreIngrediente;
 		int cantidad;
@@ -24,12 +26,14 @@
 		nombreIngrediente = request.getParameter("nombreIngrediente");
 		cantidad = Integer.parseInt(request.getParameter("cantidad"));
 		
-		ingrediente = ConsultorBaseDeDatos.getInstance().mostrarDatosIngrediente(nombreIngrediente);
+		ingrediente = consultor.mostrarDatosIngrediente(nombreIngrediente);
 
 		
 		nuevoIngredienteEnReceta = new IngredienteEnReceta(ingrediente, cantidad);
 		
 		nuevaReceta.agregarIngrediente(nuevoIngredienteEnReceta);
+		
+		consultor.desconectar();
 		
 		session.setAttribute("receta", (Object)nuevaReceta);
 		

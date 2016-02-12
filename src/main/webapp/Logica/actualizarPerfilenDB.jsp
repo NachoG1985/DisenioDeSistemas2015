@@ -36,20 +36,14 @@
 
 			ArrayList<Object> condicionesUsuario = new ArrayList<Object>();
 			
-			if(condiciones != null){
-			for(int i = 0; i < condiciones.length; i++)
-			{
-				if(condiciones[i] == "Hipertension")
-					condicionesUsuario.add(new Hipertension());
-				
-				if(condiciones[i] == "Celiasis")
-					condicionesUsuario.add(new Celiasis());
-				
-				if(condiciones[i] == "Diabetes")
-					condicionesUsuario.add(new Diabetes());
-				
-			}
-			}
+			if(request.getParameter("hipertension") != null)
+				condicionesUsuario.add(new Hipertension());
+			
+			if(request.getParameter("celiasis") != null)
+				condicionesUsuario.add(new Celiasis());
+			
+			if(request.getParameter("diabetes") != null)
+				condicionesUsuario.add(new Diabetes());
 			
 			String rutina = request.getParameter("rutina");
 			String complexion = request.getParameter("complexion");
