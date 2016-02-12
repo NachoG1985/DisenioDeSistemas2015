@@ -135,19 +135,62 @@
 		out.println("</h4>");
 		out.println("</div>");
 
+		%>
+		
+		<div class="col-md-5 col-md-offset-1">
+			<table class="table table-striped">
+		
+		<%	
 		ArrayList<String> resultado = (ArrayList<String>) session.getAttribute("Estadistica");
 		Iterator<String> iterator = resultado.iterator();
 		String renglon;
-		while(iterator.hasNext())
-		{
-			renglon = iterator.next();
-			out.println("<div class=\"col-md-4 col-md-offset-3\">");
-			out.println("<h2 class=\text-center\">" + renglon + "<h2>");
-			out.println("</div>");
+		int i = 0;
+		if(tipo.equals("Consultas según dificultad")){
+			out.print("<tr>");
+			out.print("<td><strong> Receta </strong></td>"); 
+			out.print("<td><strong> Dificultad </strong></td>"); 
+			out.print("<td><strong> Consultas </strong></td>");
+			out.print("</tr>");
+			while(iterator.hasNext())
+			{
+				
+				renglon = iterator.next();
+				if(i == 0){
+					out.println("<tr>");
+					}
+				out.println("<td>" + renglon + "</td>");
+				i++;
+				if(i == 3){
+					out.println("</tr>");
+					i = 0;
+					}
+			}
 		}
-		out.println("</div>");
+		else{
+			out.print("<tr>");
+			out.print("<td><strong> Receta </strong></td>"); 
+			out.print("<td><strong> Consultas </strong></td>");
+			out.print("</tr>");
+			while(iterator.hasNext())
+			{
+				
+				renglon = iterator.next();
+				if(i == 0){
+					out.println("<tr>");
+					}
+				out.println("<td>" + renglon + "</td>");
+				i++;
+				if(i == 3){
+					out.println("</tr>");
+					i = 0;
+					}
+			}
+		}
+		//out.println("</div>");
 		
 		%>
+			</table>
+		</div>
 
 				
 		</div>

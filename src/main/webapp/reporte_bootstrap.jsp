@@ -145,18 +145,51 @@
 				}
 				
 			out.println("</div>");
-			
-			out.println("<h4>");
+			%>
+			<div class="col-md-5 col-md-offset-1">
+			<table class="table table-striped">
+		
+		
+			<%
 				Iterator<String> iterator = datos.iterator();
 				String renglon;
-				while(iterator.hasNext()){
+				int i = 0;
+				
+				if(tipo.equals("Recetas según un rango de calorías")){
+					out.print("<tr>");
+					out.print("<td><strong> Receta </strong></td>"); 
+					out.print("<td><strong> Calorias </strong></td>");
+					out.print("</tr>");
+					while(iterator.hasNext()){
 					renglon = iterator.next();
-					out.println("<div class=\"col-md-4 col-md-offset-3\">");
-					out.println("<p>" + renglon + "</p>");
-					out.println("</div>");
+					if(i == 0){
+						out.println("<tr>");
+						}
+					out.println("<td>" + renglon + "</td>");
+					i++;
+					if(i == 2){
+						out.println("</tr>");
+						i = 0;
+						}
+					} 
 				}
-			out.println("</h4>");
+				else{
+					out.print("<tr>");
+					out.print("<td><strong> Receta </strong></td>"); 
+					out.print("</tr>");
+					while(iterator.hasNext()){
+					renglon = iterator.next();
+					out.println("<tr>");
+					out.println("<td>" + renglon + "</td>");
+					out.println("</tr>");
+					}
+				}
+			
 		%>
+		
+			</table>
+		</div>
+		
 			
 		</div>
 	</div>
