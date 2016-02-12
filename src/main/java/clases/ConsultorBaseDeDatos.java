@@ -192,7 +192,8 @@ public class ConsultorBaseDeDatos {
 	             cn.close();
 	                
 	                         
-	        }catch (Exception e) {	        	
+	        }catch (Exception e) {	
+	        	e.printStackTrace();
 	        }
 		        
 	 }  
