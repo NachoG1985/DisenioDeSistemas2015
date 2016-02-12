@@ -78,7 +78,6 @@ public class ConsultorBaseDeDatos {
             
             setConexion(DriverManager.getConnection(dbUrl, username, password));
             
-          //setConexion(DriverManager.getConnection(System.getenv("CLEARDB_DATABASE_URL")));
             if(miConexion != null){
                 System.out.println("Conexion Exitosa!");
             }else{

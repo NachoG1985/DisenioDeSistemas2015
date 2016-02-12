@@ -28,6 +28,7 @@
 		//Subir la calificacion
 	}
 	
+	consultor.desconectar();
 	response.sendRedirect("../verReceta_bootstrap.jsp?receta=" + nombreReceta);
 	
 	%>
