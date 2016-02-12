@@ -239,21 +239,21 @@
 					
 						<div class="radio">
 							<label>
-								<input type="radio" name="rutina" id="mediana" value="Mediana" <%if(perfil.getRutina().equals("Mediana")) out.println("checked"); %>>
+								<input type="radio" name="rutina" id="intermedio" value="Intermedio" <%if(perfil.getRutina().equals("Mediana")) out.println("checked"); %>>
 							Mediana
 							</label>
 					</div>
 					
 					<div class="radio">
 						<label>
-							<input type="radio" name="rutina" id="grande" value="Grande" <%if(perfil.getRutina().equals("Grande")) out.println("checked"); %>>
+							<input type="radio" name="rutina" id="mediano" value="Mediano" <%if(perfil.getRutina().equals("Grande")) out.println("checked"); %>>
 								Grande
 						</label>
 					</div>
 					
 					<div class="radio">
 						<label>
-							<input type="radio" name="rutina" id="intensiva" value="Intensiva" <%if(perfil.getRutina().equals("Intensiva")) out.println("checked"); %>>
+							<input type="radio" name="rutina" id="intensivo" value="Intensivo" <%if(perfil.getRutina().equals("Intensiva")) out.println("checked"); %>>
 								Intensiva
 						</label>
 					</div>
