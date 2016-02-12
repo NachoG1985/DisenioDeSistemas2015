@@ -1387,7 +1387,49 @@ public class ConsultorBaseDeDatos {
 		 }catch (Exception e) {
 				 
 		 } return buscadas;
-	 }  
+	 } 
+	 
+	//Devuelve las recetas segun la lista de condiciones de un perfil usuario.
+	 public HashSet<Receta> recetaSegunCondicion(ArrayList<Object> condicionPreexistente) {	
+			ResultSet data=null;
+			Connection cn = null;
+			CallableStatement cst = null;
+			Receta aux;
+			Iterator<Object> iterator = condicionPreexistente.iterator();
+			Object elemento;
+			HashSet<Receta> recomendaciones = new HashSet<Receta>();
+			try{
+			cn = getConexion(dbUrl, username, password);
+			while(iterator.hasNext()) {
+					elemento = iterator.next();
+					String condicion = elemento.getClass().toString();
+					int condicion_id = obtenerIDCondicion(condicion,cn,cst);
+					
+					cst = cn.prepareCall("{call recetaSegunCondicion(?)}");
+					cst.setInt(1,condicion_id);
+					data = cst.executeQuery();
+					data = cst.executeQuery();
+					while(data.next()){	
+						String nombreReceta = data.getString("nombre");
+						int dificultad = data.getInt("dificultad");
+						float calorias = data.getInt("caloriasTotales");
+						String ingredientePpal = obtenerNombreIng(data.getInt("ingrediente_ppal_id"),cn);
+						
+						aux = new Receta(nombreReceta, ingredientePpal, dificultad,calorias,"",null);
+						
+						aux.setCategorias(obtenerCategoriasReceta(nombreReceta));
+						aux.setTemporada(obtenerTemporadasReceta(nombreReceta));
+						aux.setAptaPara(obtenerCondicionesReceta(nombreReceta));
+						aux.setDietasAptas(obtenerDietasReceta(nombreReceta));
+						recomendaciones.add(aux);	
+					}		
+				}
+			 }catch (Exception e) {
+			
+			}
+			return recomendaciones;
+		}
+
 		 
 		 
 	 //devuelve la porcion, calorias y nivel_id(el cual se puede convertir a string via la func aux)
