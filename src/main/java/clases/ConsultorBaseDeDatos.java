@@ -1425,7 +1425,7 @@ public class ConsultorBaseDeDatos {
 					}		
 				}
 			 }catch (Exception e) {
-			
+				 e.printStackTrace();
 			}
 			return recomendaciones;
 		}
