@@ -247,7 +247,7 @@
 		
 	<!-- 	<div class="col-md-1" >
 			<img src="Imagenes/Contenido estatico/estadisticas2.jpg"/>
-			</div> -->
+		//	</div> -->
 		
 		</div>
 	</div>	
