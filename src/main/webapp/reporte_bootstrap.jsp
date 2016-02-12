@@ -104,14 +104,14 @@
   </div>
 </nav>
 	<div class="row">
-		<div class="col-md-6">
+		<!--<div class="col-md-6"> -->
 		<%	
 			String tipo = (String) session.getAttribute("TipoRep");
 			ArrayList<String> datos = (ArrayList<String>) session.getAttribute("Reporte");
 			String titulo = "Reporte de " + tipo;
 			out.println("<h1 class=\"text-primary text-center\">" + titulo + "</h1>");
 			
-			out.println("<div class=\"well well-sm \">");
+			out.println("<div class=\"well well-sm col-md-offset-3 col-md-5\">");
 				Date fechaActual = new Date();
 				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 				out.println("<h4>Fecha: ");
@@ -144,12 +144,14 @@
 					out.println("</h4>");
 				}
 				
-			out.println("</div>");
-			%>
-			<div class="col-md-7 col-md-offset-1">
-			<table class="table table-striped">
-		
-		
+			out.println("</div>"); %>
+		<!--</div> -->
+	</div>
+
+
+	<div class="row">		
+			<div class="col-md-4 col-md-offset-3">
+				<table class="table table-striped">
 			<%
 				Iterator<String> iterator = datos.iterator();
 				String renglon;
@@ -187,12 +189,12 @@
 			//
 		%>
 		
-			</table>
+				</table>
 		</div>
 		
 			
-		</div>
 	</div>
+
 	
 	<div class="row">
 	     <form id="reporteCalorias" action="estadisticasYReportes_bootstrap.jsp"

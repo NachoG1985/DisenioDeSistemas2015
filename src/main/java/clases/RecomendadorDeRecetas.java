@@ -49,18 +49,5 @@ public class RecomendadorDeRecetas implements Visitante{
 		return recomendaciones;
 	}
 	
-	public HashSet<Receta> recomendacionesRecetas(Usuario usuario)
-	{
-		HashSet<Receta> recomendaciones = new HashSet<Receta>();
-		Iterator<Object> iterator = usuario.getPerfil().getCondicionPreexistente().iterator();
-		Object elemento;
-		while(iterator.hasNext()) {
-				elemento = iterator.next();
-				String condicion = elemento.getClass().toString();
-				String nombreUsuario = usuario.getNombreUsuario();
-				HashSet<Receta> recetasCondicion = new HashSet<Receta>();//cuando esta lista la funcion cambiar por consultor.getInstance().consulta(nombreUsuario,condicion);
-				recomendaciones.addAll(recetasCondicion);
-		}	
-		return recomendaciones;
-	}
+
 }

@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="clases.Usuario" %>
 <%@ page import="clases.RecomendadorDeRecetas" %>
+<%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Receta" %>
 <%@ page import="java.util.*" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -107,7 +108,8 @@
 <%
 	RecomendadorDeRecetas recomendador = new RecomendadorDeRecetas();
 	ArrayList<String> recomendacionesPreparacion = recomendador.recomendacionesPreparacion(usuario.getPerfil());
-	HashSet<Receta> recetas = recomendador.recomendacionesRecetas(usuario);
+	ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
+	HashSet<Receta> recetas = consultor.recetaSegunCondicion(usuario.getPerfil().getCondicionPreexistente());
 %>
 <div class="row">
 		<div class="col-md-6">
