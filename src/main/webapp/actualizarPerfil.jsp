@@ -221,7 +221,7 @@
 							<label>
 					
 					<%
-						out.println("<input type=\"checkbox\" name=\"condicionPreexistente\" id=\"condicionPreexistente\" value=\"" + condicion + "\">");
+						out.println("<input type=\"checkbox\" name=\"" +  condicion + "\" id=\"condicionPreexistente\" value=\"" + condicion + "\">");
 						out.println(condicion);
 					%>
 							</label>
