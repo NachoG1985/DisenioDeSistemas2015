@@ -1,7 +1,8 @@
 package clases;
 
-
-
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.*;
 
 public class RecomendadorDeRecetas implements Visitante{
 	
@@ -27,4 +28,39 @@ public class RecomendadorDeRecetas implements Visitante{
 		return recomendacionesHipertension;
 	}
 	
+	public ArrayList<String> recomendacionesPreparacion(PerfilUsuario perfil){
+		Iterator<Object> iterator = perfil.getCondicionPreexistente().iterator();
+		Object elemento;
+		ArrayList<String> recomendaciones = new ArrayList<String>();
+		RecomendadorDeRecetas recomendador = new RecomendadorDeRecetas();
+		while(iterator.hasNext()) 
+		{
+			elemento = iterator.next();
+			if(elemento.getClass() == Hipertension.class){
+				recomendaciones.add(((Hipertension)elemento).aceptar(recomendador));
+			}
+			if(elemento.getClass() == Celiasis.class){
+				recomendaciones.add(((Celiasis)elemento).aceptar(recomendador));
+			}
+			if(elemento.getClass() == Diabetes.class){
+				recomendaciones.add(((Diabetes)elemento).aceptar(recomendador));
+			}
+		}
+		return recomendaciones;
+	}
+	
+	public HashSet<Receta> recomendacionesRecetas(Usuario usuario)
+	{
+		HashSet<Receta> recomendaciones = new HashSet<Receta>();
+		Iterator<Object> iterator = usuario.getPerfil().getCondicionPreexistente().iterator();
+		Object elemento;
+		while(iterator.hasNext()) {
+				elemento = iterator.next();
+				String condicion = elemento.getClass().toString();
+				String nombreUsuario = usuario.getNombreUsuario();
+				HashSet<Receta> recetasCondicion = new HashSet<Receta>();//cuando esta lista la funcion cambiar por consultor.getInstance().consulta(nombreUsuario,condicion);
+				recomendaciones.addAll(recetasCondicion);
+		}	
+		return recomendaciones;
+	}
 }

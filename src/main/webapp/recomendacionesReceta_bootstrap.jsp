@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
 <%@ page import="clases.Usuario" %>
-<%@ page import="clases.GestorDeEstadisticasYReportes" %>
+<%@ page import="clases.RecomendadorDeRecetas" %>
+<%@ page import="clases.Receta" %>
+<%@ page import="java.util.*" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">-->
 <head>
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Estadistica</title>
+    <title>Recomendaciones de recetas</title>
  
     <!-- CSS de Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -20,11 +21,13 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 <body>
 <%
 		Usuario usuario = (Usuario)session.getAttribute("usuario");	
 	%>
+
     <!-- Librería jQuery requerida por los plugins de JavaScript -->
     <script src="http://code.jquery.com/jquery.js"></script>
  
@@ -63,13 +66,13 @@
 	  
 	  <!-- DESPLEGABLE DE RECETAS-->
 	  <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <a href="recomendacionesReceta_bootstrap.jsp" class="dropdown-toggle" data-toggle="dropdown">
           Recetas <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
           <li><a href="consultar_bootstrap.jsp">Consultar Recetas</a></li>
           <li><a href="cargarDatosReceta_bootstrap.html">Subir Receta</a></li>
-		  <li><a href="recomendacionesReceta_bootstrap.jsp">Recibir Recomendaciones</a></li>
+		  <li><a href="#">Recibir Recomendaciones</a></li>
         </ul>
       </li>
 	  <!-- DESPLEGABLE DE AMIGOS Y GRUPOS-->
@@ -81,7 +84,7 @@
           <li><a href="#">Ver Mis Grupos</a></li>
         </ul>
       </li>
-	  <!-- DESPLEGABLE DEL USUARIO-->
+	 <!-- DESPLEGABLE DEL USUARIO-->
 	  <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <span class="glyphicon glyphicon-user"></span>
@@ -101,100 +104,57 @@
   </div>
 </nav>
 
-	<div class="row">
+<%
+	RecomendadorDeRecetas recomendador = new RecomendadorDeRecetas();
+	ArrayList<String> recomendacionesPreparacion = recomendador.recomendacionesPreparacion(usuario.getPerfil());
+	HashSet<Receta> recetas = recomendador.recomendacionesRecetas(usuario);
+%>
+<div class="row">
 		<div class="col-md-6">
-		
-		<%
-		String tipo = (String) session.getAttribute("TipoEst");
-		String titulo = "Estadísticas de " + tipo;
-		out.println("<h1 class=\"text-primary text-center\">" + titulo + "</h1>");
-		String periodo = (String) session.getAttribute("Periodo");
-		int mes = (Integer) session.getAttribute("Mes");
-		String mesImprimible = String.format("%02d",mes);
-		int anio = (Integer) session.getAttribute("Anio");
-		
-		out.println("<div class=\"well well-sm \">");
-		if(periodo.equals("semana")){
-			int semana = (Integer) session.getAttribute("Semana");
-			
-			out.println("<h4> Período: " +  Integer.toString(semana)+ "º semana " + "del "+ mesImprimible + "/"+ Integer.toString(anio) + "</h4>");		
-		}
-		else
-		{
-			out.println("<h4> Período: " + mesImprimible + "/"+ Integer.toString(anio) + "</h4>");		
-		}
-		if(tipo.equals("Recetas mas consultadas (Según sexo)")){
-				String sexo = (String) session.getAttribute("Sexo");
-				out.println("<h4>Sexo: " + sexo + "</h4>");
+			<h1 class="text-primary text-center"> Recomendaciones de recetas para
+				<%
+				out.println(" " + usuario.getNombreUsuario());
+				%>
+			</h1><br>
+			<h4 class="col-md-offset-1"> Recomendaciones de preparación </h4>
+			<h4 class="col-md-offset-1">
+			<%
+			Iterator<String> iteradorPreparacion = recomendacionesPreparacion.iterator();
+			String recomendacionPreparacion;
+			while(iteradorPreparacion.hasNext()){
+				recomendacionPreparacion = iteradorPreparacion.next();
+				out.println(recomendacionPreparacion);
 			}
-		
-		Date fechaActual = new Date();
-		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-		out.println("<h4>Fecha: ");
-		out.println(formato.format(fechaActual.getTime()));
-		out.println("</h4>");
-		out.println("</div>");
-
-		%>
-		
-		<div class="col-md-5 col-md-offset-1">
-			<table class="table table-striped">
-		
-		<%	
-		ArrayList<String> resultado = (ArrayList<String>) session.getAttribute("Estadistica");
-		Iterator<String> iterator = resultado.iterator();
-		String renglon;
-		int i = 0;
-		if(tipo.equals("Consultas según dificultad")){
-			out.print("<tr>");
-			out.print("<td><strong> Receta </strong></td>"); 
-			out.print("<td><strong> Dificultad </strong></td>"); 
-			out.print("<td><strong> Consultas </strong></td>");
-			out.print("</tr>");
-			while(iterator.hasNext())
-			{
-				
-				renglon = iterator.next();
-				if(i == 0){
-					out.println("<tr>");
-					}
-				out.println("<td>" + renglon + "</td>");
-				i++;
-				if(i == 3){
-					out.println("</tr>");
-					i = 0;
-					}
-			}
-		}
-		else{
-			out.print("<tr>");
-			out.print("<td><strong> Receta </strong></td>"); 
-			out.print("<td><strong> Consultas </strong></td>");
-			out.print("</tr>");
-			while(iterator.hasNext())
-			{
-				
-				renglon = iterator.next();
-				if(i == 0){
-					out.println("<tr>");
-					}
-				out.println("<td>" + renglon + "</td>");
-				i++;
-				if(i == 3){
-					out.println("</tr>");
-					i = 0;
-					}
-			}
-		}
-		//out.println("</div>");
-		//
-		%>
-			</table>
+			%>
+			</h4>	
 		</div>
+</div>
 
-				
+<%
+	Iterator<Receta> iteradorRecetas = recetas.iterator();
+	Receta receta;
+%>
+<div class="row">
+		<div class="col-md-1">
+		<%	while(iteradorRecetas.hasNext()){
+					receta = iteradorRecetas.next();
+					
+					out.println("<div class=\"col-md-2\">");
+						out.println("<div class=\"jumbotron text-center\" >");
+							out.println("<div class=\"container\">");
+								out.println("<h3 class=\"text-primary\">" +receta.getNombre() + "</h3>");
+								
+								out.println("<h5 >Dificultad: " + String.valueOf(receta.getDificultad()) +"</h5>");
+								out.println("<h5 >Calorías: " + String.valueOf(receta.getCaloriasTotales()) +"</h5>");
+								out.println("<h5>" + receta.getNombreIngredientePrincipal() + "</h5>");
+								out.println("<a class=\"btn btn-primary btn-sm btn-block\" href=\"verReceta_bootstrap.jsp?receta=" + receta.getNombre() + " \" role=\"button\">  Ver más <span class=\"glyphicon glyphicon-cutlery\"></span></a>");
+								
+							out.println("</div>");
+						out.println("</div>");		
+					out.println("</div>");	
+				}	
+		%>
 		</div>
-		
-	</div> 
+</div>
 </body>
 </html>

@@ -118,26 +118,7 @@ public class PerfilUsuario{
 		this.condicionPreexistente = condiciones;
 	}
 	
-	public ArrayList<String> getRecomendaciones(){
-		Iterator<Object> iterator = condicionPreexistente.iterator();
-		Object elemento;
-		ArrayList<String> recomendaciones = new ArrayList<String>();
-		RecomendadorDeRecetas recomendador = new RecomendadorDeRecetas();
-		while(iterator.hasNext()) 
-		{
-			elemento = iterator.next();
-			if(elemento.getClass() == Hipertension.class){
-				recomendaciones.add(recomendador.visitar((Hipertension)elemento));
-			}
-			if(elemento.getClass() == Celiasis.class){
-				recomendaciones.add(recomendador.visitar((Celiasis)elemento));
-			}
-			if(elemento.getClass() == Diabetes.class){
-				recomendaciones.add(recomendador.visitar((Diabetes)elemento));
-			}
-		}
-		return recomendaciones;
-	}
+	
 	
 	public String mostrarCondiciones()
 	{
