@@ -203,7 +203,7 @@
 	
 	consultor.desconectar();
 	
-	response.sendRedirect("../verReceta_bootstrap.jsp?receta=" + nuevaReceta.getNombre());
+	response.sendRedirect("../home_bootstrap.jsp");
 	
 	%>
 
