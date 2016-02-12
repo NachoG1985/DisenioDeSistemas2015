@@ -220,7 +220,7 @@ public class Receta {
 	public float calcularCalorias() {
 
 		float calorias = 0;
-		calorias = calorias + ingredientePrincipal.calcularCalorias();
+		//calorias = calorias + ingredientePrincipal.calcularCalorias();
 
 		// Defino el iterador para la coleccion de ingredientes
 		Iterator<IngredienteEnReceta> it = ingredientes.iterator();

@@ -3,6 +3,7 @@
 <%@ page import="clases.Receta" %>
 <%@ page import="clases.IngredienteEnReceta" %>
 <%@ page import="clases.Ingrediente" %>
+<%@ page import="clases.ConsultorBaseDeDatos" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,7 +23,7 @@
 		nombreIngrediente = request.getParameter("nombreIngrediente");
 		cantidad = Integer.parseInt(request.getParameter("cantidad"));
 		
-		ingrediente = new Ingrediente(nombreIngrediente,0, 0, null);
+		ingrediente = ConsultorBaseDeDatos.getInstance().mostrarDatosIngrediente(nombreIngrediente);
 		
 		nuevoIngredienteEnReceta = new IngredienteEnReceta(ingrediente, cantidad);
 		
