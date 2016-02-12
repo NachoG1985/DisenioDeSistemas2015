@@ -532,7 +532,7 @@ public class ConsultorBaseDeDatos {
 		 	CallableStatement cst = null;
 	        try {
 	        	 cn = getConexion(dbUrl, username, password);
-	        	 System.out.println(nombreCondicion);
+	        	 System.out.println(nombreUsuario);
 	           	 
 	        	 perfil = obtenerIDPerfil(nombreUsuario, cn, cst);
 	        	 cond = obtenerIDCondicion(nombreCondicion, cn, cst);
