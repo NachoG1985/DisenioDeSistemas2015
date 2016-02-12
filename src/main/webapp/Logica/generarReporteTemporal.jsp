@@ -64,11 +64,11 @@
 		else{
 			 if(tipo.equals("Preferencias de recetas")){
 				gestor.setTipoPreferencias(fechaInicio,fechaFin);
-				
+			 }	
 			ArrayList<String> datosReporte = gestor.generar();
 			session.setAttribute("Reporte",datosReporte);
 			response.sendRedirect("../reporte_bootstrap.jsp");
-			}
+			
 		}
 			
 		
