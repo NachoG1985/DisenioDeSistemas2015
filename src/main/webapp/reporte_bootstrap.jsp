@@ -146,7 +146,7 @@
 				
 			out.println("</div>");
 			%>
-			<div class="col-md-5 col-md-offset-1">
+			<div class="col-md-7 col-md-offset-1">
 			<table class="table table-striped">
 		
 		
