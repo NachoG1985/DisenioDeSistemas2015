@@ -193,10 +193,22 @@
 						condicionesExistentes.add(new Diabetes().getNombre());
 						condicionesExistentes.add(new Hipertension().getNombre());
 						
-						Iterator <CondicionPreexistente> iterador = perfil.getCondicionPreexistente().iterator();
+						Iterator <Object> iterador = perfil.getCondicionPreexistente().iterator();
 						
 						while(iterador.hasNext())
-							condicionesExistentes.remove(iterador.next().getNombre());
+						{
+							Object aux = iterador.next();
+							
+							if(aux.getClass() == Diabetes.class)
+								condicionesExistentes.remove("Diabetes");
+							
+							if(aux.getClass() == Hipertension.class)
+								condicionesExistentes.remove("Hipertension");
+							
+							if(aux.getClass() == Celiasis.class)
+								condicionesExistentes.remove("Celiasis");
+								
+						}
 						
 						Iterator <String> itCondicionesFaltantes = condicionesExistentes.iterator();
 						

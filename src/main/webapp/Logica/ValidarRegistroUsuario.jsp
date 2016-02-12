@@ -39,7 +39,7 @@
 			String condiciones[] = request.getParameterValues("condicionPreexistente");
 			
 
-			ArrayList<CondicionPreexistente> condicionesUsuario = new ArrayList<CondicionPreexistente>();
+			ArrayList<Object> condicionesUsuario = new ArrayList<Object>();
 			
 			if(condiciones != null)
 			{
@@ -75,11 +75,21 @@
 			consultor.insertarUsuario(nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(), nuevoUsuario.getContrasenia(), nuevoUsuario.getFechaNacimiento());
 			consultor.insertarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina);
 			
-			Iterator<CondicionPreexistente> iterador = nuevoUsuario.getPerfil().getCondicionPreexistente().iterator();
+			Iterator<Object> iterador = nuevoPerfil.getCondicionPreexistente().iterator();
 			
 			while(iterador.hasNext())
 			{
-				consultor.insertarCondicionPerfil(nuevoUsuario.getNombreUsuario(), iterador.next().getNombre());
+				Object aux = iterador.next();
+				
+				if(aux.getClass() == Diabetes.class)
+					consultor.insertarCondicionPerfil(nuevoUsuario.getNombreUsuario(), "Diabetes");
+				
+				if(aux.getClass() == Hipertension.class)
+					consultor.insertarCondicionPerfil(nuevoUsuario.getNombreUsuario(), "Hipertension");
+				
+				if(aux.getClass() == Celiasis.class)
+					consultor.insertarCondicionPerfil(nuevoUsuario.getNombreUsuario(), "Celiasis");
+					
 			}
 			
 			

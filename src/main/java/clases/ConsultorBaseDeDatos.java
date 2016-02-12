@@ -1720,12 +1720,12 @@ public class ConsultorBaseDeDatos {
 			 } return nombres;
 		 }
 		 
-		 public ArrayList<CondicionPreexistente> obtenerCondicionesPerfil(String nombreUsuario ) {
+		 public ArrayList<Object> obtenerCondicionesPerfil(String nombreUsuario ) {
 			 ResultSet data=null;
 			 Connection cn = null;
 			 CallableStatement cst = null;
 			 int perfil;
-			 ArrayList<CondicionPreexistente> nombresCondiciones = new ArrayList<CondicionPreexistente>();
+			 ArrayList<Object> nombresCondiciones = new ArrayList<Object>();
 			 String nombreCondicion;
 			 try {
 				 cn = getConexion(dbUrl, username, password);

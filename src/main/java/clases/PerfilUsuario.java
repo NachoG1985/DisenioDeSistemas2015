@@ -17,12 +17,12 @@ public class PerfilUsuario{
 	private String dieta;
 	private HashSet<String> preferencias;
 	private String rutina;
-	private ArrayList<CondicionPreexistente> condicionPreexistente;
+	private ArrayList<Object> condicionPreexistente;
 
 	// Constructor de la clase
 	public PerfilUsuario(String nombre,String apellido, String nuevoSexo,
 			int nuevaEdad, double nuevaAltura, String nuevaComplexion,
-			String nuevaDieta, HashSet<String> nuevasPreferencias, String nuevaRutina,ArrayList<CondicionPreexistente> nuevasCondiciones) {
+			String nuevaDieta, HashSet<String> nuevasPreferencias, String nuevaRutina,ArrayList<Object> nuevasCondiciones) {
 
 		setNombre(nombre);
 		setApellido(apellido);
@@ -110,16 +110,16 @@ public class PerfilUsuario{
 	}
 
 	
-	public ArrayList<CondicionPreexistente> getCondicionPreexistente() {
+	public ArrayList<Object> getCondicionPreexistente() {
 		return condicionPreexistente;
 	}
 
-	public void setCondicionPreexistente(ArrayList<CondicionPreexistente> condiciones) {
+	public void setCondicionPreexistente(ArrayList<Object> condiciones) {
 		this.condicionPreexistente = condiciones;
 	}
 	
 	public ArrayList<String> getRecomendaciones(){
-		Iterator<CondicionPreexistente> iterator = condicionPreexistente.iterator();
+		Iterator<Object> iterator = condicionPreexistente.iterator();
 		Object elemento;
 		ArrayList<String> recomendaciones = new ArrayList<String>();
 		RecomendadorDeRecetas recomendador = new RecomendadorDeRecetas();
@@ -142,10 +142,22 @@ public class PerfilUsuario{
 	public String mostrarCondiciones()
 	{
 		String condiciones = "";
-		Iterator<CondicionPreexistente> iterador = condicionPreexistente.iterator();
+		Iterator<Object> iterador = condicionPreexistente.iterator();
 		
 		while(iterador.hasNext())
-			condiciones = condiciones + iterador.next().getNombre() + " ";	
+		{
+			Object aux = iterador.next();
+			
+			if(aux.getClass() == Diabetes.class)
+				condiciones = condiciones + "Diabetes  ";
+			
+			if(aux.getClass() == Hipertension.class)
+				condiciones = condiciones + "Hipertension  ";
+			
+			if(aux.getClass() == Celiasis.class)
+				condiciones = condiciones + "Celiasis  ";
+				
+		}
 		
 		return condiciones;
 		

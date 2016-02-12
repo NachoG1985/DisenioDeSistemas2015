@@ -34,7 +34,7 @@
 			
 			String condiciones[] = request.getParameterValues("condicionPreexistente");
 
-			ArrayList<CondicionPreexistente> condicionesUsuario = new ArrayList<CondicionPreexistente>();
+			ArrayList<Object> condicionesUsuario = new ArrayList<Object>();
 			
 			if(condiciones != null){
 			for(int i = 0; i < condiciones.length; i++)
@@ -65,6 +65,23 @@
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 			
 			consultor.actualizarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina/*, condicionesDB*/);
+			
+			Iterator<Object> iterador = nuevoPerfil.getCondicionPreexistente().iterator();
+			
+			while(iterador.hasNext())
+			{
+				Object aux = iterador.next();
+				
+				if(aux.getClass() == Diabetes.class)
+					consultor.insertarCondicionPerfil(nuevoUsuario.getNombreUsuario(), "Diabetes");
+				
+				if(aux.getClass() == Hipertension.class)
+					consultor.insertarCondicionPerfil(nuevoUsuario.getNombreUsuario(), "Hipertension");
+				
+				if(aux.getClass() == Celiasis.class)
+					consultor.insertarCondicionPerfil(nuevoUsuario.getNombreUsuario(), "Celiasis");
+					
+			}
 			
 			consultor.desconectar();
 			
