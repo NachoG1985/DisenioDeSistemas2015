@@ -161,11 +161,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setDate(4,fecha);
 	             cst.executeUpdate();
 	           
-	             cn.close();
-	                                  
+	              
 	            
 	        }catch (Exception e) {
 	        	e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
        
 	 }  
@@ -189,11 +191,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(5,im1);
 	             cst.executeUpdate();
 	         
-	             cn.close();
-	                
+	         	                
 	                         
 	        }catch (Exception e) {	
 	        	e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 		        
 	 }  
@@ -214,11 +218,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(4,level);
 	             cst.executeUpdate();
 	             
-	             cn.close();
-	                
+	          	                
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	   
 	       
@@ -234,10 +240,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setString(1,nombre);
 	             cst.executeUpdate();
 	                   
-	             cn.close(); 
+	          
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();	
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	        
 	      
@@ -268,10 +277,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(9,routine);
 	             cst.executeUpdate();
 	                   
-	             cn.close();   
+	           
 	                         
 	        }catch (Exception e) {
 	        	e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	      
 	 }  
@@ -291,10 +303,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(2,cond);
 	             cst.executeUpdate();
 	                
-	             cn.close();   
+	         
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	        
 	    
@@ -316,10 +331,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(3,cantidad);
 	             cst.executeUpdate();
 	                    
-	             cn.close();   
+	               
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	 }  
 	 
@@ -338,10 +356,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(2,cat);
 	             cst.executeUpdate();
 	                    
-	             cn.close();   
+	            
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	 }  
 	 
@@ -360,10 +381,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(2,cond);
 	             cst.executeUpdate();
 	                    
-	             cn.close();   
+	         
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	 }  
 	 
@@ -382,10 +406,12 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(2,diet);
 	             cst.executeUpdate();
 	                    
-	             cn.close();   
-	                         
+	          
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	 } 
 	 
@@ -404,10 +430,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(2,temp);
 	             cst.executeUpdate();
 	                    
-	             cn.close();   
+	          
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	 }  
 	 
@@ -434,10 +463,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setString(3,operacion);
 	             cst.executeUpdate();
 	                    
-	             cn.close();   
+	       
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
     }  
 	 
@@ -456,11 +488,14 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(2,rec);
 	             cst.setString(3,operacion);
 	             cst.executeUpdate();
-	             cn.close();  
+	            
 	                
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	        
 	 } 
@@ -483,11 +518,14 @@ public class ConsultorBaseDeDatos {
 	             cst.setString(9,im5);
 	             cst.setString(10,pas5);
 	             cst.executeUpdate();
-	             cn.close();   
+	            
 	                
 	                         
 	        }catch (Exception e) {
 	        	e.printStackTrace();	        	
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	        
 	        return ;
@@ -517,11 +555,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(2,rec);
 	             cst.setString(3,operacion);
 	             cst.executeUpdate();
-	             cn.close();  
-	                
+	           
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	        
 	 } 
@@ -543,10 +583,12 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(2,cond);
 	             cst.executeUpdate();
 	                    
-	             cn.close();   
-	                         
+	           
 	        }catch (Exception e) {
 	        	e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	 }  
 	 
@@ -565,10 +607,13 @@ public class ConsultorBaseDeDatos {
 	             cst.setInt(2,ing);
 	             cst.executeUpdate();
 	                    
-	             cn.close();   
+	       
 	                         
 	        }catch (Exception e) {
-	        	
+	        	 e.printStackTrace();
+	        }finally {
+	            try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        }
 	 }  
 	 
@@ -599,11 +644,14 @@ public class ConsultorBaseDeDatos {
             	 fechaNacimiento = data.getDate("fecha_nacimiento");
             	 usuarioBuscado = new Usuario(nombreUsuario,email,fechaNacimiento,contrasenia);
              }
-             data.close();
-			 cn.close();
+            
         }catch (Exception e) {
         	e.printStackTrace();
         	System.out.println("Error");
+        }finally {
+        	try { data.close(); } catch (Exception e) {  }
+        	try { cst.close(); } catch (Exception e) { }
+            try { cn.close(); } catch (Exception e) {  }
         }
 	 	return usuarioBuscado;
  }  
@@ -637,10 +685,14 @@ public class ConsultorBaseDeDatos {
 			 
              }
 			
-			 data.close();
-			 cn.close();
+			
         }catch (Exception e) {
+        	e.printStackTrace();
         	System.out.println("Error");
+        }finally {
+        	try { data.close(); } catch (Exception e) {  }
+        	try { cst.close(); } catch (Exception e) { }
+            try { cn.close(); } catch (Exception e) {  }
         } return recetaBuscada;
  }  
 	
@@ -670,11 +722,16 @@ public class ConsultorBaseDeDatos {
 				
 				recetasDB.add(recetaDB);
 			 }
-             data.close();
-             cn.close();
+          
              
         }catch (Exception e) {
+        	 e.printStackTrace();
         	System.out.println("Error");
+        	
+        }finally {
+        	try { data.close(); } catch (Exception e) {  }
+        	try { cst.close(); } catch (Exception e) { }
+            try { cn.close(); } catch (Exception e) {  }
         } return recetasDB;
  }  
 	
@@ -702,12 +759,15 @@ public class ConsultorBaseDeDatos {
 	            	
 		 		}      
 	             
-	             cn.close();
-	                          
+	           	                          
 	            
 	        }catch (Exception e) {
-	        	
-	        } return lista;
+	        	 e.printStackTrace();	
+	        } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return lista;
 	 }  
 		 
 		 //devuelve los condimentos de una receta en un Set
@@ -735,11 +795,14 @@ public class ConsultorBaseDeDatos {
 				 
 			 }               
 	                         
-			 cn.close();
-	            
+			
 		 }catch (Exception e) {
-	        	
-		 } return buscadas;
+			 e.printStackTrace();	
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return buscadas;
 	 }  
 
 	//devuelve las recetas segun condimento dado 
@@ -775,11 +838,15 @@ public class ConsultorBaseDeDatos {
 				buscadas.add(aux);
 			 }
 		                
-			 cn.close();
+			
 		                
 		 }catch (Exception e) {
-		        	
-		 } return buscadas;
+			 e.printStackTrace();  	
+		 } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return buscadas;
 	 }  
 		 
 	 //devuelve las recetas segun dieta dada 
@@ -816,11 +883,15 @@ public class ConsultorBaseDeDatos {
 				buscadas.add(aux);
 			 }
 			            
-			 cn.close();
+			
 			                
 		 }catch (Exception e) {
-			        	
-		 } return buscadas;
+			 e.printStackTrace();       	
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return buscadas;
 	 }  
 			 
 	 //devuelve las recetas segun dieta dada 
@@ -856,11 +927,15 @@ public class ConsultorBaseDeDatos {
 				buscadas.add(aux);
 			 }
 			                       
-			 cn.close();
+	
 			                
 		 }catch (Exception e) {
-			        	
-		 } return buscadas;
+			 e.printStackTrace();       	
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return buscadas;
 	 }  
 			 
 	 //devuelve las recetas segun los gustos del usuario dado 
@@ -897,10 +972,14 @@ public class ConsultorBaseDeDatos {
 				buscadas.add(aux);
 			 }
 			                           
-			 cn.close();
+			
 		 }catch (Exception e) {
-			        	
-		 } return buscadas;
+			 e.printStackTrace();      	
+		 } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return buscadas;
 	 }
 	 
 	 //devuelve las recetas segun dentro de un periodo
@@ -937,10 +1016,14 @@ public class ConsultorBaseDeDatos {
 				buscadas.add(aux);
 			 }
 			                           
-			 cn.close();
+			
 		 }catch (Exception e) {
-			        	
-		 } return buscadas;
+			 e.printStackTrace();       	
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return buscadas;
 	 }
 			 
 	 //devuelve las recetas segun ing ppal dado 
@@ -976,11 +1059,15 @@ public class ConsultorBaseDeDatos {
 				buscadas.add(aux);
 			 }
 			            
-			 cn.close();
+			
 			                
 		 }catch (Exception e) {
-			 
-		 } return buscadas;
+			 e.printStackTrace();
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return buscadas;
 	 }  
 			 
 	 public HashSet<Receta> recetaSegunDificultad(int dificultad) {
@@ -1017,11 +1104,15 @@ public class ConsultorBaseDeDatos {
 			 }
 			          
 			 
-			 cn.close();
+		
 			                
 		 }catch (Exception e) {
-			        	
-		 } return buscadas;
+			 e.printStackTrace();      	
+		 } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return buscadas;
 	 }  
 			 
 	 //segun un rango de calorias devuelve las recetas con calorias dentro de ese rango
@@ -1058,12 +1149,16 @@ public class ConsultorBaseDeDatos {
 				buscadas.add(aux);
 			 }
 			 
-			 cn.close();
-			             
+		
+			 		             
 			                
 		 }catch (Exception e) {
 			e.printStackTrace();        	
-		 } return buscadas;
+		 } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return buscadas;
 	 }  
 			 
 	//Devuelve las recetas mas consultadas dado un periodo de tiempo para un usuario dado.		 
@@ -1099,11 +1194,15 @@ public class ConsultorBaseDeDatos {
 				
 				buscadas.add(aux);
 			 }
-			 cn.close();
+		
 			             
 		 }catch (Exception e) {
-			        	
-		 } return buscadas;
+			 e.printStackTrace();        	
+		 } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return buscadas;
 	 }  
 		
 	 // Devuelve las recetas creadas por un usuario dado.
@@ -1140,11 +1239,15 @@ public class ConsultorBaseDeDatos {
 				buscadas.add(aux);
 			 }
 			            
-			 cn.close();
+			
 			             
 		 }catch (Exception e) {
-			        	
-		 } return buscadas;
+			 e.printStackTrace();        	
+		 } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return buscadas;
 	 }
 	 
 	// Devuelve las recetas creadas por todos los usuarios.
@@ -1179,11 +1282,15 @@ public class ConsultorBaseDeDatos {
 					buscadas.add(aux);
 				 }
 				            
-				 cn.close();
+			
 				             
 			 }catch (Exception e) {
 				        	
-			 } return buscadas;
+			 } finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        	try { cst.close(); } catch (Exception e) { }
+		            try { cn.close(); } catch (Exception e) {  }
+		        }return buscadas;
 		 }
 
 	 //devuelve todos los ing de la db
@@ -1203,12 +1310,15 @@ public class ConsultorBaseDeDatos {
 			 	nombreIngrediente = data.getString("nombre");
 				nombresIngredientes.add(nombreIngrediente);		
 			 }           
-			 data.close();
-			 cn.close();
+		
 			            
 		 }catch (Exception e) {
-			        	
-		 } return nombresIngredientes;
+			 e.printStackTrace();        	
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return nombresIngredientes;
 	 }
 	
 	 //devuelve todos los condimentos de la db 
@@ -1228,12 +1338,15 @@ public class ConsultorBaseDeDatos {
 			 	nombreCondimento = data.getString("nombre");
 				nombresCondimentos.add(nombreCondimento);		
 			 }
-			 data.close();
-			 cn.close();
+		
 			            
 		 }catch (Exception e) {
-			        	
-		 } return nombresCondimentos;
+			 e.printStackTrace();        	
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return nombresCondimentos;
 	 }  
 	 
 	 //devuelve el perfil del usuario
@@ -1262,12 +1375,15 @@ public class ConsultorBaseDeDatos {
 			 }
 			 perfilBuscado.setCondicionPreexistente(obtenerCondicionesPerfil(nombreUsuario));
 			 perfilBuscado.setPreferencias(obtenerPreferenciasPerfil(nombreUsuario));
-			 data.close();
-			 cn.close();
+			
 			            
 		 }catch (Exception e) {
-			        	
-		 } return perfilBuscado;
+			 e.printStackTrace();        	
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return perfilBuscado;
 	 }  
 	 
 	//devuelve recetas dada una temporada
@@ -1302,10 +1418,14 @@ public class ConsultorBaseDeDatos {
 				 buscadas.add(aux);
 			 }
 				            
-			 cn.close();
+			
 		 }catch (Exception e) {
-				 
-		 } return buscadas;
+			 e.printStackTrace();	 
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return buscadas;
 	 }
 	 
 	 
@@ -1343,10 +1463,14 @@ public class ConsultorBaseDeDatos {
 				buscadas.add(aux);
 			 }
 			            
-			 cn.close();
-		 }catch (Exception e) {
 			 
-		 } return buscadas;
+		 }catch (Exception e) {
+			 e.printStackTrace(); 
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return buscadas;
 	 }
 	 
 	
@@ -1382,11 +1506,15 @@ public class ConsultorBaseDeDatos {
 				
 				buscadas.add(aux);
 			 }
-			 cn.close();
+			
 				                
 		 }catch (Exception e) {
-				 
-		 } return buscadas;
+			 e.printStackTrace();	 
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return buscadas;
 	 } 
 	 
 	//Devuelve las recetas segun la lista de condiciones de un perfil usuario.
@@ -1426,7 +1554,11 @@ public class ConsultorBaseDeDatos {
 				}
 			 }catch (Exception e) {
 				 e.printStackTrace();
-			}
+			}finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }
 			return recomendaciones;
 		}
 
@@ -1450,11 +1582,13 @@ public class ConsultorBaseDeDatos {
 			 String nivel = obtenerNombreNivelAlim(data.getInt("nivel_id"),cn);
 			 ingredienteBuscado = new Ingrediente(nombre,porcion,calorias,nivel);        
 			 
-			 data.close();
-			 cn.close();
-		 }catch (Exception e) {
-				 
-		 } return ingredienteBuscado;
+			}catch (Exception e) {
+			 e.printStackTrace();	 
+		 } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return ingredienteBuscado;
 	 }
 	 
 	 //Devuelve los pasos/procedimiento de una receta.
@@ -1494,11 +1628,14 @@ public class ConsultorBaseDeDatos {
 			 aux = new PasoDeReceta(paso5,imagen5);
 			 buscadas.add(aux);
 		 
-			 cn.close();
-				                
+							                
 		 }catch (Exception e) {
-				 
-		 } return buscadas;
+			 e.printStackTrace();	 
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return buscadas;
 	 }  
 	 
 	 //devuelve el promedio de las calificaciones a una receta.
@@ -1517,11 +1654,14 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 			 if(data.next())
 				 resultado = data.getFloat("promedio");
-			 data.close();
-			 cn.close();
+			
 		 }catch (Exception e) {
-				 
-		 } return resultado;
+			 e.printStackTrace();	 
+		 } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return resultado;
 	 }
 	 
 	 //devuelve la calificacion hecha por un usuario a una receta.
@@ -1541,11 +1681,14 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 			 data.next();
 			 resultado = data.getFloat("calificacion");
-			 data.close();
-			 cn.close();
+			
 		 }catch (Exception e) {
-				 
-		 } return resultado;
+			 e.printStackTrace();	 
+		 } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return resultado;
 	 }
 	 
 	 //Dado el usuario, receta yla operacion(cargar,consultar,calificar,confirmar) devuelve la fecha en q lo hizo.
@@ -1564,11 +1707,14 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 			 data.next();
 			 fecha = data.getTimestamp("tiempo");
-			 cn.close();
-			             
+			
 		 }catch (Exception e) {
-			        	
-		 } return fecha;
+			 e.printStackTrace();        	
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return fecha;
 	 }  
 	 
 	 //Devuelve las recetas mas consultadas por sexo en un periodo.
@@ -1593,11 +1739,14 @@ public class ConsultorBaseDeDatos {
 	            	
 		 		}      
 	             
-	             cn.close();
-	                          
+	        	                          
 	            
 	        }catch (Exception e) {
-	        	
+	        	e.printStackTrace();
+	        }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
 	        } return lista;
 	 }  
 	 
@@ -1623,12 +1772,15 @@ public class ConsultorBaseDeDatos {
 	            	
 		 		}      
 	             
-		 		cn.close();
-	                          
+		 			                          
 	            
 	        }catch (Exception e) {
-	        	
-	        } return lista;
+	        	 e.printStackTrace();
+	        } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return lista;
 	 }  
 	 
 	 //Devuelve las recetas mas consultadas en un periodo.
@@ -1652,12 +1804,15 @@ public class ConsultorBaseDeDatos {
 	            	
 		 		}      
 	             
-		 		cn.close();
-	                          
+		 	                         
 	            
 	        }catch (Exception e) {
-	        	
-	        } return lista;
+	        	 e.printStackTrace();
+	        } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return lista;
 	 }  
 	 
 	 //Devuelve todas las categorias de una receta.
@@ -1678,12 +1833,15 @@ public class ConsultorBaseDeDatos {
 				 nombreCategoria = data.getString("nombre");
 				 nombresCategorias.add(nombreCategoria);		
 			 }           
-			 data.close();
-			 cn.close();
+			
 			            
 		 }catch (Exception e) {
-			        	
-		 } return nombresCategorias;
+			 e.printStackTrace();        	
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return nombresCategorias;
 	 }
 	 
 	 //Devuelve todas las condiciones de una receta.
@@ -1704,12 +1862,14 @@ public class ConsultorBaseDeDatos {
 				 nombre = data.getString("tipo");
 				 nombres.add(nombre);		
 			 }           
-			 data.close();
-			 cn.close();
-			            
+			
 		 }catch (Exception e) {
-			        	
-		 } return nombres;
+			 e.printStackTrace();       	
+		 } finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }return nombres;
 	 }
 	
 	 //Devuelve todas las dietas de una receta.
@@ -1730,12 +1890,14 @@ public class ConsultorBaseDeDatos {
 				 nombre = data.getString("tipo");
 				 nombres.add(nombre);		
 			 }           
-			 data.close();
-			 cn.close();
-			            
+			
 		 }catch (Exception e) {
-			        	
-		 } return nombres;
+			 e.printStackTrace();       	
+		 }finally {
+	        	try { data.close(); } catch (Exception e) {  }
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        } return nombres;
 	 }
 	 
 	//Devuelve todas las dietas de una receta.
@@ -1756,12 +1918,15 @@ public class ConsultorBaseDeDatos {
 					 nombre = data.getString("tipo");
 					 nombres.add(nombre);		
 				 }           
-				 data.close();
-				 cn.close();
+				 
 				            
 			 }catch (Exception e) {
 				        	
-			 } return nombres;
+			 }finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        	try { cst.close(); } catch (Exception e) { }
+		            try { cn.close(); } catch (Exception e) {  }
+		        } return nombres;
 		 }
 		 
 		 public ArrayList<Object> obtenerCondicionesPerfil(String nombreUsuario ) {
@@ -1794,12 +1959,15 @@ public class ConsultorBaseDeDatos {
 						 nombresCondiciones.add(hiper);	
 					 }
 				 }           
-				 data.close();
-				 cn.close();
+				
 				            
 			 }catch (Exception e) {
-				        	
-			 } return nombresCondiciones;
+				 e.printStackTrace();        	
+			 } finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        	try { cst.close(); } catch (Exception e) { }
+		            try { cn.close(); } catch (Exception e) {  }
+		        }return nombresCondiciones;
 		 }
 		 
 		 public HashSet<String> obtenerPreferenciasPerfil(String nombreUsuario ) {
@@ -1821,12 +1989,15 @@ public class ConsultorBaseDeDatos {
 					 nombreCondicion = data.getString("nombre");
 					 nombresCondiciones.add(nombreCondicion);		
 				 }           
-				 data.close();
-				 cn.close();
+				
 				            
 			 }catch (Exception e) {
-				        	
-			 } return nombresCondiciones;
+				 e.printStackTrace();        	
+			 } finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        	try { cst.close(); } catch (Exception e) { }
+		            try { cn.close(); } catch (Exception e) {  }
+		        }return nombresCondiciones;
 		 }
 		 
 	 
@@ -1859,10 +2030,13 @@ public class ConsultorBaseDeDatos {
 			 cst.setInt(9,usu);
 			 cst.executeUpdate();
 		    
-			 cn.close();
+			 
 		 }catch (Exception e) {
 			 e.printStackTrace();
-		 }
+		 }finally {
+	        	try { cst.close(); } catch (Exception e) { }
+	            try { cn.close(); } catch (Exception e) {  }
+	        }
 		        
 		 return;
 	 }		 
@@ -1870,7 +2044,7 @@ public class ConsultorBaseDeDatos {
 //********************* Funciones Auxiliares******************************		  
 
 		 private int obtenerIDTemporada(String temporada,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDSeason(?)}");
@@ -1878,13 +2052,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("temporada_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) {
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDCategoria(String cat,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDCategoria(?)}");
@@ -1892,13 +2069,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("categorias_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) {
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDCondicion(String cond,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDCondicion(?)}");
@@ -1906,13 +2086,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("condicion_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) { 
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDDieta(String dieta,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDDieta(?)}");
@@ -1920,13 +2103,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("dieta_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) { 
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDAlimenticio(String nivel,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDAlimenticio(?)}");
@@ -1934,13 +2120,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("nivel_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) { 
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDUsuario(String usu,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDUsuario(?)}");
@@ -1948,13 +2137,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("usuario_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) { 
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDRutina(String rutina,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDRutina(?)}");
@@ -1962,13 +2154,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("rutina_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) {
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDIng(String ing,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDIng(?)}");
@@ -1976,13 +2171,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("ingredientes_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) { 
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDReceta(String rec,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDReceta(?)}");
@@ -1990,13 +2188,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("recetas_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) { 
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDCondimento(String rec,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDCondimento(?)}");
@@ -2004,13 +2205,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("condimentos_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) { 
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDProcedimiento(String im,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDProcedimiento(?)}");
@@ -2018,13 +2222,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("procedimientos_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) { 
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 private int obtenerIDPerfil(String nombreUsuario,Connection cn,CallableStatement cst){
-			 ResultSet data;
+			 ResultSet data=null;
 			 int resultado = 0;
 			 try{
 			 cst = cn.prepareCall("{call obtenerIDPerfil(?)}");
@@ -2032,13 +2239,16 @@ public class ConsultorBaseDeDatos {
 			 data = cst.executeQuery();
 	         data.next();
 	         resultado = data.getInt("perfil_id"); 
-			 }catch(Exception e) {       	
+			 }catch(Exception e) { 
+				 e.printStackTrace();
+		        }finally {
+		        	try { data.close(); } catch (Exception e) {  }
 		        }
 			 return resultado;
 		 }
 		 
 		 public String obtenerNombreIng(int ing,Connection cn){
-			 ResultSet data;
+			 ResultSet data=null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
@@ -2047,13 +2257,16 @@ public class ConsultorBaseDeDatos {
 				 data = cst.executeQuery();
 				 if(data.next())
 					 resultado = data.getString("nombre");
-			 	}catch(Exception e) {       	
-			 	}
+			 	}catch(Exception e) { 
+			 		 e.printStackTrace();
+			 	}finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        }
 			 return resultado;
 		 }
 		 
 		 public String obtenerNombreTemporada(int tempo,Connection cn){
-			 ResultSet data;
+			 ResultSet data=null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
@@ -2062,13 +2275,16 @@ public class ConsultorBaseDeDatos {
 				 data = cst.executeQuery();
 				 if(data.next())
 					 resultado = data.getString("tipo"); 
-			 	}catch(Exception e) {       	
-			 	}
+			 	}catch(Exception e) { 
+			 		 e.printStackTrace();
+			 	}finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        }
 			 return resultado;
 		 }
 		 
 		 public String obtenerNombreCategoria(int cate,Connection cn){
-			 ResultSet data;
+			 ResultSet data=null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
@@ -2077,13 +2293,16 @@ public class ConsultorBaseDeDatos {
 				 data = cst.executeQuery();
 				 if(data.next())
 					 resultado = data.getString("tipo"); 
-			 	}catch(Exception e) {       	
-			 	}
+			 	}catch(Exception e) { 
+			 		 e.printStackTrace();
+			 	}finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        }
 			 return resultado;
 		 }
 		 
 		 public String obtenerNombreCondicion(int cond,Connection cn){
-			 ResultSet data;
+			 ResultSet data=null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
@@ -2092,13 +2311,16 @@ public class ConsultorBaseDeDatos {
 				 data = cst.executeQuery();
 				 if(data.next())
 					 resultado = data.getString("tipo"); 
-			 	}catch(Exception e) {       	
-			 	}
+			 	}catch(Exception e) {
+			 		 e.printStackTrace();
+			 	}finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        }
 			 return resultado;
 		 }
 		 
 		 public String obtenerNombreDieta(int dieta,Connection cn){
-			 ResultSet data;
+			 ResultSet data=null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
@@ -2107,13 +2329,16 @@ public class ConsultorBaseDeDatos {
 				 data = cst.executeQuery();
 				 if(data.next())
 					 resultado = data.getString("tipo"); 
-			 	}catch(Exception e) {       	
-			 	}
+			 	}catch(Exception e) {
+			 		 e.printStackTrace();
+			 	}finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        }
 			 return resultado;
 		 }
 		 
 		 public String obtenerNombreNivelAlim(int nivel,Connection cn){
-			 ResultSet data;
+			 ResultSet data=null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
@@ -2122,14 +2347,17 @@ public class ConsultorBaseDeDatos {
 				 data = cst.executeQuery();
 				 if(data.next())
 					 resultado = data.getString("tipo"); 
-			 	}catch(Exception e) {       	
-			 	}
+			 	}catch(Exception e) {  
+			 		 e.printStackTrace();
+			 	}finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        }
 			 return resultado;
 		 }
 		
 		 
 		 public String obtenerNombreRutina(int rutina,Connection cn){
-			 ResultSet data;
+			 ResultSet data=null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
@@ -2138,13 +2366,16 @@ public class ConsultorBaseDeDatos {
 				 data = cst.executeQuery();
 				 if(data.next())
 					 resultado = data.getString("tipo"); 
-			 	}catch(Exception e) {       	
-			 	}
+			 	}catch(Exception e) { 
+			 		 e.printStackTrace();
+			 	}finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        }
 			 return resultado;
 		 }
 		 
 		 public String obtenerNombreUsuario(int usu,Connection cn){
-			 ResultSet data;
+			 ResultSet data=null;
 			 CallableStatement cst = null;
 			 String resultado = null;
 			 try{
@@ -2153,8 +2384,11 @@ public class ConsultorBaseDeDatos {
 				 data = cst.executeQuery();
 				 if(data.next())
 					 resultado = data.getString("nombreUsuario"); 
-			 	}catch(Exception e) {       	
-			 	}
+			 	}catch(Exception e) { 
+			 		 e.printStackTrace();
+			 	}finally {
+		        	try { data.close(); } catch (Exception e) {  }
+		        }
 			 return resultado;
 		 }
 		
