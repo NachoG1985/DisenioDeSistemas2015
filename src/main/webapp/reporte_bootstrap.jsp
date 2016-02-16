@@ -199,7 +199,7 @@
 	<div class="row">
 	     <form id="reporteCalorias" action="estadisticasYReportes_bootstrap.jsp"
 				method="POST" class="form-horizontal">
-	     <div class="col-md-3 col-md-offset-2">
+	     <div class="col-md-3 col-md-offset-3">
 					<br>
 					<button type="submit" class="btn btn-default btn-primary  btn-block">Volver</button>
 				</div>
