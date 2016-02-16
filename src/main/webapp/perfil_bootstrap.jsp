@@ -145,7 +145,7 @@
 			</div>
 			
 			<div class="col-md-3">
-				<h3 class="text-primary text-left">Altura: <small><%out.println(String.format("%02d",usuario.getPerfil().getAltura())); %></small></h3>
+				<h3 class="text-primary text-left">Altura: <small><%out.println(usuario.getPerfil().getAltura()); %></small></h3>
 			</div>
 		</div>
 		
