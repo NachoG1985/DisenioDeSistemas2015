@@ -107,7 +107,7 @@
 		
 		<div class="col-md-offset-1">
 		
-			<div class="panel panel-primary" style="position:fixed">
+			<div class="panel panel-primary" >
 	
 				<div class="panel-heading">
 					<h3 class="panel-title">Filtros de Busqueda</h3>
