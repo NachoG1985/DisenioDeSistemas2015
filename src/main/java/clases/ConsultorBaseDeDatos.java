@@ -1368,7 +1368,9 @@ public class ConsultorBaseDeDatos {
 			 int edad = data.getInt("edad");
 			 double altura = data.getDouble("altura");
 			 String complexion = data.getString("complexion");
-			 String dieta = obtenerNombreDieta(data.getInt("dieta_id"),cn);
+			 int id_dieta = data.getInt("dieta_id");
+			 String dieta = obtenerNombreDieta(id_dieta,cn);
+			 System.out.println(id_dieta);
 			 String rutina = obtenerNombreRutina(data.getInt("rutina_id"),cn);
 
 			 perfilBuscado = new PerfilUsuario(nombre,apellido,sexo,edad,altura,complexion,dieta,null,rutina,null);
