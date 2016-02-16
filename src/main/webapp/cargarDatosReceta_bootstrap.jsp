@@ -196,7 +196,7 @@
 					<div class="col-lg-8">
 						<div class="checkbox-inline">
 							<label>
-								<input type="checkbox" name="dietas" id="dietas" value="Normal">
+								<input type="checkbox" name="Dietas" id="Dietas" value="Normal">
 									Normal
 							</label>
 						</div>
