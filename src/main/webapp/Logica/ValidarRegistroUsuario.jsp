@@ -69,8 +69,8 @@
 			consultor.insertarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina);
 			
 			Iterator<Object> iterador = nuevoPerfil.getCondicionPreexistente().iterator();
-			
-			while(iterador.hasNext())
+			out.println(nuevoPerfil.getRutina());
+		/*	while(iterador.hasNext())
 			{
 				Object aux = iterador.next();
 				
@@ -95,7 +95,7 @@
 				System.out.println("Error al cargar a la db");
 				response.sendRedirect("../index.html");
 			}
-			
+			*/
 			
 		%>
 		
