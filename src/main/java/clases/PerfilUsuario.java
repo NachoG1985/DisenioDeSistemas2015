@@ -122,7 +122,7 @@ public class PerfilUsuario{
 	
 	public String mostrarCondiciones()
 	{
-		String condiciones = "";
+		String condiciones = new String();
 		Iterator<Object> iterador = condicionPreexistente.iterator();
 		
 		while(iterador.hasNext())

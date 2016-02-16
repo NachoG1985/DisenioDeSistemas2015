@@ -88,7 +88,7 @@
 			
 			consultor.desconectar();
 			
-			session.setAttribute("usuario", (nuevoUsuario));
+			session.setAttribute("usuario", nuevoUsuario);
 			System.out.println(nuevoPerfil.getRutina());
 			response.sendRedirect("../home_bootstrap.jsp");
 			}
