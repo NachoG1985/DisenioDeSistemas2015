@@ -3,6 +3,7 @@
 <%@ page import="clases.PerfilUsuario" %>
 <%@ page import="clases.ConsultorBaseDeDatos"%>
 <%@ page import="java.sql.*" %>
+<%@ page import="java.text.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -122,8 +123,12 @@
 				<h3 class="text-primary text-left">Email: <small><% out.println(usuario.getEmail()); %></small></h3>
 			</div>
 		
-			<div class="col-md-3">
-				<h3 class="text-primary text-left">Fecha de Nacimiento: <small><% out.println(usuario.getFechaNacimiento()); %></small></h3>
+			<div class="col-md-4">
+				<%
+				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+				
+				%>
+				<h3 class="text-primary text-left">Fecha de Nacimiento: <small><% out.println(formato.format(usuario.getFechaNacimiento().getTime())); %></small></h3>
 			</div>
 			
 		
@@ -161,8 +166,7 @@
 			<%
 				ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 				PerfilUsuario perfilDB = consultor.mostrarPerfilUsuario(usuario.getNombreUsuario());
-				out.println("Guachon:");
-				out.println(perfilDB.getCondicionPreexistente().size());
+				
 			%>
 			<h4 class="text-info text-left">Rutina de ejercicios: <small><%out.println(perfilDB.getRutina()); %></small></h4>
 			<br>
