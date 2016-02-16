@@ -51,8 +51,9 @@
 				
 			
 			String rutina = request.getParameter("rutina");
+			out.println(rutina);
 			String complexion = request.getParameter("complexion");
-			
+			out.println(complexion);
 			//Se crea el objeto del tipo perfil de usuario
 			PerfilUsuario nuevoPerfil = new PerfilUsuario(nombre, apellido, sexo, edad, altura, complexion, dieta, null, rutina, condicionesUsuario);
 			

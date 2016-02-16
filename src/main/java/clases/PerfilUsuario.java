@@ -33,6 +33,7 @@ public class PerfilUsuario{
 		setDieta(nuevaDieta);
 		setPreferencias(nuevasPreferencias);
 		setRutina(nuevaRutina);
+		System.out.println(nuevaRutina);
 		setCondicionPreexistente(nuevasCondiciones);
 	}
 
