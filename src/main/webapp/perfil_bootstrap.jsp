@@ -166,6 +166,7 @@
 			<%
 				ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 				PerfilUsuario perfilDB = consultor.mostrarPerfilUsuario(usuario.getNombreUsuario());
+				consultor.desconectar();
 				
 				
 			%>

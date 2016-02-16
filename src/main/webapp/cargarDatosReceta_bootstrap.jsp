@@ -163,7 +163,7 @@
 						<div class="checkbox-inline">
 							<label>
 								<input type="checkbox" name="categorias" id="categorias" value="Desayuno">
-									desayuno
+									Desayuno
 							</label>
 						</div>	
 						
