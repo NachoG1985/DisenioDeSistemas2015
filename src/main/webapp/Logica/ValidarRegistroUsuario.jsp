@@ -59,9 +59,9 @@
 			
 			//Le agrego al usuario el perfil cargado
 			nuevoUsuario.setPerfil(nuevoPerfil);
-			out.println(nuevoPerfil.getRutina());
+			
 			//Obtengo el consultor de DB y cargo el nuevo usuario y el nuevo perfil
-		/*	try{
+			try{
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 		
 			
@@ -88,14 +88,15 @@
 			
 			consultor.desconectar();
 			
-			session.setAttribute("usuario", (Object)nuevoUsuario);
+			session.setAttribute("usuario", (nuevoUsuario));
+			System.out.println(nuevoPerfil.getRutina());
 			response.sendRedirect("../home_bootstrap.jsp");
 			}
 			catch(Exception e){
 				System.out.println("Error al cargar a la db");
 				response.sendRedirect("../index.html");
 			}
-			*/
+			
 			
 		%>
 		
