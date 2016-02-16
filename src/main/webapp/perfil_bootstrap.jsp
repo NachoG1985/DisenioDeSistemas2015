@@ -161,13 +161,13 @@
 			<%
 				ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 				PerfilUsuario perfilDB = consultor.mostrarPerfilUsuario(usuario.getNombreUsuario());
+				out.println("guacho:" + perfilDB.getApellido());
 			%>
 			<h4 class="text-info text-left">Rutina de ejercicios: <small><%out.println(perfilDB.getRutina()); %></small></h4>
 			<br>
 			<h4 class="text-info text-left">Tipo de Dieta: <small><%out.println(perfilDB.getDieta()); %></small></h4>
 			<br>
 			<h4 class="text-info text-left">Condiciones Preexistentes: <small><%out.println(perfilDB.mostrarCondiciones()); %></small></h4>
-			
 		
 		</div>
 		
