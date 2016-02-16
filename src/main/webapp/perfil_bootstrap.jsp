@@ -1,6 +1,7 @@
 <%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Usuario" %>
 <%@ page import="clases.PerfilUsuario" %>
+<%@ page import="clases.ConsultorBaseDeDatos"%>
 <%@ page import="java.sql.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -157,11 +158,15 @@
 			<br>
 			<h4 class="text-info text-left">Complexión Física: <small><%out.println(usuario.getPerfil().getComplexion()); %></small></h4>
 			<br>
-			<h4 class="text-info text-left">Rutina de ejercicios: <small><%out.println(usuario.getPerfil().getRutina()); %></small></h4>
+			<%
+				ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
+				PerfilUsuario perfilDB = consultor.mostrarPerfilUsuario(usuario.getNombreUsuario());
+			%>
+			<h4 class="text-info text-left">Rutina de ejercicios: <small><%out.println(perfilDB.getRutina()); %></small></h4>
 			<br>
-			<h4 class="text-info text-left">Tipo de Dieta: <small><%out.println(usuario.getPerfil().getDieta()); %></small></h4>
+			<h4 class="text-info text-left">Tipo de Dieta: <small><%out.println(perfilDB.getDieta()); %></small></h4>
 			<br>
-			<h4 class="text-info text-left">Condiciones Preexistentes: <small><%out.println(usuario.getPerfil().mostrarCondiciones()); %></small></h4>
+			<h4 class="text-info text-left">Condiciones Preexistentes: <small><%out.println(perfilDB.mostrarCondiciones()); %></small></h4>
 			
 		
 		</div>

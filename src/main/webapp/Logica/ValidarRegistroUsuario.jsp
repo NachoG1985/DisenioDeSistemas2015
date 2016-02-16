@@ -91,11 +91,11 @@
 			
 			session.setAttribute("usuario", nuevoUsuario);
 			System.out.println(nuevoPerfil.getRutina());
-			response.sendRedirect("../home_bootstrap.jsp");
+			/*response.sendRedirect("../home_bootstrap.jsp");*/
 			}
 			catch(Exception e){
 				System.out.println("Error al cargar a la db");
-				response.sendRedirect("../index.html");
+				/*response.sendRedirect("../index.html");*/
 			}
 			
 			
