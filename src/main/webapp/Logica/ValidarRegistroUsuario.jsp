@@ -59,9 +59,9 @@
 			
 			//Le agrego al usuario el perfil cargado
 			nuevoUsuario.setPerfil(nuevoPerfil);
-			
+			out.println(nuevoPerfil.getRutina());
 			//Obtengo el consultor de DB y cargo el nuevo usuario y el nuevo perfil
-			try{
+		/*	try{
 			ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
 		
 			
@@ -69,8 +69,8 @@
 			consultor.insertarPerfil(nuevoUsuario.getNombreUsuario(), nombre, apellido, sexo, edad, altura, complexion, dieta, rutina);
 			
 			Iterator<Object> iterador = nuevoPerfil.getCondicionPreexistente().iterator();
-			out.println(nuevoPerfil.getRutina());
-		/*	while(iterador.hasNext())
+			
+			while(iterador.hasNext())
 			{
 				Object aux = iterador.next();
 				
