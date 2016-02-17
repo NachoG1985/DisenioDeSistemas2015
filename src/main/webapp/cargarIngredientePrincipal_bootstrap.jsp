@@ -141,7 +141,7 @@ function validateForm() {
 
 		<div class="text-primary text-left col-md-offset-3 ">
 			<a href="cargarIngredientePrincipal_bootstrap.jsp?inicial=a">A</a>
-			<a href="cargarIngredientePrincipal_bootstrapjsp?inicial=b">B</a>
+			<a href="cargarIngredientePrincipal_bootstrap.jsp?inicial=b">B</a>
 			<a href="cargarIngredientePrincipal_bootstrap.jsp?inicial=c">C</a>
 			<a href="cargarIngredientePrincipal_bootstrap.jsp?inicial=d">D</a>
 			<a href="cargarIngredientePrincipal_bootstrap.jsp?inicial=e">E</a>
