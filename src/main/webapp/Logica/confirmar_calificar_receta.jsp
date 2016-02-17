@@ -29,7 +29,7 @@
 	}
 	
 	consultor.desconectar();
-	response.sendRedirect("../verReceta_bootstrap.jsp?receta=" + nombreReceta);
+	response.sendRedirect("../Presentacion/verReceta_bootstrap.jsp?receta=" + nombreReceta);
 	
 	%>
 

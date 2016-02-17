@@ -203,7 +203,7 @@
 	
 	consultor.desconectar();
 	
-	response.sendRedirect("../home_bootstrap.jsp");
+	response.sendRedirect("../Presentacion/home_bootstrap.jsp");
 	
 	%>
 

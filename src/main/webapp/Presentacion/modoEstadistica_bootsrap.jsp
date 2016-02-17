@@ -137,7 +137,7 @@
 				<div class="form-group">
 					<label for="numeroMes" class="col-lg-3 control-label">Mes</label>
 					<div class="col-lg-2">
-						<input type="number" class="form-control" min="1" max="31" name="mes"
+						<input type="number" class="form-control" min="1" max="12" name="mes"
 							id="mes" placeholder="mm" required>
 					</div>
 				</div>
@@ -178,7 +178,7 @@
 				<div class="form-group">
 					<label for="email" class="col-lg-3 control-label">Mes</label>
 					<div class="col-lg-2">
-						<input type="number" class="form-control" min="1" max="31" name="mes"
+						<input type="number" class="form-control" min="1" max="12" name="mes"
 							id="mes" placeholder="mm" required>
 					</div>
 				</div>

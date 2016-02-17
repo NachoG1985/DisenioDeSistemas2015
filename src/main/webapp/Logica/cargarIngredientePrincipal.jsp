@@ -36,7 +36,7 @@
 		
 		consultor.desconectar();
 		
-		response.sendRedirect("../cargarIngredientesReceta_bootstrap.jsp?inicial=a");
+		response.sendRedirect("../Presentacion/cargarIngredientesReceta_bootstrap.jsp?inicial=a");
 	
 	
 	%>

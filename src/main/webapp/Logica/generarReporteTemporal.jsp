@@ -58,7 +58,7 @@
 		 if(error || errorUs)
 		{
 			session.setAttribute("Error",mensajeError);
-			response.sendRedirect("../error_bootstrap.jsp");
+			response.sendRedirect("../Presentacion/error_bootstrap.jsp");
 		}
 		
 		else{
@@ -67,7 +67,7 @@
 			 }	
 			ArrayList<String> datosReporte = gestor.generar();
 			session.setAttribute("Reporte",datosReporte);
-			response.sendRedirect("../reporte_bootstrap.jsp");
+			response.sendRedirect("../Presentacion/reporte_bootstrap.jsp");
 			
 		}
 			

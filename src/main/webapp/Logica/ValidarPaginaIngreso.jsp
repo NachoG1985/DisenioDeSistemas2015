@@ -37,7 +37,7 @@
 					if(nuevoUsuario == null)
 					{
 						consultor.desconectar();
-						response.sendRedirect("../index.html");
+						response.sendRedirect("../Presentacion/index.html");
 					}
 					else
 					{
@@ -45,7 +45,7 @@
 						if(!contraseñaUsuario.equals(contraseñaIngresada))
 						{
 							consultor.desconectar();
-							response.sendRedirect("../index.html");
+							response.sendRedirect("../Presentacion/index.html");
 						}
 						else
 						{
@@ -53,7 +53,7 @@
 							
 							consultor.desconectar();
 							session.setAttribute("usuario", (Object)nuevoUsuario);
-							response.sendRedirect("../home_bootstrap.jsp");
+							response.sendRedirect("../Presentacion/home_bootstrap.jsp");
 						}
 					
 					}
@@ -84,20 +84,20 @@
 								nuevoUsuario = new Usuario(nombreUsuario, email, fechaNacimiento,contraseña);
 								session.setAttribute("usuario", (Object)nuevoUsuario);
 								consultor.desconectar();
-								response.sendRedirect("../registro_bootstrap.html");
+								response.sendRedirect("../Presentacion/registro_bootstrap.html");
 								
 							}
 							else
 							{
 								consultor.desconectar();
-								response.sendRedirect("../index.html");
+								response.sendRedirect("../Presentacion/index.html");
 							}
 						}
 					//Si el nombre de usuario ya existe msotrar cartel de nombre de usuario en uso
 						else
 						{
 							consultor.desconectar();
-							response.sendRedirect("../index.html");
+							response.sendRedirect("../Presentacion/index.html");
 						}
 					}
 				}

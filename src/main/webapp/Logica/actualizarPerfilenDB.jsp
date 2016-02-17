@@ -6,7 +6,7 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.HashSet" %>
 
-<%@page import="clases.CondicionPreexistente"%>
+
 <%@page import="clases.Diabetes"%>
 <%@page import="clases.Celiasis"%>
 <%@page import="clases.Hipertension"%>
@@ -81,7 +81,7 @@
 			
 			session.setAttribute("usuario", (Object)nuevoUsuario);
 			
-			response.sendRedirect("../perfil_bootstrap.jsp");
+			response.sendRedirect("../Presentacion/perfil_bootstrap.jsp");
 			
 			%>
 

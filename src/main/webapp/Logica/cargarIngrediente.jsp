@@ -38,9 +38,9 @@
 		session.setAttribute("receta", (Object)nuevaReceta);
 		
 		if(origen.equals("Agregar"))
-			response.sendRedirect("../cargarIngredientesReceta_bootstrap.jsp?inicial=a");
+			response.sendRedirect("../Presentacion/cargarIngredientesReceta_bootstrap.jsp?inicial=a");
 		else
-			response.sendRedirect("../cargarCondimentosReceta_bootstrap.jsp?inicial=a");
+			response.sendRedirect("../Presentacion/cargarCondimentosReceta_bootstrap.jsp?inicial=a");
 		
 	%>
 

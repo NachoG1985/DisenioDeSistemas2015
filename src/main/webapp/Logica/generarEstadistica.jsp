@@ -45,7 +45,7 @@
 		}
 		if(errorSemanal){
 			session.setAttribute("Error","El mes no tiene esa cantidad de semanas, vuelva a intentarlo.");
-			response.sendRedirect("../error_bootstrap.jsp");
+			response.sendRedirect("../Presentacion/error_bootstrap.jsp");
 		}
 		else{
 		session.setAttribute("Periodo",periodo);	
@@ -70,7 +70,7 @@
 		ArrayList<String> estadistica = gestor.getTipo().generar();
 		
 		session.setAttribute("Estadistica",estadistica); 	
-		response.sendRedirect("../estadistica_bootstrap.jsp");
+		response.sendRedirect("../Presentacion/estadistica_bootstrap.jsp");
 		}
 		%>
 		

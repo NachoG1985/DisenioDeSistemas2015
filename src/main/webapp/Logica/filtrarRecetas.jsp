@@ -73,7 +73,7 @@
 		
 			consultor.desconectar();
 			
-			response.sendRedirect("../consultar_bootstrap.jsp");
+			response.sendRedirect("../Presentacion/consultar_bootstrap.jsp");
 			
 		%>
 		

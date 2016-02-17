@@ -1,7 +1,6 @@
 <%@page import="clases.Hipertension"%>
 <%@page import="clases.Diabetes"%>
 <%@page import="clases.Celiasis"%>
-<%@page import="clases.CondicionPreexistente"%>
 <%@ page import="clases.ConsultorBaseDeDatos" %>
 <%@ page import="clases.Usuario" %>
 <%@ page import="clases.PerfilUsuario" %>

@@ -39,12 +39,12 @@
 			
 			if(errorCalorias)
 			{
-				response.sendRedirect("../error_bootstrap.jsp");
+				response.sendRedirect("../Presentacion/error_bootstrap.jsp");
 			}
 			else{
 			ArrayList<String> datosReporte = gestor.generar();
 			session.setAttribute("Reporte",(Object)datosReporte); 
-			response.sendRedirect("../reporte_bootstrap.jsp");
+			response.sendRedirect("../Presentacion/reporte_bootstrap.jsp");
 			}
 			
 		%>

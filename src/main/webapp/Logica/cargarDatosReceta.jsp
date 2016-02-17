@@ -69,7 +69,7 @@
 		
 		consultor.desconectar();
 		
-		response.sendRedirect("../cargarIngredientePrincipal_bootstrap.jsp?inicial=a");
+		response.sendRedirect("../Presentacion/cargarIngredientePrincipal_bootstrap.jsp?inicial=a");
 	
 	%>
 		
