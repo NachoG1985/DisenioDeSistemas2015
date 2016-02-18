@@ -81,7 +81,7 @@
           Social <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#">Ver Mis Grupos</a></li>
+          <li><a href="verGrupos_bootstrap.jsp">Ver Mis Grupos</a></li>
         </ul>
       </li>
 	  <!-- DESPLEGABLE DEL USUARIO-->
@@ -174,7 +174,15 @@
 			<br>
 			<h4 class="text-info text-left">Tipo de Dieta: <small><%out.println(perfilDB.getDieta()); %></small></h4>
 			<br>
-			<h4 class="text-info text-left">Condiciones Preexistentes: <small><%out.println(perfilDB.mostrarCondiciones()); %></small></h4>
+			<h4 class="text-info text-left">Condiciones Preexistentes: <small>
+			<%
+			if(perfilDB.getCondicionPreexistente().isEmpty()){
+				out.println("Ninguna");
+			}
+			else{
+			out.println(perfilDB.mostrarCondiciones()); 
+			}
+			%></small></h4>
 		
 		</div>
 		

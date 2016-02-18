@@ -78,7 +78,7 @@
           Social <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#">Ver Mis Grupos</a></li>
+          <li><a href="verGrupos_bootstrap.jsp">Ver Mis Grupos</a></li>
         </ul>
       </li>
 	 <!-- DESPLEGABLE DEL USUARIO-->

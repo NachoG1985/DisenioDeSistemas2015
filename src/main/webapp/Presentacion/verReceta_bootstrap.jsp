@@ -85,7 +85,7 @@
       </li>
 	  <!-- DESPLEGABLE DE AMIGOS Y GRUPOS-->
 	  <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <a href="verGrupos_bootstrap.jsp" class="dropdown-toggle" data-toggle="dropdown">
           Social <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
@@ -375,6 +375,7 @@
 			
 			out.println("<div class=\"thumbnail\">");
 			out.println("<img src=\"" + paso.getImagen() + " \" alt=\"...\">");
+			out.println("<img src=\"" + "../ImagenesRecetas/Linux.png" + " \" alt=\"...\">");
 			out.println("<div class=\"caption\">");
 			out.println("<h3 class=\"text-primary text-center\">Paso " + i + "</h3>");
 			out.println("<p>" + paso.getDescripcion() + "</p>");

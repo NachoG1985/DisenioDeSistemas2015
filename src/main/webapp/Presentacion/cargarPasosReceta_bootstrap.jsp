@@ -77,7 +77,7 @@
           Social <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#">Ver Mis Grupos</a></li>
+          <li><a href="verGrupos_bootstrap.jsp">Ver Mis Grupos</a></li>
         </ul>
       </li>
 	  <!-- DESPLEGABLE DEL USUARIO-->
@@ -109,7 +109,7 @@
 		<p class="text-info col-md-offset-2">Para cada uno de los pasos seleccione una imagen que lo represente y agreguele un pequeño párrafo explicativo.</p>
 		
 		
-			<form id="registro" action="../Logica/cargarProcedimientoReceta.jsp" method="post" enctype="multipart/form-data" class="form-horizontal">
+			<form id="registro" action="../Logica/cargarProcedimientoReceta.jsp" method="post"  class="form-horizontal">
 			
 			
 				<h3 class="text-primary text-left col-md-offset-1"> Paso 1:</h3>

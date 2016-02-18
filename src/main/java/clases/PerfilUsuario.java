@@ -18,6 +18,7 @@ public class PerfilUsuario{
 	private HashSet<String> preferencias;
 	private String rutina;
 	private ArrayList<Object> condicionPreexistente;
+	private ArrayList<Grupo> grupos;
 
 	// Constructor de la clase
 	public PerfilUsuario(String nombre,String apellido, String nuevoSexo,
@@ -35,6 +36,7 @@ public class PerfilUsuario{
 		setRutina(nuevaRutina);
 		System.out.println(nuevaRutina);
 		setCondicionPreexistente(nuevasCondiciones);
+		setGrupos();
 	}
 
 	// Metodos de la clase
@@ -144,6 +146,16 @@ public class PerfilUsuario{
 		return condiciones;
 		
 	}
+
+	public ArrayList<Grupo> getGrupos() {
+		return grupos;
+	}
+
+	public void setGrupos() {
+		grupos = new ArrayList<Grupo>();
+	}
+	
+	
 
 	
 }

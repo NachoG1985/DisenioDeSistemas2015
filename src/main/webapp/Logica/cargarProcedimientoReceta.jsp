@@ -35,7 +35,7 @@
 
 	<%
 	
-	//CODIGO DE LA APP DE HEROKU CLOUDINARY PARA EL MANEJO DE IMAGENES EN LA NUBE
+	/*//CODIGO DE LA APP DE HEROKU CLOUDINARY PARA EL MANEJO DE IMAGENES EN LA NUBE
 	//OBTENGO LAS VARIABLES NECESARIAS PARA INICIAR CLOUDINATY
 
 	//INICIO UN OBJETO CLOUDINARY ENCARGADO DEL MANEJO DE LAS IMAGENES
@@ -136,8 +136,38 @@
 	      }
 	   }else{
 
-	   }
-
+	   }*/
+	   	
+	   /*// CODIGO OFFLINE
+	   	ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
+		Receta nuevaReceta = (Receta)session.getAttribute("receta");
+		PasoDeReceta paso1, paso2, paso3, paso4, paso5;
+		String instruccion1=request.getParameter("textoPaso1"), 
+		instruccion2 =request.getParameter("textoPaso2"), 
+		instruccion3=request.getParameter("textoPaso3"), 
+		instruccion4=request.getParameter("textoPaso4"), 
+		instruccion5=request.getParameter("textoPaso5");
+		
+		String rutaImagenes = "c:\\users\\%username%\\documents\\Github\\DisenioDeSistemas2015\\ImagenesRecetas";
+		out.println(instruccion1);
+		out.println(instruccion2);
+		out.println(instruccion3);
+		out.println(instruccion4);
+		out.println(instruccion5);
+		
+		String[] rutas = new String[5];
+		
+		rutas[0] = rutaImagenes + request.getParameter("imagenPaso1");
+		rutas[1] = rutaImagenes + request.getParameter("imagenPaso2");
+		rutas[2] = rutaImagenes + request.getParameter("imagenPaso3");
+		rutas[3] = rutaImagenes + request.getParameter("imagenPaso4");
+		rutas[4] = rutaImagenes + request.getParameter("imagenPaso5");
+								  
+		out.println(rutas[0]);
+		out.println(rutas[1]);
+		out.println(rutas[2]);
+		out.println(rutas[3]);
+		out.println(rutas[4]);
 	   
 		paso1 = new PasoDeReceta(instruccion1,rutas[0]);
 		paso2 = new PasoDeReceta(instruccion2,rutas[1]);
@@ -204,8 +234,137 @@
 	consultor.desconectar();
 	
 	response.sendRedirect("../Presentacion/home_bootstrap.jsp");
+	*/
+	// SUPUESTAMENTE ESTE VA
+
+	
+	ConsultorBaseDeDatos consultor = ConsultorBaseDeDatos.getInstance();
+	Receta nuevaReceta = (Receta)session.getAttribute("receta");
+	PasoDeReceta paso1, paso2, paso3, paso4, paso5;
+	String instruccion1="", instruccion2 ="", instruccion3="", instruccion4="", instruccion5="";
+	String[] rutas = new String[5];
+	String nombreCampo;
+	int contador = 0;
+	
+	
+	File file ;
+	   int maxFileSize = 5000 * 1024;
+	   int maxMemSize = 5000 * 1024;
+	   ServletContext context = pageContext.getServletContext();
+	   String filePath = context.getInitParameter("file-upload");
+	   // Verify the content type
+	   String contentType = request.getContentType();
+	   if ((contentType.indexOf("multipart/form-data") >= 0)) {
+	      DiskFileItemFactory factory = new DiskFileItemFactory();
+	      // maximum size that will be stored in memory
+	      factory.setSizeThreshold(maxMemSize);
+	      // Location to save data that is larger than maxMemSize.
+	      factory.setRepository(new File("c:\\temp"));
+	      // Create a new file upload handler
+	      ServletFileUpload upload = new ServletFileUpload(factory);
+	      // maximum file size to be uploaded.
+	      upload.setSizeMax( maxFileSize );
+	      try{ 
+	         // Parse the request to get file items.
+	         List fileItems = upload.parseRequest(request);
+	         // Process the uploaded file items
+	         Iterator i = fileItems.iterator();
+	         while ( i.hasNext () ) 
+	         {
+	            FileItem fi = (FileItem)i.next();
+	            if ( !fi.isFormField () )	
+	            {
+	            // Get the uploaded file parameters
+	            String fieldName = fi.getFieldName();
+	            String fileName = fi.getName();
+	            boolean isInMemory = fi.isInMemory();
+	            long sizeInBytes = fi.getSize();
+	            // Write the file
+	            if( fileName.lastIndexOf("\\") >= 0 ){
+	            file = new File( filePath + 
+	            fileName.substring( fileName.lastIndexOf("\\"))) ;
+	            }else{
+	            file = new File( filePath + 
+	            fileName.substring(fileName.lastIndexOf("\\")+1)) ;
+	            }
+	            fi.write( file ) ;
+	            
+	            rutas[contador] = fileName;
+	            
+	            contador++;
+	            
+	            }
+	            else
+	            {
+	            	nombreCampo = fi.getFieldName();
+	            	
+	            	if(nombreCampo.equals("textoPaso1"))
+	            		instruccion1 = fi.getString();
+	            	
+	            	if(nombreCampo.equals("textoPaso2"))
+	            		instruccion2 = fi.getString();
+	            	
+	            	if(nombreCampo.equals("textoPaso3"))
+	            		instruccion3 = fi.getString();
+	            	
+	            	if(nombreCampo.equals("textoPaso4"))
+	            		instruccion4 = fi.getString();
+	            	
+	            	if(nombreCampo.equals("textoPaso5"))
+	            		instruccion5 = fi.getString();
+	            }
+	         }
+	      }catch(Exception ex) {
+	         System.out.println(ex);
+	      }
+	   }else{
+	   }
+	   
+		paso1 = new PasoDeReceta(instruccion1,rutas[0]);
+		paso2 = new PasoDeReceta(instruccion2,rutas[1]);
+		paso3 = new PasoDeReceta(instruccion3,rutas[2]);
+		paso4 = new PasoDeReceta(instruccion4,rutas[3]);
+		paso5 = new PasoDeReceta(instruccion5,rutas[4]);
+		
+		nuevaReceta.agregarPasoDeReceta(paso1);
+		nuevaReceta.agregarPasoDeReceta(paso2);
+		nuevaReceta.agregarPasoDeReceta(paso3);
+		nuevaReceta.agregarPasoDeReceta(paso4);
+		nuevaReceta.agregarPasoDeReceta(paso5);
+		
+		
+	consultor.insertarProcedimiento(rutas[0], instruccion1, rutas[1], instruccion2, rutas[2], instruccion3, rutas[3], instruccion4, rutas[4], instruccion5);
+	
+	
+	consultor.insertarReceta(nuevaReceta.getNombre(), nuevaReceta.getNombreIngredientePrincipal(), nuevaReceta.getDificultad(), 
+			nuevaReceta.calcularCalorias(), rutas[0]);
+	
+	consultor.insertarRecUsuario(((Usuario)session.getAttribute("usuario")).getNombreUsuario(), nuevaReceta.getNombre());
+	
+	Iterator<IngredienteEnReceta> it = nuevaReceta.getIngredientes().iterator();
+	
+	while(it.hasNext())
+	{
+		IngredienteEnReceta ingrediente = it.next();
+		
+		consultor.insertarIngReceta(nuevaReceta.getNombre(), ingrediente.getIngrediente().getNombreIngrediente(), ingrediente.getCantidad());
+	}
+	
+	Iterator<Condimento> itCondimento = nuevaReceta.getCondimentos().iterator();
+	
+	while(itCondimento.hasNext())
+	{
+		Condimento condimento = itCondimento.next();
+		
+		consultor.insertarCondimentoReceta(nuevaReceta.getNombre(), condimento.getNombreCondimento());
+		
+	}
+	
+	response.sendRedirect("../Presentacion/home_bootstrap.jsp");
 	
 	%>
+
+	
 
 </body>
 </html>
