@@ -1,4 +1,3 @@
-<%@page import="clases.CondicionPreexistente"%>
 <%@page import="clases.Diabetes"%>
 <%@page import="clases.Celiasis"%>
 <%@page import="clases.Hipertension"%>

@@ -189,7 +189,7 @@
 		</form>
 		
 		
-		<form id="reportePeriodo" action="Logica/generarReporte.jsp" method="POST" class="form-horizontal">
+		<form id="reportePeriodo" action="../Logica/generarReporte.jsp" method="POST" class="form-horizontal">
 			
 			<div class="col-md-6 col-md-offset-5">
 				<br>
@@ -214,7 +214,7 @@
 		</form>		
 			
 					
-		<form id="reporteCalorias" action="Logica/generarReporte.jsp" method="POST" class="form-horizontal">
+		<form id="reporteCalorias" action="../Logica/generarReporte.jsp" method="POST" class="form-horizontal">
 					
 						
 		<div class="form-group">			

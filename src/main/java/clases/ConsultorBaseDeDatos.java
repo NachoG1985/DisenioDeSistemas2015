@@ -1,5 +1,4 @@
 package clases;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
@@ -16,7 +15,7 @@ public class ConsultorBaseDeDatos {
 	private static String rutaBaseDeDatos;
 	private  static ConsultorBaseDeDatos instance;
 	private Connection miConexion;
-	private String username, password, dbUrl;
+	private static String username="root", password="", dbUrl="disenio";
 	
 	
 	
@@ -61,24 +60,12 @@ public class ConsultorBaseDeDatos {
 		return instance;
 	}
 	
-	public ConsultorBaseDeDatos conectar() {
+	public ConsultorBaseDeDatos conectar()  {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            
-            //Version para la aplicacion hosteada
-            URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
-            
-            //Version para la aplicacion corriendo en local con wamp
-            //URI dbUri = new URI("mysql://root:@localhost/disenio");
-
-           this.username = dbUri.getUserInfo().split(":")[0];
-           this.password = dbUri.getUserInfo().split(":")[1];
-           this.dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-
-            
-            setConexion(DriverManager.getConnection(dbUrl, username, password));
-            
-            if(miConexion != null){
+            String BaseDeDatos = "jdbc:mysql://localhost/test?user=usuario&password=123";
+            setConexion(DriverManager.getConnection(BaseDeDatos));
+            if(getConexion("disenio", "root", "") != null){
                 System.out.println("Conexion Exitosa!");
             }else{
                 System.out.println("Conexion Fallida!");                
@@ -93,15 +80,17 @@ public class ConsultorBaseDeDatos {
 	
 	
 	
+	
 	//Retorna la conexion de la DB
 	private Connection getConexion(String BD, String usuario, String contrasenia)
 	{
         try {
             //llamar a la clase o driver de jdbc
             Class.forName("com.mysql.jdbc.Driver");
-            //String servidor = "jdbc:mysql://localhost:3306/" + BD
+            //String servidor = "jdbc:mysql://localhost:3306/" + BD;
+            String servidor = "jdbc:mysql://localhost/" + BD ;
             
-            miConexion = DriverManager.getConnection(BD,usuario,contrasenia);
+            miConexion = DriverManager.getConnection(servidor,usuario,contrasenia);
         } 
         catch (ClassNotFoundException e)
         {
@@ -111,7 +100,6 @@ public class ConsultorBaseDeDatos {
         catch(SQLException ex)
         {
             System.err.println("No se pudo conectar a la base de datos");
-            ex.printStackTrace();
             miConexion = null;
         }
         

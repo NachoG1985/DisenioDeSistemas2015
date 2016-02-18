@@ -118,7 +118,7 @@
 		<br>
 		</div>
 		
-		<form id="estadisticas2" action="Logica/generarReporteTemporal.jsp"	method="POST" class="form-horizontal">			
+		<form id="estadisticas2" action="../Logica/generarReporteTemporal.jsp"	method="POST" class="form-horizontal">			
 		
 		<div class="form-group">	
 			<label for="diaInicio" class="col-lg-3 control-label">Fecha de inicio</label>
