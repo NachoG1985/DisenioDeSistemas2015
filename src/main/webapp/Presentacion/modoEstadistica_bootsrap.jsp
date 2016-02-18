@@ -123,7 +123,7 @@
 		</h4>
 			<br>
 			<!-- cambiar aca por la pag q corresponde -->
-			<form id="registro" action="Logica/generarEstadistica.jsp"
+			<form id="registro" action="../Logica/generarEstadistica.jsp"
 				method="POST" class="form-horizontal">
 
 				<div class="form-group">
@@ -168,7 +168,7 @@
 	<div class="row">
 		<div class="col-md-6">
 		
-		<form id="registro" action="Logica/generarEstadistica.jsp"
+		<form id="registro" action="../Logica/generarEstadistica.jsp"
 				method="POST" class="form-horizontal">
 				
 				<h4>

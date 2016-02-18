@@ -141,13 +141,13 @@
 			
 			
 			if(consultor.consultarEventoEnHistorial(usuario.getNombreUsuario(), receta.getNombre(), "confirmar") == null)
-				out.println("<a class=\"btn btn-primary btn-sm col-md-1\" href=\"Logica/confirmar_calificar_receta.jsp?accion=confirmar&receta=" + receta.getNombre() + "\" role=\"button\">Confirmar<span class=\"glyphicon glyphicon-ok\"></span></a>");
+				out.println("<a class=\"btn btn-primary btn-sm col-md-1\" href=\"../Logica/confirmar_calificar_receta.jsp?accion=confirmar&receta=" + receta.getNombre() + "\" role=\"button\">Confirmar<span class=\"glyphicon glyphicon-ok\"></span></a>");
 			else
 				out.println("<p>Confirmada <span class=\"col-md-1 glyphicon glyphicon-ok\"></span></p>");
 			
 			if(consultor.consultarEventoEnHistorial(usuario.getNombreUsuario(), receta.getNombre(), "calificar") == null)
 			{
-				out.println("<form id=\"registro\" action=\"Logica/confirmar_calificar_receta.jsp?accion=calificar&receta=" + receta.getNombre() + "\" method=\"POST\" class=\"form-horizontal\">");
+				out.println("<form id=\"registro\" action=\"../Logica/confirmar_calificar_receta.jsp?accion=calificar&receta=" + receta.getNombre() + "\" method=\"POST\" class=\"form-horizontal\">");
 				out.println("<div class=\" col-md-3 form-group\">");
 				out.println("<div class=\"col-md-5\">");
 				out.println("<select name=\"calificacion\" class=\"pull-left form-control\">");

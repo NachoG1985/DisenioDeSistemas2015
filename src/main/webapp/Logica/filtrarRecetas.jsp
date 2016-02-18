@@ -58,7 +58,7 @@
 		
 		if(!ingredientePpal.equals(""))
 			recetasSegunCalorias.retainAll(consultor.recetaSegunIngPpal(ingredientePpal));
-		
+			
 		if(!condimento.equals(""))
 			recetasSegunCalorias.retainAll(consultor.recetaSegunCond(condimento));
 
