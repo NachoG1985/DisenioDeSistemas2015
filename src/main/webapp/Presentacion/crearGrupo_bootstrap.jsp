@@ -103,15 +103,56 @@
 		<div class="col-md-6">
 		
 		<h1 class="text-primary text-center"> Crear grupo </h1><br>
+		<h4>
+		<div class="well well-sm"> Datos del grupo </div>
+		</h4>	
 			<div class="form-group">
-					<label for="nombreUsuario" class="col-lg-3 control-label">Nombre
-						Usuario</label>
+					<label for="nombreGrupo" class="col-lg-3 control-label">Nombre del grupo</label>
 					<div class="col-lg-9">
 						<input type="text" class="form-control"
-							name="nombreUsuarioRegistro" id="nombreUsuario"
-							placeholder="Nombre Usuario" required>
+							name="nombreGrupo" id="nombreGrupo"
+							placeholder="Nombre del grupo" required>
+							<br>
 					</div>
-				</div>
+					
+			</div>
+			<div class="form-group">
+					<label for="descripcionGrupo" class="col-lg-3 control-label">Descripción del grupo</label>
+					<div class="col-lg-9">
+		
+						<input type="text" class="form-control"
+							name="descripcionGrupo" id="descripcionGrupo"
+							placeholder="Descripción del grupo" required>
+							<br>
+					</div>
+			</div>
+		</div>
+		
+</div>
+
+<div class="row">
+		<div class="col-md-6">			
+		<h4>
+		<div class="well well-sm"> Cargar miembro </div>
+		</h4>
+			<div class="form-group">
+					<label for="miembro" class="col-lg-3 control-label">Nombre de Usuario</label>
+					<div class="col-lg-9">
+							<input type="text" class="form-control"
+							name="miembro" id="miembro"
+							placeholder="Usuario" required>
+							<br>
+					</div>
+			</div>
+			<div class="col-lg-3 col-md-6">
+		<a class="btn btn-primary btn-sm btn-block" href="#" role="button">  Agregar miembro </a>
+		<br>
+		</div>
+		
+		<div class="col-lg-3">
+		<a class="btn btn-primary btn-sm btn-block" href="#" role="button">  Crear grupo </a>
+		</div>
+
 		</div>
 </div>
 </body>

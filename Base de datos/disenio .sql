@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-02-2016 a las 00:47:49
+-- Tiempo de generación: 19-02-2016 a las 01:05:03
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `disenio`
 --
+CREATE DATABASE IF NOT EXISTS `disenio` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci;
+USE `disenio`;
 
 DELIMITER $$
 --
@@ -772,30 +774,6 @@ INSERT INTO `calificacion_usuario_receta` (`calif_recet_usuario`, `recetas_id`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categorias`
---
-
-CREATE TABLE IF NOT EXISTS `categorias` (
-  `categoria_id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(40) CHARACTER SET utf8 NOT NULL,
-  `horaMax` time NOT NULL,
-  `horaMin` time NOT NULL,
-  PRIMARY KEY (`categoria_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`categoria_id`, `nombre`, `horaMax`, `horaMin`) VALUES
-(1, 'Desayuno', '11:00:00', '04:00:00'),
-(2, 'Almuerzo', '14:30:00', '11:00:00'),
-(3, 'Merienda', '20:00:00', '14:30:00'),
-(4, 'Cena', '04:00:00', '20:00:00');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `categoria_receta`
 --
 
@@ -816,6 +794,30 @@ INSERT INTO `categoria_receta` (`categorias_receta_id`, `recetas_id`, `categoria
 (1, 10, 2),
 (2, 8, 2),
 (3, 24, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `categoria_id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(40) CHARACTER SET utf8 NOT NULL,
+  `horaMax` time NOT NULL,
+  `horaMin` time NOT NULL,
+  PRIMARY KEY (`categoria_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`categoria_id`, `nombre`, `horaMax`, `horaMin`) VALUES
+(1, 'Desayuno', '11:00:00', '04:00:00'),
+(2, 'Almuerzo', '14:30:00', '11:00:00'),
+(3, 'Merienda', '20:00:00', '14:30:00'),
+(4, 'Cena', '04:00:00', '20:00:00');
 
 -- --------------------------------------------------------
 
@@ -957,28 +959,6 @@ INSERT INTO `condimentos_receta` (`condim_recet_id`, `recetas_id`, `condimentos_
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `dietas`
---
-
-CREATE TABLE IF NOT EXISTS `dietas` (
-  `dieta_id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
-  PRIMARY KEY (`dieta_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `dietas`
---
-
-INSERT INTO `dietas` (`dieta_id`, `tipo`) VALUES
-(1, 'Normal'),
-(2, 'Ovolactovegetariano'),
-(3, 'Vegano'),
-(4, 'Vegetariano');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `dieta_receta`
 --
 
@@ -998,6 +978,28 @@ CREATE TABLE IF NOT EXISTS `dieta_receta` (
 INSERT INTO `dieta_receta` (`dieta_receta_id`, `recetas_id`, `dieta_id`) VALUES
 (1, 10, 1),
 (2, 27, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `dietas`
+--
+
+CREATE TABLE IF NOT EXISTS `dietas` (
+  `dieta_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
+  PRIMARY KEY (`dieta_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `dietas`
+--
+
+INSERT INTO `dietas` (`dieta_id`, `tipo`) VALUES
+(1, 'Normal'),
+(2, 'Ovolactovegetariano'),
+(3, 'Vegano'),
+(4, 'Vegetariano');
 
 -- --------------------------------------------------------
 
